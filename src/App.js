@@ -1,22 +1,23 @@
 // import "./assets/css/tStyle.scss";
-import "./assets/css/style.scss";
 import { Outlet, Route, Routes } from "react-router-dom";
-import Home from "./pages/MainPage/Home";
-import {Header, HeaderMom} from "./layouts/Header/Header";
+import "./assets/css/style.scss";
 import Footer from "./layouts/Footer/Footer";
-import Login from "./pages/LoginPage/Login";
-import Register from "./pages/RegisterPage/Register";
-import MateList from "./pages/GoingWithPage/MateList";
-import RestaurantList from "./pages/RestaurantPage/RestaurantList";
-import RestaurantView from "./pages/RestaurantPage/RestaurantView";
-import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
-import Review from "./pages/ReviewPage/Review";
-import MeetingList from "./pages/MeetingPage/MeetingList";
-import MeetingAdd from "./pages/MeetingPage/MeetingAdd";
-import MeetingView from "./pages/MeetingPage/MeetingView";
+import { Header } from "./layouts/Header/Header";
 import Account from "./pages/AccountPage/Account";
 import AccountEdit from "./pages/AccountPage/AccountEdit";
 import AccountPwdEdit from "./pages/AccountPage/AccountPwdEdit";
+import MateList from "./pages/GoingWithPage/MateList";
+import Login from "./pages/LoginPage/Login";
+import Home from "./pages/MainPage/Home";
+import StyleGuide from "./pages/MainPage/StyleGuide";
+import MeetingAdd from "./pages/MeetingPage/MeetingAdd";
+import MeetingList from "./pages/MeetingPage/MeetingList";
+import MeetingView from "./pages/MeetingPage/MeetingView";
+import Register from "./pages/RegisterPage/Register";
+import RestaurantList from "./pages/RestaurantPage/RestaurantList";
+import RestaurantView from "./pages/RestaurantPage/RestaurantView";
+import Review from "./pages/ReviewPage/Review";
+import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 
 function Layout() {
   return (
@@ -36,7 +37,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Home />}></Route>
+          <Route path="/" element={<StyleGuide />}></Route>
+          <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/mate" element={<MateList />}></Route>

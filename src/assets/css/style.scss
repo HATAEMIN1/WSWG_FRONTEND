@@ -48,12 +48,19 @@ footer {
     width: 100%;
     background: $Default;
     font-size: 0.8125em;
+    color: #D9D9D9;
     .logoFooter {
         width: 165px;
         height: 102px;
         font-size: 0px;
         background: url("../images/logoFooter.png") no-repeat;
         background-size: 100%;
+    }
+    a {
+        color: #D9D9D9;
+    }
+    li {
+        color: #D9D9D9;
     }
 }
 @media (max-width: 768px) {
