@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 function MateList(props) {
-    return (
-        <div></div>
-    );
+    return <div>MateList</div>;
 }
 
 export default MateList;
