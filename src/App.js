@@ -1,7 +1,8 @@
-import "./assets/css/tStyle.scss";
+// import "./assets/css/tStyle.scss";
+import "./assets/css/style.scss";
 import { Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/MainPage/Home";
-import Header from "./layouts/Header/Header";
+import {Header, HeaderMom} from "./layouts/Header/Header";
 import Footer from "./layouts/Footer/Footer";
 import Login from "./pages/LoginPage/Login";
 import Register from "./pages/RegisterPage/Register";
@@ -21,6 +22,7 @@ function Layout() {
   return (
     <>
       <Header />
+      {/* <HeaderMom /> */}
       <main>
         <Outlet />
       </main>
@@ -34,7 +36,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/home" element={<Home />}></Route>
+          <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/mate" element={<MateList />}></Route>

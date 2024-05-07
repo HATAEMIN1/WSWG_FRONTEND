@@ -1,0 +1,78 @@
+@charset "utf-8";
+@import "tStyle.scss";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+@font-face {
+    font-family: 'TTHakgyoansimMonggeulmonggeulR';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMonggeulmonggeulR.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+html,body {font-family: 'Pretendard-Regular';}
+header {
+    h1 {
+        width: 135px;
+        height: 80px;
+        img {
+            width: 100%;
+        }
+    }
+    .userProfile {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        img {
+            width: 100%;
+        }
+    }
+    input:focus {
+        outline: none;
+    }
+    .icon {
+        display: flex;
+        width: 24px;
+        height: 24px;
+        font-size: 0;
+        background-repeat: no-repeat;
+        img {
+            width: 100%;
+        }
+    }
+    .iconFillter {
+        background: url("../images/iconFillter.png");
+    }
+    .iconSearch {
+        background: url("../images/IconSearch.png");
+    }
+}
+footer {
+    width: 100%;
+    background: $Default;
+    font-size: 0.8125em;
+    .logoFooter {
+        width: 165px;
+        height: 102px;
+        font-size: 0px;
+        background: url("../images/logoFooter.png") no-repeat;
+        background-size: 100%;
+    }
+}
+@media (max-width: 768px) {
+    header {
+        h1 {
+            width: 90px;
+            height: 50px;
+        }
+        .userProfile {
+            width: 45px;
+            height: 45px;
+            border-radius: 25px;
+            
+        }
+    }
+    footer {
+        .logoFooter {
+            width: 120px;
+            height: 80px;
+        }
+    }
+}
