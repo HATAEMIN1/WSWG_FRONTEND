@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 function MeetingView(props) {
-    return (
-        <div></div>
-    );
+    return <div>MeetingView</div>;
 }
 
 export default MeetingView;
