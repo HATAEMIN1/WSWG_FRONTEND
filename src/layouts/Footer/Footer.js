@@ -3,7 +3,7 @@ import React from "react";
 function Footer(props) {
     return (
         <>
-        <footer className="h-[150px]">
+        <footer className="h-[150px] mt-[120px]">
             <div className="md:container container h-[100%] m-auto flex flex-wrap md:flex-wrap justify-between items-center text-white">
                 <div className="m-auto md:m-0 flex-none">
                     <h1 className="logoFooter">어까?</h1>

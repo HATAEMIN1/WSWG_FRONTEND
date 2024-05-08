@@ -5,7 +5,7 @@ const Section = styled.div `
 `
 function SectionWarp({children}) {
   return (
-    <Section className="container m-auto">{children}</Section>
+    <Section className="container m-auto h-[500px]">{children}</Section>
   )
 }
 
