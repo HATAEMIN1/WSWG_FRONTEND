@@ -1,7 +1,6 @@
 import React from "react";
 
 function Footer(props) {
-<<<<<<< HEAD
     return (
         <>
         <footer className="h-[150px]">
@@ -29,9 +28,5 @@ function Footer(props) {
         </footer>
         </>
     );
-=======
-    return <div>Footer</div>;
->>>>>>> main
 }
-
 export default Footer;
