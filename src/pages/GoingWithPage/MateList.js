@@ -1,7 +1,7 @@
 import React from "react";
 
 function MateList(props) {
-    return <div>MateList11111</div>;
+    return <div>MateList1111111</div>;
 }
 
 export default MateList;
