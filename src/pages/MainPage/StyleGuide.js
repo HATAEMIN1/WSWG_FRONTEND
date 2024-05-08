@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, ButtonWrap} from "../../components/Form/Button";
+import { Button, ButtonWrap, SelectButton } from "../../components/Form/Button";
 import SectionWarp from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 
@@ -18,6 +18,9 @@ function StyleGuide(props) {
                 </ButtonWrap>
                 <ButtonWrap>
                     <Button className={"lineButton"}>라인버튼</Button>
+                </ButtonWrap>
+                <ButtonWrap>
+                    <SelectButton>셀렉트버튼</SelectButton>
                 </ButtonWrap>
             </SectionWarp>
         </>

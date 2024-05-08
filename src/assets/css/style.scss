@@ -12,7 +12,7 @@
     font-weight: normal;
     font-style: normal;
 }
-html,body {font-family: 'Pretendard-Regular';}
+html,body {font-family: 'Pretendard-Regular'; color: #333333;}
 header {
     h1 {
         width: 135px;
@@ -85,6 +85,7 @@ nav {
         background: url("../images/menuOpen.png") no-repeat;
     }
 }
+.layer {}
 footer {
     width: 100%;
     background: $Default;
