@@ -1,5 +1,5 @@
 import "./assets/css/tStyle.scss";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/MainPage/Home";
 import Header from "./layouts/Header/Header";
 import Footer from "./layouts/Footer/Footer";
@@ -16,7 +16,12 @@ import MeetingView from "./pages/MeetingPage/MeetingView";
 import Account from "./pages/AccountPage/Account";
 import AccountEdit from "./pages/AccountPage/AccountEdit";
 import AccountPwdEdit from "./pages/AccountPage/AccountPwdEdit";
-import MyMap from "./components/Map/MyMap";
+import MyMap from "./components/MyMap";
+import { useDispatch, useSelector } from "react-redux";
+import { authUser } from "./store/thunkFunctions";
+import { useEffect } from "react";
+import AuthenticatedRouter from "./components/AuthenticatedRouter";
+import NotAuthenticatedRouter from "./components/NotAuthenticatedRouter";
 
 function Layout() {
     return (
@@ -32,51 +37,61 @@ function Layout() {
 }
 
 function App() {
+    const dispatch = useDispatch();
+    const isAuth = useSelector((state) => state.user.isAuth);
+    const { pathname } = useLocation();
+    useEffect(() => {
+        if (isAuth) {
+            dispatch(authUser());
+        }
+    }, [isAuth, dispatch, pathname]);
     return (
         <>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />}></Route>
-                    <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route>
-                    <Route path="/mate" element={<MateList />}></Route>
-                    <Route
-                        path="/mate/:cateId"
-                        element={<RestaurantList />}
-                    ></Route>
-                    <Route
-                        path="/mate/:cateId/restaurants/:rtId"
-                        element={<RestaurantView />}
-                    ></Route>
-                    <Route
-                        path="/mate/restaurants/:rtId/review-post/new"
-                        element={<ReviewAdd />}
-                    ></Route>
-                    <Route
-                        path="/mate/restaurants/:rtId/review-post/:rpId"
-                        element={<Review />}
-                    ></Route>
-                    <Route path="/meet-posts" element={<MeetingList />}></Route>
-                    <Route
-                        path="/meet-posts/new"
-                        element={<MeetingAdd />}
-                    ></Route>
-                    <Route
-                        path="/meet-posts/:mpId"
-                        element={<MeetingView />}
-                    ></Route>
-                    <Route
-                        path="/account/:userId"
-                        element={<Account />}
-                    ></Route>
-                    <Route
-                        path="/account/:userId/edit"
-                        element={<AccountEdit />}
-                    ></Route>
-                    <Route
-                        path="/account/:userId/pwd-edit"
-                        element={<AccountPwdEdit />}
-                    ></Route>
+                    <Route index element={<Home />} />
+                    <Route element={<NotAuthenticatedRouter isAuth={isAuth} />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Route>
+
+                    <Route element={<AuthenticatedRouter isAuth={isAuth} />}>
+                        <Route path="/mate" element={<MateList />} />
+                        <Route
+                            path="/mate/:cateId"
+                            element={<RestaurantList />}
+                        />
+                        <Route
+                            path="/mate/:cateId/restaurants/:rtId"
+                            element={<RestaurantView />}
+                        />
+                        <Route
+                            path="/mate/restaurants/:rtId/review-post/new"
+                            element={<ReviewAdd />}
+                        />
+                        <Route
+                            path="/mate/restaurants/:rtId/review-post/:rpId"
+                            element={<Review />}
+                        />
+                        <Route path="/meet-posts" element={<MeetingList />} />
+                        <Route
+                            path="/meet-posts/new"
+                            element={<MeetingAdd />}
+                        />
+                        <Route
+                            path="/meet-posts/:mpId"
+                            element={<MeetingView />}
+                        />
+                        <Route path="/account/:userId" element={<Account />} />
+                        <Route
+                            path="/account/:userId/edit"
+                            element={<AccountEdit />}
+                        />
+                        <Route
+                            path="/account/:userId/pwd-edit"
+                            element={<AccountPwdEdit />}
+                        />
+                    </Route>
                 </Route>
             </Routes>
         </>
