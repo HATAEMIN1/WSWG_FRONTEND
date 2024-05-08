@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 function AccountEdit(props) {
-    return (
-        <div></div>
-    );
+    return <div>AccountEdit</div>;
 }
 
 export default AccountEdit;

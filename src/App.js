@@ -16,54 +16,71 @@ import MeetingView from "./pages/MeetingPage/MeetingView";
 import Account from "./pages/AccountPage/Account";
 import AccountEdit from "./pages/AccountPage/AccountEdit";
 import AccountPwdEdit from "./pages/AccountPage/AccountPwdEdit";
+import MyMap from "./components/Map/MyMap";
 
 function Layout() {
-  return (
-    <>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
-  );
+    return (
+        <>
+            <Header />
+            <MyMap />
+            <div className="container m-auto">
+                <Outlet />
+            </div>
+            <Footer />
+        </>
+    );
 }
 
 function App() {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="/home" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/mate" element={<MateList />}></Route>
-          <Route path="/mate/:cateId" element={<RestaurantList />}></Route>
-          <Route
-            path="/mate/:cateId/restaurants/:rtId"
-            element={<RestaurantView />}
-          ></Route>
-          <Route
-            path="/mate/restaurants/:rtId/review-post/new"
-            element={<ReviewAdd />}
-          ></Route>
-          <Route
-            path="/mate/restaurants/:rtId/review-post/:rpId"
-            element={<Review />}
-          ></Route>
-          <Route path="/meet-posts" element={<MeetingList />}></Route>
-          <Route path="/meet-posts/new" element={<MeetingAdd />}></Route>
-          <Route path="/meet-posts/:mpId" element={<MeetingView />}></Route>
-          <Route path="/account/:userId" element={<Account />}></Route>
-          <Route path="/account/:userId/edit" element={<AccountEdit />}></Route>
-          <Route
-            path="/account/:userId/pwd-edit"
-            element={<AccountPwdEdit />}
-          ></Route>
-        </Route>
-      </Routes>
-    </>
-  );
+    return (
+        <>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Home />}></Route>
+                    <Route path="/login" element={<Login />}></Route>
+                    <Route path="/register" element={<Register />}></Route>
+                    <Route path="/mate" element={<MateList />}></Route>
+                    <Route
+                        path="/mate/:cateId"
+                        element={<RestaurantList />}
+                    ></Route>
+                    <Route
+                        path="/mate/:cateId/restaurants/:rtId"
+                        element={<RestaurantView />}
+                    ></Route>
+                    <Route
+                        path="/mate/restaurants/:rtId/review-post/new"
+                        element={<ReviewAdd />}
+                    ></Route>
+                    <Route
+                        path="/mate/restaurants/:rtId/review-post/:rpId"
+                        element={<Review />}
+                    ></Route>
+                    <Route path="/meet-posts" element={<MeetingList />}></Route>
+                    <Route
+                        path="/meet-posts/new"
+                        element={<MeetingAdd />}
+                    ></Route>
+                    <Route
+                        path="/meet-posts/:mpId"
+                        element={<MeetingView />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId"
+                        element={<Account />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId/edit"
+                        element={<AccountEdit />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId/pwd-edit"
+                        element={<AccountPwdEdit />}
+                    ></Route>
+                </Route>
+            </Routes>
+        </>
+    );
 }
 
 export default App;
