@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 const Section = styled.div `
- background: #ccc;
  padding: 20px;
 `
 function SectionWarp({children}) {

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-const ButtonWrap = styled.button`
+const BtnWrap = styled.div `
+`
+const ButtonBox = styled.button`
 width: 100%;
 height : 40px;
 padding : 0px 16px;
@@ -21,6 +23,7 @@ color: #333333;
     background: #0DDDDD;
 }
 &.lineButton {
+    max-width: 50%;
     background: #ffffff;
     border: solid 1px #EEEEEE;
     color :#767676;
@@ -31,12 +34,19 @@ color: #333333;
     color: #333333;
 }
 `;
+function ButtonWrap({children, ...props}){
+    return(
+        <BtnWrap className="w-[600px] m-auto flex justify-center gap-2" {...props}>{children}</BtnWrap>
+    )
+}
+
 function Button({children,basicButton,className, ...props}) {
     let cssClasses = basicButton ? "primary" : "button";
     cssClasses += ' ' +className
   return (
-    <ButtonWrap className={cssClasses} {...props}>{children}</ButtonWrap>
+    <ButtonBox className={cssClasses} {...props}>{children}</ButtonBox>
   )
 }
 
-export default Button
+
+export {ButtonWrap, Button}
