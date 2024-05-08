@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/thunkFunctions";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const {
@@ -10,6 +11,7 @@ function Login() {
         reset,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     async function onSubmit({ email, password }) {
         const body = {
             email,
@@ -17,6 +19,7 @@ function Login() {
         };
 
         dispatch(loginUser(body));
+        navigate("/");
         reset();
     }
     const userEmail = {
@@ -110,7 +113,7 @@ function Login() {
                     </button>
                     <div
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="text-black text-[15px] font-normal"
+                        className="text-black text-[15px] font-normal flex justify-center items-center"
                     >
                         이미 어까의 회원이시면{" "}
                         <a href="/register" className="underline">
