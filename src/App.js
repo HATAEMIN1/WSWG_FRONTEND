@@ -6,6 +6,7 @@ import { Header, HeaderMom } from "./layouts/Header/Header";
 import Account from "./pages/AccountPage/Account";
 import AccountEdit from "./pages/AccountPage/AccountEdit";
 import AccountPwdEdit from "./pages/AccountPage/AccountPwdEdit";
+<<<<<<< HEAD
 import MateList from "./pages/GoingWithPage/MateList";
 import Login from "./pages/LoginPage/Login";
 import Home from "./pages/MainPage/Home";
@@ -31,6 +32,21 @@ function Layout() {
       <Footer />
     </>
   );
+=======
+import MyMap from "./components/Map/MyMap";
+
+function Layout() {
+    return (
+        <>
+            <Header />
+            <MyMap />
+            <div className="container m-auto">
+                <Outlet />
+            </div>
+            <Footer />
+        </>
+    );
+>>>>>>> main
 }
 
 function LayoutEtc() {
@@ -45,6 +61,7 @@ function LayoutEtc() {
   
 }
 function App() {
+<<<<<<< HEAD
   return (
     <>
       <Routes>
@@ -84,6 +101,57 @@ function App() {
       </Routes>
     </>
   );
+=======
+    return (
+        <>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Home />}></Route>
+                    <Route path="/login" element={<Login />}></Route>
+                    <Route path="/register" element={<Register />}></Route>
+                    <Route path="/mate" element={<MateList />}></Route>
+                    <Route
+                        path="/mate/:cateId"
+                        element={<RestaurantList />}
+                    ></Route>
+                    <Route
+                        path="/mate/:cateId/restaurants/:rtId"
+                        element={<RestaurantView />}
+                    ></Route>
+                    <Route
+                        path="/mate/restaurants/:rtId/review-post/new"
+                        element={<ReviewAdd />}
+                    ></Route>
+                    <Route
+                        path="/mate/restaurants/:rtId/review-post/:rpId"
+                        element={<Review />}
+                    ></Route>
+                    <Route path="/meet-posts" element={<MeetingList />}></Route>
+                    <Route
+                        path="/meet-posts/new"
+                        element={<MeetingAdd />}
+                    ></Route>
+                    <Route
+                        path="/meet-posts/:mpId"
+                        element={<MeetingView />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId"
+                        element={<Account />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId/edit"
+                        element={<AccountEdit />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId/pwd-edit"
+                        element={<AccountPwdEdit />}
+                    ></Route>
+                </Route>
+            </Routes>
+        </>
+    );
+>>>>>>> main
 }
 
 export default App;

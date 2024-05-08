@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 function RestaurantView(props) {
-    return (
-        <div></div>
-    );
+    return <div>RestaurantView</div>;
 }
 
 export default RestaurantView;

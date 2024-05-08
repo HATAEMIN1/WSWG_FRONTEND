@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 function ReviewAdd(props) {
-    return (
-        <div></div>
-    );
+    return <div>ReviewAdd</div>;
 }
 
 export default ReviewAdd;
