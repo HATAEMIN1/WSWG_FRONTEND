@@ -2,7 +2,7 @@
 import { Outlet, Route, Routes } from "react-router-dom";
 import "./assets/css/style.scss";
 import Footer from "./layouts/Footer/Footer";
-import { Header } from "./layouts/Header/Header";
+import { Header, HeaderMom } from "./layouts/Header/Header";
 import Account from "./pages/AccountPage/Account";
 import AccountEdit from "./pages/AccountPage/AccountEdit";
 import AccountPwdEdit from "./pages/AccountPage/AccountPwdEdit";
@@ -18,20 +18,32 @@ import RestaurantList from "./pages/RestaurantPage/RestaurantList";
 import RestaurantView from "./pages/RestaurantPage/RestaurantView";
 import Review from "./pages/ReviewPage/Review";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
+import GlobalNav from "./layouts/Navigation/GlobalNav";
 
 function Layout() {
   return (
     <>
       <Header />
-      {/* <HeaderMom /> */}
       <main>
         <Outlet />
       </main>
+      <GlobalNav />
       <Footer />
     </>
   );
 }
 
+function LayoutEtc() {
+    return (
+      <>
+        <HeaderMom />
+        <main>
+          <Outlet />
+        </main>
+      </>
+    );
+  
+}
 function App() {
   return (
     <>
@@ -39,8 +51,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<StyleGuide />}></Route>
           <Route path="/home" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
+          {/* <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route> */}
           <Route path="/mate" element={<MateList />}></Route>
           <Route path="/mate/:cateId" element={<RestaurantList />}></Route>
           <Route
@@ -64,6 +76,10 @@ function App() {
             path="/account/:userId/pwd-edit"
             element={<AccountPwdEdit />}
           ></Route>
+        </Route>
+        <Route element={<LayoutEtc />}>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/register" element={<Register />}></Route>
         </Route>
       </Routes>
     </>
