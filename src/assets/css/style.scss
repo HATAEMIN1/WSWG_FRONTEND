@@ -49,6 +49,42 @@ header {
         background: url("../images/IconSearch.png");
     }
 }
+.gnbMenu {
+    position:fixed;
+    z-index: 9;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%,0);
+    transition: 0.3s;
+}
+nav {
+    ul{
+        li {
+            font-size: 0.8125em; /*13px*/
+            line-height: 1.25rem; /* 20px */
+        }
+        img {
+            width: 30px !important;
+            opacity: 0.5;
+        }
+        .active {
+            color: #333333;
+            img {
+                opacity: 1;
+            }
+        }
+    }
+}
+.btnOnOff {
+    position: relative;
+    width: 108px;
+    height: 35px;
+    background: url("../images/menuClose.png") no-repeat;
+    font-size: 0;
+    &.active {
+        background: url("../images/menuOpen.png") no-repeat;
+    }
+}
 footer {
     width: 100%;
     background: $Default;

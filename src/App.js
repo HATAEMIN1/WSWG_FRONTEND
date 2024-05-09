@@ -1,4 +1,5 @@
 // import "./assets/css/tStyle.scss";
+import { useEffect } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import "./assets/css/style.scss";
 import Footer from "./layouts/Footer/Footer";
@@ -19,70 +20,93 @@ import RestaurantView from "./pages/RestaurantPage/RestaurantView";
 import Review from "./pages/ReviewPage/Review";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
+import { useDispatch, useSelector } from "react-redux";
+import { authUser } from "./store/thunkFunctions";
 
 function Layout() {
-  return (
-    <>
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <GlobalNav />
-      <Footer />
-    </>
-  );
+    return (
+        <>
+            <Header />
+            <main>
+                <Outlet />
+            </main>
+            <GlobalNav />
+            <Footer />
+        </>
+    );
 }
 
 function LayoutEtc() {
     return (
-      <>
-        <HeaderMom />
-        <main>
-          <Outlet />
-        </main>
-      </>
+        <>
+            <HeaderMom />
+            <main>
+                <Outlet />
+            </main>
+        </>
     );
-  
 }
 function App() {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="/" element={<StyleGuide />}></Route>
-          <Route path="/home" element={<Home />}></Route>
-          {/* <Route path="/login" element={<Login />}></Route>
+    const dispatch = useDispatch();
+    const isAuth = useSelector((state) => state.user.isAuth);
+    useEffect(() => {
+        if (isAuth) {
+            dispatch(authUser());
+        }
+    }, [isAuth, dispatch]);
+    return (
+        <>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route path="/" element={<StyleGuide />}></Route>
+                    <Route path="/home" element={<Home />}></Route>
+                    {/* <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route> */}
-          <Route path="/mate" element={<MateList />}></Route>
-          <Route path="/mate/:cateId" element={<RestaurantList />}></Route>
-          <Route
-            path="/mate/:cateId/restaurants/:rtId"
-            element={<RestaurantView />}
-          ></Route>
-          <Route
-            path="/mate/restaurants/:rtId/review-post/new"
-            element={<ReviewAdd />}
-          ></Route>
-          <Route
-            path="/mate/restaurants/:rtId/review-post/:rpId"
-            element={<Review />}
-          ></Route>
-          <Route path="/meet-posts" element={<MeetingList />}></Route>
-          <Route path="/meet-posts/new" element={<MeetingAdd />}></Route>
-          <Route path="/meet-posts/:mpId" element={<MeetingView />}></Route>
-          <Route path="/account/:userId" element={<Account />}></Route>
-          <Route path="/account/:userId/edit" element={<AccountEdit />}></Route>
-          <Route
-            path="/account/:userId/pwd-edit"
-            element={<AccountPwdEdit />}
-          ></Route>
-        </Route>
-        <Route element={<LayoutEtc />}>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/register" element={<Register />}></Route>
-        </Route>
-      </Routes>
-    </>
-  );
+                    <Route path="/mate" element={<MateList />}></Route>
+                    <Route
+                        path="/mate/:cateId"
+                        element={<RestaurantList />}
+                    ></Route>
+                    <Route
+                        path="/mate/:cateId/restaurants/:rtId"
+                        element={<RestaurantView />}
+                    ></Route>
+                    <Route
+                        path="/mate/restaurants/:rtId/review-post/new"
+                        element={<ReviewAdd />}
+                    ></Route>
+                    <Route
+                        path="/mate/restaurants/:rtId/review-post/:rpId"
+                        element={<Review />}
+                    ></Route>
+                    <Route path="/meet-posts" element={<MeetingList />}></Route>
+                    <Route
+                        path="/meet-posts/new"
+                        element={<MeetingAdd />}
+                    ></Route>
+                    <Route
+                        path="/meet-posts/:mpId"
+                        element={<MeetingView />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId"
+                        element={<Account />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId/edit"
+                        element={<AccountEdit />}
+                    ></Route>
+                    <Route
+                        path="/account/:userId/pwd-edit"
+                        element={<AccountPwdEdit />}
+                    ></Route>
+                </Route>
+                <Route element={<LayoutEtc />}>
+                    <Route path="/login" element={<Login />}></Route>
+                    <Route path="/register" element={<Register />}></Route>
+                </Route>
+            </Routes>
+        </>
+    );
 }
 export default App;

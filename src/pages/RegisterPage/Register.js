@@ -4,6 +4,7 @@ import "../../assets/css/tStyle.scss";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../store/thunkFunctions";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
     const {
@@ -14,7 +15,7 @@ function Register() {
         watch,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     async function onSubmit({ email, name, password }) {
         const body = {
             email,
@@ -24,7 +25,7 @@ function Register() {
         };
 
         dispatch(registerUser(body));
-        console.log(body);
+        navigate("/login");
         reset();
     }
 
@@ -190,7 +191,7 @@ function Register() {
                     </button>
                     <div
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="text-black text-[15px] font-normal"
+                        className="text-black text-[15px] font-normal flex justify-center items-center"
                     >
                         이미 어까의 회원이라면 바로{" "}
                         <a href="/login" className="underline">
