@@ -6,32 +6,32 @@ function MateList(props) {
         {
             name: "연인",
             image: "/images/mate_lover.png",
-            link: "/lover",
+            link: "/mate/lover",
         },
         {
             name: "친구",
             image: "/images/mate_friend.png",
-            link: "/friend",
+            link: "/mate/friend",
         },
         {
             name: "가족",
             image: "/images/mate_family.png",
-            link: "/family",
+            link: "/mate/family",
         },
         {
             name: "단체",
             image: "/images/mate_group.png",
-            link: "/group",
+            link: "/mate/group",
         },
         {
             name: "반려",
             image: "/images/mate_pet.png",
-            link: "/pet",
+            link: "/mate/pet",
         },
         {
             name: "혼밥",
             image: "/images/mate_self.png",
-            link: "/self",
+            link: "/mate/self",
         },
     ];
     return (
