@@ -1,5 +1,5 @@
 import React from "react";
-import SectionWarp from "../../components/Layout/Section";
+import {SectionWrap} from "../../components/Layout/Section";
 import { Link } from "react-router-dom";
 function MateList(props) {
     const category = [
@@ -36,7 +36,7 @@ function MateList(props) {
     ];
     return (
         <>
-            <SectionWarp>
+            <SectionWrap>
                 <div>누구랑갈까</div>
                 <div className="flex-wrap grid grid-cols-3">
                     {category.map((item, index) => {
@@ -54,7 +54,7 @@ function MateList(props) {
                         );
                     })}
                 </div>
-            </SectionWarp>
+            </SectionWrap>
         </>
     );
 }
