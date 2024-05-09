@@ -1,3 +1,6 @@
+import axios from "axios";
+import { useEffect } from "react";
+
 const KakaoLogin = () => {
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize
 ?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}
