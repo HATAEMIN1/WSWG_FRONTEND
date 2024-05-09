@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, ButtonWrap, SelectButton } from "../../components/Form/Button";
-import {SectionFullWarp, SectionWarp} from "../../components/Layout/Section";
+import {SectionFullWrap, SectionWrap} from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 import InputWrap from "../../components/Form/Input";
 
 function StyleGuide(props) {
     return (
         <>
-            <SectionFullWarp>풀화면일때</SectionFullWarp>
-            <SectionWarp>     
+            <SectionFullWrap>풀화면일때</SectionFullWrap>
+            <SectionWrap>     
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">회원가입 및 로그인용 타이틀</h2>
                     <Title memTitle={true}>회원가입 및 로그인용 타이틀</Title>
@@ -93,7 +93,7 @@ function StyleGuide(props) {
                     <InputWrap><textarea placeholder="내용을 입력하세요" >123455</textarea></InputWrap>
                 </div>
                 
-            </SectionWarp>
+            </SectionWrap>
         </>
     );
 }

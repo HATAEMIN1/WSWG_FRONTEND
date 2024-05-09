@@ -1,5 +1,5 @@
 import React from "react";
-import SectionWarp from "../../components/Layout/Section";
+import {SectionWrap} from "../../components/Layout/Section";
 import { useParams } from "react-router-dom";
 
 function RestaurantList(props) {
@@ -44,7 +44,7 @@ function RestaurantList(props) {
     const { cateId } = useParams();
     const selectedCategory = category.find((item) => item.cateId === cateId);
     return (
-        <SectionWarp>
+        <SectionWrap>
             <h1>{selectedCategory.name}과 가볼까</h1>
             <div>
                 <select>
@@ -54,7 +54,7 @@ function RestaurantList(props) {
                 <select>읍면동</select>
                 <button>지역 변경</button>
             </div>
-        </SectionWarp>
+        </SectionWrap>
     );
 }
 

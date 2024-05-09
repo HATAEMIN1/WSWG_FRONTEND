@@ -6,15 +6,15 @@ const SectionFull = styled.div `
 const Section = styled.div `
  padding: 20px;
 `
-function SectionFullWarp({children}) {
+function SectionFullWrap({children}) {
   return (
     <SectionFull className="w-full">{children}</SectionFull>
   )
 }
-function SectionWarp({children}) {
+function SectionWrap({children}) {
   return (
     <Section className="container m-auto">{children}</Section>
   )
 }
 
-export {SectionWarp, SectionFullWarp}
+export {SectionWrap, SectionFullWrap}
