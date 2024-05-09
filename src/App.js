@@ -23,6 +23,7 @@ import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
+import KakaoLoginRedirect from "./pages/LoginPage/KakaoLoginRedirect";
 
 function Layout() {
     return (
@@ -63,7 +64,11 @@ function App() {
                     <Route path="/home" element={<Home />}></Route>
                     {/* <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route> */}
-                    <Route path="/kakao-login" element={<KakaoLogin />} />
+                    <Route path="/users/kakao-login" element={<KakaoLogin />} />
+                    <Route
+                        path="/users/kakao-login/redirect"
+                        element={<KakaoLoginRedirect />}
+                    />
                     <Route path="/mate" element={<MateList />}></Route>
                     <Route
                         path="/mate/:cateId"
