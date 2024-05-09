@@ -1,5 +1,5 @@
 import React from "react";
-import SectionWarp from "../../components/Layout/Section";
+import { SectionWarp } from "../../components/Layout/Section";
 import { Link } from "react-router-dom";
 function MateList(props) {
     const category = [
