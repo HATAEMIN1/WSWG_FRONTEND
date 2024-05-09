@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
+import { SectionWrap } from "../../components/Layout/Section";
 import { useParams } from "react-router-dom";
-import Title from "../../components/Layout/Title";
 import axiosInstance from "../../utils/axios";
-import { SectionWarp } from "../../components/Layout/Section";
+
 function RestaurantList(props) {
     const category = [
         {
@@ -59,8 +59,8 @@ function RestaurantList(props) {
         restaurantInfo();
     }, []);
     return (
-        <SectionWarp>
-            <Title memTitle={false}>{selectedCategory.name}과 가볼까</Title>
+        <SectionWrap>
+            <h1>{selectedCategory.name}과 가볼까</h1>
             <div>
                 <select>
                     <option selected disabled>
@@ -96,7 +96,7 @@ function RestaurantList(props) {
                     </div>
                 </div>
             </div>
-        </SectionWarp>
+        </SectionWrap>
     );
 }
 

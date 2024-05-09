@@ -51,7 +51,7 @@ function Login() {
                 style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
             >
                 <div className="text-center text-5xl">어까</div>
-                <div className="text-center text-3xl">가입 해볼까?</div>
+                <div className="text-center text-3xl">로그인 해볼까?</div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="emailWrap flex justify-between mt-5 mb-5">
                         <div className="w-10 h-10 relative">

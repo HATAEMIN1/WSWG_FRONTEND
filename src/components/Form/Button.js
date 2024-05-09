@@ -65,5 +65,5 @@ function SelectButton ({children, ...props}) {
     
 }
 
-export { Button, ButtonWrap, SelectButton };
+export { Button, ButtonWrap, SelectButton};
 
