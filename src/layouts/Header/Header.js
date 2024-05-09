@@ -1,38 +1,10 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Modal, MapModal, FilterModal } from "../../components/Modal/Modal";
-import { useEffect, useState } from "react";
 
-function Header() {
-    const [modalNum,setModalNum] = useState(0);
-    const [modalView,setModalView] = useState(false);
-    const modalData =([
-        <MapModal />,
-        <FilterModal />
-    ])
-    function modalOpen(idx) {
-        setModalView(true);
-        setModalNum(idx);
-    }
-    function modalClsose (){
-        setModalView(false);
-    }
-    useEffect(()=>{
-        if(modalView){
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
-        }
-    });
+function Header({...props}) {
     const isAuth = useSelector((state) => state.user.isAuth);
     return (
         <>
-        {/* Modal layer */}
-        {modalData.map((item,idx)=>{
-            return (
-            modalView === true ? (<Modal onClick={modalClsose} viewlistData={modalData} modalNum={modalNum}/>) : null
-            )
-        })}
         <header className="w-full h-[120px] md:h-[82px] bg-white shadow">
             <div className="md:container container flex-wrap md:flex-nowrap m-auto h-[100%] flex justify-between items-center gap-x-2">
                 <h1 className="headerLogo flex-none items-end pt-4 md:pt-3">
@@ -44,7 +16,7 @@ function Header() {
                     </Link>
                 </h1>
                 <div className="flex flex-auto order-last md:order-none w-full inputSearch gap-2">
-                    <button className="flex-none icon iconFillter" onClick={()=>{modalOpen(1)}}>
+                    <button className="flex-none icon iconFillter" onClick={()=>{props.modalOpen(1)}}>
                         검색필터
                     </button>
                     <input

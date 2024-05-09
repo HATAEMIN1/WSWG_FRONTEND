@@ -58,12 +58,5 @@ function Button({children,basicButton,className, ...props}) {
   )
 }
 
-function SelectButton ({children, ...props}) {
-    return (
-        <BtnSelect className="w-full border-2 rounded-full py-1 px-4" {...props}>{children}</BtnSelect>
-    )
-    
-}
-
-export { Button, ButtonWrap, SelectButton};
+export { Button, ButtonWrap};
 

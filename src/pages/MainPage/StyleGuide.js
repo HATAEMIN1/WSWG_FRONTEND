@@ -1,10 +1,10 @@
 import React from "react";
-import { Button, ButtonWrap, SelectButton } from "../../components/Form/Button";
+import { Button, ButtonWrap } from "../../components/Form/Button";
 import {SectionFullWrap, SectionWrap} from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 import InputWrap from "../../components/Form/Input";
 
-function StyleGuide(props) {
+function StyleGuide({...props}) {
     return (
         <>
             <SectionFullWrap>풀화면일때</SectionFullWrap>
@@ -15,7 +15,7 @@ function StyleGuide(props) {
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">서브타이틀</h2>
+                    <h2 className=" text-slate-500 font-bold">메뉴별 페이지용 타이틀</h2>
                     <Title memTitle={false}>서브타이틀</Title>
                 </div>
 
@@ -40,13 +40,16 @@ function StyleGuide(props) {
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">라인 버튼</h2>
                     <ButtonWrap>
-                        <Button className={"lineButton"}>라인버튼</Button>
+                        <Button className={"lineButton"} ><i className="iconLineBtn iconMore">more</i> 더보기</Button>
                     </ButtonWrap>
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">지역 선택 버튼</h2>
-                    <SelectButton>셀렉트버튼</SelectButton>
+                    <h2 className=" text-slate-500 font-bold">모달 모달 -  버튼 스타일 말고 onClick 이벤트 값만 확인하세요!!!</h2>
+                    <ButtonWrap className=" flex justify-start gap-5">
+                        <Button onClick={()=>{props.modalOpen(1)}}>필터 설정 모달</Button>
+                        <Button onClick={()=>{props.modalOpen(0)}}>지역선택 모달</Button>
+                    </ButtonWrap>
                 </div>
 
                 <div className="mb-10">
@@ -90,7 +93,7 @@ function StyleGuide(props) {
 
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">textarea</h2>
-                    <InputWrap><textarea placeholder="내용을 입력하세요" >123455</textarea></InputWrap>
+                    <InputWrap><textarea placeholder="내용을 입력하세요" ></textarea></InputWrap>
                 </div>
                 
             </SectionWrap>
