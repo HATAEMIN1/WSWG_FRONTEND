@@ -25,6 +25,14 @@ module.exports = {
           900: "#092b54",
           950: "#041836",
         },
+        primary: {
+          DEFAULT: "#42EEEE",
+          hover: "#0DDDDD",
+        },
+        secondary: {
+          DEFAULT: "#EBE9E9",
+          hover: "#D9D9D9",
+        }
       },
     },
   },
