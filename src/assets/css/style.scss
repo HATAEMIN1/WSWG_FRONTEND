@@ -105,6 +105,92 @@ footer {
         color: #D9D9D9;
     }
 }
+/*Form*/
+input {
+    width: 100%;
+    background: none;
+}
+input:focus {
+    outline: none;
+}
+.inputContainer input::-webkit-input-placeholder {
+    background-size: contain;
+    text-align: left;
+    color: #F5F5F5;
+    text-indent: 0;
+}
+.iconHash input::-webkit-input-placeholder{
+    background: url("../images/iconHash.png") no-repeat center;
+}
+.iconPhoto input::-webkit-input-placeholder{
+    background: url("../images/iconPhoto.png") no-repeat center;
+}
+.iconText input::-webkit-input-placeholder{
+    background: url("../images/iconText.png") no-repeat center;
+}
+.iconDetail input::-webkit-input-placeholder{
+    background: url("../images/iconDetail.png") no-repeat center;
+}
+.iconLink input::-webkit-input-placeholder{
+    background: url("../images/iconLink.png") no-repeat center;
+}
+textarea {
+    width: 100%;
+    min-height: 100px;
+    outline: none;
+    background: none;
+}
+textarea::-webkit-input-placeholder {
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+/**아이콘**/
+/* 회원관련 아이콘 */
+i.iconTypeInput {
+    content: '';
+    display: flex;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-size: 0;
+}
+.iconEmail {
+    background: url("../images/iconRmail.png");
+}
+.iconRname {
+    background: url("../images/iconRname.png");
+}
+.iconRock {
+    background: url("../images/iconRlockcheck.png");
+}
+.iconRockCheck {
+    background: url("../images/iconRlockcheck.png");
+}
+/*가게정보 아이콘*/
+i.iconTypeStore {
+    content: '';
+    display: flex;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-size: 0;
+}
+.iconStore {
+    background: url("../images/iconStore.png");
+}
+.iconStoreLoc {
+    background: url("../images/iconStoreLoc.png");
+}
+.iconStoreTel {
+    background: url("../images/iconStoreTel.png");
+}
+.iconStoreTime {
+    background: url("../images/iconStoreTime.png");
+}
 @media (max-width: 768px) {
     header {
         h1 {
