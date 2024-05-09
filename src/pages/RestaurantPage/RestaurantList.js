@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import { SectionWarp } from "../../components/Layout/Section";
 import { useParams } from "react-router-dom";
 import Title from "../../components/Layout/Title";
 import axiosInstance from "../../utils/axios";
-
+import { SectionWarp } from "../../components/Layout/Section";
 function RestaurantList(props) {
     const category = [
         {
