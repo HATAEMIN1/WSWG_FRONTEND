@@ -11,7 +11,7 @@ function StyleGuide({...props}) {
             <SectionFullWrap>풀화면일때</SectionFullWrap>
             <SectionWrap>     
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">회원가틀 및 로그인용 타이틀</h2>
+                    <h2 className=" text-slate-500 font-bold">회원가입 및 로그인용 타이틀</h2>
                     <Title memTitle={true}>회원가입 및 로그인용 타이틀</Title>
                     <Title memTitle={false}>회원가입 및 로그인용 서브 타이틀</Title>
                 </div>
@@ -30,6 +30,11 @@ function StyleGuide({...props}) {
                     <h2 className=" text-slate-500 font-bold">리뷰 댓글용 타이틀</h2>
                     <Title className={"titleComment"}>리뷰 댓글용 타이틀</Title>
                 </div>
+
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">뒤로가기 버튼</h2>
+                    <Title className={"titleComment"}><button className="flex items-center"><i className="btnBack">more</i> 뒤로가기</button></Title>
+                </div>
                 
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">기본/취소 버튼</h2>
@@ -45,6 +50,9 @@ function StyleGuide({...props}) {
                         <Button className={"lineSmallButton"} ><i className="iconSmall iconWriter">writer</i> 나도 작성해 볼까</Button>
                     </ButtonWrap>
                     <ButtonWrap>
+                        <Button className={"lineDelButton"} >daadfadsfa.jpg<i className="iconSmall iconDel">delet</i></Button>
+                    </ButtonWrap>
+                    <ButtonWrap>
                         <Button className={"lineButton"} ><i className="iconBasic iconMore">more</i> 더보기</Button>
                     </ButtonWrap>
                 </div>
@@ -56,6 +64,10 @@ function StyleGuide({...props}) {
                         <i className="iconBasic iconUserDelet">userDelet</i>
                         <i className="iconBasic iconUserModify">userModify</i>
                         <i className="iconBasic iconCheck">check</i>
+                        <i className="iconBasic iconComment">comment</i>
+                        <i className="iconBasic iconView">view</i>
+                        <i className="iconBasic iconHotple">hotple</i>
+                        <IconWish className={"active"}>좋아요</IconWish>
                     </div>
                 </div>
 
@@ -88,13 +100,6 @@ function StyleGuide({...props}) {
                         <IconStar className={"whiteLine"} lineStar="true" >별</IconStar>
                         <IconStar className={"whiteLine"} lineStar="true" >별</IconStar>
                         <IconStar className={"whiteLine"} lineStar="true" >별</IconStar>
-                    </div>
-                </div>
-
-                <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">좋아요</h2>
-                    <div className="flex">
-                        <IconWish className={"active"}>좋아요</IconWish>
                     </div>
                 </div>
 
@@ -154,7 +159,7 @@ function StyleGuide({...props}) {
 
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">textarea</h2>
-                    <InputWrap><textarea placeholder="내용을 입력하세요" ></textarea></InputWrap>
+                    <InputWrap><textarea placeholder="내용을 입력하세요"></textarea></InputWrap>
                 </div>
             </SectionWrap>
         </>

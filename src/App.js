@@ -89,8 +89,8 @@ function App() {
             })}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
-                    <Route path="/" element={<StyleGuide modalOpen={modalOpen} />}></Route>
-                    <Route path="/home" element={<Home />}></Route>
+                    <Route path="/styleGuide" element={<StyleGuide modalOpen={modalOpen} />}></Route>
+                    <Route path="/" element={<Home />}></Route>
                     {/* <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route> */}
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />

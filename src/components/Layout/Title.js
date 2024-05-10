@@ -11,12 +11,14 @@ const TitleWrap = styled.h3 `
     }
     &.titleMemStt {
         padding-top: 10px;
+        padding-bottom: 30px;
         font-family: 'TTHakgyoansimMonggeulmonggeulR';
         font-size: 1.875rem; /* 30px */
         line-height: 2.25rem; /* 36px */
     }
     &.titleStt {
         padding-top: 80px;
+        padding-bottom: 30px;
         font-family: 'TTHakgyoansimMonggeulmonggeulR';
         font-size: 1.875rem; /* 30px */
         line-height: 2.25rem; /* 36px */
