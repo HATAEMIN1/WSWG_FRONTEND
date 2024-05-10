@@ -8,37 +8,37 @@ function RestaurantList(props) {
     const category = [
         {
             cateId: "lover",
-            name: "연인",
+            name: "연인과 가볼까?",
             image: "/images/mate_lover.png",
             link: "/mate/lover",
         },
         {
             cateId: "friend",
-            name: "친구",
+            name: "친구와 가볼까?",
             image: "/images/mate_friend.png",
             link: "/mate/friend",
         },
         {
             cateId: "family",
-            name: "가족",
+            name: "가족과 가볼까?",
             image: "/images/mate_family.png",
             link: "/mate/family",
         },
         {
             cateId: "group",
-            name: "단체",
+            name: "단체모임 가볼까?",
             image: "/images/mate_group.png",
             link: "/mate/group",
         },
         {
             cateId: "pet",
-            name: "반려",
+            name: "반려동물과 가볼까?",
             image: "/images/mate_pet.png",
             link: "/mate/pet",
         },
         {
             cateId: "self",
-            name: "혼밥",
+            name: "혼밥 해볼까?",
             image: "/images/mate_self.png",
             link: "/mate/self",
         },
@@ -65,7 +65,7 @@ function RestaurantList(props) {
 
     return (
         <SectionWrap>
-            <Title>{selectedCategory.name}과 가볼까</Title>
+            <Title className={"titleStt"}>{selectedCategory.name}</Title>
             <div>
                 <select>
                     <option selected disabled>
