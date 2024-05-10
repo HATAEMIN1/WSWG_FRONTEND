@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function ReviewAdd(props) {
+    const [review, setReview] = useState({
+        title: "",
+        describtion: "",
+        price: 0,
+        images: [],
+    });
     return (
         <section>
             <h2>리뷰 등록/수정</h2>
