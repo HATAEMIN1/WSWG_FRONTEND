@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 const SectionFull = styled.div `
- 
 `
 const Section = styled.div `
- padding: 20px;
+ padding: 0;
 `
 function SectionFullWrap({children}) {
   return (
