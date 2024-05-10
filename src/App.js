@@ -65,10 +65,6 @@ function App() {
                     {/* <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route> */}
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
-                    <Route
-                        path="/users/kakao-login/redirect"
-                        element={<KakaoLoginRedirect />}
-                    />
                     <Route path="/mate" element={<MateList />}></Route>
                     <Route
                         path="/mate/:cateId"
