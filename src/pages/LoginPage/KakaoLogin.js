@@ -15,7 +15,7 @@ const KakaoLogin = () => {
 &response_type=code`;
     const code = searchParams.get("code");
     const [loggedIn, setLoggedIn] = useState(false);
-    console.log("code from query string", code);
+    console.log("kakao oauth - code from query string", code);
     useEffect(() => {
         const fetchAccessToken = async () => {
             try {
