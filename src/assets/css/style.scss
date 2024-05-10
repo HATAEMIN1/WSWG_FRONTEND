@@ -197,18 +197,25 @@ textarea::-webkit-input-placeholder {
     input + span {
         display: flex;
         justify-content: center;
+        align-items: center;
         width: 100%;
-        padding: 5px 10px;
+        padding: 5px 10px 6px 10px;
         box-shadow:0 0 0 1px #D9D9D9 inset;
         border-radius: 10px;
+    }
+    input + span i {
+        display: none;
     }
     input + span:hover {
         box-shadow:0 0 0 1px $Primary inset;
     }
     input:checked + span {
-        background: $Primary;
-        box-shadow:0 0 0 2px $Primary inset;
+        box-shadow:0 0 0 1px $Primary inset;
         color:#333333;
+    }
+    input:checked + span i {
+        display: flex;
+        margin-right: 5px;
     }
 }
 .filterCheckButton {
@@ -225,12 +232,13 @@ textarea::-webkit-input-placeholder {
         display: flex;
         justify-content: center;
         width: 100%;
-        padding: 5px 10px;
+        padding: 5px 10px 6px 10px;
         box-shadow:0 0 0 1px #D9D9D9 inset;
-        border-radius: 30px;
+        border-radius: 10px;
     }
     input + span:hover {
         background: $PrimaryHover;
+        box-shadow:0 0 0 2px $Primary inset;
     }
     input:checked + span {
         background: $Primary;
@@ -284,23 +292,57 @@ i.iconTypeStore {
     background: url("../images/iconStoreTime.png");
 }
 /*라인버튼 속 아이콘*/
-i.iconLineBtn {
+/*20px*/
+i.iconBasic {
     content: '';
     display: flex;
     width: 20px;
     height: 20px;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 100%;
     font-size: 0;
 }
 .iconMore {
     background: url("../images/iconMore.png");
 }
-.iconUserDelet {
+.iconUserDelet {                         
     background: url("../images/iconUserDelet.png");
 }
 .iconUserModify {
     background: url("../images/iconUserModify.png");
+}
+.iconCheck {
+    background: url("../images/iconCheck.png");
+}
+/**18px*/
+i.iconSmall {
+    content: '';
+    display: flex;       
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    font-size: 0;
+}
+.iconPass {
+    background: url("../images/iconPass.png");
+}
+.iconWriter {
+    background: url("../images/iconPen.png");
+}
+.iconHello {
+    background: url("../images/iconHello.png");
+}
+.iconOut {
+    background: url("../images/iconOut.png");
+}
+/*fileupload*/
+.btnFileUpload {
+    width: 35px;
+    height: 34px;
+    display: flex;
+    font-size: 0;
+    background: url("../images/fileUpload.png");
 }
 @media (max-width: 768px) {
     header {

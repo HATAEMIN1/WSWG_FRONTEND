@@ -16,7 +16,7 @@ function Header({...props}) {
                     </Link>
                 </h1>
                 <div className="flex flex-auto order-last md:order-none w-full inputSearch gap-2">
-                    <button className="flex-none icon iconFillter" onClick={()=>{props.modalOpen(1)}}>
+                    <button className="flex-none icon iconFillter" onClick={()=>{props.modalOpen(2)}}>
                         검색필터
                     </button>
                     <input

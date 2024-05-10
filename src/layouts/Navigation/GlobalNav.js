@@ -35,7 +35,7 @@ function GlobalNav() {
     function openMenu() {
         setMenuOpen(!menuOpen);
         setBtnActive(!btnActive);
-    }  
+    }
   return (
     <>
     <div className="container m-auto gnbMenu">

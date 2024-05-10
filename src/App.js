@@ -21,7 +21,7 @@ import Review from "./pages/ReviewPage/Review";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, MapModal, FilterModal } from "./components/Modal/Modal";
+import { Modal, MapModal, FilterModal, MapModalSelect } from "./components/Modal/Modal";
 import { authUser } from "./store/thunkFunctions";
 
 function Layout({modalOpen}) {
@@ -51,6 +51,7 @@ function App() {
     const [modalNum,setModalNum] = useState(0);
     const [modalView,setModalView] = useState(false);
     const modalData =([
+        <MapModalSelect  modalOpen={modalOpen}/>,
         <MapModal />,
         <FilterModal />
     ])
@@ -81,7 +82,7 @@ function App() {
             {/* Modal layer */}
             {modalData.map((item,idx)=>{
                 return (
-                modalView === true ? (<Modal onClick={modalClsose} viewlistData={modalData} modalNum={modalNum}/>) : null
+                modalView === true ? (<Modal onClick={modalClsose} viewlistData={modalData} modalNum={modalNum} />) : null
                 )
             })}
             <Routes>

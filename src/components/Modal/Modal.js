@@ -4,7 +4,7 @@ import Title from '../Layout/Title'
 
 function Modal(props) {
   return (
-    <div className=" fixed w-full h-full bg-black bg-opacity-70 z-20 layer">
+    <div className=" fixed w-full h-full bg-black bg-opacity-50 z-20 layer">
         <div className="relative max-w-[530px] min-w-[400px] m-auto modalWrap">
             <button onClick={props.onClick} className="absolute top-[-40px] right-[0px]">
                 <img src={`${process.env.PUBLIC_URL}/images/btnModalClose.svg`} />
@@ -39,6 +39,16 @@ function MapModal(...props) {
     </div>
   )
 }
+function MapModalSelect ({onClick, ...props}) {
+  return (
+    <div className="m-auto bg-primary min-h-[100px] rounded-[1.25em] p-[30px]" {...props}>
+        <div className="mb-3">
+          나아중에 지도가 들어갈겁니다~~~!!!!!
+        </div>
+        <Button basicButton={true} onClick={()=>{props.modalOpen(1)}}>서울시</Button>    
+    </div>
+  )
+}
 function FilterModal(...props) {
     return (
       <div className="m-auto bg-white min-h-[100px] rounded-[1.25em] p-[30px]" {...props}>
@@ -46,14 +56,14 @@ function FilterModal(...props) {
             <div className="flex flex-wrap gap-5">
                 <Title className={"titleComment"}>누구랑 갈지 정해볼까?</Title>
                 <ul className="flex flex-wrap grid-cols-3 gap-2 filterRadioButton">
-                    <li ><label><input type="radio" name="check" id="#check_type1" /><span>연인과 가볼까?</span></label></li>
-                    <li><label><input type="radio" name="check" id="#check_type1" /><span>친구와 가볼까?</span></label></li>
-                    <li><label><input type="radio" name="check" id="#check_type1" /><span>가족과 가볼까?</span></label></li>
-                    <li><label><input type="radio" name="check" id="#check_type1" /><span>단체모임 가볼까?</span></label></li>
-                    <li><label><input type="radio" name="check" id="#check_type1" /><span>가족과 가볼까?</span></label></li>
-                    <li><label><input type="radio" name="check" id="#check_type1" /><span>가족과 가볼까?</span></label></li>
+                    <li ><label><input type="radio" name="check" id="#check_type1"/><span><i className="iconBasic iconCheck">check</i> 연인과 가볼까?</span></label></li>
+                    <li><label><input type="radio" name="check" id="#check_type1" /><span><i className="iconBasic iconCheck">check</i> 친구와 가볼까?</span></label></li>
+                    <li><label><input type="radio" name="check" id="#check_type1" /><span><i className="iconBasic iconCheck">check</i> 가족과 가볼까?</span></label></li>
+                    <li><label><input type="radio" name="check" id="#check_type1" /><span><i className="iconBasic iconCheck">check</i> 단체모임 가볼까?</span></label></li>
+                    <li><label><input type="radio" name="check" id="#check_type1" /><span><i className="iconBasic iconCheck">check</i> 반려동물과 가볼까?</span></label></li>
+                    <li><label><input type="radio" name="check" id="#check_type1" /><span><i className="iconBasic iconCheck">check</i> 혼자 가볼까?</span></label></li>
                 </ul>
-                <Title className={"titleComment"}>어떤 스타일의 음식을 원해?</Title>
+                <Title className={"titleComment"}>음식 스타일을 정해볼까?</Title>
                 <ul className="flex filterCheckButton gap-2">
                     <li><label><input type="checkbox" name="radio2" id="#check_type1" /><span>#한식</span></label></li>
                     <li><label><input type="checkbox" name="radio2" id="#check_type1" /><span>#양식</span></label></li>
@@ -67,4 +77,4 @@ function FilterModal(...props) {
       </div>
     )
   }
-export {Modal, MapModal ,FilterModal}
+export {Modal, MapModal , MapModalSelect, FilterModal}
