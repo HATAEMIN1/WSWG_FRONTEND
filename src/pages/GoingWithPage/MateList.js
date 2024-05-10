@@ -1,35 +1,42 @@
 import React from "react";
-import {SectionWrap} from "../../components/Layout/Section";
+import { SectionWrap } from "../../components/Layout/Section";
 import { Link } from "react-router-dom";
+import Title from "../../components/Layout/Title";
 function MateList(props) {
     const category = [
         {
-            name: "연인",
+            cateId: "lover",
+            name: "연인과 가볼까?",
             image: "/images/mate_lover.png",
             link: "/mate/lover",
         },
         {
-            name: "친구",
+            cateId: "friend",
+            name: "친구와 가볼까?",
             image: "/images/mate_friend.png",
             link: "/mate/friend",
         },
         {
-            name: "가족",
+            cateId: "family",
+            name: "가족과 가볼까?",
             image: "/images/mate_family.png",
             link: "/mate/family",
         },
         {
-            name: "단체",
+            cateId: "group",
+            name: "단체모임 가볼까?",
             image: "/images/mate_group.png",
             link: "/mate/group",
         },
         {
-            name: "반려",
+            cateId: "pet",
+            name: "반려동물과 가볼까?",
             image: "/images/mate_pet.png",
             link: "/mate/pet",
         },
         {
-            name: "혼밥",
+            cateId: "self",
+            name: "혼밥 해볼까?",
             image: "/images/mate_self.png",
             link: "/mate/self",
         },
@@ -37,7 +44,7 @@ function MateList(props) {
     return (
         <>
             <SectionWrap>
-                <div>누구랑갈까</div>
+                <Title className="py-10">누구랑갈까</Title>
                 <div className="flex-wrap grid grid-cols-3">
                     {category.map((item, index) => {
                         return (
@@ -48,7 +55,9 @@ function MateList(props) {
                                         alt=""
                                         className="block"
                                     />
-                                    {item.name}
+                                    <Title className={"titleMemStt"}>
+                                        {item.name}
+                                    </Title>
                                 </Link>
                             </div>
                         );

@@ -1,10 +1,12 @@
 import React from "react";
-import { Button, ButtonWrap, SelectButton } from "../../components/Form/Button";
+import { Button, ButtonWrap } from "../../components/Form/Button";
 import { SectionFullWrap, SectionWrap } from "../../components/Layout/Section";
+
 import Title from "../../components/Layout/Title";
 import InputWrap from "../../components/Form/Input";
+import { IconStar, IconWish } from "../../components/Form/Icon";
 
-function StyleGuide(props) {
+function StyleGuide({ ...props }) {
     return (
         <>
             <SectionFullWrap>풀화면일때</SectionFullWrap>
@@ -14,11 +16,18 @@ function StyleGuide(props) {
                         회원가입 및 로그인용 타이틀
                     </h2>
                     <Title memTitle={true}>회원가입 및 로그인용 타이틀</Title>
+                    <Title memTitle={false}>
+                        회원가입 및 로그인용 서브 타이틀
+                    </Title>
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">서브타이틀</h2>
-                    <Title memTitle={false}>서브타이틀</Title>
+                    <h2 className=" text-slate-500 font-bold">
+                        메뉴별 페이지용 타이틀
+                    </h2>
+                    <Title memTitle={false} className={"titleStt"}>
+                        서브타이틀
+                    </Title>
                 </div>
 
                 <div className="mb-10">
@@ -36,6 +45,15 @@ function StyleGuide(props) {
                 </div>
 
                 <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">뒤로가기 버튼</h2>
+                    <Title className={"titleComment"}>
+                        <button className="flex items-center">
+                            <i className="btnBack">more</i> 뒤로가기
+                        </button>
+                    </Title>
+                </div>
+
+                <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">
                         기본/취소 버튼
                     </h2>
@@ -48,15 +66,114 @@ function StyleGuide(props) {
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">라인 버튼</h2>
                     <ButtonWrap>
-                        <Button className={"lineButton"}>라인버튼</Button>
+                        <Button className={"lineSmallButton"}>
+                            <i className="iconSmall iconWriter">writer</i> 나도
+                            작성해 볼까
+                        </Button>
+                    </ButtonWrap>
+                    <ButtonWrap>
+                        <Button className={"lineDelButton"}>
+                            daadfadsfa.jpg
+                            <i className="iconSmall iconDel">delet</i>
+                        </Button>
+                    </ButtonWrap>
+                    <ButtonWrap>
+                        <Button className={"lineButton"}>
+                            <i className="iconBasic iconMore">more</i> 더보기
+                        </Button>
                     </ButtonWrap>
                 </div>
 
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">
-                        지역 선택 버튼
+                        아이콘:iconBasic - 20px
                     </h2>
-                    <SelectButton>셀렉트버튼</SelectButton>
+                    <div className="flex gap-2">
+                        <i className="iconBasic iconMore">more</i>
+                        <i className="iconBasic iconUserDelet">userDelet</i>
+                        <i className="iconBasic iconUserModify">userModify</i>
+                        <i className="iconBasic iconCheck">check</i>
+                        <i className="iconBasic iconComment">comment</i>
+                        <i className="iconBasic iconView">view</i>
+                        <i className="iconBasic iconHotple">hotple</i>
+                        <IconWish className={"active"}>좋아요</IconWish>
+                    </div>
+                </div>
+
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">
+                        아이콘:iconSmall - 18px
+                    </h2>
+                    <div className="flex gap-2">
+                        <i className="iconSmall iconPass">password</i>
+                        <i className="iconSmall iconWriter">writer</i>
+                        <i className="iconSmall iconHello">hello</i>
+                        <i className="iconSmall iconOut">usersingOut</i>
+                    </div>
+                </div>
+
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">추천 아이콘</h2>
+                    <div className="flex">
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                    </div>
+                </div>
+
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">
+                        추천 아이콘 - 이미지 위에 올릴때
+                    </h2>
+                    <div className="flex bg-slate-500">
+                        <IconStar className={"whiteLine"} lineStar="true">
+                            별
+                        </IconStar>
+                        <IconStar className={"whiteLine"} lineStar="true">
+                            별
+                        </IconStar>
+                        <IconStar className={"whiteLine"} lineStar="true">
+                            별
+                        </IconStar>
+                        <IconStar className={"whiteLine"} lineStar="true">
+                            별
+                        </IconStar>
+                        <IconStar className={"whiteLine"} lineStar="true">
+                            별
+                        </IconStar>
+                    </div>
+                </div>
+
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">
+                        모달 모달 - 버튼 스타일 말고 onClick 이벤트 값만
+                        확인하세요!!!
+                    </h2>
+                    <ButtonWrap className=" flex justify-start gap-5">
+                        <Button
+                            onClick={() => {
+                                props.modalOpen(2);
+                            }}
+                        >
+                            필터 설정 모달
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                props.modalOpen(0);
+                            }}
+                        >
+                            지도 모달
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                props.modalOpen(1);
+                            }}
+                        >
+                            지역선택 모달
+                        </Button>
+                    </ButtonWrap>
                 </div>
 
                 <div className="mb-10">
@@ -90,6 +207,20 @@ function StyleGuide(props) {
                         <InputWrap>
                             <input type="text" placeholder="테스트 입력용" />
                         </InputWrap>
+                    </div>
+                </div>
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">파일 업로드</h2>
+                    <div className="flex gap-2 justify-between items-center">
+                        <InputWrap className="inputContainer iconPhoto">
+                            <input
+                                type="text"
+                                id="fileInput"
+                                placeholder="사진등록"
+                                className="text-left"
+                            />
+                        </InputWrap>
+                        <button className={"btnFileUpload"}>파일업로드</button>
                     </div>
                 </div>
 
@@ -146,9 +277,7 @@ function StyleGuide(props) {
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">textarea</h2>
                     <InputWrap>
-                        <textarea placeholder="내용을 입력하세요">
-                            123455
-                        </textarea>
+                        <textarea placeholder="내용을 입력하세요"></textarea>
                     </InputWrap>
                 </div>
             </SectionWrap>
