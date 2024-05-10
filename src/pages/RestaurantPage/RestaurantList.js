@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SectionWrap } from "../../components/Layout/Section";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
+import Title from "../../components/Layout/Title";
 
 function RestaurantList(props) {
     const category = [
@@ -44,23 +45,27 @@ function RestaurantList(props) {
     ];
     const { cateId } = useParams();
     const selectedCategory = category.find((item) => item.cateId === cateId);
-
+    const [restaurantData, setRestaurantData] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         async function restaurantInfo() {
             try {
-                const res = await axiosInstance.get("/:cateId", {
-                    params: cateId,
-                });
-                console.log(res);
+                const res = await axiosInstance.get(`/restaurants/${cateId}`);
+                console.log(res.data);
+                setRestaurantData([...restaurantData, ...res.data.restaurant]);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 800);
             } catch (e) {
                 console.log(e);
             }
         }
         restaurantInfo();
     }, []);
+
     return (
         <SectionWrap>
-            <h1>{selectedCategory.name}과 가볼까</h1>
+            <Title>{selectedCategory.name}과 가볼까</Title>
             <div>
                 <select>
                     <option selected disabled>
@@ -81,20 +86,24 @@ function RestaurantList(props) {
                 <button className="border rounded-md">지역 변경</button>
             </div>
             <div className="grid grid-cols-2 w-full border">
-                <div className="flex gap-7">
-                    <div>
-                        <img
-                            className="w-[186.60px] h-40"
-                            src="/images/mate_family.png"
-                            alt=""
-                        />
-                    </div>
-                    <div>
-                        <h3>호족반 도산공원점</h3>
-                        <p>한식</p>
-                        <p>평점</p>
-                    </div>
-                </div>
+                {restaurantData.map((item, index) => {
+                    return (
+                        <div key={index} className="flex gap-7 mb-8">
+                            <div>
+                                <img
+                                    className="w-[186.60px] h-40"
+                                    src={item.image[0]}
+                                    alt={item.name}
+                                />
+                            </div>
+                            <div>
+                                <h3>{item.name}</h3>
+                                <p>{item.category[0].foodtype}</p>
+                                <p>평점: {item.rating}</p>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
         </SectionWrap>
     );
