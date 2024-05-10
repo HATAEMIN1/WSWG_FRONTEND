@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Modal, MapModal, FilterModal, MapModalSelect } from "./components/Modal/Modal";
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
-import KakaoLoginRedirect from "./pages/LoginPage/KakaoLoginRedirect";
+import NaverLogin from "./pages/LoginPage/NaverLogin";
 
 function Layout({modalOpen}) {
     return (
@@ -94,6 +94,7 @@ function App() {
                     {/* <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route> */}
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
+                    <Route path="/users/naver-login" element={<NaverLogin />} />
                     <Route path="/mate" element={<MateList />}></Route>
                     <Route
                         path="/mate/:cateId"
