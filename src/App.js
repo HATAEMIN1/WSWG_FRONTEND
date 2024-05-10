@@ -83,10 +83,10 @@ function App() {
                         path="/mate/restaurants/:rtId/review-post/new"
                         element={<ReviewAdd />}
                     ></Route>
-                    <Route
+                    {/* <Route
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewList />}
-                    ></Route>
+                    ></Route> */}
                     <Route
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}

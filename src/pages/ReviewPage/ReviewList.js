@@ -1,18 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Title from "../../components/Layout/Title";
+import { SectionWrap } from "../../components/Layout/Section";
 
 function ReviewList() {
     return (
-        <>
-            <div className="flex justify-between h-[50px]">
-                <ul className="flex justify-center items-center px-5">
-                    <li>
-                        <Link to="/review-posts">나도작성해볼까</Link>
-                    </li>
-                </ul>
-            </div>
-            ;
-        </>
+        <SectionWrap>
+            <form></form>
+        </SectionWrap>
     );
 }
 
