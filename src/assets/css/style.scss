@@ -364,6 +364,24 @@ i.iconSmall {
     font-size: 0;
     background: url("../images/btnBack.png");
 }
+
+/*가게 정보 페이지*/
+.restarantView {
+    h4 {
+        width: 100%;
+        font-size: 1.5rem;
+        padding-top: 20px;
+    }
+    .textBox {
+        width: 100%;
+        font-size: 0.825em;
+        padding-top: 20px;
+        >div {
+            display: flex;
+            margin-right: 20px;
+        } 
+    }
+}
 @media (max-width: 768px) {
     header {
         h1 {

@@ -31,6 +31,7 @@ const TitleWrap = styled.h3 `
         line-height: 2rem; /* 32px */
     }
     &.titleComment {
+        padding : 30px 0 10px 0;
         justify-content: start;
         font-family: 'TTHakgyoansimMonggeulmonggeulR';
         font-size: 1rem; /* 16px */

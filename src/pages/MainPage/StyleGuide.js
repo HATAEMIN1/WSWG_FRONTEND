@@ -3,7 +3,7 @@ import { Button, ButtonWrap } from "../../components/Form/Button";
 import {SectionFullWrap, SectionWrap} from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 import InputWrap from "../../components/Form/Input";
-import { IconStar,IconWish } from "../../components/Form/Icon";
+import { IconStar,IconStarView,IconWish } from "../../components/Form/Icon";
 
 function StyleGuide({...props}) {
     return (
@@ -82,13 +82,24 @@ function StyleGuide({...props}) {
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">추천 아이콘</h2>
+                    <h2 className=" text-slate-500 font-bold">추천 아이콘 -  클릭용</h2>
                     <div className="flex">
                         <IconStar>별</IconStar>
                         <IconStar>별</IconStar>
                         <IconStar>별</IconStar>
                         <IconStar>별</IconStar>
                         <IconStar>별</IconStar>
+                    </div>
+                </div>
+
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">추천 아이콘 -  보기용</h2>
+                    <div className="flex">
+                        <IconStarView className={"active"}>별</IconStarView>
+                        <IconStarView>별</IconStarView>
+                        <IconStarView>별</IconStarView>
+                        <IconStarView>별</IconStarView>
+                        <IconStarView>별</IconStarView>
                     </div>
                 </div>
 
