@@ -12,6 +12,7 @@ function Header() {
             navigate("/");
         });
     }
+    console.log("isAuth when redirected to homepage:", isAuth);
     return (
         <header className="w-full h-[120px] md:h-[82px] bg-white shadow">
             <div className="md:container container flex-wrap md:flex-nowrap m-auto h-[100%] flex justify-between items-center gap-x-2">
