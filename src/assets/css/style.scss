@@ -314,6 +314,18 @@ i.iconBasic {
 .iconCheck {
     background: url("../images/iconCheck.png");
 }
+.iconHotple {
+    background: url("../images/iconHotple.png");
+}
+.iconView {
+    background: url("../images/iconView.png");
+}
+.iconComment {
+    background: url("../images/iconComm.png");
+}
+.iconDel {
+    background: url("../images/btnDelet.png");
+}
 /**18px*/
 i.iconSmall {
     content: '';
@@ -343,6 +355,14 @@ i.iconSmall {
     display: flex;
     font-size: 0;
     background: url("../images/fileUpload.png");
+}
+/*뒤로가기*/
+.btnBack {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    font-size: 0;
+    background: url("../images/btnBack.png");
 }
 @media (max-width: 768px) {
     header {

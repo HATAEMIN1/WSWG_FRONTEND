@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Footer(props) {
     return (
@@ -21,6 +22,7 @@ function Footer(props) {
                     <ul className="flex gap-4">
                         <li>주&#41; 성용의 아이들</li>
                         <li>대표 : 하태민</li>
+                        <li><Link to={"/styleGuide"} className="font-bold underline">&#91;스타일 가이드&#93;</Link></li>
                         <li>github : <a href="https://github.com/HATAEMIN1/WSWG_FRONTEND" target="_blank">https://github.com/HATAEMIN1</a></li>
                     </ul>
                 </div>

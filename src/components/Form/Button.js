@@ -45,8 +45,27 @@ color: #333333;
     border: solid 1px #42EEEE;
     color: #333333;
 }
+
 &>i {
     margin-right: 5px;
+}
+&.lineDelButton {
+    width: auto;
+    height : 28px;
+    padding: 0px 5px;
+    background: #ffffff;
+    border: solid 1px #E3E3E3;
+    border-radius : 5px;
+    color :#767676;
+    font-size: 0.875em;
+}
+&.lineDelButton:hover {
+    border: solid 1px #B5B5B5;
+    color: #333333;
+}
+&.lineDelButton i {
+    margin-right: 0px;
+    margin-left: 5px;
 }
 `;
 function ButtonWrap({children, ...props}){
