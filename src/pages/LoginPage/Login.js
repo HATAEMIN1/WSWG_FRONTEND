@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/thunkFunctions";
+import { useNavigate } from "react-router-dom";
+import KakaoLogin from "./KakaoLogin";
+import NaverLogin from "./NaverLogin";
 
 function Login() {
     const {
@@ -10,6 +13,7 @@ function Login() {
         reset,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     async function onSubmit({ email, password }) {
         const body = {
             email,
@@ -17,6 +21,7 @@ function Login() {
         };
 
         dispatch(loginUser(body));
+        navigate("/");
         reset();
     }
     const userEmail = {
@@ -46,7 +51,7 @@ function Login() {
                 style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
             >
                 <div className="text-center text-5xl">어까</div>
-                <div className="text-center text-3xl">가입 해볼까?</div>
+                <div className="text-center text-3xl">로그인 해볼까?</div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="emailWrap flex justify-between mt-5 mb-5">
                         <div className="w-10 h-10 relative">
@@ -104,13 +109,21 @@ function Login() {
                     </div>
                     <button
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="w-[400px] h-10 px-2.5 py-[5px] mb-5 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 inline-flex"
+                        className="w-[400px] h-10 px-2.5 py-[5px] mb-14 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 block"
                     >
                         로그인
                     </button>
                     <div
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="text-black text-[15px] font-normal"
+                        className="w-[400px] h-10 px-2.5 py-[5px] mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 block"
+                    >
+                        간편로그인
+                    </div>
+                    <KakaoLogin />
+                    <NaverLogin />
+                    <div
+                        style={{ fontFamily: "Pretendard-Regular" }}
+                        className="text-black text-[15px] font-normal flex justify-center items-center"
                     >
                         이미 어까의 회원이시면{" "}
                         <a href="/register" className="underline">

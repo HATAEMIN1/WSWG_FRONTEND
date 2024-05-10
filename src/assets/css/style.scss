@@ -12,7 +12,10 @@
     font-weight: normal;
     font-style: normal;
 }
-html,body {font-family: 'Pretendard-Regular';}
+html,body {font-family: 'Pretendard-Regular'; color: #333333;}
+.hackyoMong {
+    font-family: 'TTHakgyoansimMonggeulmonggeulR';
+}
 header {
     h1 {
         width: 135px;
@@ -49,6 +52,42 @@ header {
         background: url("../images/IconSearch.png");
     }
 }
+.gnbMenu {
+    position:fixed;
+    z-index: 9;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%,0);
+    transition: 0.3s;
+}
+nav {
+    ul{
+        li {
+            font-size: 0.8125em; /*13px*/
+            line-height: 1.25rem; /* 20px */
+        }
+        img {
+            width: 30px !important;
+            opacity: 0.5;
+        }
+        .active {
+            color: #333333;
+            img {
+                opacity: 1;
+            }
+        }
+    }
+}
+.btnOnOff {
+    position: relative;
+    width: 108px;
+    height: 35px;
+    background: url("../images/menuClose.png") no-repeat;
+    font-size: 0;
+    &.active {
+        background: url("../images/menuOpen.png") no-repeat;
+    }
+}
 footer {
     width: 100%;
     background: $Default;
@@ -67,6 +106,121 @@ footer {
     li {
         color: #D9D9D9;
     }
+}
+/**Modal**/
+.modalWrap {
+    top: 50%;
+    transform:translate(0,-50%)
+}
+/*Form*/
+input {
+    width: 100%;
+    background: none;
+}
+input:focus {
+    outline: none;
+}
+.inputContainer input::-webkit-input-placeholder {
+    background-size: contain;
+    text-align: left;
+    color: #F5F5F5;
+    text-indent: 0;
+}
+.iconHash input::-webkit-input-placeholder{
+    background: url("../images/iconHash.png") no-repeat center;
+}
+.iconPhoto input::-webkit-input-placeholder{
+    background: url("../images/iconPhoto.png") no-repeat center;
+}
+.iconText input::-webkit-input-placeholder{
+    background: url("../images/iconText.png") no-repeat center;
+}
+.iconDetail input::-webkit-input-placeholder{
+    background: url("../images/iconDetail.png") no-repeat center;
+}
+.iconLink input::-webkit-input-placeholder{
+    background: url("../images/iconLink.png") no-repeat center;
+}
+textarea {
+    width: 100%;
+    min-height: 100px;
+    outline: none;
+    background: none;
+}
+textarea::-webkit-input-placeholder {
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.localButton {
+    width: 100%;
+    font-size: 0.815em;
+    li {
+        margin-bottom: 10px;
+    }
+    input {
+        position: absolute;
+        opacity: 0;
+    }
+    input + span {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 5px 10px;
+        border:solid 1px #D9D9D9;
+        border-radius: 30px;
+    }
+    input:checked + span {
+        background: #EBE9E9;
+        border:solid 2px $Primary;
+        color:#333333;
+    }
+}
+/**아이콘**/
+/* 회원관련 아이콘 */
+i.iconTypeInput {
+    content: '';
+    display: flex;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-size: 0;
+}
+.iconEmail {
+    background: url("../images/iconRmail.png");
+}
+.iconRname {
+    background: url("../images/iconRname.png");
+}
+.iconRock {
+    background: url("../images/iconRlockcheck.png");
+}
+.iconRockCheck {
+    background: url("../images/iconRlockcheck.png");
+}
+/*가게정보 아이콘*/
+i.iconTypeStore {
+    content: '';
+    display: flex;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-size: 0;
+}
+.iconStore {
+    background: url("../images/iconStore.png");
+}
+.iconStoreLoc {
+    background: url("../images/iconStoreLoc.png");
+}
+.iconStoreTel {
+    background: url("../images/iconStoreTel.png");
+}
+.iconStoreTime {
+    background: url("../images/iconStoreTime.png");
 }
 @media (max-width: 768px) {
     header {

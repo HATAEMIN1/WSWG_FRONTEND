@@ -34,9 +34,19 @@ color: #333333;
     color: #333333;
 }
 `;
+const BtnSelect = styled.button `
+    &:hover {
+        border-color: #d9d9d9;
+        background: #ebe9e9;
+    }
+    &.active {
+        border-color: #42EEEE;
+        background: #ebe9e9;
+    }
+`
 function ButtonWrap({children, ...props}){
     return(
-        <BtnWrap className="w-[600px] m-auto flex justify-center gap-2" {...props}>{children}</BtnWrap>
+        <BtnWrap className="w-[600px] m-auto flex justify-center gap-2 py-2" {...props}>{children}</BtnWrap>
     )
 }
 
@@ -48,5 +58,12 @@ function Button({children,basicButton,className, ...props}) {
   )
 }
 
+function SelectButton ({children, ...props}) {
+    return (
+        <BtnSelect className="w-full border-2 rounded-full py-1 px-4" {...props}>{children}</BtnSelect>
+    )
+    
+}
 
-export {ButtonWrap, Button}
+export { Button, ButtonWrap, SelectButton};
+
