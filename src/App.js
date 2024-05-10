@@ -18,7 +18,7 @@ import Register from "./pages/RegisterPage/Register";
 import RestaurantList from "./pages/RestaurantPage/RestaurantList";
 import RestaurantView from "./pages/RestaurantPage/RestaurantView";
 import ReviewList from "./pages/ReviewPage/ReviewList";
-// import ReviewView from "./pages/ReviewPage/ReviewView";
+import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
@@ -80,10 +80,10 @@ function App() {
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewList />}
                     ></Route>
-                    {/* <Route
+                    <Route
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
-                    ></Route> */}
+                    ></Route>
 
                     <Route path="/meet-posts" element={<MeetingList />}></Route>
                     <Route

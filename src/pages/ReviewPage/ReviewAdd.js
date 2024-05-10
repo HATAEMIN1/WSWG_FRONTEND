@@ -15,6 +15,7 @@ function ReviewAdd(props) {
                         id="title"
                         className="w-full px-4 py-2 border rounded-md"
                         placeholder="내용을 등록하세요"
+                        // onChange={handleChange}
                     />
                 </div>
                 <div>
