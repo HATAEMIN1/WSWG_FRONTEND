@@ -29,21 +29,26 @@ color: #333333;
     color :#767676;
 }
 &.lineButton:hover {
-    background: #ffffff;
     border: solid 1px #42EEEE;
     color: #333333;
 }
+&.lineSmallButton {
+    width: auto;
+    height : 28px;
+    background: #ffffff;
+    border: solid 1px #E3E3E3;
+    border-radius : 30px;
+    color :#767676;
+    font-size: 0.875em;
+}
+&.lineSmallButton:hover {
+    border: solid 1px #42EEEE;
+    color: #333333;
+}
+&>i {
+    margin-right: 5px;
+}
 `;
-const BtnSelect = styled.button `
-    &:hover {
-        border-color: #d9d9d9;
-        background: #ebe9e9;
-    }
-    &.active {
-        border-color: #42EEEE;
-        background: #ebe9e9;
-    }
-`
 function ButtonWrap({children, ...props}){
     return(
         <BtnWrap className="w-[600px] m-auto flex justify-center gap-2 py-2" {...props}>{children}</BtnWrap>
@@ -58,12 +63,5 @@ function Button({children,basicButton,className, ...props}) {
   )
 }
 
-function SelectButton ({children, ...props}) {
-    return (
-        <BtnSelect className="w-full border-2 rounded-full py-1 px-4" {...props}>{children}</BtnSelect>
-    )
-    
-}
-
-export { Button, ButtonWrap, SelectButton};
+export { Button, ButtonWrap};
 

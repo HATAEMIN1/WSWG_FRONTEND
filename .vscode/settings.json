@@ -1,3 +1,5 @@
 {
-    "emmet.includeLanguages": {"javascript":"javascriptreact"}
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    }
 }
