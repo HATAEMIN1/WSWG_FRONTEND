@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, ButtonWrap } from "../../components/Form/Button";
-import {SectionFullWrap, SectionWrap} from "../../components/Layout/Section";
-import Title from "../../components/Layout/Title";
+import { IconStar, IconStarView, IconWish } from "../../components/Form/Icon";
 import InputWrap from "../../components/Form/Input";
-import { IconStar,IconStarView,IconWish } from "../../components/Form/Icon";
+import { SectionFullWrap, SectionWrap } from "../../components/Layout/Section";
+import Title from "../../components/Layout/Title";
 
 function StyleGuide({...props}) {
     return (
@@ -29,6 +29,11 @@ function StyleGuide({...props}) {
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">리뷰 댓글용 타이틀</h2>
                     <Title className={"titleComment"}>리뷰 댓글용 타이틀</Title>
+                </div>
+
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">뷰페이지 내용 서브타이틀 </h2>
+                    <Title className={"titleListStt"}>메뉴</Title>
                 </div>
 
                 <div className="mb-10">

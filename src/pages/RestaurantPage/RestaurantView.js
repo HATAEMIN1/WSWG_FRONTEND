@@ -1,10 +1,51 @@
 import React from "react";
+import { Button, ButtonWrap } from "../../components/Form/Button";
+import { IconStarView, IconWish } from "../../components/Form/Icon";
 import { SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
-import { IconStar, IconStarView, IconWish } from "../../components/Form/Icon";
-import InputWrap from "../../components/Form/Input";
 
 function RestaurantView(props) {
+    const foodType = [
+        {no:1,name:"chinese"},
+        {no:2,name:"japanese"},
+        {no:3,name:"korean"},
+        {no:4,name:"western"},
+        {no:5,name:"dessert"},
+    ]
+    const menuAndPrice = [
+        {
+            menu : "NY양념 모둠 갈비",
+            price : "48,800원"
+        },
+        {
+            menu : "갈릭 항정 수육",
+            price : "21,300원"
+        },
+        {
+            menu : "들기름 메밀국수",
+            price : "8,800원"
+        },
+        {
+            menu : "컵라면 볶음밥",
+            price : "13,000원"
+        },
+        {
+            menu : "쭈꾸미 떡볶이",
+            price : "16,000원"
+        },
+        {
+            menu : "트러플 감자전",
+            price : "15,800원"
+        },
+        {
+            menu : "바삭 새우 만두",
+            price : "13,800원"
+        },
+        {
+            menu : "호랑이 부대찌개",
+            price : "12,800원"
+        },
+    ]
     return (
         <>
             <SectionWrap>
@@ -17,7 +58,7 @@ function RestaurantView(props) {
                         <div className="flex flex-wrap">
                             <h4>호족반 도산공원점</h4>
                             <ul>
-                                <li>한식</li>
+                                <li>{foodType[1].name}</li>
                                 <li className="flex">평점
                                     <span className="flex">
                                         <IconStarView className={"active"}>별</IconStarView>
@@ -46,8 +87,32 @@ function RestaurantView(props) {
                     </div>
                 </div>
                 {/* --- restaurant info end */}
-                <Title className={"titleBasic"}>메뉴</Title>
-            </SectionWrap> 
+                {/* menu Price start ---  */}
+                <div className="pt-[40px]">
+                <Title className={"titleListStt"}>메뉴</Title>
+                    {
+                        menuAndPrice.map((item,i)=>{
+                            return (
+                                <ul className="flex justify-between h-full items-center py-2" key={i}>
+                                    <li className="pr-4">{item.menu}</li>
+                                    <li className="flex-auto h-full"><span className="flex w-full border-dashed border-gray-300 border-b-[1px]"></span></li>
+                                    <li className="pl-4 font-bold">{item.price}</li>
+                                </ul>
+                            )
+                        })
+                    }
+                    <ButtonWrap>
+                        <Button className={"lineButton"} ><i className="iconBasic iconMore">more</i> 더보기</Button>
+                    </ButtonWrap>
+                </div>
+                {/* --- menu Price end */}
+                {/* review List start --- */}
+                <div className="flex justify-between pt-[60px]">
+                    <Title className={"titleListStt"}>리뷰</Title>
+                    <Button className={"lineSmallButton"} ><i className="iconSmall iconWriter">writer</i> 나도 작성해 볼까</Button>
+                </div>
+                {/* --- review List end */}
+            </SectionWrap>
         </>
     );
 }
