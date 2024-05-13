@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SectionWrap } from "../../components/Layout/Section";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
 import StarRating from "../../components/Form/StarRating";
@@ -56,6 +56,7 @@ function RestaurantList(props) {
                 const res = await axiosInstance.get(`/restaurants/${cateId}`);
                 console.log(res.data);
                 setRestaurantData([...restaurantData, ...res.data.restaurant]);
+                console.log(restaurantData);
                 setTimeout(() => {
                     setLoading(false);
                 }, 800);
@@ -77,7 +78,11 @@ function RestaurantList(props) {
                         </option>
                         <option>서울특별시</option>
                     </select>
-                    <span className="iconArrow"><img src={`${process.env.PUBLIC_URL}/images/selectArrow.png`} /></span>
+                    <span className="iconArrow">
+                        <img
+                            src={`${process.env.PUBLIC_URL}/images/selectArrow.png`}
+                        />
+                    </span>
                 </div>
                 <SelectDiv></SelectDiv>
                 <div className="selectWrap">
@@ -87,7 +92,11 @@ function RestaurantList(props) {
                         </option>
                         <option>강남구</option>
                     </select>
-                    <span className="iconArrow"><img src={`${process.env.PUBLIC_URL}/images/selectArrow.png`} /></span>
+                    <span className="iconArrow">
+                        <img
+                            src={`${process.env.PUBLIC_URL}/images/selectArrow.png`}
+                        />
+                    </span>
                 </div>
                 <select>
                     <option selected disabled>
@@ -99,30 +108,49 @@ function RestaurantList(props) {
             <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
                 {restaurantData.map((item, index) => {
                     return (
-                        <div key={index} className="flex gap-7 restaurantListWrap">
+                        <div
+                            key={index}
+                            className="flex gap-7 restaurantListWrap"
+                        >
                             <div className="flex-none imgWrap">
-                                <img
-                                    src={item.image[0]}
-                                    alt={item.name}
-                                />
+                                <Link
+                                    to={`/mate/${cateId}/restaurants/${item._id}`}
+                                >
+                                    <img src={item.image[0]} alt={item.name} />
+                                </Link>
                             </div>
                             <div className="flex flex-wrap items-center textWrap py-2">
                                 <div className="w-full">
-                                    <h3>{item.name}</h3>
+                                    <Link
+                                        to={`/mate/${cateId}/restaurants/${item._id}`}
+                                    >
+                                        <h3>{item.name}</h3>
+                                    </Link>
                                     <p>{item.category[0].foodtype}</p>
                                     <div className="flex">
-                                        <span className="flex-none">평점: </span>
+                                        <span className="flex-none">
+                                            평점:{" "}
+                                        </span>
                                         <StarRating
                                             rating={item.rating}
-                                        ></StarRating>  
+                                        ></StarRating>
                                     </div>
                                 </div>
                                 <div className="flex gap-2 h-[20px]">
-                                    <div className="flex items-center"><IconWish className={"active"}>좋아요</IconWish> 123</div>
-                                    <div className="flex items-center"><i className="iconBasic iconView">view</i> 123</div>
+                                    <div className="flex items-center">
+                                        <IconWish className={"active"}>
+                                            좋아요
+                                        </IconWish>{" "}
+                                        123
+                                    </div>
+                                    <div className="flex items-center">
+                                        <i className="iconBasic iconView">
+                                            view
+                                        </i>{" "}
+                                        123
+                                    </div>
                                 </div>
                             </div>
-            
                         </div>
                     );
                 })}
