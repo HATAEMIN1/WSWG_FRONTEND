@@ -9,7 +9,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Modal } from "../../components/Modal/Modal";
 
-// import './styles.css';
 function RestaurantView(props) {
     const foodType = [
         {no:1,name:"중식",},
