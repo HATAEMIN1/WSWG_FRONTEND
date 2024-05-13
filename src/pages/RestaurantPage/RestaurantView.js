@@ -87,11 +87,11 @@ function RestaurantView(props) {
     }, []);
     console.log(restaurantData);
 
-    const [visibleItems, setVisibleItems] = useState(6); // 초기에는 6개의 항목을 표시합니다.
+    const [visibleItems, setVisibleItems] = useState(6);
     const totalItems =
         restaurantData.length > 0 ? restaurantData[0].menuAndPrice.length : 0;
     const showMoreItems = () => {
-        setVisibleItems((prevCount) => prevCount + 6); // 기존의 항목 개수에 6을 추가합니다.
+        setVisibleItems((prevCount) => prevCount + 6);
     };
 
     const openModal = (image) => {
