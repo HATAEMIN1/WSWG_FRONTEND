@@ -118,7 +118,7 @@ function App() {
                         element={<RestaurantView />}
                     ></Route>
                     <Route
-                        path="/mate/restaurants/:rtId/review-post/new"
+                        path="/mate/:cateId/restaurants/:rtId/review-post/new"
                         element={<ReviewAdd />}
                     ></Route>
                     {/* <Route
