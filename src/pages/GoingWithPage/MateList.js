@@ -66,6 +66,7 @@ function MateList(props) {
             </SectionWrap>
         </>
     );
+
 }
 
 export default MateList;

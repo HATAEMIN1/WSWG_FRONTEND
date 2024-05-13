@@ -326,6 +326,10 @@ i.iconBasic {
 .iconDel {
     background: url("../images/btnDelet.png");
 }
+.iconTrash {
+    background: url("../images/iconTrash.png");
+    margin-left: 0 !important;
+}
 /**18px*/
 i.iconSmall {
     content: '';
@@ -364,6 +368,119 @@ i.iconSmall {
     font-size: 0;
     background: url("../images/btnBack.png");
 }
+
+/*가게 정보 페이지*/
+.restarantView {
+    h4 {
+        width: 100%;
+        font-size: 1.5rem;
+        padding-top: 20px;
+    }
+    .textBox {
+        width: 100%;
+        font-size: 0.825em;
+        padding-top: 20px;
+        >div {
+            display: flex;
+            margin-right: 20px;
+        } 
+    }
+}
+.mateBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        font-size: 0.875em;
+        padding: 5px 10px 6px 10px;
+        box-shadow:0 0 0 1px #D9D9D9 inset;
+        border-radius: 10px;
+    i {
+        display: none;
+    }
+    &.checked {
+        box-shadow:0px 0px 2px $Primary inset;
+    }
+    &.checked i {
+        display: flex;
+        margin-right: 5px;
+    }
+}
+.swiperView {
+    width: 100%;
+    height: 100%;
+    .bgLayer {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(0, 0, 0, 0.0) 70%, black 100%);
+    }
+    img {
+        height: 100%;
+        object-fit: cover;
+    }
+    .swiper-pagination-bullet {
+        background-color: #fff !important;
+        opacity: 0.8!important;
+    }
+    .swiper-pagination-bullet-active {
+        background-color: $Primary !important;
+    }
+}
+.reviewListWrap {
+    width: 100%;
+    padding: 15px 0;
+    border-bottom: solid 1px #E3E3E3;
+    .imgWrap {
+        width: 140px;
+        height: 140px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: url("../images/imgReNone.png");
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .textWrap {
+        .name {
+            font-size: 1em;
+            font-weight: 600;
+        }
+        .content {
+            font-size: 0.9375em;
+            text-overflow:ellipsis;
+            word-break: break-all;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+    }
+    .iconTrash {
+        content: '';
+        display: flex;
+        width: 32px;
+        height: 32px;
+        font-size: 0;
+        background: url("../images/iconTrash.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        margin-left: 0 !important;
+    }
+    .hashBox {
+        width: auto;
+        padding: 3px 10px;
+        font-size: 0.815em;
+        font-weight: 600;
+        border: solid 1px #ccc;
+        border-radius: 20px;
+        background: #F5F5F5;
+    }
+}
+
 @media (max-width: 768px) {
     header {
         h1 {
@@ -374,7 +491,6 @@ i.iconSmall {
             width: 45px;
             height: 45px;
             border-radius: 25px;
-            
         }
     }
     footer {
