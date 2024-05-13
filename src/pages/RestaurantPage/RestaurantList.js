@@ -3,6 +3,7 @@ import { SectionWrap } from "../../components/Layout/Section";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
+import StarRating from "../../components/Form/StarRating";
 
 function RestaurantList(props) {
     const category = [
@@ -100,6 +101,7 @@ function RestaurantList(props) {
                                 <h3>{item.name}</h3>
                                 <p>{item.category[0].foodtype}</p>
                                 <p>평점: {item.rating}</p>
+                                <StarRating rating={item.rating}></StarRating>
                             </div>
                         </div>
                     );
