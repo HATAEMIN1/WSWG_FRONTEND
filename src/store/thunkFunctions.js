@@ -37,8 +37,9 @@ export const loginUser = createAsyncThunk(
 
             // Dispatch setUserData action to update Redux state with userData
             thunkAPI.dispatch(setUserData(userDataToStore));
+            // console.log(localStorage.getItem("user"));
 
-            localStorage.setItem("user", JSON.stringify(userDataToStore));
+            // localStorage.setItem("user", JSON.stringify(userDataToStore));
             console.log("thunkapi 로그인");
             return res.data;
         } catch (error) {
@@ -71,6 +72,8 @@ export const logoutUser = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axiosInstance.post(`/users/logout`);
+            thunkAPI.dispatch(setUserData(null));
+            localStorage.removeItem("accessToken");
             return response.data;
         } catch (error) {
             console.log(error);
