@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+$Primary : #42EEEE;
+$PrimaryHover : #0DDDDD;
+$Secondary : #545454;
+$Default : #333333;
+
+@layer components{
+    .primary {
+        background: $Primary;
+        color: $Primary;
+    }
+    .container {
+        width: 1024px;
+        padding : 0 32px;
+    }
+    .inputSearch {
+        width: 100%;
+        border: solid 2px $Primary;
+        border-radius: 30px;
+        padding: 10px 20px;
+    }
+    @media (max-width: 768px) {
+       .container {
+        width: 100%;
+        padding: 0 32px;
+       } 
+    }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 
 function MeetingAdd(props) {
-    return <div>MeetingAdd</div>;
+    return <div></div>;
 }
 
 export default MeetingAdd;

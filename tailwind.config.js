@@ -27,6 +27,15 @@ module.exports = {
                 },
             },
         },
+
+        primary: {
+            DEFAULT: "#42EEEE",
+            hover: "#0DDDDD",
+        },
+        secondary: {
+            DEFAULT: "#EBE9E9",
+            hover: "#D9D9D9",
+        },
     },
     plugins: [],
 };
