@@ -12,7 +12,11 @@
     font-weight: normal;
     font-style: normal;
 }
+*{box-sizing: border-box;}
 html,body {font-family: 'Pretendard-Regular'; color: #333333;}
+.hackyoMong {
+    font-family: 'TTHakgyoansimMonggeulmonggeulR';
+}
 header {
     h1 {
         width: 135px;
@@ -85,7 +89,6 @@ nav {
         background: url("../images/menuOpen.png") no-repeat;
     }
 }
-.layer {}
 footer {
     width: 100%;
     background: $Default;
@@ -104,6 +107,11 @@ footer {
     li {
         color: #D9D9D9;
     }
+}
+/**Modal**/
+.modalWrap {
+    top: 50%;
+    transform:translate(0,-50%)
 }
 /*Form*/
 input {
@@ -145,6 +153,98 @@ textarea::-webkit-input-placeholder {
     top:50%;
     left: 50%;
     transform: translate(-50%,-50%);
+}
+/*local radio*/
+.localButton {
+    width: 100%;
+    font-size: 0.875em;
+    li {
+        margin-bottom: 10px;
+    }
+    input {
+        position: absolute;
+        opacity: 0;
+    }
+    input + span {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 5px 10px;
+        box-shadow:0 0 0 1px #D9D9D9 inset;
+        border-radius: 30px;
+    }
+    input + span:hover {
+        background: #EBE9E9;
+    }
+    input:checked + span {
+        background: #EBE9E9;
+        box-shadow:0 0 0 2px $Primary inset;
+        color:#333333;
+    }
+}
+/*filter radio&checkbox*/
+.filterRadioButton {
+    width: 100%;
+    font-size: 0.875em;
+    color: #595959;
+    li {
+        margin-bottom: 10px;
+    }
+    input {
+        position: absolute;
+        opacity: 0;
+    }
+    input + span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 5px 10px 6px 10px;
+        box-shadow:0 0 0 1px #D9D9D9 inset;
+        border-radius: 10px;
+    }
+    input + span i {
+        display: none;
+    }
+    input + span:hover {
+        box-shadow:0 0 0 1px $Primary inset;
+    }
+    input:checked + span {
+        box-shadow:0 0 0 1px $Primary inset;
+        color:#333333;
+    }
+    input:checked + span i {
+        display: flex;
+        margin-right: 5px;
+    }
+}
+.filterCheckButton {
+    width: 100%;
+    font-size: 0.875em;
+    li {
+        margin-bottom: 10px;
+    }
+    input {
+        position: absolute;
+        opacity: 0;
+    }
+    input + span {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 5px 10px 6px 10px;
+        box-shadow:0 0 0 1px #D9D9D9 inset;
+        border-radius: 10px;
+    }
+    input + span:hover {
+        background: $PrimaryHover;
+        box-shadow:0 0 0 2px $Primary inset;
+    }
+    input:checked + span {
+        background: $Primary;
+        box-shadow:0 0 0 2px $Primary inset;
+        color:#333333;
+    }
 }
 /**아이콘**/
 /* 회원관련 아이콘 */
@@ -190,6 +290,79 @@ i.iconTypeStore {
 }
 .iconStoreTime {
     background: url("../images/iconStoreTime.png");
+}
+/*라인버튼 속 아이콘*/
+/*20px*/
+i.iconBasic {
+    content: '';
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    font-size: 0;
+}
+.iconMore {
+    background: url("../images/iconMore.png");
+}
+.iconUserDelet {                         
+    background: url("../images/iconUserDelet.png");
+}
+.iconUserModify {
+    background: url("../images/iconUserModify.png");
+}
+.iconCheck {
+    background: url("../images/iconCheck.png");
+}
+.iconHotple {
+    background: url("../images/iconHotple.png");
+}
+.iconView {
+    background: url("../images/iconView.png");
+}
+.iconComment {
+    background: url("../images/iconComm.png");
+}
+.iconDel {
+    background: url("../images/btnDelet.png");
+}
+/**18px*/
+i.iconSmall {
+    content: '';
+    display: flex;       
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    font-size: 0;
+}
+.iconPass {
+    background: url("../images/iconPass.png");
+}
+.iconWriter {
+    background: url("../images/iconPen.png");
+}
+.iconHello {
+    background: url("../images/iconHello.png");
+}
+.iconOut {
+    background: url("../images/iconOut.png");
+}
+/*fileupload*/
+.btnFileUpload {
+    width: 35px;
+    height: 34px;
+    display: flex;
+    font-size: 0;
+    background: url("../images/fileUpload.png");
+}
+/*뒤로가기*/
+.btnBack {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    font-size: 0;
+    background: url("../images/btnBack.png");
 }
 @media (max-width: 768px) {
     header {

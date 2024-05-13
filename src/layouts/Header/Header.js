@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/thunkFunctions";
 
-function Header() {
+function Header({...props}) {
     const isAuth = useSelector((state) => state.user.isAuth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -14,6 +14,7 @@ function Header() {
     }
     console.log("isAuth when redirected to homepage:", isAuth);
     return (
+        <>
         <header className="w-full h-[120px] md:h-[82px] bg-white shadow">
             <div className="md:container container flex-wrap md:flex-nowrap m-auto h-[100%] flex justify-between items-center gap-x-2">
                 <h1 className="headerLogo flex-none items-end pt-4 md:pt-3">
@@ -25,7 +26,7 @@ function Header() {
                     </Link>
                 </h1>
                 <div className="flex flex-auto order-last md:order-none w-full inputSearch gap-2">
-                    <button className="flex-none icon iconFillter">
+                    <button className="flex-none icon iconFillter" onClick={()=>{props.modalOpen(2)}}>
                         검색필터
                     </button>
                     <input
@@ -59,6 +60,7 @@ function Header() {
                 </div>
             </div>
         </header>
+        </>
     );
 }
 

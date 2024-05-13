@@ -4,16 +4,27 @@ const TitleWrap = styled.h3 `
     display:flex;
     justify-content: center;
     &.titleMemtt {
+        padding-top: 80px;
         font-family: 'TTHakgyoansimMonggeulmonggeulR';
         font-size: 3rem; /* 48px */
         line-height: 1;
     }
     &.titleMemStt {
+        padding-top: 10px;
+        padding-bottom: 30px;
+        font-family: 'TTHakgyoansimMonggeulmonggeulR';
+        font-size: 1.875rem; /* 30px */
+        line-height: 2.25rem; /* 36px */
+    }
+    &.titleStt {
+        padding-top: 80px;
+        padding-bottom: 30px;
         font-family: 'TTHakgyoansimMonggeulmonggeulR';
         font-size: 1.875rem; /* 30px */
         line-height: 2.25rem; /* 36px */
     }
     &.titleBasic {
+        padding : 20px 0;
         justify-content: start;
         font-family: 'Pretendard-Regular';
         font-size: 1.5rem; /* 24px */
