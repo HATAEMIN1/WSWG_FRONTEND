@@ -56,7 +56,7 @@ function FilterModal(...props) {
             <div className="flex flex-wrap gap-5">
                 <Title className={"titleComment"}>누구랑 갈지 정해볼까?</Title>
                 <ul className="flex flex-wrap grid-cols-3 gap-2 filterRadioButton">
-                    <li ><label><input type="radio" name="check" id="#check_type1"/><span><i className="iconBasic iconCheck">check</i> 연인과 가볼까?</span></label></li>
+                    <li><label><input type="radio" name="check" id="#check_type1"/><span><i className="iconBasic iconCheck">check</i> 연인과 가볼까?</span></label></li>
                     <li><label><input type="radio" name="check" id="#check_type1" /><span><i className="iconBasic iconCheck">check</i> 친구와 가볼까?</span></label></li>
                     <li><label><input type="radio" name="check" id="#check_type1" /><span><i className="iconBasic iconCheck">check</i> 가족과 가볼까?</span></label></li>
                     <li><label><input type="radio" name="check" id="#check_type1" /><span><i className="iconBasic iconCheck">check</i> 단체모임 가볼까?</span></label></li>
