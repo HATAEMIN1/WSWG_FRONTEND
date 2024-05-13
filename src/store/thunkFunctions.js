@@ -51,8 +51,8 @@ export const loginUser = createAsyncThunk(
     }
 );
 
-export const kakaoLogin = createAsyncThunk(
-    "user/kakaoLogin",
+export const oauthLogin = createAsyncThunk(
+    "user/oauthLogin",
     async (body, thunkAPI) => {
         try {
             localStorage.setItem("accessToken", body.accessToken);
