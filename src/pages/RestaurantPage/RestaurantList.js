@@ -100,8 +100,12 @@ function RestaurantList(props) {
                             <div>
                                 <h3>{item.name}</h3>
                                 <p>{item.category[0].foodtype}</p>
-                                <p>평점: {item.rating}</p>
-                                <StarRating rating={item.rating}></StarRating>
+                                <p className="flex">
+                                    평점:
+                                    <StarRating
+                                        rating={item.rating}
+                                    ></StarRating>
+                                </p>
                             </div>
                         </div>
                     );
