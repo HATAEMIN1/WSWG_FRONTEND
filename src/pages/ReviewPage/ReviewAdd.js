@@ -6,11 +6,24 @@ import { Button, ButtonWrap } from "../../components/Form/Button";
 import axiosInstance from "../../utils/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { SectionWrap } from "../../components/Layout/Section";
-
+import { useSelector } from "react-redux";
 function ReviewAdd(props) {
-    const { rtId, rpId } = useParams();
+    const { cateId, rtId } = useParams();
+    // console.log(cateId);
+    // console.log(rtId);
+
+    // const userDataString = localStorage.getItem("persist:root").split("\\");
+    // const userId = userDataString[7].slice(1);
+
+    // // const userId = window.localStorage.getItem("persist:root");
+    // console.log(userId);
+    const userData = useSelector((state) => state.user.userData.user);
     const [text, setText] = useState({
+        title: "",
         content: "",
+        rating: [],
+        hashtag: [],
+        images: [],
     });
 
     const navigate = useNavigate();
@@ -20,20 +33,23 @@ function ReviewAdd(props) {
         console.log(value, name);
         setText((prevState) => {
             return {
-                ...prevState,
+                ...prevState, //이전상태
                 [name]: value,
             };
         });
     }
 
     async function handleSubmit(e) {
-        alert("a");
+        e.preventDefault();
         const body = {
             ...text,
+            rtId,
+            cateId,
+            userId: userData.id,
         };
         try {
-            await axiosInstance.post("/products", body);
-            navigate("/mate/:cateId/restaurants/:rtId");
+            await axiosInstance.post("/review-posts", body);
+            navigate(`/mate/${cateId}/restaurants/${rtId}`);
         } catch (error) {
             console.log(error);
         }
@@ -50,27 +66,51 @@ function ReviewAdd(props) {
                 <div className="mb-10">
                     <Title className={"titleComment"}>내용</Title>
                     <InputWrap>
-                        <textarea placeholder="내용을 입력하세요"></textarea>
+                        <textarea
+                            type="text"
+                            placeholder="내용을 입력하세요"
+                            id="content"
+                            className="text-left"
+                            onChange={handleChange}
+                            name="content"
+                            value={text.content}
+                        ></textarea>
                     </InputWrap>
                 </div>
 
                 <div className="mb-10">
-                    <Title className={"titleComment"}>해시태그</Title>
+                    <Title className={"titleComment"}>
+                        <label htmlFor="hashtag">해시태그</label>
+                    </Title>
                     <InputWrap
-                        id="tag"
-                        name="tag"
+                        id="hashtag"
+                        name="hashtag"
                         className="inputContainer iconHash"
                     >
                         <input
                             type="text"
-                            placeholder="해시태그입력"
+                            id="hashtag"
                             className="text-left"
                             onChange={handleChange}
+                            name="hashtag"
+                            value={text.hashtag}
                         />
                     </InputWrap>
                 </div>
                 <div className="mb-10">
-                    <Title className={"titleComment"}>별점주기</Title>
+                    <Title className={"titleComment"}>
+                        <label htmlFor="rating">별점주기</label>
+                    </Title>
+                    <InputWrap>
+                        <textarea
+                            type="text"
+                            id="rating"
+                            className="text-left"
+                            onChange={handleChange}
+                            name="rating"
+                            value={text.rating}
+                        />
+                    </InputWrap>
                 </div>
                 <div className="mb-10">
                     <div>
