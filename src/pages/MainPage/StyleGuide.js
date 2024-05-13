@@ -137,6 +137,12 @@ function StyleGuide({...props}) {
                         <i className="iconTypeStore iconStoreTime">time</i>
                     </div>
                 </div>
+
+                <div>
+                    <h2 className=" text-slate-500 font-bold">해시태크</h2>
+                    <div className=" border">&#8983;</div>
+                </div>
+
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">인풋 관련 아이콘</h2>
                     <div className="flex gap-2">
