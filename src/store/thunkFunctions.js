@@ -51,6 +51,35 @@ export const loginUser = createAsyncThunk(
     }
 );
 
+export const kakaoLogin = createAsyncThunk(
+    "user/kakaoLogin",
+    async (body, thunkAPI) => {
+        try {
+            localStorage.setItem("accessToken", body.accessToken);
+            const { email, name, _id, role } = body.user;
+            const userDataToStore = {
+                email,
+                name,
+                _id,
+                role,
+            };
+
+            // Dispatch setUserData action to update Redux state with userData
+            thunkAPI.dispatch(setUserData(userDataToStore));
+            // console.log(localStorage.getItem("user"));
+
+            // localStorage.setItem("user", JSON.stringify(userDataToStore));
+            console.log("thunkapi 카카오로그인");
+            return;
+        } catch (error) {
+            console.log(error);
+            return thunkAPI.rejectWithValue(
+                error.response.data || error.message
+            );
+        }
+    }
+);
+
 export const authUser = createAsyncThunk(
     "user/authUser",
     async (_, thunkAPI) => {
