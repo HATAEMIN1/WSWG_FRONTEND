@@ -43,8 +43,7 @@ function ReviewAdd(props) {
         <SectionWrap>
             <form onSubmit={handleSubmit}>
                 <div className="mb-10">
-                    {/* <h2 className=" text-slate-500 font-bold">리뷰 등록/수정</h2> */}
-                    <Title memTitle={false}>어까</Title>
+                    <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}>리뷰 등록해볼까?</Title>
                 </div>
 
@@ -82,14 +81,14 @@ function ReviewAdd(props) {
                             className="text-left"
                         />
                     </InputWrap>
-                    {/* <div className=" text-slate-500 text-base">
+                    <div className=" text-slate-500 text-base">
                         *이미지는 00MB 이하 jpg, png 형식만 가능합니다
-                    </div> */}
+                    </div>
                 </div>
                 <div className="mb-32">
                     <ButtonWrap>
                         <Button basicButton={true}>등록</Button>
-                        <Button basicButton={true}>삭제</Button>
+                        <Button basicButton={true}>취소</Button>
                         {/* <Button basicButton={false}>취소</Button> */}
                     </ButtonWrap>
                 </div>

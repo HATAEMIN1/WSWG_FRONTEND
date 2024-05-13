@@ -1,16 +1,19 @@
 import React from "react";
 import Title from "../../components/Layout/Title";
 import { SectionWrap } from "../../components/Layout/Section";
+import { IconStar, IconWish } from "../../components/Form/Icon";
 
 function ReviewView() {
     return (
         <SectionWrap>
             <form>
-                <div>
-                    <Title className={"titleComment"}>back</Title>
-                </div>
+                <Title className={"titleComment"}>
+                    <button className="flex items-center">
+                        <i className="btnBack">more</i> 뒤로가기
+                    </button>
+                </Title>
 
-                <div className="flex">
+                <div className="flex mb-8">
                     <div className="w-[100px] rounded-md overflow-hidden">
                         <img src="/images/mate_friend.png" alt="" />
                     </div>
@@ -24,11 +27,16 @@ function ReviewView() {
                     <div className="w-[100px] rounded-md overflow-hidden">
                         <img src="/images/mate_friend.png" alt="" />
                     </div>
-                    <div className="flex mx-5 mt-5 justify-center items-center">
-                        <div>
-                            닉네임
-                            <p className="text-sm">작성날짜</p>
-                            <p className="text-sm my-3">평점</p>
+                    <div className="mx-5 mt-3 justify-center items-center">
+                        <p className="text-sm">닉네임</p>
+                        <p className="text-sm mb-5">작성날짜</p>
+
+                        <div className="flex">
+                            <IconStar>별</IconStar>
+                            <IconStar>별</IconStar>
+                            <IconStar>별</IconStar>
+                            <IconStar>별</IconStar>
+                            <IconStar>별</IconStar>
                         </div>
                     </div>
                 </div>

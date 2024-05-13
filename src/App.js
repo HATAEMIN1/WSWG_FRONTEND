@@ -22,15 +22,20 @@ import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, MapModal, FilterModal, MapModalSelect } from "./components/Modal/Modal";
+import {
+    Modal,
+    MapModal,
+    FilterModal,
+    MapModalSelect,
+} from "./components/Modal/Modal";
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
 
-function Layout({modalOpen}) {
+function Layout({ modalOpen }) {
     return (
         <>
-            <Header modalOpen={modalOpen}/>
+            <Header modalOpen={modalOpen} />
             <main>
                 <Outlet />
             </main>
@@ -51,22 +56,22 @@ function LayoutEtc() {
     );
 }
 function App() {
-    const [modalNum,setModalNum] = useState(0);
-    const [modalView,setModalView] = useState(false);
-    const modalData =([
-        <MapModalSelect  modalOpen={modalOpen}/>,
+    const [modalNum, setModalNum] = useState(0);
+    const [modalView, setModalView] = useState(false);
+    const modalData = [
+        <MapModalSelect modalOpen={modalOpen} />,
         <MapModal />,
-        <FilterModal />
-    ])
+        <FilterModal />,
+    ];
     function modalOpen(idx) {
         setModalView(true);
         setModalNum(idx);
     }
-    function modalClsose (){
+    function modalClsose() {
         setModalView(false);
     }
-    useEffect(()=>{
-        if(modalView){
+    useEffect(() => {
+        if (modalView) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";
@@ -83,14 +88,21 @@ function App() {
     return (
         <>
             {/* Modal layer */}
-            {modalData.map((item,idx)=>{
-                return (
-                modalView === true ? (<Modal onClick={modalClsose} viewlistData={modalData} modalNum={modalNum} />) : null
-                )
+            {modalData.map((item, idx) => {
+                return modalView === true ? (
+                    <Modal
+                        onClick={modalClsose}
+                        viewlistData={modalData}
+                        modalNum={modalNum}
+                    />
+                ) : null;
             })}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
-                    <Route path="/styleGuide" element={<StyleGuide modalOpen={modalOpen} />}></Route>
+                    <Route
+                        path="/styleGuide"
+                        element={<StyleGuide modalOpen={modalOpen} />}
+                    ></Route>
                     <Route path="/" element={<Home />}></Route>
                     {/* <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route> */}
