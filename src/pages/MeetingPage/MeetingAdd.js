@@ -46,6 +46,7 @@ function MeetingAdd(props) {
                 <InputWrap>
                     <input
                         type="text"
+                        name="title"
                         placeholder="제목을 입력하세요"
                         class="text-center"
                         onChange={handleChange}
@@ -57,6 +58,7 @@ function MeetingAdd(props) {
                     <InputWrap>
                         <textarea
                             placeholder="내용을 입력하세요 (내용 300자 내외)"
+                            name="content"
                             onChange={handleChange}
                             value={meeting.content}
                         ></textarea>
@@ -68,6 +70,7 @@ function MeetingAdd(props) {
                         type="text"
                         placeholder="오픈 채팅 링크 주소를 입력하세요"
                         class="text-center"
+                        name="chatlink"
                         onChange={handleChange}
                         value={meeting.chatlink}
                     />
