@@ -12,6 +12,7 @@ function Header({...props}) {
             navigate("/");
         });
     }
+    console.log("isAuth when redirected to homepage:", isAuth);
     return (
         <>
         <header className="w-full h-[120px] md:h-[82px] bg-white shadow">
