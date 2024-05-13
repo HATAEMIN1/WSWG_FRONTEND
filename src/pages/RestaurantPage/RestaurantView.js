@@ -7,7 +7,6 @@ import { Pagination } from 'swiper/modules';
 import { Swiper ,SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Modal } from "../../components/Modal/Modal";
 
 function RestaurantView(props) {
     const foodType = [
