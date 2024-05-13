@@ -49,23 +49,48 @@ function RestaurantList(props) {
     const { cateId } = useParams();
     const selectedCategory = category.find((item) => item.cateId === cateId);
     const [restaurantData, setRestaurantData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const limit = 6;
+    const [skip, setSkip] = useState(0);
+    const [hasMore, setHasMore] = useState(false);
     useEffect(() => {
-        async function restaurantInfo() {
-            try {
-                const res = await axiosInstance.get(`/restaurants/${cateId}`);
-                console.log(res.data);
-                setRestaurantData([...restaurantData, ...res.data.restaurant]);
-                console.log(restaurantData);
-                setTimeout(() => {
-                    setLoading(false);
-                }, 800);
-            } catch (e) {
-                console.log(e);
+        restaurantInfo({ skip, limit });
+    }, []);
+    async function restaurantInfo({ skip, limit, loadmore = false }) {
+        try {
+            const params = { skip, limit };
+            const res = await axiosInstance.get(`/restaurants/${cateId}`, {
+                params,
+            });
+            console.log(res.data);
+            setRestaurantData([...restaurantData, ...res.data.restaurant]);
+            console.log(restaurantData);
+            setRestaurantData(
+                loadmore
+                    ? [...restaurantData, ...res.data.restaurant]
+                    : res.data.restaurant
+            );
+            setHasMore(res.data.hasMore);
+            setLoading(false);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    const handleScroll = () => {
+        if (
+            window.innerHeight + document.documentElement.scrollTop >=
+            document.documentElement.offsetHeight - 100
+        ) {
+            if (!loading && hasMore) {
+                setLoading(true);
+                restaurantInfo({ skip: restaurantData.length, limit });
             }
         }
-        restaurantInfo();
-    }, []);
+    };
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [loading, hasMore]);
 
     return (
         <SectionWrap>

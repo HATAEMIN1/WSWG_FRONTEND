@@ -28,51 +28,49 @@ function RestaurantView(props) {
         { no: 5, name: "반려동물과 가볼까" },
         { no: 6, name: "혼밥 해볼까" },
     ];
-    const swiperImage = [
-        { image: "imageSample1" },
-        { image: "imageSample2" },
-        { image: "imageSample3" },
-        { image: "imageSample4" },
-    ];
-    const menuAndPrice = [
-        {
-            menu: "NY양념 모둠 갈비",
-            price: "48,800원",
-        },
-        {
-            menu: "갈릭 항정 수육",
-            price: "21,300원",
-        },
-        {
-            menu: "들기름 메밀국수",
-            price: "8,800원",
-        },
-        {
-            menu: "컵라면 볶음밥",
-            price: "13,000원",
-        },
-        {
-            menu: "쭈꾸미 떡볶이",
-            price: "16,000원",
-        },
-        {
-            menu: "트러플 감자전",
-            price: "15,800원",
-        },
-        {
-            menu: "바삭 새우 만두",
-            price: "13,800원",
-        },
-        {
-            menu: "호랑이 부대찌개",
-            price: "12,800원",
-        },
-    ];
+    // const swiperImage = [
+    //     { image: "imageSample1" },
+    //     { image: "imageSample2" },
+    //     { image: "imageSample3" },
+    //     { image: "imageSample4" },
+    // ];
+    // const menuAndPrice = [
+    //     {
+    //         menu: "NY양념 모둠 갈비",
+    //         price: "48,800원",
+    //     },
+    //     {
+    //         menu: "갈릭 항정 수육",
+    //         price: "21,300원",
+    //     },
+    //     {
+    //         menu: "들기름 메밀국수",
+    //         price: "8,800원",
+    //     },
+    //     {
+    //         menu: "컵라면 볶음밥",
+    //         price: "13,000원",
+    //     },
+    //     {
+    //         menu: "쭈꾸미 떡볶이",
+    //         price: "16,000원",
+    //     },
+    //     {
+    //         menu: "트러플 감자전",
+    //         price: "15,800원",
+    //     },
+    //     {
+    //         menu: "바삭 새우 만두",
+    //         price: "13,800원",
+    //     },
+    //     {
+    //         menu: "호랑이 부대찌개",
+    //         price: "12,800원",
+    //     },
+    // ];
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-
     const { cateId, rtId } = useParams();
-
     const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -88,11 +86,18 @@ function RestaurantView(props) {
         restaurantView();
     }, []);
     console.log(restaurantData);
+
+    const [visibleItems, setVisibleItems] = useState(6); // 초기에는 6개의 항목을 표시합니다.
+    const totalItems =
+        restaurantData.length > 0 ? restaurantData[0].menuAndPrice.length : 0;
+    const showMoreItems = () => {
+        setVisibleItems((prevCount) => prevCount + 6); // 기존의 항목 개수에 6을 추가합니다.
+    };
+
     const openModal = (image) => {
         setSelectedImage(image);
         setModalOpen(true);
     };
-
     const closeModal = () => {
         setSelectedImage(null);
         setModalOpen(false);
@@ -209,26 +214,34 @@ function RestaurantView(props) {
                 <div className="pt-[40px]">
                     <Title className={"titleListStt"}>메뉴</Title>
                     {restaurantData.length > 0 &&
-                        restaurantData[0].menuAndPrice.map((item, i) => {
-                            return (
-                                <ul
-                                    className="flex justify-between h-full items-center py-2"
-                                    key={i}
-                                >
-                                    <li className="pr-4">{item.menu}</li>
-                                    <li className="flex-auto h-full">
-                                        <span className="flex w-full border-dashed border-gray-300 border-b-[1px]"></span>
-                                    </li>
-                                    <li className="pl-4 font-bold">
-                                        {item.price}
-                                    </li>
-                                </ul>
-                            );
-                        })}
+                        restaurantData[0].menuAndPrice
+                            .slice(0, visibleItems)
+                            .map((item, i) => {
+                                return (
+                                    <ul
+                                        className="flex justify-between h-full items-center py-2"
+                                        key={i}
+                                    >
+                                        <li className="pr-4">{item.menu}</li>
+                                        <li className="flex-auto h-full">
+                                            <span className="flex w-full border-dashed border-gray-300 border-b-[1px]"></span>
+                                        </li>
+                                        <li className="pl-4 font-bold">
+                                            {item.price}
+                                        </li>
+                                    </ul>
+                                );
+                            })}
                     <ButtonWrap>
-                        <Button className={"lineButton"}>
-                            <i className="iconBasic iconMore">more</i> 더보기
-                        </Button>
+                        {visibleItems < totalItems && (
+                            <Button
+                                className={"lineButton"}
+                                onClick={showMoreItems}
+                            >
+                                <i className="iconBasic iconMore">more</i>{" "}
+                                더보기
+                            </Button>
+                        )}
                     </ButtonWrap>
                 </div>
                 {/* --- menu Price end */}
