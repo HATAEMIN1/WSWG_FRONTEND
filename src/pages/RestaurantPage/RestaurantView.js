@@ -30,6 +30,7 @@ function RestaurantView(props) {
         { no: 5, name: "반려동물과 가볼까" },
         { no: 6, name: "혼밥 해볼까" },
     ];
+
     // const swiperImage = [
     //     { image: "imageSample1" },
     //     { image: "imageSample2" },
@@ -70,6 +71,7 @@ function RestaurantView(props) {
     //         price: "12,800원",
     //     },
     // ];
+
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const { cateId, rtId } = useParams();
@@ -215,7 +217,9 @@ function RestaurantView(props) {
                 {/* --- restaurant info end */}
                 {/* menu Price start ---  */}
                 <div className="pt-[40px]">
+
                     <Title className={"titleComment"}>메뉴</Title>
+
                     {restaurantData.length > 0 &&
                         restaurantData[0].menuAndPrice
                             .slice(0, visibleItems)
