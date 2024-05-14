@@ -4,20 +4,20 @@ import Title from "../../components/Layout/Title";
 import InputWrap from "../../components/Form/Input";
 import { Button, ButtonWrap } from "../../components/Form/Button";
 import axiosInstance from "../../utils/axios";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 function MeetingAdd(props) {
     const [meeting, setMeeting] = useState({
         title: "",
         content: "",
-        chatlink: "",
+        chatLink: "",
     });
-
+    const userData = useSelector((state) => state.user.userData.user);
+    console.log(userData.id);
     const navigate = useNavigate();
 
     function handleChange(e) {
         const { name, value } = e.target;
-        console.log(value, name);
         setMeeting((prevState) => {
             return {
                 ...prevState,
@@ -30,22 +30,33 @@ function MeetingAdd(props) {
         e.preventDefault();
         const body = {
             ...meeting,
+            userId: userData.id,
         };
         try {
             await axiosInstance.post("/meet-posts", body);
-            navigate("/");
+
+            navigate("/meet-posts");
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
     }
-
+    const [modal, setModal] = useState(true);
     return (
         <SectionWrap>
+            <Title className={"titleComment"}>
+                <Link to="/meet-posts">
+                    <button className="flex items-center">
+                        <i className="btnBack">more</i> BACK
+                    </button>
+                </Link>
+            </Title>
+
             <form onSubmit={handleSubmit}>
                 <Title className={"titleComment"}>제목</Title>
                 <InputWrap>
                     <input
                         type="text"
+                        name="title"
                         placeholder="제목을 입력하세요"
                         class="text-center"
                         onChange={handleChange}
@@ -57,6 +68,7 @@ function MeetingAdd(props) {
                     <InputWrap>
                         <textarea
                             placeholder="내용을 입력하세요 (내용 300자 내외)"
+                            name="content"
                             onChange={handleChange}
                             value={meeting.content}
                         ></textarea>
@@ -68,8 +80,9 @@ function MeetingAdd(props) {
                         type="text"
                         placeholder="오픈 채팅 링크 주소를 입력하세요"
                         class="text-center"
+                        name="chatLink"
                         onChange={handleChange}
-                        value={meeting.chatlink}
+                        value={meeting.chatLink}
                     />
                 </InputWrap>
                 <div>
@@ -80,7 +93,7 @@ function MeetingAdd(props) {
                 </div>
                 <ButtonWrap>
                     <Button basicButton={true}>등록</Button>
-                    <Button basicButton={false}>취소</Button>
+                    <Link to="/meet-posts">취소</Link>
                 </ButtonWrap>
             </form>
         </SectionWrap>
