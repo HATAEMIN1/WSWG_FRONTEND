@@ -56,12 +56,13 @@ export const oauthLogin = createAsyncThunk(
     async (body, thunkAPI) => {
         try {
             localStorage.setItem("accessToken", body.accessToken);
-            const { email, name, _id, role } = body.user;
+            const { email, name, _id, role, image } = body.user;
             const userDataToStore = {
                 email,
                 name,
                 _id,
                 role,
+                image,
             };
 
             // Dispatch setUserData action to update Redux state with userData
