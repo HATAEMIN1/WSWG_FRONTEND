@@ -253,7 +253,7 @@ function RestaurantView(props) {
                 {/* --- menu Price end */}
                 {/* review List start --- */}
                 <ReviewList />
-
+                
             </SectionWrap>
         </>
     );
