@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axios";
 import { Button, ButtonWrap } from "../../components/Form/Button";
 import { IconStarView, IconWish } from "../../components/Form/Icon";
 import { SectionWrap } from "../../components/Layout/Section";
@@ -10,6 +9,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Modal } from "../../components/Modal/Modal";
 import ReviewList from "../ReviewPage/ReviewList";
+import { Link, useParams } from "react-router-dom";
+import axiosInstance from "../../utils/axios";
+import StarRating from "../../components/Form/StarRating";
+import login from "../LoginPage/Login";
 
 function RestaurantView(props) {
     const foodType = [
@@ -27,69 +30,92 @@ function RestaurantView(props) {
         { no: 5, name: "반려동물과 가볼까" },
         { no: 6, name: "혼밥 해볼까" },
     ];
-    const swiperImage = [
-        { image: "imageSample1" },
-        { image: "imageSample2" },
-        { image: "imageSample3" },
-        { image: "imageSample4" },
-    ];
-    const menuAndPrice = [
-        {
-            menu: "NY양념 모둠 갈비",
-            price: "48,800원",
-        },
-        {
-            menu: "갈릭 항정 수육",
-            price: "21,300원",
-        },
-        {
-            menu: "들기름 메밀국수",
-            price: "8,800원",
-        },
-        {
-            menu: "컵라면 볶음밥",
-            price: "13,000원",
-        },
-        {
-            menu: "쭈꾸미 떡볶이",
-            price: "16,000원",
-        },
-        {
-            menu: "트러플 감자전",
-            price: "15,800원",
-        },
-        {
-            menu: "바삭 새우 만두",
-            price: "13,800원",
-        },
-        {
-            menu: "호랑이 부대찌개",
-            price: "12,800원",
-        },
-    ];
+    // const swiperImage = [
+    //     { image: "imageSample1" },
+    //     { image: "imageSample2" },
+    //     { image: "imageSample3" },
+    //     { image: "imageSample4" },
+    // ];
+    // const menuAndPrice = [
+    //     {
+    //         menu: "NY양념 모둠 갈비",
+    //         price: "48,800원",
+    //     },
+    //     {
+    //         menu: "갈릭 항정 수육",
+    //         price: "21,300원",
+    //     },
+    //     {
+    //         menu: "들기름 메밀국수",
+    //         price: "8,800원",
+    //     },
+    //     {
+    //         menu: "컵라면 볶음밥",
+    //         price: "13,000원",
+    //     },
+    //     {
+    //         menu: "쭈꾸미 떡볶이",
+    //         price: "16,000원",
+    //     },
+    //     {
+    //         menu: "트러플 감자전",
+    //         price: "15,800원",
+    //     },
+    //     {
+    //         menu: "바삭 새우 만두",
+    //         price: "13,800원",
+    //     },
+    //     {
+    //         menu: "호랑이 부대찌개",
+    //         price: "12,800원",
+    //     },
+    // ];
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const { cateId, rtId } = useParams();
+    const [restaurantData, setRestaurantData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        async function restaurantView() {
+            const res = await axiosInstance.get(
+                `/restaurants/${cateId}/${rtId}`
+            );
+            setRestaurantData([...restaurantData, res.data.restaurant]);
+            setTimeout(() => {
+                setLoading(false);
+            }, 800);
+        }
+        restaurantView();
+    }, []);
+    console.log(restaurantData);
+
+    const [visibleItems, setVisibleItems] = useState(6);
+    const totalItems =
+        restaurantData.length > 0 ? restaurantData[0].menuAndPrice.length : 0;
+    const showMoreItems = () => {
+        setVisibleItems((prevCount) => prevCount + 6);
+    };
 
     const openModal = (image) => {
         setSelectedImage(image);
         setModalOpen(true);
     };
-
     const closeModal = () => {
         setSelectedImage(null);
         setModalOpen(false);
     };
-
-    useEffect(() => {
-        axiosInstance.get();
-    }, []);
 
     return (
         <>
             <SectionWrap>
                 <Title className={"titleComment"}>
                     <button className="flex items-center">
-                        <i className="btnBack">more</i> 뒤로가기
+                        <Link
+                            to={`/mate/${cateId}`}
+                            className="flex justify-center items-center"
+                        >
+                            <i className="btnBack">more</i> 뒤로가기
+                        </Link>
                     </button>
                 </Title>
                 {/* restaurant info start--- */}
@@ -104,37 +130,41 @@ function RestaurantView(props) {
                                 modules={[Pagination]}
                                 className="mySwiper swiperView"
                             >
-                                {swiperImage.map((item, i) => {
-                                    return (
-                                        <SwiperSlide key={i}>
-                                            <div className="bgLayer"></div>
-                                            <img
-                                                src={`${process.env.PUBLIC_URL}/images/${item.image}.png`}
-                                            />
-                                        </SwiperSlide>
-                                    );
-                                })}
+                                {restaurantData.length > 0 &&
+                                    restaurantData[0].image
+                                        .slice(2)
+                                        .map((item, i) => {
+                                            return (
+                                                <SwiperSlide key={i}>
+                                                    <div className="bgLayer"></div>
+                                                    <img src={`${item}`} />
+                                                </SwiperSlide>
+                                            );
+                                        })}
                             </Swiper>
                         </div>
                         <div className="flex flex-wrap">
-                            <h4>호족반 도산공원점</h4>
+                            {restaurantData.length > 0 && (
+                                <h4>{restaurantData[0].name}</h4>
+                            )}
                             <ul>
-                                <li>{foodType[2].name}</li>
+                                <li>
+                                    {restaurantData.length > 0 &&
+                                        restaurantData[0].category[0].foodtype}
+                                </li>
                                 <li className="flex">
-                                    평점
-                                    <span className="flex">
-                                        <IconStarView className={"active"}>
-                                            별
-                                        </IconStarView>
-                                        <IconStarView className={"active"}>
-                                            별
-                                        </IconStarView>
-                                        <IconStarView className={"active"}>
-                                            별
-                                        </IconStarView>
-                                        <IconStarView>별</IconStarView>
-                                        <IconStarView>별</IconStarView>
-                                    </span>
+                                    {restaurantData.length > 0 && (
+                                        <>
+                                            <span className="flex-none">
+                                                평점:{" "}
+                                            </span>
+                                            <StarRating
+                                                rating={
+                                                    restaurantData[0].rating
+                                                }
+                                            ></StarRating>
+                                        </>
+                                    )}
                                 </li>
                             </ul>
                             <div className="flex textBox">
@@ -154,8 +184,10 @@ function RestaurantView(props) {
                 </div>
                 <div className="flex justify-start gap-[20px] py-[20px]">
                     <div className="flex gap-2">
-                        <i className="iconTypeStore iconStoreLoc">local</i>{" "}
-                        서울특별시 강남구 신사동 646-23
+                        <i className="iconTypeStore iconStoreLoc">local</i>
+                        {restaurantData.length > 0 && (
+                            <>{restaurantData[0].address}</>
+                        )}
                     </div>
                     <div className="flex gap-2">
                         <i className="iconTypeStore iconStoreTel">tel</i>{" "}
@@ -184,30 +216,41 @@ function RestaurantView(props) {
                 {/* menu Price start ---  */}
                 <div className="pt-[40px]">
                     <Title className={"titleListStt"}>메뉴</Title>
-                    {menuAndPrice.map((item, i) => {
-                        return (
-                            <ul
-                                className="flex justify-between h-full items-center py-2"
-                                key={i}
-                            >
-                                <li className="pr-4">{item.menu}</li>
-                                <li className="flex-auto h-full">
-                                    <span className="flex w-full border-dashed border-gray-300 border-b-[1px]"></span>
-                                </li>
-                                <li className="pl-4 font-bold">{item.price}</li>
-                            </ul>
-                        );
-                    })}
+                    {restaurantData.length > 0 &&
+                        restaurantData[0].menuAndPrice
+                            .slice(0, visibleItems)
+                            .map((item, i) => {
+                                return (
+                                    <ul
+                                        className="flex justify-between h-full items-center py-2"
+                                        key={i}
+                                    >
+                                        <li className="pr-4">{item.menu}</li>
+                                        <li className="flex-auto h-full">
+                                            <span className="flex w-full border-dashed border-gray-300 border-b-[1px]"></span>
+                                        </li>
+                                        <li className="pl-4 font-bold">
+                                            {item.price}
+                                        </li>
+                                    </ul>
+                                );
+                            })}
                     <ButtonWrap>
-                        <Button className={"lineButton"}>
-                            <i className="iconBasic iconMore">more</i> 더보기
-                        </Button>
+                        {visibleItems < totalItems && (
+                            <Button
+                                className={"lineButton"}
+                                onClick={showMoreItems}
+                            >
+                                <i className="iconBasic iconMore">more</i>{" "}
+                                더보기
+                            </Button>
+                        )}
                     </ButtonWrap>
                 </div>
                 {/* --- menu Price end */}
                 {/* review List start --- */}
-
                 <ReviewList />
+
             </SectionWrap>
         </>
     );
