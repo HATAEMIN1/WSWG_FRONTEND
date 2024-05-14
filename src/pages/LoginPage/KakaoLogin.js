@@ -63,6 +63,7 @@ const KakaoLogin = () => {
                                 name: existingUser.name,
                                 _id: existingUser._id,
                                 role: existingUser.role,
+                                image: existingUser.image,
                             },
                             accessToken,
                         };
