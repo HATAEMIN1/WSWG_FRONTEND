@@ -217,7 +217,8 @@ function RestaurantView(props) {
                 {/* --- restaurant info end */}
                 {/* menu Price start ---  */}
                 <div className="pt-[40px]">
-                    <Title className={"titleListStt"}>메뉴</Title>
+
+                    <Title className={"titleComment"}>메뉴</Title>
 
                     {restaurantData.length > 0 &&
                         restaurantData[0].menuAndPrice
@@ -252,8 +253,8 @@ function RestaurantView(props) {
                 </div>
                 {/* --- menu Price end */}
                 {/* review List start --- */}
-                <ReviewList />
 
+                <ReviewList />
             </SectionWrap>
         </>
     );
