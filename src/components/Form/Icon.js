@@ -50,6 +50,16 @@ function IconStar({className,lineStar,...props}) {
     </>
   )
 }
+function IconStarView({className,lineStar,...props}) {
+    let cssClasses = lineStar ? 'whiteLine' : '';
+    cssClasses += ' ' + className
+    
+  return (
+    <>
+        <Star className={`${cssClasses}`} {...props}>&#9733;</Star>
+    </>
+  )
+}
 function IconWish ({className,...props}) {
     const [btnActive, setBtnActive] = useState(false);
     function clickStar() {
@@ -62,4 +72,4 @@ function IconWish ({className,...props}) {
   )
 }
 
-export {IconStar, IconWish}
+export {IconStar, IconWish , IconStarView }
