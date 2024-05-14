@@ -30,9 +30,13 @@ function MeetingList(props) {
                     {meetingAdd.map((meeting, index) => {
                         return (
                             <>
-                                <div key={index}>{meeting.title}</div>
-                                <div key={index}>{meeting.content}</div>
-                                <div key={index}>{meeting.chatLink}</div>
+                                <div key={index}>title: {meeting.title}</div>
+                                <div key={index}>
+                                    content: {meeting.content}
+                                </div>
+                                <div key={index}>
+                                    chatLink: {meeting.chatLink}
+                                </div>
                             </>
                         );
                     })}
