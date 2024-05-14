@@ -7,6 +7,8 @@ import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
+import { Modal } from "../../components/Modal/Modal";
+import ReviewList from "../ReviewPage/ReviewList";
 import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
@@ -78,6 +80,7 @@ function RestaurantView(props) {
         setSelectedImage(null);
         setModalOpen(false);
     };
+
     return (
         <>
             <SectionWrap>
@@ -188,7 +191,9 @@ function RestaurantView(props) {
                 {/* --- restaurant info end */}
                 {/* menu Price start ---  */}
                 <div className="pt-[40px]">
-                    <Title className={"titleListStt"}>메뉴</Title>
+
+                    <Title className={"titleComment"}>메뉴</Title>
+
                     {restaurantData.length > 0 &&
                         restaurantData[0].menuAndPrice
                             .slice(0, visibleItems)
@@ -222,108 +227,8 @@ function RestaurantView(props) {
                 </div>
                 {/* --- menu Price end */}
                 {/* review List start --- */}
-                <div className="flex justify-between pt-[60px]">
-                    <Title className={"titleListStt"}>리뷰</Title>
-                    <Button className={"lineSmallButton"}>
-                        <i className="iconSmall iconWriter">writer</i> 나도
-                        작성해 볼까
-                    </Button>
-                </div>
-                {/* list 반복 */}
-                <div className="flex reviewListWrap gap-5">
-                    <div className="flex-none imgWrap">
-                        <img
-                            src={`${process.env.PUBLIC_URL}/images/imageSample1.png`}
-                        />
-                    </div>
-                    <div className="flex flex-col justify-between py-[10px]">
-                        <ul className="textWrap">
-                            <li className="name">우주여신 최보람</li>
-                            <li className="content w-full ">
-                                정말 오래 기다려서 먹었습니다. 그런데 너무
-                                맛있네요. 왜기다리는지 알겠어요. 정말 여기서만
-                                먹을 수 있는 음식이란 생각이네요. 왜기다리는지
-                                알겠어요. 정말 여기서만 먹을 수 있는 음식이란
-                                생각이네요.
-                            </li>
-                            <li className="flex">
-                                평점
-                                <span className="flex">
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView>별</IconStarView>
-                                    <IconStarView>별</IconStarView>
-                                </span>
-                            </li>
-                        </ul>
-                        <div className="flex justify-between">
-                            <div className="flex items-center gap-2">
-                                <span className="hashBox">#보쌈</span>
-                                <span className="hashBox">#족발</span>
-                            </div>
-                            <div>
-                                <button
-                                    className="iconTrash"
-                                    alt="삭제"
-                                ></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* list 반복 */}
-                {/* list 반복 */}
-                <div className="flex reviewListWrap gap-5">
-                    <div className="flex-none imgWrap"></div>
-                    <div className="flex flex-col justify-between py-[10px]">
-                        <ul className="textWrap">
-                            <li className="name">우주여신 최보람</li>
-                            <li className="content w-full ">
-                                정말 오래 기다려서 먹었습니다. 그런데 너무
-                                맛있네요. 왜기다리는지 알겠어요. 정말 여기서만
-                                먹을 수 있는 음식이란 생각이네요. 왜기다리는지
-                                알겠어요. 정말 여기서만 먹을 수 있는 음식이란
-                                생각이네요.
-                            </li>
-                            <li className="flex">
-                                평점
-                                <span className="flex">
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView>별</IconStarView>
-                                    <IconStarView>별</IconStarView>
-                                </span>
-                            </li>
-                        </ul>
-                        <div className="flex justify-between">
-                            <div className="flex items-center gap-2">
-                                <span className="hashBox">#보쌈</span>
-                                <span className="hashBox">#족발</span>
-                            </div>
-                            <div>
-                                <button
-                                    className="iconTrash"
-                                    alt="삭제"
-                                ></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* list 반복 */}
-                {/* --- review List end */}
+
+                <ReviewList />
             </SectionWrap>
         </>
     );
