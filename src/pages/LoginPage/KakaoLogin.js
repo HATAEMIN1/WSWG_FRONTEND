@@ -68,7 +68,7 @@ const KakaoLogin = () => {
                             accessToken,
                         };
                         dispatch(oauthLogin(body));
-                        dispatch(setAuth(true)); // update isAuth in Redux store to true
+                        // dispatch(setAuth(true)); // update isAuth in Redux store to true
                         alert("로그인 성공");
                         navigate("/");
                     }

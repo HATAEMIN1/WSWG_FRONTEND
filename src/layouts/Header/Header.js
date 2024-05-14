@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/thunkFunctions";
-import { setAuth } from "../../store/userSlice";
+// import { setAuth } from "../../store/userSlice";
 
 function Header({ ...props }) {
     const isAuth = useSelector((state) => state.user.isAuth);
@@ -10,7 +10,7 @@ function Header({ ...props }) {
 
     function handleLogout() {
         dispatch(logoutUser()).then(() => {
-            dispatch(setAuth(false));
+            // dispatch(setAuth(false));
             alert("로그아웃");
             navigate("/");
         });
@@ -47,7 +47,7 @@ function Header({ ...props }) {
                     <div className="flex-none userProfile pt-1 md:pt-0">
                         {isAuth ? (
                             <div className="flex w-[150px] gap-4 justify-center items-center">
-                                <Link to="/account/:userId">
+                                <Link to="/account">
                                     <img
                                         src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
                                         alt="profileImage"

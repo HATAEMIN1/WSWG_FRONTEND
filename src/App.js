@@ -139,17 +139,10 @@ function App() {
                         path="/meet-posts/:mpId"
                         element={<MeetingView />}
                     ></Route>
+                    <Route path="/account" element={<Account />}></Route>
                     <Route
-                        path="/account/:userId"
-                        element={<Account />}
-                    ></Route>
-                    <Route
-                        path="/account/:userId/edit"
+                        path="/account/edit"
                         element={<AccountEdit />}
-                    ></Route>
-                    <Route
-                        path="/account/:userId/pwd-edit"
-                        element={<AccountPwdEdit />}
                     ></Route>
                 </Route>
                 <Route element={<LayoutEtc />}>

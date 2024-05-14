@@ -2,7 +2,8 @@ import { useSelector } from "react-redux";
 
 function Account() {
     const isAuth = useSelector((state) => state.user.isAuth);
-    const userData = useSelector((state) => state.user.userData.user);
+
+    const userData = useSelector((state) => state?.user?.userData?.user);
 
     console.log("isAuth from account", isAuth);
 
@@ -26,7 +27,7 @@ function Account() {
                             </div>
                             <div className="grow shrink basis-0 flex-col justify-start items-start gap-[26px] inline-flex">
                                 <>
-                                    {userData && (
+                                    {userData?.email && (
                                         <>
                                             <div className="self-stretch h-12 flex-col justify-start items-start gap-2.5 flex">
                                                 <div className="self-stretch text-zinc-800 text-base font-semibold">

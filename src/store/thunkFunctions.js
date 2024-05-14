@@ -25,23 +25,9 @@ export const loginUser = createAsyncThunk(
     async (body, thunkAPI) => {
         try {
             const res = await axiosInstance.post("/users/login", body);
-            // console.log("res.data.user after login in thunkapi", res.data.user);
-            localStorage.setItem("accessToken", res.data.accessToken);
-            const { email, name, _id, role } = res.data.user;
-            const userDataToStore = {
-                email,
-                name,
-                _id,
-                role,
-            };
 
-            // Dispatch setUserData action to update Redux state with userData
-            thunkAPI.dispatch(setUserData(userDataToStore));
-            // console.log(localStorage.getItem("user"));
-
-            // localStorage.setItem("user", JSON.stringify(userDataToStore));
             console.log("thunkapi 로그인");
-            return res.data;
+            return res.data; // userSlice builder로 간다 여기서 res.data는 userslice builder에서 'action' 으로 넘어간다
         } catch (error) {
             console.log(error);
             return thunkAPI.rejectWithValue(
@@ -55,26 +41,12 @@ export const oauthLogin = createAsyncThunk(
     "user/oauthLogin",
     async (body, thunkAPI) => {
         try {
-            localStorage.setItem("accessToken", body.accessToken);
-            const { email, name, _id, role, image } = body.user;
-            const userDataToStore = {
-                email,
-                name,
-                _id,
-                role,
-                image,
-            };
-
-            // Dispatch setUserData action to update Redux state with userData
-            thunkAPI.dispatch(setUserData(userDataToStore));
-            // console.log(localStorage.getItem("user"));
-
-            // localStorage.setItem("user", JSON.stringify(userDataToStore));
-            console.log("thunkapi 카카오로그인");
-            return;
+            console.log("thunkapi oauth로그인");
+            return body;
         } catch (error) {
             console.log(error);
             return thunkAPI.rejectWithValue(
+                // action 값으로 넘어감
                 error.response.data || error.message
             );
         }
@@ -104,6 +76,7 @@ export const logoutUser = createAsyncThunk(
             await axiosInstance.post(`/users/logout`);
             thunkAPI.dispatch(setUserData(null));
             localStorage.removeItem("accessToken");
+            // 마찬가지로 끝나면 return 없이도 userSlice builder로 간다
         } catch (error) {
             console.log(error);
             return thunkAPI.rejectWithValue(
