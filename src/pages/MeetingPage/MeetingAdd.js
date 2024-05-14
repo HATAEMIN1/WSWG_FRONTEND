@@ -10,7 +10,7 @@ function MeetingAdd(props) {
     const [meeting, setMeeting] = useState({
         title: "",
         content: "",
-        chatlink: "",
+        chatLink: "",
     });
 
     const navigate = useNavigate();
@@ -30,6 +30,7 @@ function MeetingAdd(props) {
         e.preventDefault();
         const body = {
             ...meeting,
+            chatLink: meeting.chatlink,
         };
         try {
             await axiosInstance.post("/meet-posts", body);
@@ -70,9 +71,9 @@ function MeetingAdd(props) {
                         type="text"
                         placeholder="오픈 채팅 링크 주소를 입력하세요"
                         class="text-center"
-                        name="chatlink"
+                        name="chatLink"
                         onChange={handleChange}
-                        value={meeting.chatlink}
+                        value={meeting.chatLink}
                     />
                 </InputWrap>
                 <div>
