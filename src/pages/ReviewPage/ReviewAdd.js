@@ -7,6 +7,7 @@ import axiosInstance from "../../utils/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { SectionWrap } from "../../components/Layout/Section";
 import { useSelector } from "react-redux";
+
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
     // console.log(cateId);

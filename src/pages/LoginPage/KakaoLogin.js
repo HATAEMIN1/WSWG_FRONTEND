@@ -63,6 +63,7 @@ const KakaoLogin = () => {
                                 name: existingUser.name,
                                 _id: existingUser._id,
                                 role: existingUser.role,
+                                image: existingUser.image,
                             },
                             accessToken,
                         };
@@ -93,7 +94,7 @@ const KakaoLogin = () => {
     return (
         <button
             onClick={LoginWithKakao}
-            className="w-[400px] h-6 px-2.5 py-[5px] mb-10 rounded-[12px] block"
+            className="w-[400px] px-2.5 mb-3 rounded-[12px] text-[40px] block"
         >
             <img src="./images/kakao_login_large_wide.png" alt="kakao login" />
         </button>

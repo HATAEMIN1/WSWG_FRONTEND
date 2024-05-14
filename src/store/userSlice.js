@@ -32,6 +32,7 @@ const userSlice = createSlice({
         setUserData(state, action) {
             state.userData = action.payload;
         },
+        // should I create setUserProfileImage here?
     },
     extraReducers: (builder) => {
         builder
