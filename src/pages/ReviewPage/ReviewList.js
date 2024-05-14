@@ -5,56 +5,23 @@ import Title from "../../components/Layout/Title";
 import { SectionWrap } from "../../components/Layout/Section";
 import { Button, ButtonWrap } from "../../components/Form/Button";
 import { IconStarView, IconWish } from "../../components/Form/Icon";
-import jQuery from "jquery";
 
 function ReviewList(props) {
     const { cateId, rtId } = useParams();
-    const [reviewAdd, setReviewAdd] = useState([]);
+    const [reviewList, setReviewList] = useState([]);
 
-    // const limit = 5;
-    // const [skip, setSkip] = useState(0);
-    // const [hasMore, setHasMore] = useState(false);
-
-    const fetchReviewAdd = async () =>
-        // {
-        //     // skip, //스크롤햇을때앞의데이터를skip하고뒤에데이터만가져옴
-        //     // limit, //스크롤했을때 다음으로 불러오는 데이터 갯수
-        //     // loadMore = false,
-        // }
-        {
-            // const params = {
-            //     skip,
-            //     limit,
-            // };
-            try {
-                const res = await axiosInstance.get("/review-posts");
-                console.log(res.data);
-
-                // if (loadMore) {
-                //     setReview([...review, ...res.data.review]);
-                // } else {
-                setReviewAdd(res.data.review);
-                // }
-                // setHasMore(res.data.hasMore);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
+    const fetchReviewList = async () => {
+        try {
+            const res = await axiosInstance.get("/review-posts");
+            console.log(res.data);
+            setReviewList(res.data.review);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     useEffect(() => {
-        fetchReviewAdd();
+        fetchReviewList();
     }, []);
-
-    // function handelLoadMore() {
-    //     const body = {
-    //         skip: skip + limit,
-    //         limit,
-    //         loadMore: true,
-    //     };
-    //     fetchReviews(body);
-    //     setSkip(Number(skip) + Number(limit));
-    // }
-
     return (
         <SectionWrap>
             <form>
@@ -162,14 +129,12 @@ function ReviewList(props) {
                     </div>
                 </div>
 
-                {reviewAdd && reviewAdd.length > 0 && (
+                {reviewList && reviewList.length > 0 && (
                     <div>
-                        {reviewAdd.map((review, index) => {
+                        {reviewList.map((review, index) => {
                             return (
                                 <>
-                                    <div key={index}>{review.rtId}</div>
-                                    <div key={index}>{review.cateId}</div>
-                                    <div key={index}>{review.content}</div>
+                                    <div key={index}>{review.user.name}</div>
                                 </>
                             );
                         })}
