@@ -160,7 +160,7 @@ function RestaurantView(props) {
                 {/* list 반복 */}
                 <div className="flex reviewListWrap gap-5">
                     <div className="flex-none imgWrap"><img src={`${process.env.PUBLIC_URL}/images/imageSample1.png`} /></div>
-                    <div className="flex flex-col justify-between py-[10px]">
+                    <div className="flex w-full  flex-col justify-between py-[10px]">
                         <ul className="textWrap">
                             <li className="name">우주여신 최보람</li>
                             <li className="content w-full ">정말 오래 기다려서 먹었습니다. 그런데 너무 맛있네요. 왜기다리는지 알겠어요. 정말 여기서만 먹을 수 있는 음식이란 생각이네요. 왜기다리는지 알겠어요. 정말 여기서만 먹을 수 있는 음식이란 생각이네요.</li>
@@ -187,10 +187,10 @@ function RestaurantView(props) {
                 {/* list 반복 */}
                 <div className="flex reviewListWrap gap-5">
                     <div className="flex-none imgWrap"></div>
-                    <div className="flex flex-col justify-between py-[10px]">
+                    <div className="w-full flex flex-col justify-between py-[10px]">
                         <ul className="textWrap">
                             <li className="name">우주여신 최보람</li>
-                            <li className="content w-full ">정말 오래 기다려서 먹었습니다. 그런데 너무 맛있네요. 왜기다리는지 알겠어요. 정말 여기서만 먹을 수 있는 음식이란 생각이네요. 왜기다리는지 알겠어요. 정말 여기서만 먹을 수 있는 음식이란 생각이네요.</li>
+                            <li className="content w-full">정말 오래 기다려서 먹었습니다. 그런데 너무 맛있네요.</li>
                             <li className="flex">평점
                                 <span className="flex">
                                     <IconStarView className={"active"}>별</IconStarView>

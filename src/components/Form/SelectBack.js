@@ -1,7 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useState } from 'react';
 import $ from 'jquery';
-
+function SelectOption({ options, onSelect }) {
+    return (
+      <ul className="option">
+        {options.map((option, index) => (
+          <li key={index} data-value={option.name} onClick={() => onSelect(option.name)}>
+            {option.name}
+          </li>
+        ))}
+      </ul>
+    );
+  }
 function SelectDiv({props}) {
+    const [selectedValues, setSelectedValues] = useState({ 광역시도: '', 시도군: '', 읍면동: '' });
+    const handleSelect = (name, value) => {
+        setSelectedValues(prevState => ({ ...prevState, [name]: value }));
+    };
     useEffect(() => {
         function selectCus() {
             $('.select_cus').each(function() {
@@ -47,15 +61,29 @@ function SelectDiv({props}) {
 
         selectCus();
     }, []);
-    const region = [
+    const region1 = [
         {
             name:"서울",
             region2 : [
                 {
-                    name:"종로구",
+                    region2Name:"종로구",
                     region3 : [
                         {
-                            name:"종로1가"
+                            region2Name:"종로1가"
+                        },
+                    ]
+                },
+            ]
+
+        },
+        {
+            name:"경기도",
+            region2 : [
+                {
+                    region2Name:"종로구",
+                    region3 : [
+                        {
+                            region2Name:"종로1가"
                         },
                     ]
                 },
@@ -65,50 +93,18 @@ function SelectDiv({props}) {
     ]
 
     return (
-        <div className="selectbox">
-            <div className="select_cus">
-                <input type="hidden" className="opt_val" value="" />
-                <div className="trigger">
-                    <span className="trigger_txt">광역시도</span>
-                </div>
-                <ul className="option">
-                    <li data-value="">광역시도</li>
-                    {region.map((item, index) => {
-                        return (
-                            <li key={index} data-value={item.name}>{item.name}</li>
-                        )
-                    })}
-                </ul>
-            </div>
-            <div className="select_cus">
-                <input type="hidden" className="opt_val" value="" />
-                <div className="trigger">
-                    <span className="trigger_txt">시도군</span>
-                </div>
-                <ul className="option">
-                    <li data-value="">시도군</li>
-                    {region.map((item, index) => {
-                        return (
-                            <li key={index} data-value={item.name}>{item.name}</li>
-                        )
-                    })}
-                </ul>
-            </div>
-            <div className="select_cus">
-                <input type="hidden" className="opt_val" value="" />
-                <div className="trigger">
-                    <span className="trigger_txt">읍면동</span>
-                </div>
-                <ul className="option">
-                    <li data-value="">읍면동</li>
-                    <li data-value="option1">옵션 1번입니다.</li>
-                    <li data-value="option2">옵션 2번입니다.</li>
-                    <li data-value="option3">옵션 3번입니다.</li>
-                    <li data-value="option4">옵션 4번입니다.</li>
-                    <li data-value="option5">옵션 5번입니다.</li>
-                </ul>
-            </div>
+
+    <div className="selectbox">
+      {Object.keys(selectedValues).map((name, index) => (
+        <div className="select_cus" key={index}>
+          <input type="hidden" className="opt_val" value={selectedValues[name]} />
+          <div className="trigger">
+            <span className="trigger_txt">{name}</span>
+          </div>
+          <SelectOption options={region1.map(item => ({ name: item.name }))} onSelect={value => handleSelect(name, value)} />
         </div>
+      ))}
+    </div>
     );
 }
 

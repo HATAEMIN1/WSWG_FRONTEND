@@ -13,6 +13,9 @@ const Star = styled.i`
     background-repeat: no-repeat;
     background-size: 100%;
     font-size: 0;
+    &.starline {
+        background: url("${starLine}");
+    }
     &.active {
         background: url("${starActive}");
     }
