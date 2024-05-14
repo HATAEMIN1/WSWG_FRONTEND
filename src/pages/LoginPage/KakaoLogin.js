@@ -3,7 +3,10 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { oauthLogin } from "../../store/thunkFunctions";
+import { setAuth } from "../../store/userSlice";
 
 const KakaoLogin = () => {
     const [searchParams] = useSearchParams();
@@ -14,8 +17,9 @@ const KakaoLogin = () => {
 &redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}
 &response_type=code`;
     const code = searchParams.get("code");
-    const [loggedIn, setLoggedIn] = useState(false);
-    console.log("kakao oauth - code from query string", code);
+    const dispatch = useDispatch();
+    // console.log("kakao oauth - code from query string", code);
+
     useEffect(() => {
         const fetchAccessToken = async () => {
             try {
@@ -50,7 +54,20 @@ const KakaoLogin = () => {
                     );
                     console.log("userDataResponse", userDataResponse);
                     if (userDataResponse.status === 200) {
-                        setLoggedIn(true);
+                        const accessToken = userDataResponse.data.accessToken;
+                        const existingUser = userDataResponse.data.existingUser;
+
+                        const body = {
+                            user: {
+                                email: existingUser.email,
+                                name: existingUser.name,
+                                _id: existingUser._id,
+                                role: existingUser.role,
+                            },
+                            accessToken,
+                        };
+                        dispatch(oauthLogin(body));
+                        dispatch(setAuth(true)); // update isAuth in Redux store to true
                         alert("로그인 성공");
                         navigate("/");
                     }
@@ -74,17 +91,12 @@ const KakaoLogin = () => {
     // 받기 위한 요청을 보낸다.
     // 2. 사용자의 인증과 동의를 보내면 authentication code 인가 코드를 비로소 받는다.
     return (
-        !loggedIn && (
-            <button
-                onClick={LoginWithKakao}
-                className="w-[400px] h-6 px-2.5 py-[5px] mb-10 rounded-[12px] block"
-            >
-                <img
-                    src="./images/kakao_login_large_wide.png"
-                    alt="kakao login"
-                />
-            </button>
-        )
+        <button
+            onClick={LoginWithKakao}
+            className="w-[400px] h-6 px-2.5 py-[5px] mb-10 rounded-[12px] block"
+        >
+            <img src="./images/kakao_login_large_wide.png" alt="kakao login" />
+        </button>
     );
 };
 

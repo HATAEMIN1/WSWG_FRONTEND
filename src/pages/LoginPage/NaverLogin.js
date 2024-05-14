@@ -1,7 +1,9 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
-import axios from "axios";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../store/userSlice";
+import { oauthLogin } from "../../store/thunkFunctions";
 
 const NaverLogin = () => {
     const [searchParams] = useSearchParams();
@@ -16,6 +18,8 @@ const NaverLogin = () => {
     const code = searchParams.get("code");
     console.log("naver oauth - code from query string", code);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchAccessToken = async () => {
             try {
@@ -26,8 +30,23 @@ const NaverLogin = () => {
                             code,
                         }
                     );
+                    // get accessToken and userData from existingUser from userDataResponse
                     console.log("userDataResponse", userDataResponse);
                     if (userDataResponse.status === 200) {
+                        const accessToken = userDataResponse.data.accessToken;
+                        const existingUser = userDataResponse.data.existingUser;
+
+                        const body = {
+                            user: {
+                                email: existingUser.email,
+                                name: existingUser.name,
+                                _id: existingUser._id,
+                                role: existingUser.role,
+                            },
+                            accessToken,
+                        };
+                        dispatch(oauthLogin(body));
+                        dispatch(setAuth(true));
                         alert("로그인 성공");
                         navigate("/");
                     }
