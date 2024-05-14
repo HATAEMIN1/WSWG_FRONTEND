@@ -7,11 +7,14 @@ import axiosInstance from "../../utils/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { SectionWrap } from "../../components/Layout/Section";
 import { useSelector } from "react-redux";
+import { IconStar } from "../../components/Form/Icon";
+import { Link } from "react-router-dom";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
-    // console.log(cateId);
-    // console.log(rtId);
+
+    console.log(cateId);
+    console.log(rtId);
 
     // const userDataString = localStorage.getItem("persist:root").split("\\");
     // const userId = userDataString[7].slice(1);
@@ -19,6 +22,8 @@ function ReviewAdd(props) {
     // // const userId = window.localStorage.getItem("persist:root");
     // console.log(userId);
     const userData = useSelector((state) => state.user.userData.user);
+    console.log(userData);
+
     const [text, setText] = useState({
         title: "",
         content: "",
@@ -44,12 +49,12 @@ function ReviewAdd(props) {
         e.preventDefault();
         const body = {
             ...text,
-            rtId,
-            cateId,
+            restId: rtId,
             userId: userData.id,
         };
         try {
             await axiosInstance.post("/review-posts", body);
+            // alert("완료");
             navigate(`/mate/${cateId}/restaurants/${rtId}`);
         } catch (error) {
             console.log(error);
@@ -83,18 +88,12 @@ function ReviewAdd(props) {
                     <Title className={"titleComment"}>
                         <label htmlFor="hashtag">해시태그</label>
                     </Title>
-                    <InputWrap
-                        id="hashtag"
-                        name="hashtag"
-                        className="inputContainer iconHash"
-                    >
+                    <InputWrap className="inputContainer iconHash">
                         <input
                             type="text"
-                            id="hashtag"
+                            placeholder="해시태그입력"
                             className="text-left"
                             onChange={handleChange}
-                            name="hashtag"
-                            value={text.hashtag}
                         />
                     </InputWrap>
                 </div>
@@ -112,6 +111,13 @@ function ReviewAdd(props) {
                             value={text.rating}
                         />
                     </InputWrap>
+                    {/* <div className="flex">
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                    </div> */}
                 </div>
                 <div className="mb-10">
                     <div>
@@ -151,8 +157,9 @@ function ReviewAdd(props) {
                 <div className="mb-32">
                     <ButtonWrap>
                         <Button basicButton={true}>등록</Button>
-                        <Button basicButton={true}>취소</Button>
-                        {/* <Button basicButton={false}>취소</Button> */}
+                        <Link to={`/mate/${cateId}/restaurants/${rtId}`}>
+                            취소
+                        </Link>
                     </ButtonWrap>
                 </div>
             </form>
