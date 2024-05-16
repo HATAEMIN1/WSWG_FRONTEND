@@ -13,7 +13,8 @@ import { useEffect } from "react";
 // import store from "./path/to/your/store";
 
 function ReviewAdd(props) {
-    const userData = useSelector((state) => state.user.userData.user);
+    const { cateId, rtId } = useParams();
+    const userData = useSelector((state) => state.user.userData);
     const [text, setText] = useState({
         title: "",
         content: "",
