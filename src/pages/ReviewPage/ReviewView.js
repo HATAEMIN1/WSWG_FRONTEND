@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../../components/Layout/Title";
 import { SectionWrap } from "../../components/Layout/Section";
 import { IconStar, IconWish } from "../../components/Form/Icon";
+import axiosInstance from "../../utils/axios";
+import StarRating from "../../components/Form/StarRating";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-function ReviewView() {
+function ReviewView(props) {
+    const { rpId, rtId } = useParams();
+    const [review, setReview] = useState();
+    // const [modalOpen, setModalOpen] = useState(false);
+    // const [selectedImage, setSelectedImage] = useState(null);
+
     return (
         <SectionWrap>
             <form>
