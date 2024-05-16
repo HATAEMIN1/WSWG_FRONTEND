@@ -101,7 +101,7 @@ function RestaurantList(props) {
                 {restaurantData.map((item, index) => {
                     return (
                         <div
-                            key={index}
+                            key={`restaurantData-${index}`}
                             className="flex gap-7 restaurantListWrap"
                         >
                             <div className="flex-none imgWrap">

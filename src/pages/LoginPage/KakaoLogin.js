@@ -6,7 +6,6 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { oauthLogin } from "../../store/thunkFunctions";
-import { setAuth } from "../../store/userSlice";
 
 const KakaoLogin = () => {
     const [searchParams] = useSearchParams();
@@ -68,8 +67,6 @@ const KakaoLogin = () => {
                             accessToken,
                         };
                         dispatch(oauthLogin(body));
-                        dispatch(setAuth(true)); // update isAuth in Redux store to true
-                        alert("로그인 성공");
                         navigate("/");
                     }
                 }
