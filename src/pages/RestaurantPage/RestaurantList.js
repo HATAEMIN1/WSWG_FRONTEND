@@ -62,7 +62,6 @@ function RestaurantList(props) {
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
                 params,
             });
-            console.log(restaurantData);
             setRestaurantData((prevData) =>
                 loadmore
                     ? [...prevData, ...res.data.restaurant]
@@ -94,38 +93,7 @@ function RestaurantList(props) {
         <SectionWrap>
             <Title className={"titleStt"}>{selectedCategory.name}</Title>
             <div className="flex gap-2 mb-5">
-                <div className="selectWrap">
-                    <select>
-                        <option selected disabled>
-                            광역시도
-                        </option>
-                        <option>서울특별시</option>
-                    </select>
-                    <span className="iconArrow">
-                        <img
-                            src={`${process.env.PUBLIC_URL}/images/selectArrow.png`}
-                        />
-                    </span>
-                </div>
                 <SelectDiv></SelectDiv>
-                <div className="selectWrap">
-                    <select>
-                        <option selected disabled>
-                            시도군
-                        </option>
-                        <option>강남구</option>
-                    </select>
-                    <span className="iconArrow">
-                        <img
-                            src={`${process.env.PUBLIC_URL}/images/selectArrow.png`}
-                        />
-                    </span>
-                </div>
-                <select>
-                    <option selected disabled>
-                        읍면동
-                    </option>
-                </select>
                 <button className="border rounded-md">지역 변경</button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">

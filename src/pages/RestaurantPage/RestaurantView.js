@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonWrap } from "../../components/Form/Button";
-import { IconStarView, IconWish } from "../../components/Form/Icon";
+import { IconWish } from "../../components/Form/Icon";
 import { SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
+import ReviewList from "../ReviewPage/ReviewList";
 import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
 import login from "../LoginPage/Login";
+import { useSelector } from "react-redux";
 
 function RestaurantView(props) {
     const foodType = [
@@ -28,51 +30,15 @@ function RestaurantView(props) {
         { no: 5, name: "반려동물과 가볼까" },
         { no: 6, name: "혼밥 해볼까" },
     ];
-    // const swiperImage = [
-    //     { image: "imageSample1" },
-    //     { image: "imageSample2" },
-    //     { image: "imageSample3" },
-    //     { image: "imageSample4" },
-    // ];
-    // const menuAndPrice = [
-    //     {
-    //         menu: "NY양념 모둠 갈비",
-    //         price: "48,800원",
-    //     },
-    //     {
-    //         menu: "갈릭 항정 수육",
-    //         price: "21,300원",
-    //     },
-    //     {
-    //         menu: "들기름 메밀국수",
-    //         price: "8,800원",
-    //     },
-    //     {
-    //         menu: "컵라면 볶음밥",
-    //         price: "13,000원",
-    //     },
-    //     {
-    //         menu: "쭈꾸미 떡볶이",
-    //         price: "16,000원",
-    //     },
-    //     {
-    //         menu: "트러플 감자전",
-    //         price: "15,800원",
-    //     },
-    //     {
-    //         menu: "바삭 새우 만두",
-    //         price: "13,800원",
-    //     },
-    //     {
-    //         menu: "호랑이 부대찌개",
-    //         price: "12,800원",
-    //     },
-    // ];
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const userId = useSelector((state) => {
+        return state.user.userData.user.id;
+    });
     const { cateId, rtId } = useParams();
     const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [views, setViews] = useState(0);
     useEffect(() => {
         async function restaurantView() {
             const res = await axiosInstance.get(
@@ -83,15 +49,26 @@ function RestaurantView(props) {
                 setLoading(false);
             }, 800);
         }
+        incrementViews();
         restaurantView();
     }, []);
-    console.log(restaurantData);
 
     const [visibleItems, setVisibleItems] = useState(6);
     const totalItems =
         restaurantData.length > 0 ? restaurantData[0].menuAndPrice.length : 0;
     const showMoreItems = () => {
         setVisibleItems((prevCount) => prevCount + 6);
+    };
+
+    const incrementViews = async () => {
+        try {
+            const res = await axiosInstance.post(
+                `restaurants/${cateId}/${userId}/${rtId}`
+            );
+            setViews(res.data.restaurant.views);
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     const openModal = (image) => {
@@ -102,6 +79,7 @@ function RestaurantView(props) {
         setSelectedImage(null);
         setModalOpen(false);
     };
+
     return (
         <>
             <SectionWrap>
@@ -173,7 +151,7 @@ function RestaurantView(props) {
                                 </div>
                                 <div>
                                     <i className="iconBasic iconView">view</i>{" "}
-                                    123
+                                    {views}
                                 </div>
                             </div>
                         </div>
@@ -212,7 +190,9 @@ function RestaurantView(props) {
                 {/* --- restaurant info end */}
                 {/* menu Price start ---  */}
                 <div className="pt-[40px]">
-                    <Title className={"titleListStt"}>메뉴</Title>
+
+                    <Title className={"titleComment"}>메뉴</Title>
+
                     {restaurantData.length > 0 &&
                         restaurantData[0].menuAndPrice
                             .slice(0, visibleItems)
@@ -246,108 +226,7 @@ function RestaurantView(props) {
                 </div>
                 {/* --- menu Price end */}
                 {/* review List start --- */}
-                <div className="flex justify-between pt-[60px]">
-                    <Title className={"titleListStt"}>리뷰</Title>
-                    <Button className={"lineSmallButton"}>
-                        <i className="iconSmall iconWriter">writer</i> 나도
-                        작성해 볼까
-                    </Button>
-                </div>
-                {/* list 반복 */}
-                <div className="flex reviewListWrap gap-5">
-                    <div className="flex-none imgWrap">
-                        <img
-                            src={`${process.env.PUBLIC_URL}/images/imageSample1.png`}
-                        />
-                    </div>
-                    <div className="flex flex-col justify-between py-[10px]">
-                        <ul className="textWrap">
-                            <li className="name">우주여신 최보람</li>
-                            <li className="content w-full ">
-                                정말 오래 기다려서 먹었습니다. 그런데 너무
-                                맛있네요. 왜기다리는지 알겠어요. 정말 여기서만
-                                먹을 수 있는 음식이란 생각이네요. 왜기다리는지
-                                알겠어요. 정말 여기서만 먹을 수 있는 음식이란
-                                생각이네요.
-                            </li>
-                            <li className="flex">
-                                평점
-                                <span className="flex">
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView>별</IconStarView>
-                                    <IconStarView>별</IconStarView>
-                                </span>
-                            </li>
-                        </ul>
-                        <div className="flex justify-between">
-                            <div className="flex items-center gap-2">
-                                <span className="hashBox">#보쌈</span>
-                                <span className="hashBox">#족발</span>
-                            </div>
-                            <div>
-                                <button
-                                    className="iconTrash"
-                                    alt="삭제"
-                                ></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* list 반복 */}
-                {/* list 반복 */}
-                <div className="flex reviewListWrap gap-5">
-                    <div className="flex-none imgWrap"></div>
-                    <div className="flex flex-col justify-between py-[10px]">
-                        <ul className="textWrap">
-                            <li className="name">우주여신 최보람</li>
-                            <li className="content w-full ">
-                                정말 오래 기다려서 먹었습니다. 그런데 너무
-                                맛있네요. 왜기다리는지 알겠어요. 정말 여기서만
-                                먹을 수 있는 음식이란 생각이네요. 왜기다리는지
-                                알겠어요. 정말 여기서만 먹을 수 있는 음식이란
-                                생각이네요.
-                            </li>
-                            <li className="flex">
-                                평점
-                                <span className="flex">
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView className={"active"}>
-                                        별
-                                    </IconStarView>
-                                    <IconStarView>별</IconStarView>
-                                    <IconStarView>별</IconStarView>
-                                </span>
-                            </li>
-                        </ul>
-                        <div className="flex justify-between">
-                            <div className="flex items-center gap-2">
-                                <span className="hashBox">#보쌈</span>
-                                <span className="hashBox">#족발</span>
-                            </div>
-                            <div>
-                                <button
-                                    className="iconTrash"
-                                    alt="삭제"
-                                ></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* list 반복 */}
-                {/* --- review List end */}
+                <ReviewList />
             </SectionWrap>
         </>
     );
