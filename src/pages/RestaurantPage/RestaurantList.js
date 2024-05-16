@@ -169,7 +169,7 @@ function RestaurantList(props) {
                                         <i className="iconBasic iconView">
                                             view
                                         </i>{" "}
-                                        123
+                                        {item.views}
                                     </div>
                                 </div>
                             </div>
