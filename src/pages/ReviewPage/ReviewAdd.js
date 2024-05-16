@@ -24,7 +24,6 @@ function ReviewAdd(props) {
     });
     const navigate = useNavigate();
     const params = useParams();
-    const { cateId, rtId } = params;
 
     // const params = new URLSearchParams(window.location.search);
     // const cateId = params.get("cateId");
