@@ -33,7 +33,8 @@ function RestaurantView(props) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const userId = useSelector((state) => {
-        return state.user.userData.user.id;
+        console.log(state);
+        return state.user.userData.id;
     });
     const { cateId, rtId } = useParams();
     const [restaurantData, setRestaurantData] = useState([]);
