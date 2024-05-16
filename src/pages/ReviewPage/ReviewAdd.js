@@ -9,49 +9,25 @@ import { SectionWrap } from "../../components/Layout/Section";
 import { useSelector } from "react-redux";
 import { IconStar } from "../../components/Form/Icon";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-// import store from "./path/to/your/store";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
+
+    console.log(cateId);
+    console.log(rtId);
+
     const userData = useSelector((state) => state.user.userData);
+    console.log(userData);
+
     const [text, setText] = useState({
         title: "",
         content: "",
         rating: [],
-        hashtag: "",
+        hashtag: [],
         images: [],
     });
+
     const navigate = useNavigate();
-    const params = useParams();
-
-    // const params = new URLSearchParams(window.location.search);
-    // const cateId = params.get("cateId");
-    // const rtId = params.get("rtId");
-
-    useEffect(() => {
-        console.log("cateId:", cateId);
-        console.log("rtId:", rtId);
-    }, [cateId, rtId]);
-
-    // function ReviewAdd(props) {
-    //     const { cateId, rtId } = useParams();
-
-    //     console.log(cateId);
-    //     console.log(rtId);
-
-    //     const userData = useSelector((state) => state.user.userData.user);
-    //     console.log(userData);
-
-    //     const [text, setText] = useState({
-    //         title: "",
-    //         content: "",
-    //         rating: [],
-    //         hashtag: [],
-    //         images: [],
-    //     });
-
-    //     const navigate = useNavigate();
 
     function handleChange(e) {
         const { name, value } = e.target;

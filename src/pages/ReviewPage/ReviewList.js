@@ -116,7 +116,14 @@ function ReviewList(props) {
                                                 <div className="w-full flex flex-col justify-between py-[10px]">
                                                     <ul className="textWrap">
                                                         <li className="name">
-                                                            {review.user.name}
+                                                            <Link
+                                                                to={`/mate/restaurants/${rtId}/review-post/${review._id}`}
+                                                            >
+                                                                {
+                                                                    review.user
+                                                                        .name
+                                                                }
+                                                            </Link>
                                                         </li>
                                                         <li className="content w-full ">
                                                             {review.content}
