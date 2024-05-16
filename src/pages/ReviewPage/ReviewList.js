@@ -70,10 +70,12 @@ function ReviewList(props) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
 
-    const handleDelete = async () => {
+    const handleDelete = async (rpId) => {
         console.log(reviewAdd);
-        axiosInstance.delete("/review-posts/rpId");
         try {
+            await axiosInstance.delete(`/review-posts/${rpId}`);
+
+            fetchReviewAdd({ limit, skip });
         } catch (error) {
             console.log(error);
         }
@@ -133,8 +135,15 @@ function ReviewList(props) {
                                                 </div>
                                                 <div>
                                                     <div
-                                                        onClick={handleDelete}
                                                         className="iconTrash"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                review._id
+                                                            )
+                                                        }
                                                         alt="삭제"
                                                     ></div>
                                                 </div>
