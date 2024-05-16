@@ -11,39 +11,31 @@ function ReviewList(props) {
     const { cateId, rtId } = useParams();
     const [reviewAdd, setReviewAdd] = useState([]);
 
-    // const limit = 5;
-    // const [skip, setSkip] = useState(0);
-    // const [hasMore, setHasMore] = useState(false);
+    const limit = 5;
+    const [skip, setSkip] = useState(1);
+    const [hasMore, setHasMore] = useState(true); //초기값은 true로 설정
 
-    const fetchReviewAdd = async () =>
-        // {
-        //     // skip, //스크롤햇을때앞의데이터를skip하고뒤에데이터만가져옴
-        //     // limit, //스크롤했을때 다음으로 불러오는 데이터 갯수
-        //     // loadMore = false,
-        // }
-        {
-            // const params = {
-            //     skip,
-            //     limit,
-            // };
-            try {
-                const res = await axiosInstance.get("/review-posts");
-                console.log(res.data);
+    const fetchReviewAdd = async () => {
+        try {
+            const res = await axiosInstance.get("/review-posts", {
+                params: {
+                    skip, //스크롤햇을때앞의데이터를skip하고뒤에데이터만가져옴
+                    limit, //스크롤했을때 다음으로 불러오는 데이터 갯수
+                },
+            });
+            console.log(res.data);
 
-                // if (loadMore) {
-                //     setReview([...review, ...res.data.review]);
-                // } else {
-                setReviewAdd(res.data.review);
-                // }
-                // setHasMore(res.data.hasMore);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+            setReviewAdd((prevReviews) => [...prevReviews, ...res.data.review]);
+            //ㄴ>이전 리뷰 목록에 추가
+            setHasMore(res.data.hasMore);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         fetchReviewAdd();
-    }, []);
+    }, [skip]); //skip이 될때마다 실행
 
     // function handelLoadMore() {
     //     const body = {
@@ -53,6 +45,18 @@ function ReviewList(props) {
     //     };
     //     fetchReviews(body);
     //     setSkip(Number(skip) + Number(limit));
+    // }
+
+    function handelLoadMore() {
+        if (hasMore) {
+            const newSkip = skip + limit; //새로운 skip값 계산
+            // setSkip((prevSkip) => prevSkip);
+            setSkip(newSkip); //skip값을 업데이트
+        }
+    }
+
+    // const renderReviewItem = (review, index) => {
+
     // }
 
     return (
@@ -166,14 +170,34 @@ function ReviewList(props) {
                     <div>
                         {reviewAdd.map((review, index) => {
                             return (
-                                <>
-                                    <div key={index}>{review.rtId}</div>
-                                    <div key={index}>{review.cateId}</div>
-                                    <div key={index}>{review.content}</div>
-                                </>
+                                <div>
+                                    <div key={index}>
+                                        <div>{review.rtId}</div>
+                                        <div>{review.userId}</div>
+                                        <div>{review.cateId}</div>
+                                        <div>{review.content}</div>
+                                        <div>{review.rating}</div>
+                                    </div>
+                                    <div>
+                                        {hasMore && (
+                                            <ButtonWrap>
+                                                <Button
+                                                    onClick={handelLoadMore}
+                                                >
+                                                    더보기
+                                                </Button>
+                                            </ButtonWrap>
+                                        )}
+                                    </div>
+                                </div>
                             );
                         })}
                     </div>
+                    // {hasMore && (
+                    //     <ButtonWrap>
+                    //         <Button on></Button>
+                    //     </ButtonWrap>
+                    // )}
                 )}
             </form>
         </SectionWrap>
