@@ -5,14 +5,22 @@ const SectionFull = styled.div `
 const Section = styled.div `
  padding: 0;
 `
-function SectionFullWrap({children}) {
+function SectionFullWrap({className,children,...props}) {
+  let cssClasses = 'w-full';
+  if (className) {
+    cssClasses += ' ' + className;
+  }
   return (
-    <SectionFull className="w-full">{children}</SectionFull>
+    <SectionFull  className={cssClasses} {...props}>{children}</SectionFull>
   )
 }
-function SectionWrap({children}) {
+function SectionWrap({className,children,...props}) {
+  let cssClasses = 'container m-auto';
+  if (className) {
+    cssClasses += ' ' + className;
+  }
   return (
-    <Section className="container m-auto">{children}</Section>
+    <Section className={cssClasses} {...props}>{children}</Section>
   )
 }
 

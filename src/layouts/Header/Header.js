@@ -54,7 +54,10 @@ function Header({ ...props }) {
                                     />
                                 </Link>
                                 <Link className="" onClick={handleLogout}>
-                                    로그아웃
+                                    <img
+                                        src={`${process.env.PUBLIC_URL}/images/iconLogout.png`}
+                                        alt="logout"
+                                    />
                                 </Link>
                             </div>
                         ) : (

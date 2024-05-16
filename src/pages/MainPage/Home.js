@@ -7,6 +7,7 @@ import { Swiper ,SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import MyMap from "../../components/Map/MyMap";
 
 function Home(props) {
     const foodType = [
@@ -134,7 +135,13 @@ function Home(props) {
     return (
         <>
             <SectionFullWrap>
-                풀화면 지도
+                <div className="bg-blue-500"><MyMap></MyMap></div>
+                <div className="w-full absolute primary bg-opacity-30">
+                    <SectionWrap className={"flex bg-fuchsia-300"}>
+                        <div>지역설정하기</div>
+                        <div>현위치보기</div>
+                    </SectionWrap>
+                </div>
             </SectionFullWrap>
             <div className="w-[1024px] m-auto">
                 {foodType.map((item,i) => { 
