@@ -33,7 +33,8 @@ function RestaurantView(props) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const userId = useSelector((state) => {
-        return state.user.userData.user.id;
+        console.log(state);
+        return state.user.userData.id;
     });
     const { cateId, rtId } = useParams();
     const [restaurantData, setRestaurantData] = useState([]);
@@ -110,9 +111,14 @@ function RestaurantView(props) {
                                         .slice(2)
                                         .map((item, i) => {
                                             return (
-                                                <SwiperSlide key={i}>
+                                                <SwiperSlide
+                                                    key={`restaurantSlide-${i}`}
+                                                >
                                                     <div className="bgLayer"></div>
-                                                    <img src={`${item}`} />
+                                                    <img
+                                                        src={`${item}`}
+                                                        alt={`restaurantSlideImg-${i}`}
+                                                    />
                                                 </SwiperSlide>
                                             );
                                         })}
@@ -190,7 +196,6 @@ function RestaurantView(props) {
                 {/* --- restaurant info end */}
                 {/* menu Price start ---  */}
                 <div className="pt-[40px]">
-
                     <Title className={"titleComment"}>메뉴</Title>
 
                     {restaurantData.length > 0 &&
@@ -200,7 +205,7 @@ function RestaurantView(props) {
                                 return (
                                     <ul
                                         className="flex justify-between h-full items-center py-2"
-                                        key={i}
+                                        key={`restaurantMenuPrice-${i}`}
                                     >
                                         <li className="pr-4">{item.menu}</li>
                                         <li className="flex-auto h-full">

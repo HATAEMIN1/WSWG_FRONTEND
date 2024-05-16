@@ -40,7 +40,7 @@ function StarRating(props) {
             <div className="star_rating_fill flex absolute">
                 {ratingToPercent.widths.map((width, index) => (
                     <Star
-                        key={index}
+                        key={`star-${index}`}
                         style={{ width: width }}
                         className={
                             index < fullStars ||

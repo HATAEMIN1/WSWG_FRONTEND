@@ -62,6 +62,7 @@ function RestaurantList(props) {
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
                 params,
             });
+            console.log(hasMore);
             setRestaurantData((prevData) =>
                 loadmore
                     ? [...prevData, ...res.data.restaurant]
@@ -100,7 +101,7 @@ function RestaurantList(props) {
                 {restaurantData.map((item, index) => {
                     return (
                         <div
-                            key={index}
+                            key={`restaurantData-${index}`}
                             className="flex gap-7 restaurantListWrap"
                         >
                             <div className="flex-none imgWrap">
