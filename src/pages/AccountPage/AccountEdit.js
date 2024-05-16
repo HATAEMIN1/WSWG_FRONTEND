@@ -1,8 +1,26 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import InputWrap from "../../components/Form/Input";
+import { useForm } from "react-hook-form";
 
 function AccountEdit() {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        watch,
+    } = useForm({ mode: "onChange" });
+    const userPassword = {
+        required: {
+            value: true,
+            message: "비밀번호는 필수 입니다.",
+        },
+        minLength: {
+            value: 4,
+            message: "최소 4자입니다.",
+        },
+    };
     const userData = useSelector((state) => state?.user?.userData);
     return (
         <>
@@ -35,7 +53,10 @@ function AccountEdit() {
                     <div className="mb-4 flex gap-[10px]">
                         <img src="/images/iconPwd.png" alt="password" />
                         <InputWrap>
-                            <input type="text" placeholder="테스트 입력용" />
+                            <input
+                                type="text"
+                                placeholder="비밀번호를 입력하세요"
+                            />
                         </InputWrap>
                     </div>
                     <div className="flex gap-[10px]">
@@ -44,7 +65,10 @@ function AccountEdit() {
                             alt="password double check"
                         />
                         <InputWrap>
-                            <input type="text" placeholder="테스트 입력용" />
+                            <input
+                                type="text"
+                                placeholder="비밀번호를 확인하세요"
+                            />
                         </InputWrap>
                     </div>
                 </div>
