@@ -70,10 +70,12 @@ function ReviewList(props) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
 
-    const handleDelete = async () => {
+    const handleDelete = async (rpId) => {
         console.log(reviewAdd);
-        axiosInstance.delete("/review-posts/rpId");
         try {
+            await axiosInstance.delete(`/review-posts/${rpId}`);
+
+            fetchReviewAdd({ limit, skip });
         } catch (error) {
             console.log(error);
         }
@@ -107,13 +109,21 @@ function ReviewList(props) {
                                             <div className="flex-none imgWrap">
                                                 <img
                                                     src={`${process.env.PUBLIC_URL}/images/imageSample1.png`}
+                                                    alt="sampleimg"
                                                 />
                                             </div>
                                             <div className="w-full flex justify-center items-center">
                                                 <div className="w-full flex flex-col justify-between py-[10px]">
                                                     <ul className="textWrap">
                                                         <li className="name">
-                                                            {review.user.name}
+                                                            <Link
+                                                                to={`/mate/restaurants/${rtId}/review-post/${review._id}`}
+                                                            >
+                                                                {
+                                                                    review.user
+                                                                        .name
+                                                                }
+                                                            </Link>
                                                         </li>
                                                         <li className="content w-full ">
                                                             {review.content}
@@ -133,8 +143,15 @@ function ReviewList(props) {
                                                 </div>
                                                 <div>
                                                     <div
-                                                        onClick={handleDelete}
                                                         className="iconTrash"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                review._id
+                                                            )
+                                                        }
                                                         alt="삭제"
                                                     ></div>
                                                 </div>

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 function Account() {
     const isAuth = useSelector((state) => state.user.isAuth);
 
-    const userData = useSelector((state) => state?.user?.userData?.user);
+    const userData = useSelector((state) => state?.user?.userData);
 
     console.log("isAuth from account", isAuth);
 

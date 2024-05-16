@@ -9,19 +9,26 @@ import { SectionWrap } from "../../components/Layout/Section";
 import { useSelector } from "react-redux";
 import { IconStar } from "../../components/Form/Icon";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
+
+    console.log(cateId);
+    console.log(rtId);
+
     const userData = useSelector((state) => state.user.userData);
+    console.log(userData);
+
     const [text, setText] = useState({
         title: "",
         content: "",
         rating: [],
-        hashtag: "",
+        hashtag: [],
         images: [],
     });
+
     const navigate = useNavigate();
+
     function handleChange(e) {
         const { name, value } = e.target;
         console.log(value, name);
@@ -32,6 +39,7 @@ function ReviewAdd(props) {
             };
         });
     }
+
     async function handleSubmit(e) {
         e.preventDefault();
         const body = {
@@ -41,11 +49,13 @@ function ReviewAdd(props) {
         };
         try {
             await axiosInstance.post("/review-posts", body);
+            // alert("완료");
             navigate(`/mate/${cateId}/restaurants/${rtId}`);
         } catch (error) {
             console.log(error);
         }
     }
+
     return (
         <SectionWrap>
             <form onSubmit={handleSubmit}>
