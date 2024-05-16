@@ -1,14 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/thunkFunctions";
-// import { setAuth } from "../../store/userSlice";
 
 function Header({ ...props }) {
     const isAuth = useSelector((state) => state.user.isAuth);
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
 
     function handleLogout() {
+        console.log("handleLogout");
         dispatch(logoutUser());
     }
     console.log("isAuth when redirected to homepage:", isAuth);

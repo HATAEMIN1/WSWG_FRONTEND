@@ -6,7 +6,6 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { oauthLogin } from "../../store/thunkFunctions";
-import { setAuth } from "../../store/userSlice";
 
 const KakaoLogin = () => {
     const [searchParams] = useSearchParams();
