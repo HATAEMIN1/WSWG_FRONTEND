@@ -6,14 +6,10 @@ import { logoutUser } from "../../store/thunkFunctions";
 function Header({ ...props }) {
     const isAuth = useSelector((state) => state.user.isAuth);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     function handleLogout() {
-        dispatch(logoutUser()).then(() => {
-            // dispatch(setAuth(false));
-            alert("로그아웃");
-            navigate("/");
-        });
+        dispatch(logoutUser());
     }
     console.log("isAuth when redirected to homepage:", isAuth);
     return (

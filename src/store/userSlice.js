@@ -71,7 +71,7 @@ const userSlice = createSlice({
                     "action.payload when oauthLogin.fulfilled:",
                     action.payload
                 );
-                state.userData = action.payload;
+                state.userData = action.payload.user;
                 state.isAuth = true;
                 localStorage.setItem("accessToken", action.payload.accessToken);
             })
@@ -88,7 +88,7 @@ const userSlice = createSlice({
                     "action.payload when authUser.fulfilled:",
                     action.payload
                 );
-                state.userData = action.payload;
+                state.userData = action.payload.user;
 
                 state.isAuth = true;
             })

@@ -74,8 +74,6 @@ export const logoutUser = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             await axiosInstance.post(`/users/logout`);
-            thunkAPI.dispatch(setUserData(null));
-            localStorage.removeItem("accessToken");
             // 마찬가지로 끝나면 return 없이도 userSlice builder로 간다
         } catch (error) {
             console.log(error);
