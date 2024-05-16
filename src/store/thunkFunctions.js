@@ -2,7 +2,6 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../utils/axios";
-import { useNavigate } from "react-router-dom";
 
 export const registerUser = createAsyncThunk(
     "user/registerUser",
@@ -72,10 +71,8 @@ export const authUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
     "user/logoutUser",
     async (_, thunkAPI) => {
-        // const navigate = useNavigate();
         try {
             await axiosInstance.post(`/users/logout`);
-            // navigate("/");
             // 마찬가지로 끝나면 return 없이도 userSlice builder로 간다
         } catch (error) {
             console.log(error);
