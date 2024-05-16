@@ -1,35 +1,35 @@
-import React, { useEffect } from 'react';
-import $ from 'jquery';
+import React, { useEffect } from "react";
+import $ from "jquery";
 
-function SelectDiv({props}) {
+function SelectDiv({ props }) {
     useEffect(() => {
         function selectCus() {
-            $('.select_cus').each(function() {
+            $(".select_cus").each(function () {
                 const $select = $(this);
-                const $selectTrigger = $select.find('.trigger');
-                const $options = $select.find('.option');
-                const $hiddenInput = $select.find('.opt_val');
+                const $selectTrigger = $select.find(".trigger");
+                const $options = $select.find(".option");
+                const $hiddenInput = $select.find(".opt_val");
 
                 // select option 열기
-                $selectTrigger.click(function() {
+                $selectTrigger.click(function () {
                     $options.toggle();
-                    $select.toggleClass('active');
-                    $('.select_cus').not($select).find('.option').hide();
-                    $('.select_cus').not($select).removeClass('active');
+                    $select.toggleClass("active");
+                    $(".select_cus").not($select).find(".option").hide();
+                    $(".select_cus").not($select).removeClass("active");
                 });
 
                 // option 선택
-                $options.find('li').click(function() {
-                    const value = $(this).data('value');
+                $options.find("li").click(function () {
+                    const value = $(this).data("value");
                     const text = $(this).text();
-                    $select.find('.trigger_txt').text(text);
+                    $select.find(".trigger_txt").text(text);
                     $options.hide();
-                    $select.removeClass('active');
+                    $select.removeClass("active");
                     // 옵션 선택했을 때 클래스 추가
-                    if (value !== '') {
-                        $select.addClass('select');
+                    if (value !== "") {
+                        $select.addClass("select");
                     } else {
-                        $select.removeClass('select');
+                        $select.removeClass("select");
                     }
                     // hidden 필드에 선택한 값을 설정
                     $hiddenInput.val(value);
@@ -37,10 +37,10 @@ function SelectDiv({props}) {
             });
 
             // select 영역 외 다른곳을 누르면 select 닫힘
-            $(document).click(function(e) {
-                if (!$(e.target).closest('.select_cus').length) {
-                    $('.select_cus .option').hide();
-                    $('.select_cus').removeClass('active');
+            $(document).click(function (e) {
+                if (!$(e.target).closest(".select_cus").length) {
+                    $(".select_cus .option").hide();
+                    $(".select_cus").removeClass("active");
                 }
             });
         }
@@ -49,20 +49,19 @@ function SelectDiv({props}) {
     }, []);
     const region = [
         {
-            name:"서울",
-            region2 : [
+            name: "서울",
+            region2: [
                 {
-                    name:"종로구",
-                    region3 : [
+                    name: "종로구",
+                    region3: [
                         {
-                            name:"종로1가"
+                            name: "종로1가",
                         },
-                    ]
+                    ],
                 },
-            ]
-
+            ],
         },
-    ]
+    ];
 
     return (
         <div className="selectbox">
@@ -75,8 +74,13 @@ function SelectDiv({props}) {
                     <li data-value="">광역시도</li>
                     {region.map((item, index) => {
                         return (
-                            <li key={index} data-value={item.name}>{item.name}</li>
-                        )
+                            <li
+                                key={`광역시도-${index}`}
+                                data-value={item.name}
+                            >
+                                {item.name}
+                            </li>
+                        );
                     })}
                 </ul>
             </div>
@@ -89,8 +93,10 @@ function SelectDiv({props}) {
                     <li data-value="">시도군</li>
                     {region.map((item, index) => {
                         return (
-                            <li key={index} data-value={item.name}>{item.name}</li>
-                        )
+                            <li key={`시도군-${index}`} data-value={item.name}>
+                                {item.name}
+                            </li>
+                        );
                     })}
                 </ul>
             </div>

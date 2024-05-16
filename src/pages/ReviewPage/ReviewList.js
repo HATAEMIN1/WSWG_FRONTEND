@@ -167,9 +167,15 @@ function ReviewList(props) {
                         {reviewAdd.map((review, index) => {
                             return (
                                 <>
-                                    <div key={index}>{review.rtId}</div>
-                                    <div key={index}>{review.cateId}</div>
-                                    <div key={index}>{review.content}</div>
+                                    <div key={`reviewRtId-${index}`}>
+                                        {review.rtId}
+                                    </div>
+                                    <div key={`reviewCateId-${index}`}>
+                                        {review.cateId}
+                                    </div>
+                                    <div key={`reviewCont-${index}`}>
+                                        {review.content}
+                                    </div>
                                 </>
                             );
                         })}
