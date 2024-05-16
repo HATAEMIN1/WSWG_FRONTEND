@@ -12,7 +12,7 @@ function MeetingAdd(props) {
         content: "",
         chatLink: "",
     });
-    const userData = useSelector((state) => state.user.userData.user);
+    const userData = useSelector((state) => state.user.userData);
     console.log(userData.id);
     const navigate = useNavigate();
 

@@ -21,7 +21,7 @@ function ReviewAdd(props) {
 
     // // const userId = window.localStorage.getItem("persist:root");
     // console.log(userId);
-    const userData = useSelector((state) => state.user.userData.user);
+    const userData = useSelector((state) => state.user.userData);
     console.log(userData);
 
     const [text, setText] = useState({
