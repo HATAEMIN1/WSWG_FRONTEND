@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonWrap } from "../../components/Form/Button";
-import { IconStarView, IconWish } from "../../components/Form/Icon";
+import { IconWish } from "../../components/Form/Icon";
 import { SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Modal } from "../../components/Modal/Modal";
 import ReviewList from "../ReviewPage/ReviewList";
 import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
@@ -227,7 +226,6 @@ function RestaurantView(props) {
                 </div>
                 {/* --- menu Price end */}
                 {/* review List start --- */}
-
                 <ReviewList />
             </SectionWrap>
         </>
