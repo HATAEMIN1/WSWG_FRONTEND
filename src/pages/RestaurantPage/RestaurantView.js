@@ -11,6 +11,8 @@ import ReviewList from "../ReviewPage/ReviewList";
 import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
+import login from "../LoginPage/Login";
+import { useSelector } from "react-redux";
 
 function RestaurantView(props) {
     const foodType = [
@@ -28,53 +30,15 @@ function RestaurantView(props) {
         { no: 5, name: "반려동물과 가볼까" },
         { no: 6, name: "혼밥 해볼까" },
     ];
-
-    // const swiperImage = [
-    //     { image: "imageSample1" },
-    //     { image: "imageSample2" },
-    //     { image: "imageSample3" },
-    //     { image: "imageSample4" },
-    // ];
-    // const menuAndPrice = [
-    //     {
-    //         menu: "NY양념 모둠 갈비",
-    //         price: "48,800원",
-    //     },
-    //     {
-    //         menu: "갈릭 항정 수육",
-    //         price: "21,300원",
-    //     },
-    //     {
-    //         menu: "들기름 메밀국수",
-    //         price: "8,800원",
-    //     },
-    //     {
-    //         menu: "컵라면 볶음밥",
-    //         price: "13,000원",
-    //     },
-    //     {
-    //         menu: "쭈꾸미 떡볶이",
-    //         price: "16,000원",
-    //     },
-    //     {
-    //         menu: "트러플 감자전",
-    //         price: "15,800원",
-    //     },
-    //     {
-    //         menu: "바삭 새우 만두",
-    //         price: "13,800원",
-    //     },
-    //     {
-    //         menu: "호랑이 부대찌개",
-    //         price: "12,800원",
-    //     },
-    // ];
-
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const userId = useSelector((state) => {
+        return state.user.userData.user.id;
+    });
     const { cateId, rtId } = useParams();
     const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [views, setViews] = useState(0);
     useEffect(() => {
         async function restaurantView() {
             const res = await axiosInstance.get(
@@ -85,15 +49,26 @@ function RestaurantView(props) {
                 setLoading(false);
             }, 800);
         }
+        incrementViews();
         restaurantView();
     }, []);
-    console.log(restaurantData);
 
     const [visibleItems, setVisibleItems] = useState(6);
     const totalItems =
         restaurantData.length > 0 ? restaurantData[0].menuAndPrice.length : 0;
     const showMoreItems = () => {
         setVisibleItems((prevCount) => prevCount + 6);
+    };
+
+    const incrementViews = async () => {
+        try {
+            const res = await axiosInstance.post(
+                `restaurants/${cateId}/${userId}/${rtId}`
+            );
+            setViews(res.data.restaurant.views);
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     const openModal = (image) => {
@@ -176,7 +151,7 @@ function RestaurantView(props) {
                                 </div>
                                 <div>
                                     <i className="iconBasic iconView">view</i>{" "}
-                                    123
+                                    {views}
                                 </div>
                             </div>
                         </div>
@@ -215,7 +190,8 @@ function RestaurantView(props) {
                 {/* --- restaurant info end */}
                 {/* menu Price start ---  */}
                 <div className="pt-[40px]">
-                    <Title className={"titleListStt"}>메뉴</Title>
+
+                    <Title className={"titleComment"}>메뉴</Title>
 
                     {restaurantData.length > 0 &&
                         restaurantData[0].menuAndPrice
@@ -251,7 +227,6 @@ function RestaurantView(props) {
                 {/* --- menu Price end */}
                 {/* review List start --- */}
                 <ReviewList />
-                
             </SectionWrap>
         </>
     );

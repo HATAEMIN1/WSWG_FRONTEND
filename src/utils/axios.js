@@ -2,6 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost:4000",
+    //baseURL:process.env.REACT_APP_NODE_SERVER_URL
 });
 
 // 요청 인터셉터 추가하기
