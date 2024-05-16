@@ -43,14 +43,14 @@ const TitleWrap = styled.h3 `
         padding : 30px 0 10px 0;
         justify-content: start;
         font-family: 'TTHakgyoansimMonggeulmonggeulR';
-        font-size: 1rem; /* 16px */
+        font-size: 1.25rem; /* 20px */
         line-height: 1.5rem; /* 24px */
     }
 `
 
 function Title({children,memTitle,className, ...props}) {
     let cssClasses = memTitle ? "titleMemtt" : "titleMemStt";
-    cssClasses += ' ' +className;
+    cssClasses += ' ' + className;
   return (
     <TitleWrap className={cssClasses} {...props}>{children}</TitleWrap>
   )

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, ButtonWrap } from "../../components/Form/Button";
+import { Button, ButtonCencel, ButtonWrap } from "../../components/Form/Button";
 import { IconStar, IconStarView, IconWish } from "../../components/Form/Icon";
 import InputWrap from "../../components/Form/Input";
 import { SectionFullWrap, SectionWrap } from "../../components/Layout/Section";
@@ -63,7 +63,7 @@ function StyleGuide({ ...props }) {
                     </h2>
                     <ButtonWrap>
                         <Button basicButton={true}>기본 버튼</Button>
-                        <Button basicButton={false}>취소 버튼</Button>
+                        <ButtonCencel>취소 버튼</ButtonCencel>
                     </ButtonWrap>
                 </div>
 
@@ -185,6 +185,13 @@ function StyleGuide({ ...props }) {
                             }}
                         >
                             지역선택 모달
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                props.modalOpen();
+                            }}
+                        >
+                            텍스트 모달
                         </Button>
                     </ButtonWrap>
                 </div>
