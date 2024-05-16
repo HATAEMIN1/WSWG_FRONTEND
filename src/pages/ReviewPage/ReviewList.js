@@ -107,6 +107,7 @@ function ReviewList(props) {
                                             <div className="flex-none imgWrap">
                                                 <img
                                                     src={`${process.env.PUBLIC_URL}/images/imageSample1.png`}
+                                                    alt="sampleimg"
                                                 />
                                             </div>
                                             <div className="w-full flex justify-center items-center">

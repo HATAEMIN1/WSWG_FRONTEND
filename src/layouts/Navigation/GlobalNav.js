@@ -21,12 +21,6 @@ const gnbMenu = [
         link: "/meet-posts",
         active: "active",
     },
-    {
-        name: "내정보",
-        image: "iconMyOn",
-        link: "/account",
-        active: "active",
-    },
 ];
 function activeMenu() {
     gnbMenu.active(true);
