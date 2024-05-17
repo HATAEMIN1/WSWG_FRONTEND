@@ -158,9 +158,11 @@ function AccountEdit() {
                         <button className="w-full h-[40px] px-2.5 mb-4 rounded-md flex justify-center items-center bg-primary-300">
                             확인
                         </button>
-                        <div className="w-full h-[40px] px-2.5 mb-4 rounded-md flex justify-center items-center bg-primary-300">
-                            취소
-                        </div>
+                        <Link to="/account">
+                            <div className="w-full h-[40px] px-2.5 mb-4 rounded-md flex justify-center items-center bg-primary-300">
+                                취소
+                            </div>
+                        </Link>
                         <Link to="/account/delete">
                             <div className="w-full h-[40px] px-2.5 mb-4 rounded-md flex gap-3 justify-center items-center">
                                 <img
