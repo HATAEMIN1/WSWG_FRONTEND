@@ -54,15 +54,14 @@ function RestaurantView(props) {
         }
         incrementViews();
         restaurantView();
+        likes();
     }, []);
-
     const [visibleItems, setVisibleItems] = useState(6);
     const totalItems =
         restaurantData.length > 0 ? restaurantData[0].menuAndPrice.length : 0;
     const showMoreItems = () => {
         setVisibleItems((prevCount) => prevCount + 6);
     };
-
     const incrementViews = async () => {
         try {
             const res = await axiosInstance.post(
@@ -73,9 +72,21 @@ function RestaurantView(props) {
             console.log(error.message);
         }
     };
+    const likes = async () => {
+        const params = { userId };
+        const res = await axiosInstance.get(`/likes/${rtId}`, { params });
+        if (
+            res.data.like &&
+            res.data.like.length > 0 &&
+            res.data.like[0].hasOwnProperty("liked")
+        ) {
+            setLiked(res.data.like[0].liked);
+            console.log(res.data.like[0].liked);
+        }
+        setLikeCount(res.data.likeCount);
+    };
     const handleLike = async () => {
-        const body = { userId };
-        console.log(body);
+        const body = { userId, liked };
         try {
             if (liked) {
                 await axiosInstance.delete(`/likes/${rtId}`, {
@@ -102,7 +113,6 @@ function RestaurantView(props) {
         setSelectedImage(null);
         setModalOpen(false);
     };
-
     return (
         <>
             <SectionWrap>
@@ -172,9 +182,12 @@ function RestaurantView(props) {
                             </ul>
                             <div className="flex textBox">
                                 <div onClick={handleLike}>
-                                    <IconWish className={"active"}>
+                                    <IconWish
+                                        className={liked ? "active" : ""}
+                                        liked={liked}
+                                    >
                                         좋아요
-                                    </IconWish>{" "}
+                                    </IconWish>
                                     {likeCount}
                                 </div>
                                 <div>
