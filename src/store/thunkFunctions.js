@@ -2,6 +2,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../utils/axios";
+import { useSelector } from "react-redux";
 
 export const registerUser = createAsyncThunk(
     "user/registerUser",
@@ -9,6 +10,29 @@ export const registerUser = createAsyncThunk(
         try {
             const response = await axiosInstance.post(`/users/register`, body);
             console.log("thunkapi 회원가입");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return thunkAPI.rejectWithValue(
+                error.response.data || error.message
+            );
+        }
+    }
+);
+
+export const updateUserPassword = createAsyncThunk(
+    "user/updateUserPassword",
+    async (body, thunkAPI) => {
+        try {
+            // get userId
+            const userId = useSelector((state) => {
+                return state.user.userData.id;
+            });
+            const response = await axiosInstance.post(
+                `/users/${userId}/pwdChange`,
+                body
+            );
+            console.log("thunkapi 비밀번호 수정");
             return response.data;
         } catch (error) {
             console.log(error);
