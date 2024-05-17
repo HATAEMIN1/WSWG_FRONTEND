@@ -4,6 +4,7 @@ import InputWrap from "../../components/Form/Input";
 import { useForm } from "react-hook-form";
 import { updateUserPassword } from "../../store/thunkFunctions";
 import axiosInstance from "../../utils/axios";
+import { Link } from "react-router-dom";
 
 function AccountEdit() {
     const [changePwd, setChangePwd] = useState(false);
@@ -150,13 +151,25 @@ function AccountEdit() {
                         </div>
                     )}
 
-                    <div style={{ fontFamily: "Pretendard" }}>
-                        <button className="w-[400px] h-[40px] px-2.5 mb-4 rounded-md text-[15px] flex justify-center items-center bg-primary-300">
+                    <div
+                        style={{ fontFamily: "Pretendard" }}
+                        className="w-[400px] text-[15px]"
+                    >
+                        <button className="w-full h-[40px] px-2.5 mb-4 rounded-md flex justify-center items-center bg-primary-300">
                             확인
                         </button>
-                        <div className="w-[400px] h-[40px] px-2.5 mb-4 rounded-md text-[15px] flex justify-center items-center bg-primary-300">
+                        <div className="w-full h-[40px] px-2.5 mb-4 rounded-md flex justify-center items-center bg-primary-300">
                             취소
                         </div>
+                        <Link to="/account/delete">
+                            <div className="w-full h-[40px] px-2.5 mb-4 rounded-md flex gap-3 justify-center items-center">
+                                <img
+                                    src="/images/iconUserDelete.png"
+                                    alt="user delete icon for deleting user account"
+                                />
+                                회원탈퇴하기
+                            </div>
+                        </Link>
                     </div>
                 </form>
             </div>
