@@ -19,6 +19,26 @@ export const registerUser = createAsyncThunk(
     }
 );
 
+export const deleteUser = createAsyncThunk(
+    "user/deleteUser",
+    async (body, thunkAPI) => {
+        try {
+            const userId = thunkAPI.getState().user.userData.id;
+            const response = await axiosInstance.delete(
+                `/users/${userId}`,
+                body
+            );
+            console.log("thunkapi 회원탈퇴");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return thunkAPI.rejectWithValue(
+                error.response.data || error.message
+            );
+        }
+    }
+);
+
 export const updateUserPassword = createAsyncThunk(
     "user/updateUserPassword",
     async (body, thunkAPI) => {

@@ -8,6 +8,7 @@ import {
     registerUser,
     oauthLogin,
     updateUserPassword,
+    deleteUser,
 } from "./thunkFunctions";
 
 const initialState = {
@@ -130,6 +131,19 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
                 state.isAuth = true;
+            })
+            .addCase(deleteUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteUser.fulfilled, (state) => {
+                state.isLoading = false;
+                state.userData = initialState.userData; //초기화
+                state.isAuth = false;
+                localStorage.removeItem("accessToken"); // token삭제
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
             });
     },
 });
