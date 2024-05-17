@@ -7,6 +7,7 @@ import {
     logoutUser,
     registerUser,
     oauthLogin,
+    updateUserPassword,
 } from "./thunkFunctions";
 
 const initialState = {
@@ -111,6 +112,19 @@ const userSlice = createSlice({
             .addCase(logoutUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
+            })
+            .addCase(updateUserPassword.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateUserPassword.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.userData = action.payload.user;
+                state.isAuth = true;
+            })
+            .addCase(updateUserPassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                state.isAuth = true;
             });
     },
 });

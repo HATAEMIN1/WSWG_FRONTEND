@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import InputWrap from "../../components/Form/Input";
 import { useForm } from "react-hook-form";
+import { updateUserPassword } from "../../store/thunkFunctions";
 
 function AccountEdit() {
     const [changePwd, setChangePwd] = useState(false);
@@ -61,12 +62,15 @@ function AccountEdit() {
                         </div>
                     </div>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex flex-col justify-center items-center"
+                >
                     {!changePwd ? (
                         <button
                             onClick={handleClickPwdChange}
                             style={{ fontFamily: "Pretendard" }}
-                            className="mb-20 w-[150px]  flex justify-center items-center gap-3 px-[10px] py-[5px] text-[15px] rounded-xl border"
+                            className="mb-20 w-[150px] flex justify-center items-center gap-3 px-[10px] py-[5px] text-[15px] rounded-xl border"
                         >
                             <img
                                 src="/images/iconPwdLock.png"
@@ -79,40 +83,50 @@ function AccountEdit() {
                             style={{ fontFamily: "Pretendard" }}
                             className="mb-20 w-[400px]"
                         >
-                            <div className="mb-4 flex gap-[10px]">
-                                <img src="/images/iconPwd.png" alt="password" />
-                                <InputWrap>
-                                    <input
-                                        type="text"
-                                        id="password"
-                                        placeholder="비밀번호를 입력하세요"
-                                        {...register("password", userPassword)}
+                            <div className="flex flex-col">
+                                <div className="mb-4 flex gap-[10px]">
+                                    <img
+                                        src="/images/iconPwd.png"
+                                        alt="password"
                                     />
-                                </InputWrap>
+                                    <InputWrap>
+                                        <input
+                                            type="text"
+                                            id="password"
+                                            placeholder="비밀번호를 입력하세요"
+                                            {...register(
+                                                "password",
+                                                userPassword
+                                            )}
+                                        />
+                                    </InputWrap>
+                                </div>
                                 {errors.password && (
-                                    <div className="text-red-400 text-xs mt-1">
+                                    <div className="text-red-400 text-xs mb-4">
                                         {errors.password.message}
                                     </div>
                                 )}
                             </div>
-                            <div className="flex gap-[10px]">
-                                <img
-                                    src="/images/iconPwdDoubleCheck.png"
-                                    alt="password double check"
-                                />
-                                <InputWrap>
-                                    <input
-                                        type="text"
-                                        id="passwordConfirm"
-                                        placeholder="비밀번호를 확인하세요"
-                                        {...register(
-                                            "passwordConfirm",
-                                            userPasswordConfirm
-                                        )}
+                            <div classNane="flex">
+                                <div className="flex gap-[10px]">
+                                    <img
+                                        src="/images/iconPwdDoubleCheck.png"
+                                        alt="password double check"
                                     />
-                                </InputWrap>
+                                    <InputWrap>
+                                        <input
+                                            type="text"
+                                            id="passwordConfirm"
+                                            placeholder="비밀번호를 확인하세요"
+                                            {...register(
+                                                "passwordConfirm",
+                                                userPasswordConfirm
+                                            )}
+                                        />
+                                    </InputWrap>
+                                </div>
                                 {errors.passwordConfirm && (
-                                    <div className="text-red-400 text-xs mt-1">
+                                    <div className="text-red-400 text-xs mt-4">
                                         {errors.passwordConfirm.message}
                                     </div>
                                 )}
@@ -121,9 +135,9 @@ function AccountEdit() {
                     )}
 
                     <div style={{ fontFamily: "Pretendard" }}>
-                        <div className="w-[400px] h-[40px] px-2.5 mb-4 rounded-md text-[15px] flex justify-center items-center bg-primary-300">
+                        <button className="w-[400px] h-[40px] px-2.5 mb-4 rounded-md text-[15px] flex justify-center items-center bg-primary-300">
                             확인
-                        </div>
+                        </button>
                         <div className="w-[400px] h-[40px] px-2.5 mb-4 rounded-md text-[15px] flex justify-center items-center bg-primary-300">
                             취소
                         </div>

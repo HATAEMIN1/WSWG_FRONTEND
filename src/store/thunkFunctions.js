@@ -2,7 +2,6 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../utils/axios";
-import { useSelector } from "react-redux";
 
 export const registerUser = createAsyncThunk(
     "user/registerUser",
@@ -25,10 +24,9 @@ export const updateUserPassword = createAsyncThunk(
     async (body, thunkAPI) => {
         try {
             // get userId
-            const userId = useSelector((state) => {
-                return state.user.userData.id;
-            });
-            const response = await axiosInstance.post(
+            const userId = thunkAPI.getState().user.userData.id;
+
+            const response = await axiosInstance.put(
                 `/users/${userId}/pwdChange`,
                 body
             );
