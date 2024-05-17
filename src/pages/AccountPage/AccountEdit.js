@@ -1,9 +1,10 @@
-import React from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import InputWrap from "../../components/Form/Input";
 import { useForm } from "react-hook-form";
 
 function AccountEdit() {
+    const [changePwd, setChangePwd] = useState(false);
     const {
         register,
         handleSubmit,
@@ -22,6 +23,9 @@ function AccountEdit() {
         },
     };
     const userData = useSelector((state) => state?.user?.userData);
+    function handleClickPwdChange() {
+        setChangePwd(true);
+    }
     return (
         <>
             <div
@@ -46,32 +50,47 @@ function AccountEdit() {
                         </div>
                     </div>
                 </div>
-                <div
-                    style={{ fontFamily: "Pretendard" }}
-                    className="mb-20 w-[400px]"
-                >
-                    <div className="mb-4 flex gap-[10px]">
-                        <img src="/images/iconPwd.png" alt="password" />
-                        <InputWrap>
-                            <input
-                                type="text"
-                                placeholder="비밀번호를 입력하세요"
-                            />
-                        </InputWrap>
-                    </div>
-                    <div className="flex gap-[10px]">
+                {!changePwd ? (
+                    <button
+                        onClick={handleClickPwdChange}
+                        style={{ fontFamily: "Pretendard" }}
+                        className="mb-20 w-[150px]  flex justify-center items-center gap-3 px-[10px] py-[5px] text-[15px] rounded-xl border"
+                    >
                         <img
-                            src="/images/iconPwdDoubleCheck.png"
-                            alt="password double check"
+                            src="/images/iconPwdLock.png"
+                            alt="password lock icon for password change"
                         />
-                        <InputWrap>
-                            <input
-                                type="text"
-                                placeholder="비밀번호를 확인하세요"
+                        비밀번호 변경
+                    </button>
+                ) : (
+                    <div
+                        style={{ fontFamily: "Pretendard" }}
+                        className="mb-20 w-[400px]"
+                    >
+                        <div className="mb-4 flex gap-[10px]">
+                            <img src="/images/iconPwd.png" alt="password" />
+                            <InputWrap>
+                                <input
+                                    type="text"
+                                    placeholder="비밀번호를 입력하세요"
+                                />
+                            </InputWrap>
+                        </div>
+                        <div className="flex gap-[10px]">
+                            <img
+                                src="/images/iconPwdDoubleCheck.png"
+                                alt="password double check"
                             />
-                        </InputWrap>
+                            <InputWrap>
+                                <input
+                                    type="text"
+                                    placeholder="비밀번호를 확인하세요"
+                                />
+                            </InputWrap>
+                        </div>
                     </div>
-                </div>
+                )}
+
                 <div style={{ fontFamily: "Pretendard" }}>
                     <div className="w-[400px] h-[40px] px-2.5 mb-4 rounded-md text-[15px] flex justify-center items-center bg-primary-300">
                         확인
