@@ -16,6 +16,7 @@ const initialState = {
         email: "",
         name: "",
         role: 0,
+        password: "",
         image: "",
         createdAt: "",
     },
@@ -118,6 +119,10 @@ const userSlice = createSlice({
             })
             .addCase(updateUserPassword.fulfilled, (state, action) => {
                 state.isLoading = false;
+                console.log(
+                    "action.payload in updateUserPassword:",
+                    action.payload
+                );
                 state.userData = action.payload.user;
                 state.isAuth = true;
             })

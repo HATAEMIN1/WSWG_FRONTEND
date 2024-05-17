@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import InputWrap from "../../components/Form/Input";
 import { useForm } from "react-hook-form";
 import { updateUserPassword } from "../../store/thunkFunctions";
+import axiosInstance from "../../utils/axios";
 
 function AccountEdit() {
     const [changePwd, setChangePwd] = useState(false);
+    const userData = useSelector((state) => state?.user?.userData);
     const {
         register,
         handleSubmit,
@@ -22,13 +24,27 @@ function AccountEdit() {
             value: 4,
             message: "최소 4자입니다.",
         },
+        validate: async (newPassword) => {
+            console.log("userData:", userData);
+            console.log("userData.password:", userData.password);
+            const body = {
+                newPassword,
+                oldPassword: userData.password,
+            };
+            const response = await axiosInstance.post(
+                "/users/passwordCheck",
+                body
+            );
+            const isMatch = response.data.isMatch;
+            return !isMatch || "이미 등록된 비밀번호에요!";
+        },
     };
     const userPasswordConfirm = {
         validate: (value) => {
             return value === watch("password") || "비밀번호가 달라요!";
         },
     };
-    const userData = useSelector((state) => state?.user?.userData);
+
     function handleClickPwdChange() {
         setChangePwd(true);
     }
@@ -83,7 +99,7 @@ function AccountEdit() {
                             style={{ fontFamily: "Pretendard" }}
                             className="mb-20 w-[400px]"
                         >
-                            <div className="flex flex-col">
+                            <div>
                                 <div className="mb-4 flex gap-[10px]">
                                     <img
                                         src="/images/iconPwd.png"
@@ -107,7 +123,7 @@ function AccountEdit() {
                                     </div>
                                 )}
                             </div>
-                            <div classNane="flex">
+                            <div>
                                 <div className="flex gap-[10px]">
                                     <img
                                         src="/images/iconPwdDoubleCheck.png"
