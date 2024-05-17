@@ -217,13 +217,13 @@ function ReviewList(props) {
                                         <div>{review.content}</div>
                                         <div>{review.rating}</div>
                                     </div>
-                                   
+
                                 </div>
 
                             );
                         })}
                     </div>
-    
+
                 )} */}
             </form>
         </SectionWrap>
