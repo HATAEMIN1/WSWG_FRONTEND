@@ -19,6 +19,28 @@ export const registerUser = createAsyncThunk(
     }
 );
 
+export const updateUserPassword = createAsyncThunk(
+    "user/updateUserPassword",
+    async (body, thunkAPI) => {
+        try {
+            // get userId
+            const userId = thunkAPI.getState().user.userData.id;
+
+            const response = await axiosInstance.put(
+                `/users/${userId}/pwdChange`,
+                body
+            );
+            console.log("thunkapi 비밀번호 수정");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return thunkAPI.rejectWithValue(
+                error.response.data || error.message
+            );
+        }
+    }
+);
+
 export const loginUser = createAsyncThunk(
     "user/loginUser",
     async (body, thunkAPI) => {

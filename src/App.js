@@ -6,7 +6,7 @@ import Footer from "./layouts/Footer/Footer";
 import { Header, HeaderMom } from "./layouts/Header/Header";
 import Account from "./pages/AccountPage/Account";
 import AccountEdit from "./pages/AccountPage/AccountEdit";
-import AccountPwdEdit from "./pages/AccountPage/AccountPwdEdit";
+import AccountDelete from "./pages/AccountPage/AccountDelete";
 import MateList from "./pages/GoingWithPage/MateList";
 import Login from "./pages/LoginPage/Login";
 import Home from "./pages/MainPage/Home";
@@ -104,8 +104,6 @@ function App() {
                         element={<StyleGuide modalOpen={modalOpen} />}
                     ></Route>
                     <Route path="/" element={<Home />}></Route>
-                    {/* <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route> */}
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
                     <Route path="/mate" element={<MateList />}></Route>
@@ -121,10 +119,6 @@ function App() {
                         path="/mate/:cateId/restaurants/:rtId/review-post/new"
                         element={<ReviewAdd />}
                     ></Route>
-                    {/* <Route
-                        path="/mate/restaurants/:rtId/review-post/:rpId"
-                        element={<ReviewList />}
-                    ></Route> */}
                     <Route
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
@@ -144,6 +138,11 @@ function App() {
                         path="/account/edit"
                         element={<AccountEdit />}
                     ></Route>
+                    <Route
+                        path="/account/delete"
+                        element={<AccountDelete />}
+                    ></Route>
+                    <Route path="/styleguide" element={<StyleGuide />}></Route>
                 </Route>
                 <Route element={<LayoutEtc />}>
                     <Route path="/login" element={<Login />}></Route>
