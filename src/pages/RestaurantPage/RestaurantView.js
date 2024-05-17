@@ -33,13 +33,15 @@ function RestaurantView(props) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const userId = useSelector((state) => {
-        console.log(state);
         return state.user.userData.id;
     });
     const { cateId, rtId } = useParams();
     const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [views, setViews] = useState(0);
+    const [liked, setLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
+
     useEffect(() => {
         async function restaurantView() {
             const res = await axiosInstance.get(
@@ -71,7 +73,27 @@ function RestaurantView(props) {
             console.log(error.message);
         }
     };
-
+    const handleLike = async () => {
+        const body = { userId };
+        console.log(body);
+        try {
+            if (liked) {
+                await axiosInstance.delete(`/likes/${rtId}`, {
+                    data: body,
+                });
+                setLiked(false);
+                const res = await axiosInstance.get(`/likes/${rtId}`);
+                setLikeCount(res.data.likeCount);
+            } else {
+                await axiosInstance.post(`/likes/${rtId}`, body);
+                setLiked(true);
+                const res = await axiosInstance.get(`/likes/${rtId}`);
+                setLikeCount(res.data.likeCount);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
     const openModal = (image) => {
         setSelectedImage(image);
         setModalOpen(true);
@@ -149,11 +171,11 @@ function RestaurantView(props) {
                                 </li>
                             </ul>
                             <div className="flex textBox">
-                                <div>
+                                <div onClick={handleLike}>
                                     <IconWish className={"active"}>
                                         좋아요
                                     </IconWish>{" "}
-                                    123
+                                    {likeCount}
                                 </div>
                                 <div>
                                     <i className="iconBasic iconView">view</i>{" "}
