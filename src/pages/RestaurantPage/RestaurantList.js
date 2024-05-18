@@ -6,6 +6,7 @@ import Title from "../../components/Layout/Title";
 import StarRating from "../../components/Form/StarRating";
 import { IconWish } from "../../components/Form/Icon";
 import SelectDiv from "../../components/Form/Select";
+import { useSelector } from "react-redux";
 
 function RestaurantList(props) {
     const category = [
@@ -53,6 +54,11 @@ function RestaurantList(props) {
     const limit = 6;
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(false);
+    const userId = useSelector((state) => {
+        return state.user.userData.id;
+    });
+    const [liked, setLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
     useEffect(() => {
         restaurantInfo({ skip, limit });
     }, []);
@@ -62,7 +68,6 @@ function RestaurantList(props) {
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
                 params,
             });
-            console.log(hasMore);
             setRestaurantData((prevData) =>
                 loadmore
                     ? [...prevData, ...res.data.restaurant]
@@ -89,7 +94,19 @@ function RestaurantList(props) {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
-
+    // const likes = async () => {
+    //     const params = { userId };
+    //     const res = await axiosInstance.get(`/likes/${rtId}`, { params });
+    //     if (
+    //         res.data.like &&
+    //         res.data.like.length > 0 &&
+    //         res.data.like[0].hasOwnProperty("liked")
+    //     ) {
+    //         setLiked(res.data.like[0].liked);
+    //         console.log(res.data.like[0].liked);
+    //     }
+    //     setLikeCount(res.data.likeCount);
+    // };
     return (
         <SectionWrap>
             <Title className={"titleStt"}>{selectedCategory.name}</Title>
