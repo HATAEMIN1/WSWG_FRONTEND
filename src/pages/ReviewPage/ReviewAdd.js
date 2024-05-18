@@ -18,26 +18,24 @@ function ReviewAdd(props) {
 
     const userData = useSelector((state) => state.user.userData);
     console.log(userData);
+    const navigate = useNavigate();
 
     const [text, setText] = useState({
         title: "",
         content: "",
-        rating: [],
-        hashtag: [],
+        rating: 0,
+        hashtag: "",
         images: [],
     });
 
-    const navigate = useNavigate();
+    const [rating, setRating] = useState(0);
 
     function handleChange(e) {
         const { name, value } = e.target;
-        console.log(value, name);
-        setText((prevState) => {
-            return {
-                ...prevState, //이전상태
-                [name]: value,
-            };
-        });
+        setText((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
     }
 
     async function handleSubmit(e) {
@@ -46,14 +44,18 @@ function ReviewAdd(props) {
             ...text,
             restId: rtId,
             userId: userData.id,
+            rating: rating,
         };
         try {
             await axiosInstance.post("/review-posts", body);
-            // alert("완료");
             navigate(`/mate/${cateId}/restaurants/${rtId}`);
         } catch (error) {
             console.log(error);
         }
+    }
+
+    function handleStarClick(idx) {
+        setRating(idx + 1);
     }
 
     return (
@@ -98,24 +100,19 @@ function ReviewAdd(props) {
                     <Title className={"titleComment"}>
                         <label htmlFor="rating">별점주기</label>
                     </Title>
-                    <InputWrap>
-                        <textarea
-                            type="text"
-                            id="rating"
-                            className="text-left"
-                            onChange={handleChange}
-                            name="rating"
-                            value={text.rating}
-                        />
-                    </InputWrap>
-                    {/* <div className="flex">
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                    </div> */}
+                    <div className="starRating flex">
+                        {[1, 2, 3, 4, 5].map((index) => (
+                            <IconStar
+                                key={index}
+                                onClick={() => handleStarClick(index)}
+                                className={index <= rating ? "selected" : ""}
+                            >
+                                별
+                            </IconStar>
+                        ))}
+                    </div>
                 </div>
+
                 <div className="mb-10">
                     <div>
                         <Title className={"titleComment"}>이미지등록</Title>
