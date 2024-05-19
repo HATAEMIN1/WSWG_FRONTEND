@@ -57,7 +57,7 @@ function RestaurantList(props) {
     const userId = useSelector((state) => {
         return state.user.userData.id;
     });
-    const [liked, setLiked] = useState(false);
+    const [liked, setLiked] = useState({});
     const [likeCount, setLikeCount] = useState(0);
     useEffect(() => {
         restaurantInfo({ skip, limit });
@@ -75,6 +75,7 @@ function RestaurantList(props) {
             );
             setHasMore(res.data.hasMore);
             setLoading(false);
+            res.data.restaurant.forEach((item) => likes(item._id));
         } catch (e) {
             console.log(e);
         }
@@ -94,19 +95,25 @@ function RestaurantList(props) {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
-    // const likes = async () => {
-    //     const params = { userId };
-    //     const res = await axiosInstance.get(`/likes/${rtId}`, { params });
-    //     if (
-    //         res.data.like &&
-    //         res.data.like.length > 0 &&
-    //         res.data.like[0].hasOwnProperty("liked")
-    //     ) {
-    //         setLiked(res.data.like[0].liked);
-    //         console.log(res.data.like[0].liked);
-    //     }
-    //     setLikeCount(res.data.likeCount);
-    // };
+    const likes = async (rtId) => {
+        const params = { userId };
+        try {
+            const res = await axiosInstance.get(`/likes/${rtId}`, { params });
+            if (
+                res.data.like &&
+                res.data.like.length > 0 &&
+                res.data.like[0].hasOwnProperty("liked")
+            ) {
+                setLiked((prev) => ({
+                    ...prev,
+                    [rtId]: res.data.like[0].liked,
+                }));
+            }
+            setLikeCount((prev) => ({ ...prev, [rtId]: res.data.likeCount }));
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <SectionWrap>
             <Title className={"titleStt"}>{selectedCategory.name}</Title>
@@ -147,10 +154,16 @@ function RestaurantList(props) {
                                 </div>
                                 <div className="flex gap-2 h-[20px]">
                                     <div className="flex items-center">
-                                        <IconWish className={"active"}>
+                                        <IconWish
+                                            className={
+                                                liked[item._id] ? "active" : ""
+                                            }
+                                            liked={liked[item._id]}
+                                            disabled={true}
+                                        >
                                             좋아요
-                                        </IconWish>{" "}
-                                        123
+                                        </IconWish>
+                                        {likeCount[item._id] || 0}
                                     </div>
                                     <div className="flex items-center">
                                         <i className="iconBasic iconView">

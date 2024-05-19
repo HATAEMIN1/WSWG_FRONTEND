@@ -27,7 +27,7 @@ const Wish = styled.i`
     display: flex;
     width: 20px;
     height: 20px;
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
     background: url("${wish}");
     background-repeat: no-repeat;
     background-size: 100%;
@@ -70,14 +70,16 @@ function IconStarView({ className, lineStar, ...props }) {
         </>
     );
 }
-function IconWish({ className, liked, ...props }) {
+function IconWish({ className, liked, disabled, ...props }) {
     useEffect(() => {
         setBtnActive(liked);
     }, [liked]);
 
     const [btnActive, setBtnActive] = useState(false);
     function clickStar() {
-        setBtnActive(!btnActive);
+        if (!disabled) {
+            setBtnActive(!btnActive);
+        }
     }
     return (
         <>
