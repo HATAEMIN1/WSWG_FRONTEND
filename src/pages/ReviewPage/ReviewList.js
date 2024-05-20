@@ -138,6 +138,9 @@ function ReviewList(props) {
                                                                 }
                                                             ></StarRating>
                                                         </li>
+                                                        <li>
+                                                            {review.hashtag}
+                                                        </li>
                                                     </ul>
                                                 </div>
                                                 <div>

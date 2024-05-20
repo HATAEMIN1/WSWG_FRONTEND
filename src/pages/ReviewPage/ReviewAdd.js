@@ -30,7 +30,6 @@ function ReviewAdd(props) {
         images: [],
     });
 
-
     // 해시태그-------------------------------------------------------------------------------->
 
     const changeHashTag = (e) => {
@@ -69,8 +68,8 @@ function ReviewAdd(props) {
             const newHashTagArray = [...newHashTagSet];
             const hashtagLength = newHashTagArray.join("").length;
 
-            if (hashtagLength > 30) {
-                setError("*등록 가능한 해시태그는 최대 30자입니다");
+            if (hashtagLength > 15) {
+                setError("*등록 가능한 해시태그는 최대 15자입니다");
                 return prevHashTags; // 새로운 해시태그를 추가하지 않고 이전 해시태그 반환
             } else {
                 setError(""); // 기존의 에러를 지웁니다
@@ -87,6 +86,7 @@ function ReviewAdd(props) {
         e.preventDefault();
         addHashTag(e);
     };
+    //--------------------------------------------------------------------------------------->
 
     //useEffect로 해당 게시물의 리뷰를 불러오는 작업수행
     useEffect(() => {
@@ -105,7 +105,6 @@ function ReviewAdd(props) {
     }, [rtId]);
 
     const [restaurantData, setRestaurantData] = useState([]);
-
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -147,6 +146,10 @@ function ReviewAdd(props) {
         }
         restaurantView();
     }, []);
+
+    const handleCancelClick = () => {
+        navigate(`/mate/${cateId}/restaurants/${rtId}`);
+    };
 
     return (
         <SectionWrap>
@@ -196,7 +199,7 @@ function ReviewAdd(props) {
                     <InputWrap className="inputContainer iconHash">
                         <input
                             type="text"
-                            placeholder="해시태그입력(최대30자)"
+                            placeholder="해시태그입력(최대15자)"
                             className="text-left"
                             onChange={changeHashTag}
                             onKeyUp={addHashTag}
@@ -207,12 +210,15 @@ function ReviewAdd(props) {
                     </InputWrap>
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {/* 해시태그 목록 렌더링 */}
-                    <div className="hashTags">
+                    <div className="flex gap-2 pt-2">
                         {inputHashTag}
                         {hashtag.length > 0 &&
                             hashtag.map((hashTag) => (
-                                <div key={hashTag} className="tag">
-                                    #{hashTag}
+                                <div
+                                    key={hashTag}
+                                    className="flex items-center gap-2"
+                                >
+                                    <span className="hashBox">#{hashTag}</span>
                                 </div>
                             ))}
                     </div>
@@ -273,7 +279,9 @@ function ReviewAdd(props) {
                 <div className="mb-32">
                     <ButtonWrap>
                         <Button basicButton={true}>등록</Button>
-                        <ButtonCencel onClick={`/mate/${cateId}/restaurants/${rtId}`}>취소</ButtonCencel>
+                        <ButtonCencel onClick={handleCancelClick}>
+                            취소
+                        </ButtonCencel>
                     </ButtonWrap>
                 </div>
             </form>

@@ -105,7 +105,7 @@ function ReviewView(props) {
                 <div className="content w-full justify-center items-center mt-5 mb-2">
                     {review.content}
                 </div>
-                <div>{review.hashtag}</div>
+                <div>{review.titleComment}</div>
 
                 <div className="flex justify-between gap-2 mb-40">
                     {(review.image || []).map((image, index) => (
