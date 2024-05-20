@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import InputWrap from "../../components/Form/Input";
 import Title from "../../components/Layout/Title";
-import { Button, ButtonWrap } from "../../components/Form/Button";
+import { Button, ButtonCencel, ButtonWrap } from "../../components/Form/Button";
 import axiosInstance from "../../utils/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { SectionWrap } from "../../components/Layout/Section";
 import { useSelector } from "react-redux";
-import { IconStar } from "../../components/Form/Icon";
+import { IconStar, IconWish } from "../../components/Form/Icon";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import StarRating from "../../components/Form/StarRating";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
@@ -15,11 +18,8 @@ function ReviewAdd(props) {
     const [inputHashTag, setInputHashTag] = useState("");
     const [hashtag, setHashTag] = useState(["맛집", "중식"]);
     const [error, setError] = useState(""); //에러상태정의
-
     const userData = useSelector((state) => state.user.userData);
-    console.log(userData);
     const navigate = useNavigate();
-
     const [rating, setRating] = useState(0);
 
     const [text, setText] = useState({
@@ -29,6 +29,7 @@ function ReviewAdd(props) {
         // hashtag: "",
         images: [],
     });
+
 
     // 해시태그-------------------------------------------------------------------------------->
 
@@ -103,6 +104,9 @@ function ReviewAdd(props) {
         fetchReviews();
     }, [rtId]);
 
+    const [restaurantData, setRestaurantData] = useState([]);
+
+
     function handleChange(e) {
         const { name, value } = e.target;
         setText((prevState) => ({
@@ -134,6 +138,16 @@ function ReviewAdd(props) {
         setRating(index + 1);
     }
 
+    useEffect(() => {
+        async function restaurantView() {
+            const res = await axiosInstance.get(
+                `/restaurants/${cateId}/${rtId}`
+            );
+            setRestaurantData([...restaurantData, res.data.restaurant]);
+        }
+        restaurantView();
+    }, []);
+
     return (
         <SectionWrap>
             <form onSubmit={handleSubmit}>
@@ -141,7 +155,25 @@ function ReviewAdd(props) {
                     <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}>리뷰 등록해볼까?</Title>
                 </div>
-
+                <div className="w-full min-h-[120px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border items-center">
+                    <div className=" w-[100px] overflow-hidden border-r-[1px] p-2">
+                        {restaurantData.length > 0 && (
+                            <img
+                                src={restaurantData[0].image[0]}
+                                alt=""
+                                className="block"
+                            />
+                        )}
+                    </div>
+                    <div className="flex-auto p-[20px]">
+                        {restaurantData.length > 0 && (
+                            <div>
+                                <h2>{restaurantData[0].name}</h2>
+                                <p>{restaurantData[0].category[0].foodtype}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
                 <div className="mb-10">
                     <Title className={"titleComment"}>내용</Title>
                     <InputWrap>
@@ -241,9 +273,7 @@ function ReviewAdd(props) {
                 <div className="mb-32">
                     <ButtonWrap>
                         <Button basicButton={true}>등록</Button>
-                        <Link to={`/mate/${cateId}/restaurants/${rtId}`}>
-                            취소
-                        </Link>
+                        <ButtonCencel onClick={`/mate/${cateId}/restaurants/${rtId}`}>취소</ButtonCencel>
                     </ButtonWrap>
                 </div>
             </form>

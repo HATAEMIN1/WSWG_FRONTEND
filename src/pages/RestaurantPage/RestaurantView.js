@@ -11,7 +11,6 @@ import ReviewList from "../ReviewPage/ReviewList";
 import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
-import login from "../LoginPage/Login";
 import { useSelector } from "react-redux";
 
 function RestaurantView(props) {
@@ -33,13 +32,15 @@ function RestaurantView(props) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const userId = useSelector((state) => {
-        console.log(state);
         return state.user.userData.id;
     });
     const { cateId, rtId } = useParams();
     const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [views, setViews] = useState(0);
+    const [liked, setLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
+
     useEffect(() => {
         async function restaurantView() {
             const res = await axiosInstance.get(
@@ -52,15 +53,14 @@ function RestaurantView(props) {
         }
         incrementViews();
         restaurantView();
+        likes();
     }, []);
-
     const [visibleItems, setVisibleItems] = useState(6);
     const totalItems =
         restaurantData.length > 0 ? restaurantData[0].menuAndPrice.length : 0;
     const showMoreItems = () => {
         setVisibleItems((prevCount) => prevCount + 6);
     };
-
     const incrementViews = async () => {
         try {
             const res = await axiosInstance.post(
@@ -71,7 +71,38 @@ function RestaurantView(props) {
             console.log(error.message);
         }
     };
-
+    const likes = async () => {
+        const params = { userId };
+        const res = await axiosInstance.get(`/likes/${rtId}`, { params });
+        if (
+            res.data.like &&
+            res.data.like.length > 0 &&
+            res.data.like[0].hasOwnProperty("liked")
+        ) {
+            setLiked(res.data.like[0].liked);
+        }
+        setLikeCount(res.data.likeCount);
+    };
+    const handleLike = async () => {
+        const body = { userId, liked };
+        try {
+            if (liked) {
+                await axiosInstance.delete(`/likes/${rtId}`, {
+                    data: body,
+                });
+                setLiked(false);
+                const res = await axiosInstance.get(`/likes/${rtId}`);
+                setLikeCount(res.data.likeCount);
+            } else {
+                await axiosInstance.post(`/likes/${rtId}`, body);
+                setLiked(true);
+                const res = await axiosInstance.get(`/likes/${rtId}`);
+                setLikeCount(res.data.likeCount);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
     const openModal = (image) => {
         setSelectedImage(image);
         setModalOpen(true);
@@ -80,7 +111,6 @@ function RestaurantView(props) {
         setSelectedImage(null);
         setModalOpen(false);
     };
-
     return (
         <>
             <SectionWrap>
@@ -149,11 +179,14 @@ function RestaurantView(props) {
                                 </li>
                             </ul>
                             <div className="flex textBox">
-                                <div>
-                                    <IconWish className={"active"}>
+                                <div onClick={handleLike}>
+                                    <IconWish
+                                        className={liked ? "active" : ""}
+                                        liked={liked}
+                                    >
                                         좋아요
-                                    </IconWish>{" "}
-                                    123
+                                    </IconWish>
+                                    {likeCount}
                                 </div>
                                 <div>
                                     <i className="iconBasic iconView">view</i>{" "}

@@ -19,6 +19,48 @@ export const registerUser = createAsyncThunk(
     }
 );
 
+export const deleteUser = createAsyncThunk(
+    "user/deleteUser",
+    async (body, thunkAPI) => {
+        try {
+            const userId = thunkAPI.getState().user.userData.id;
+            const response = await axiosInstance.delete(
+                `/users/${userId}`,
+                body
+            );
+            console.log("thunkapi 회원탈퇴");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return thunkAPI.rejectWithValue(
+                error.response.data || error.message
+            );
+        }
+    }
+);
+
+export const updateUserPassword = createAsyncThunk(
+    "user/updateUserPassword",
+    async (body, thunkAPI) => {
+        try {
+            // get userId
+            const userId = thunkAPI.getState().user.userData.id;
+
+            const response = await axiosInstance.put(
+                `/users/${userId}/pwdChange`,
+                body
+            );
+            console.log("thunkapi 비밀번호 수정");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return thunkAPI.rejectWithValue(
+                error.response.data || error.message
+            );
+        }
+    }
+);
+
 export const loginUser = createAsyncThunk(
     "user/loginUser",
     async (body, thunkAPI) => {
@@ -57,7 +99,7 @@ export const authUser = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axiosInstance.get(`/users/auth`);
-            console.log("thunkapi auth");
+            // console.log("thunkapi auth");
             return response.data;
         } catch (error) {
             console.log(error);

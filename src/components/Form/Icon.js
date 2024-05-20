@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import starBasic from "../../assets/images/iconStarList.png";
 import starLine from "../../assets/images/iconStarLine.png";
@@ -27,7 +27,7 @@ const Wish = styled.i`
     display: flex;
     width: 20px;
     height: 20px;
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
     background: url("${wish}");
     background-repeat: no-repeat;
     background-size: 100%;
@@ -36,6 +36,7 @@ const Wish = styled.i`
         background: url("${wishActive}");
     }
 `;
+
 
 function IconStar({ className, lineStar, isActive, onClick, ...props }) {
     let cssClasses = lineStar ? "whiteLine" : "";
@@ -48,32 +49,6 @@ function IconStar({ className, lineStar, isActive, onClick, ...props }) {
         </Star>
     );
 }
-// function IconStar({ className, lineStar, onClick, ...props }) {
-//     const [btnActive, setBtnActive] = useState(false);
-//     function clickStar() {
-//         console.log("bbbbb");
-//         setBtnActive(!btnActive);
-//         if (onClick) {
-//             onClick(); // handleStarClick(index)를 호출
-//         }
-//     }
-//     let cssClasses = lineStar ? "whiteLine" : "";
-//     cssClasses += " " + className;
-
-//     return (
-//         <>
-//             <Star
-//                 className={`${btnActive ? "active" : ""}  ${cssClasses}`}
-//                 {...props}
-//                 onClick={() => {
-//                     clickStar();
-//                 }}
-//             >
-//                 &#9733;
-//             </Star>
-//         </>
-//     );
-// }
 
 function IconStarView({ className, lineStar, ...props }) {
     let cssClasses = lineStar ? "whiteLine" : "";
@@ -87,10 +62,16 @@ function IconStarView({ className, lineStar, ...props }) {
         </>
     );
 }
-function IconWish({ className, ...props }) {
+function IconWish({ className, liked, disabled, ...props }) {
+    useEffect(() => {
+        setBtnActive(liked);
+    }, [liked]);
+
     const [btnActive, setBtnActive] = useState(false);
     function clickStar() {
-        setBtnActive(!btnActive);
+        if (!disabled) {
+            setBtnActive(!btnActive);
+        }
     }
     return (
         <>

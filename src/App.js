@@ -6,7 +6,7 @@ import Footer from "./layouts/Footer/Footer";
 import { Header, HeaderMom } from "./layouts/Header/Header";
 import Account from "./pages/AccountPage/Account";
 import AccountEdit from "./pages/AccountPage/AccountEdit";
-import AccountPwdEdit from "./pages/AccountPage/AccountPwdEdit";
+import AccountDelete from "./pages/AccountPage/AccountDelete";
 import MateList from "./pages/GoingWithPage/MateList";
 import Login from "./pages/LoginPage/Login";
 import Home from "./pages/MainPage/Home";
@@ -31,8 +31,21 @@ import {
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
+import { useNavigate } from "react-router-dom";
+import Search from "./pages/SearchPage/Search";
+
 
 function Layout({ modalOpen }) {
+    const isAuth = useSelector((state) => state.user.isAuth);
+    const navigate = useNavigate();
+    function navigateToHome() {
+        navigate("/");
+    }
+
+    useEffect(() => {
+        navigateToHome();
+    }, [isAuth]);
+
     return (
         <>
             <Header modalOpen={modalOpen} />
@@ -103,7 +116,7 @@ function App() {
                         path="/styleGuide"
                         element={<StyleGuide modalOpen={modalOpen} />}
                     ></Route>
-                    <Route path="/" element={<Home />}></Route>
+                    <Route path="/" element={<Home modalOpen={modalOpen} />}></Route>
                     {/* <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />}></Route> */}
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
@@ -121,10 +134,6 @@ function App() {
                         path="/mate/:cateId/restaurants/:rtId/review-post/new"
                         element={<ReviewAdd />}
                     ></Route>
-                    {/* <Route
-                        path="/mate/restaurants/:rtId/review-post/:rpId"
-                        element={<ReviewList />}
-                    ></Route> */}
                     <Route
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
@@ -144,6 +153,12 @@ function App() {
                         path="/account/edit"
                         element={<AccountEdit />}
                     ></Route>
+                    <Route
+                        path="/account/delete"
+                        element={<AccountDelete />}
+                    ></Route>
+                    <Route path="/search" element={<Search />}></Route>
+                    <Route path="/styleguide" element={<StyleGuide />}></Route>
                 </Route>
                 <Route element={<LayoutEtc />}>
                     <Route path="/login" element={<Login />}></Route>
