@@ -4,6 +4,9 @@ import { loginUser } from "../../store/thunkFunctions";
 import { useNavigate } from "react-router-dom";
 import KakaoLogin from "./KakaoLogin";
 import NaverLogin from "./NaverLogin";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 function Login() {
     const {
@@ -14,6 +17,7 @@ function Login() {
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [pwShow, setPwShow] = useState(false);
     async function onSubmit({ email, password }) {
         const body = {
             email,
@@ -21,7 +25,7 @@ function Login() {
         };
 
         dispatch(loginUser(body));
-
+        console.log("after dispatch login user");
         navigate("/");
         reset();
     }
@@ -90,10 +94,13 @@ function Login() {
                                 />
                             </div>
                         </div>
-                        <div style={{ fontFamily: "Pretendard-Regular" }}>
+                        <div
+                            style={{ fontFamily: "Pretendard-Regular" }}
+                            className="relative"
+                        >
                             <input
                                 className="w-[351px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
-                                type="text"
+                                type={pwShow ? "text" : "password"}
                                 id="passwordInput"
                                 name="passwordInput"
                                 required
@@ -106,6 +113,23 @@ function Login() {
                                     {errors.password.message}
                                 </div>
                             )}
+                            <div className="absolute right-[10px] top-[7px]">
+                                {pwShow ? (
+                                    <FontAwesomeIcon
+                                        onClick={() => {
+                                            setPwShow(false);
+                                        }}
+                                        icon={faEye}
+                                    />
+                                ) : (
+                                    <FontAwesomeIcon
+                                        onClick={() => {
+                                            setPwShow(true);
+                                        }}
+                                        icon={faEyeSlash}
+                                    />
+                                )}
+                            </div>
                         </div>
                     </div>
                     <button
@@ -126,10 +150,10 @@ function Login() {
                         style={{ fontFamily: "Pretendard-Regular" }}
                         className="text-black text-[15px] font-normal flex justify-center items-center"
                     >
-                        이미 어까의 회원이시면{" "}
-                        <a href="/register" className="underline">
+                        <span className="mr-[6px]">이미 어까의 회원이시면</span>
+                        <a href="/register" className="underline mr-[6px]">
                             회원가입
-                        </a>{" "}
+                        </a>
                         하세요
                     </div>
                 </form>

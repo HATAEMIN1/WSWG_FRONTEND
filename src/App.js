@@ -31,9 +31,21 @@ import {
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
+import { useNavigate } from "react-router-dom";
 import Search from "./pages/SearchPage/Search";
 
+
 function Layout({ modalOpen }) {
+    const isAuth = useSelector((state) => state.user.isAuth);
+    const navigate = useNavigate();
+    function navigateToHome() {
+        navigate("/");
+    }
+
+    useEffect(() => {
+        navigateToHome();
+    }, [isAuth]);
+
     return (
         <>
             <Header modalOpen={modalOpen} />
