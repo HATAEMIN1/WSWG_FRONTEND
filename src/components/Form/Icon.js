@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import starBasic from '../../assets/images/iconStarList.png'
-import starLine from '../../assets/images/iconStarLine.png'
-import starActive from '../../assets/images/iconStarListActive.png'
-import wish from '../../assets/images/iconWish.png'
-import wishActive from '../../assets/images/iconWishActive.png'
+import React, { useState } from "react";
+import styled from "styled-components";
+import starBasic from "../../assets/images/iconStarList.png";
+import starLine from "../../assets/images/iconStarLine.png";
+import starActive from "../../assets/images/iconStarListActive.png";
+import wish from "../../assets/images/iconWish.png";
+import wishActive from "../../assets/images/iconWishActive.png";
 const Star = styled.i`
-    content: '';
+    content: "";
     display: flex;
     width: 20px;
     height: 20px;
@@ -21,9 +21,9 @@ const Star = styled.i`
     &.active {
         background: url("${starActive}");
     }
-`
+`;
 const Wish = styled.i`
-    content: '';
+    content: "";
     display: flex;
     width: 20px;
     height: 20px;
@@ -35,41 +35,76 @@ const Wish = styled.i`
     &.active {
         background: url("${wishActive}");
     }
-`
-function IconStar({className,lineStar,...props}) {
+`;
+
+function IconStar({ className, lineStar, isActive, onClick, ...props }) {
+    let cssClasses = lineStar ? "whiteLine" : "";
+    cssClasses += " " + className;
+    cssClasses += isActive ? " active" : "";
+
+    return (
+        <Star className={cssClasses} onClick={onClick} {...props}>
+            &#9733;
+        </Star>
+    );
+}
+// function IconStar({ className, lineStar, onClick, ...props }) {
+//     const [btnActive, setBtnActive] = useState(false);
+//     function clickStar() {
+//         console.log("bbbbb");
+//         setBtnActive(!btnActive);
+//         if (onClick) {
+//             onClick(); // handleStarClick(index)를 호출
+//         }
+//     }
+//     let cssClasses = lineStar ? "whiteLine" : "";
+//     cssClasses += " " + className;
+
+//     return (
+//         <>
+//             <Star
+//                 className={`${btnActive ? "active" : ""}  ${cssClasses}`}
+//                 {...props}
+//                 onClick={() => {
+//                     clickStar();
+//                 }}
+//             >
+//                 &#9733;
+//             </Star>
+//         </>
+//     );
+// }
+
+function IconStarView({ className, lineStar, ...props }) {
+    let cssClasses = lineStar ? "whiteLine" : "";
+    cssClasses += " " + className;
+
+    return (
+        <>
+            <Star className={`${cssClasses}`} {...props}>
+                &#9733;
+            </Star>
+        </>
+    );
+}
+function IconWish({ className, ...props }) {
     const [btnActive, setBtnActive] = useState(false);
     function clickStar() {
         setBtnActive(!btnActive);
     }
-    let cssClasses = lineStar ? 'whiteLine' : '';
-    cssClasses += ' ' + className
-    
-  return (
-    <>
-        <Star className={`${btnActive ? 'active' : ''}  ${cssClasses}`} {...props} onClick={()=>{clickStar()}}>&#9733;</Star>
-    </>
-  )
-}
-function IconStarView({className,lineStar,...props}) {
-    let cssClasses = lineStar ? 'whiteLine' : '';
-    cssClasses += ' ' + className
-    
-  return (
-    <>
-        <Star className={`${cssClasses}`} {...props}>&#9733;</Star>
-    </>
-  )
-}
-function IconWish ({className,...props}) {
-    const [btnActive, setBtnActive] = useState(false);
-    function clickStar() {
-        setBtnActive(!btnActive);
-    }
-  return (
-    <>
-        <Wish className={`${btnActive ? 'active' : ''}`} {...props} onClick={()=>{clickStar()}}>&#9733;</Wish>
-    </>
-  )
+    return (
+        <>
+            <Wish
+                className={`${btnActive ? "active" : ""}`}
+                {...props}
+                onClick={() => {
+                    clickStar();
+                }}
+            >
+                &#9733;
+            </Wish>
+        </>
+    );
 }
 
-export {IconStar, IconWish , IconStarView }
+export { IconStar, IconWish, IconStarView };
