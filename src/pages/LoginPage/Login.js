@@ -21,7 +21,7 @@ function Login() {
         };
 
         dispatch(loginUser(body));
-
+        console.log("after dispatch login user");
         navigate("/");
         reset();
     }

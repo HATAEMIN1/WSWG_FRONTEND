@@ -67,6 +67,7 @@ const KakaoLogin = () => {
                             accessToken,
                         };
                         dispatch(oauthLogin(body));
+                        console.log("after dispatch login user");
                         navigate("/");
                     }
                 }
