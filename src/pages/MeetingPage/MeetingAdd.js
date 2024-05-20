@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 import InputWrap from "../../components/Form/Input";
-import { Button, ButtonWrap } from "../../components/Form/Button";
+import { Button, ButtonCencel, ButtonWrap } from "../../components/Form/Button";
 import axiosInstance from "../../utils/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -41,6 +41,9 @@ function MeetingAdd(props) {
         }
     }
     const [modal, setModal] = useState(true);
+
+    // 오픈채팅
+
     return (
         <SectionWrap>
             <Title className={"titleComment"}>
@@ -74,17 +77,19 @@ function MeetingAdd(props) {
                         ></textarea>
                     </InputWrap>
                 </div>
+                <div>
                 <Title className={"titleComment"}>오픈 채팅 링크</Title>
                 <InputWrap>
                     <input
                         type="text"
-                        placeholder="오픈 채팅 링크 주소를 입력하세요"
-                        class="text-center"
                         name="chatLink"
+                        placeholder="오픈채팅방 주소를 입력하세요"
+                        class="text-center"
                         onChange={handleChange}
                         value={meeting.chatLink}
                     />
                 </InputWrap>
+                </div>
                 <div>
                     <h2 className="text-center text-red-600">
                         *타인을 비방하거나 불건전한 내용을 등록시 삭제 될 수
@@ -93,7 +98,7 @@ function MeetingAdd(props) {
                 </div>
                 <ButtonWrap>
                     <Button basicButton={true}>등록</Button>
-                    <Link to="/meet-posts">취소</Link>
+                    <ButtonCencel><Link to="/meet-posts">취소</Link></ButtonCencel>
                 </ButtonWrap>
             </form>
         </SectionWrap>

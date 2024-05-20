@@ -99,7 +99,7 @@ export const authUser = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axiosInstance.get(`/users/auth`);
-            console.log("thunkapi auth");
+            // console.log("thunkapi auth");
             return response.data;
         } catch (error) {
             console.log(error);

@@ -6,6 +6,7 @@ import Title from "../../components/Layout/Title";
 import StarRating from "../../components/Form/StarRating";
 import { IconWish } from "../../components/Form/Icon";
 import SelectDiv from "../../components/Form/Select";
+import { Button } from "../../components/Form/Button";
 import { useSelector } from "react-redux";
 
 function RestaurantList(props) {
@@ -119,7 +120,7 @@ function RestaurantList(props) {
             <Title className={"titleStt"}>{selectedCategory.name}</Title>
             <div className="flex gap-2 mb-5">
                 <SelectDiv></SelectDiv>
-                <button className="border rounded-md">지역 변경</button>
+                <Button basicButton={true} className={"max-w-[100px]"}>지역선택</Button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
                 {restaurantData.map((item, index) => {

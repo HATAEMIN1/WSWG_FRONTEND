@@ -32,6 +32,8 @@ import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
 import { useNavigate } from "react-router-dom";
+import Search from "./pages/SearchPage/Search";
+
 
 function Layout({ modalOpen }) {
     const isAuth = useSelector((state) => state.user.isAuth);
@@ -114,7 +116,9 @@ function App() {
                         path="/styleGuide"
                         element={<StyleGuide modalOpen={modalOpen} />}
                     ></Route>
-                    <Route path="/" element={<Home />}></Route>
+                    <Route path="/" element={<Home modalOpen={modalOpen} />}></Route>
+                    {/* <Route path="/login" element={<Login />}></Route>
+                    <Route path="/register" element={<Register />}></Route> */}
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
                     <Route path="/mate" element={<MateList />}></Route>
@@ -153,6 +157,7 @@ function App() {
                         path="/account/delete"
                         element={<AccountDelete />}
                     ></Route>
+                    <Route path="/search" element={<Search />}></Route>
                     <Route path="/styleguide" element={<StyleGuide />}></Route>
                 </Route>
                 <Route element={<LayoutEtc />}>

@@ -11,7 +11,6 @@ import ReviewList from "../ReviewPage/ReviewList";
 import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
-import login from "../LoginPage/Login";
 import { useSelector } from "react-redux";
 
 function RestaurantView(props) {
@@ -81,7 +80,6 @@ function RestaurantView(props) {
             res.data.like[0].hasOwnProperty("liked")
         ) {
             setLiked(res.data.like[0].liked);
-            console.log(res.data.like[0].liked);
         }
         setLikeCount(res.data.likeCount);
     };
