@@ -18,7 +18,7 @@ function Header({ ...props }) {
     console.log("isAuth when redirected to homepage:", isAuth);
     return (
         <>
-            <header className="w-full h-[120px] md:h-[82px] bg-white shadow">
+            <header className="w-full h-[120px] md:h-[82px] bg-white shadow fixed top-0 z-[2] ">
                 <div className="md:container container flex-wrap md:flex-nowrap m-auto h-[100%] flex justify-between items-center gap-x-2">
                     <h1 className="headerLogo flex-none items-end pt-4 md:pt-3">
                         <Link to="/">

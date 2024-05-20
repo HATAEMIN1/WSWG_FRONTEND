@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 import InputWrap from "../../components/Form/Input";
 import Title from "../../components/Layout/Title";
-import { Button, ButtonWrap } from "../../components/Form/Button";
+import { Button, ButtonCencel, ButtonWrap } from "../../components/Form/Button";
 import axiosInstance from "../../utils/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { SectionWrap } from "../../components/Layout/Section";
@@ -157,9 +157,7 @@ function ReviewAdd(props) {
                 <div className="mb-32">
                     <ButtonWrap>
                         <Button basicButton={true}>등록</Button>
-                        <Link to={`/mate/${cateId}/restaurants/${rtId}`}>
-                            취소
-                        </Link>
+                        <ButtonCencel onClick={`/mate/${cateId}/restaurants/${rtId}`}>취소</ButtonCencel>
                     </ButtonWrap>
                 </div>
             </form>

@@ -10,7 +10,7 @@ import jQuery from "jquery";
 function ReviewList(props) {
     const { cateId, rtId } = useParams();
     const [reviewAdd, setReviewAdd] = useState([]);
-
+    const [defaultImage, setDefualtImage] = useState(false);
     // const limit = 5;
     // const [skip, setSkip] = useState(0);
     // const [hasMore, setHasMore] = useState(false);
@@ -73,9 +73,10 @@ function ReviewList(props) {
 
                     <div className="flex reviewListWrap gap-5">
                         <div className="flex-none imgWrap">
-                            <img
+                            {defaultImage == true ? <img
                                 src={`${process.env.PUBLIC_URL}/images/imageSample1.png`}
-                            />
+                            /> : null}
+                            
                         </div>
                         <div className="w-full flex flex-col justify-between py-[10px]">
                             <ul className="textWrap">

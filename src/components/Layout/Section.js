@@ -1,9 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 const SectionFull = styled.div `
+ padding-top: 80px;
 `
 const Section = styled.div `
- padding: 0;
+  padding: 0;
+  maging: 0 auto;
+  &.defualt {
+  padding-top: 0;
+  padding-top: 80px;
+
+ }
 `
 function SectionFullWrap({className,children,...props}) {
   let cssClasses = 'w-full';
@@ -14,13 +21,13 @@ function SectionFullWrap({className,children,...props}) {
     <SectionFull  className={cssClasses} {...props}>{children}</SectionFull>
   )
 }
-function SectionWrap({className,children,...props}) {
-  let cssClasses = 'container m-auto';
+function SectionWrap({className,basicSection,children,...props}) {
+  let cssClasses = basicSection ? "" :"defualt";
   if (className) {
     cssClasses += ' ' + className;
   }
   return (
-    <Section className={cssClasses} {...props}>{children}</Section>
+    <Section className={`container m-auto ${cssClasses}`} {...props}>{children}</Section>
   )
 }
 
