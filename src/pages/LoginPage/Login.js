@@ -140,7 +140,7 @@ function Login() {
                     </button>
                     <div
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="w-[400px] h-10 px-2.5 py-[5px] mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
+                        className="w-[400px] h-10 px-2.5 py-[5px] ml-1 mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
                     >
                         간편로그인
                     </div>
@@ -148,7 +148,7 @@ function Login() {
                     <NaverLogin />
                     <div
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="text-black text-[15px] font-normal flex justify-center items-center"
+                        className="text-black text-[15px] font-normal ml-3 flex justify-center items-center"
                     >
                         <span className="mr-[6px]">이미 어까의 회원이시면</span>
                         <a href="/register" className="underline mr-[6px]">

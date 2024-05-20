@@ -86,7 +86,7 @@ function Register() {
                     <div className="text-center text-5xl">어까</div>
                     <div className="text-center text-3xl">가입 해볼까?</div>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="emailWrap flex justify-between mt-5 mb-5">
+                        <div className="emailWrap flex justify-center gap-4 ml-2 mt-5 mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
                                     <img
@@ -97,7 +97,7 @@ function Register() {
                             </div>
                             <div style={{ fontFamily: "Pretendard-Regular" }}>
                                 <input
-                                    className="w-[351px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                    className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type="text"
                                     id="emailInput"
                                     name="emailInput"
@@ -112,7 +112,7 @@ function Register() {
                                 )}
                             </div>
                         </div>
-                        <div className="usernameWrap flex justify-between mb-5">
+                        <div className="usernameWrap gap-4 flex ml-2 justify-between mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
                                     <img
@@ -123,7 +123,7 @@ function Register() {
                             </div>
                             <div style={{ fontFamily: "Pretendard-Regular" }}>
                                 <input
-                                    className="w-[351px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                    className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type="text"
                                     id="usernameInput"
                                     name="usernameInput"
@@ -140,7 +140,7 @@ function Register() {
                                 )}
                             </div>
                         </div>
-                        <div className="passwordWrap flex justify-between mb-5">
+                        <div className="passwordWrap ml-2 gap-4 flex justify-between mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
                                     <img
@@ -154,7 +154,7 @@ function Register() {
                                 className="relative"
                             >
                                 <input
-                                    className="w-[351px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                    className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     id="passwordInput"
                                     name="passwordInput"
                                     type={pwShow ? "text" : "password"}
@@ -187,7 +187,7 @@ function Register() {
                                 </div>
                             </div>
                         </div>
-                        <div className="passwordConfirmWrap flex justify-between mb-5">
+                        <div className="passwordConfirmWrap ml-2 flex justify-between gap-4 mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
                                     <img
@@ -201,7 +201,7 @@ function Register() {
                                 className="relative"
                             >
                                 <input
-                                    className="w-[351px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                    className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type={pwShowConfirm ? "text" : "password"}
                                     id="passwordConfirmInput"
                                     name="passwordConfirmInput"
@@ -243,13 +243,13 @@ function Register() {
                         </div>
                         <button
                             style={{ fontFamily: "Pretendard-Regular" }}
-                            className="w-[400px] h-10 px-2.5 py-[5px] mb-5 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 inline-flex"
+                            className="w-[380px] h-[50px] px-2.5 py-[5px] ml-3 mb-5 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 inline-flex"
                         >
                             회원가입
                         </button>
                         <div
                             style={{ fontFamily: "Pretendard-Regular" }}
-                            className="text-black text-[15px] font-normal flex justify-center items-center"
+                            className="text-black text-[15px] ml-3 font-normal flex justify-center items-center"
                         >
                             이미 어까의 회원이라면 바로
                             <a href="/login" className="mx-[6px] underline">
