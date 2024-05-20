@@ -96,7 +96,6 @@ function ReviewList(props) {
                             </Button>
                         </Link>
                     </div>
-
                     <div className="w-full flex reviewListWrap gap-5">
                         {reviewAdd && reviewAdd.length > 0 && (
                             <div className="w-full">
@@ -163,6 +162,7 @@ function ReviewList(props) {
                         )}
 
                         {/* <div className="w-full flex flex-col justify-between py-[10px]">
+>>>>>>> main
                             <ul className="textWrap">
                                 <li className="name">우주여신 최보람</li>
                                 <li className="content w-full ">

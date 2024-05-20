@@ -157,73 +157,28 @@ textarea::-webkit-input-placeholder {
 .selectWrap {
 
 }
-.selectbox {
+.selectBox {
     display: flex;
     gap: 10px;
 }
-.select_cus {
+.selectBox select {
     position: relative;
     min-width: 100px;
     max-width: 500px;
     margin: 0 auto 0;
-}
-.select_cus .trigger {
-    display: flex;
-    align-items: center;
-    position: relative;
     height: 40px;
     padding: 0 36px 0 16px;
     border:solid 1px #E3E3E3;
     border-radius: 5px;
-    cursor: pointer;
+    background:url('../images/selectArrow.png') center right no-repeat;
+    -webkit-appearance: none; /* 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    transition: 0.3s;
 }
-.select_cus .trigger:after {
-    content:'';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    background:url('../images/selectArrow.png') center center no-repeat;
-    background-size: contain;
-    transform:scaleY(-1);
-}
-.select_cus.active .trigger:after {
-    transform:scaleY(1);
-}
-.select_cus .trigger_txt {
-    overflow: hidden;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: -0.21px;
-    color: #ACACAC;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-.select_cus.select .trigger_txt {
-    color: #222222;
-}
-.select_cus .option {
-    display: none;
-    position: absolute;
-    top: calc(100% - 1px);
-    width: 100%;
-    max-height: 203px;
-    background: #fff;
-    border: 1px solid #D9D9D9;
-    z-index: 1;
-    overflow-y: auto;
-}
-.select_cus .option > li {
-    padding:11px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.3;
-    color: #2C2C2C;
-    cursor: pointer;
-}
-.select_cus .option > li:hover {
-    background: #F2F2F2;
+.selectBox select:focus {
+    background:url('../images/seclet.png') center right no-repeat;
 }
 /*local radio*/
 .localButton {
@@ -373,6 +328,9 @@ i.iconBasic {
     background-size: 100%;
     font-size: 0;
 }
+.iconLogout {
+    background: url("../images/iconLogout.png");
+}
 .iconMore {
     background: url("../images/iconMore.png");
 }
@@ -501,6 +459,41 @@ i.iconSmall {
     height: auto;
     right:0 !important;
     background: url("../images/swiperNext.png") no-repeat !important;
+}
+.mainMapLayer {
+    background: rgba(66, 238, 238, 0.8);
+}
+.mainMapButton  {
+    text-shadow: 0 0 3px #333333;
+    align-items: center;
+    i {
+        content: '';
+        display: flex;
+        width: 26px;
+        height: 26px;
+        margin-right: 5px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: center;
+    }
+    i.iconMark {
+        background: url("../images/iconMark.png") no-repeat;
+    }
+    i.iconMap {
+        background: url("../images/iconMap.png") no-repeat;
+    }
+}
+.mainMapButton::after {
+    content: '';
+    position: absolute;
+    display: flex;
+    top:50%;
+    left:50%;
+    width: 2px;
+    height: 25px;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    box-shadow: 0 0 2px #333333;
 }
 /*누구랑 갈까 메뉴*/
 .mateMenu {
