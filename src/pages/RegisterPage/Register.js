@@ -63,7 +63,7 @@ function Register() {
     return (
         <div className="w-[100%] h-[1000px] flex justify-center">
             <div
-                className="w-[100%] h-[100px] flex-col justify-start items-center inline-flex font-normal text-zinc-800"
+                className="w-full h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
                 style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
             >
                 <div className="text-center text-5xl">어까</div>
@@ -193,8 +193,8 @@ function Register() {
                         style={{ fontFamily: "Pretendard-Regular" }}
                         className="text-black text-[15px] font-normal flex justify-center items-center"
                     >
-                        이미 어까의 회원이라면 바로{" "}
-                        <a href="/login" className="underline">
+                        이미 어까의 회원이라면 바로
+                        <a href="/login" className="mx-[6px] underline">
                             로그인!
                         </a>
                     </div>

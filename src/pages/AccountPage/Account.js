@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 
 function Account() {
     const isAuth = useSelector((state) => state.user.isAuth);
+    const oauthLogin = useSelector((state) => state.user.oauthLogin);
 
     const userData = useSelector((state) => state?.user?.userData);
 
     console.log("isAuth from account", isAuth);
+    console.log("oauthLogin from account", oauthLogin);
 
     return (
         <div>
@@ -23,7 +25,7 @@ function Account() {
                     </div>
                     <div className="flex justify-center">
                         <div className="flex flex-col gap-8 font-['Pretendard']">
-                            <div className="w-[960px] h-[180px] p-[15px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
+                            <div className="w-[960px] h-[350px] p-[15px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
                                 <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px]">
                                     {/* <img src={userData.image.filename} alt="user profile pic" /> */}
                                 </div>
@@ -35,8 +37,12 @@ function Account() {
                                                     <div className="self-stretch text-zinc-800 text-base font-semibold">
                                                         {userData.name}
                                                     </div>
-                                                    <div className="self-stretch text-zinc-800 text-base font-light">
-                                                        {userData.email}
+                                                    <div>
+                                                        {!oauthLogin && (
+                                                            <div className="self-stretch text-zinc-800 text-base font-light">
+                                                                {userData.email}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <div className="justify-start items-start gap-2.5 inline-flex">

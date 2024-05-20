@@ -22,6 +22,7 @@ const initialState = {
         createdAt: "",
     },
     isAuth: false,
+    oauthLogin: false,
     isLoading: false,
     error: "",
 };
@@ -53,6 +54,7 @@ const userSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.oauthLogin = false;
                 console.log(
                     "action.payload when loginUser.fulfilled:",
                     action.payload
@@ -70,6 +72,7 @@ const userSlice = createSlice({
             })
             .addCase(oauthLogin.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.oauthLogin = true;
                 console.log(
                     "action.payload when oauthLogin.fulfilled:",
                     action.payload
@@ -107,6 +110,7 @@ const userSlice = createSlice({
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.isLoading = false;
+                state.oauthLogin = false;
                 state.userData = initialState.userData; //초기화
                 state.isAuth = false;
                 localStorage.removeItem("accessToken"); // token삭제
@@ -137,6 +141,7 @@ const userSlice = createSlice({
             })
             .addCase(deleteUser.fulfilled, (state) => {
                 state.isLoading = false;
+                state.oauthLogin = false;
                 state.userData = initialState.userData; //초기화
                 state.isAuth = false;
                 localStorage.removeItem("accessToken"); // token삭제

@@ -126,10 +126,10 @@ function Login() {
                         style={{ fontFamily: "Pretendard-Regular" }}
                         className="text-black text-[15px] font-normal flex justify-center items-center"
                     >
-                        이미 어까의 회원이시면{" "}
-                        <a href="/register" className="underline">
+                        <span className="mr-[6px]">이미 어까의 회원이시면</span>
+                        <a href="/register" className="underline mr-[6px]">
                             회원가입
-                        </a>{" "}
+                        </a>
                         하세요
                     </div>
                 </form>

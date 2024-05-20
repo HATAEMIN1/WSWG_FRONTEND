@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 function AccountDelete() {
     const userData = useSelector((state) => state?.user?.userData);
+    const oauthLogin = useSelector((state) => state.user.oauthLogin);
     const {
         register,
         handleSubmit,
@@ -68,8 +69,13 @@ function AccountDelete() {
                         <div className="text-lg font-semibold">
                             {userData.name}
                         </div>
-                        <div className="text-lg font-medium">
-                            {userData.email}
+
+                        <div>
+                            {!oauthLogin && (
+                                <div className="text-lg font-medium">
+                                    {userData.email}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
