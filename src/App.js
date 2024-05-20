@@ -31,6 +31,7 @@ import {
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
+import Search from "./pages/SearchPage/Search";
 
 function Layout({ modalOpen }) {
     return (
@@ -144,6 +145,7 @@ function App() {
                         path="/account/delete"
                         element={<AccountDelete />}
                     ></Route>
+                    <Route path="/search" element={<Search />}></Route>
                     <Route path="/styleguide" element={<StyleGuide />}></Route>
                 </Route>
                 <Route element={<LayoutEtc />}>
