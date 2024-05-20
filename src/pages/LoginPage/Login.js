@@ -58,11 +58,11 @@ function Login() {
                 <div className="text-center text-5xl">어까</div>
                 <div className="text-center text-3xl">로그인 해볼까?</div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="emailWrap flex justify-between mt-5 mb-5">
+                    <div className="emailWrap flex justify-center gap-4 items-center mt-5 mb-5">
                         <div className="w-10 h-10 relative">
-                            <div className="w-[25.20px] h-[25.20px] left-[7px] top-[7px] absolute">
+                            <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
                                 <img
-                                    src="./images/icon_Email.svg"
+                                    src="./images/iconMail.png"
                                     alt="email icon"
                                 />
                             </div>
@@ -85,12 +85,12 @@ function Login() {
                         </div>
                     </div>
 
-                    <div className="passwordWrap flex justify-between mb-5">
+                    <div className="passwordWrap flex justify-center gap-4 items-center mb-5">
                         <div className="w-10 h-10 relative">
-                            <div className="w-[25.20px] h-[25.20px] left-[7px] top-[7px] absolute">
+                            <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
                                 <img
-                                    src="./images/icon_Person.svg"
-                                    alt="person icon"
+                                    src="./images/iconPwd.png"
+                                    alt="password key icon"
                                 />
                             </div>
                         </div>
