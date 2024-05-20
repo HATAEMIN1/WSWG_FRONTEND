@@ -58,7 +58,7 @@ function Login() {
                 <div className="text-center text-5xl">어까</div>
                 <div className="text-center text-3xl">로그인 해볼까?</div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="emailWrap flex justify-center gap-4 items-center mt-5 mb-5">
+                    <div className="emailWrap w-[380px] flex justify-center gap-4 ml-2 items-center mt-5 mb-5">
                         <div className="w-10 h-10 relative">
                             <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
                                 <img
@@ -69,7 +69,7 @@ function Login() {
                         </div>
                         <div style={{ fontFamily: "Pretendard-Regular" }}>
                             <input
-                                className="w-[351px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                 type="text"
                                 id="emailInput"
                                 name="emailInput"
@@ -85,7 +85,7 @@ function Login() {
                         </div>
                     </div>
 
-                    <div className="passwordWrap flex justify-center gap-4 items-center mb-5">
+                    <div className="passwordWrap w-[380px] ml-2 flex justify-center gap-4 items-center mb-5">
                         <div className="w-10 h-10 relative">
                             <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
                                 <img
@@ -99,7 +99,7 @@ function Login() {
                             className="relative"
                         >
                             <input
-                                className="w-[351px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                 type={pwShow ? "text" : "password"}
                                 id="passwordInput"
                                 name="passwordInput"
@@ -134,13 +134,13 @@ function Login() {
                     </div>
                     <button
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="w-[400px] h-10 px-2.5 py-[5px] mb-14 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 block"
+                        className="w-[380px] h-[50px] px-2.5 py-[5px] ml-3 mb-14 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
                     >
                         로그인
                     </button>
                     <div
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="w-[400px] h-10 px-2.5 py-[5px] mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 block"
+                        className="w-[400px] h-10 px-2.5 py-[5px] mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
                     >
                         간편로그인
                     </div>
