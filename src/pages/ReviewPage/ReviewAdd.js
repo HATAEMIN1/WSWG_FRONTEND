@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
 import InputWrap from "../../components/Form/Input";
 import Title from "../../components/Layout/Title";
@@ -7,37 +7,34 @@ import axiosInstance from "../../utils/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { SectionWrap } from "../../components/Layout/Section";
 import { useSelector } from "react-redux";
-import { IconStar } from "../../components/Form/Icon";
+import { IconStar, IconWish } from "../../components/Form/Icon";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import StarRating from "../../components/Form/StarRating";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
-
-    console.log(cateId);
-    console.log(rtId);
-
     const userData = useSelector((state) => state.user.userData);
-    console.log(userData);
+    const navigate = useNavigate();
 
     const [text, setText] = useState({
         title: "",
         content: "",
-        rating: [],
-        hashtag: [],
+        rating: 0,
+        hashtag: "",
         images: [],
     });
 
-    const navigate = useNavigate();
+    const [rating, setRating] = useState(0);
+    const [restaurantData, setRestaurantData] = useState([]);
 
     function handleChange(e) {
         const { name, value } = e.target;
-        console.log(value, name);
-        setText((prevState) => {
-            return {
-                ...prevState, //이전상태
-                [name]: value,
-            };
-        });
+        setText((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
     }
 
     async function handleSubmit(e) {
@@ -46,15 +43,29 @@ function ReviewAdd(props) {
             ...text,
             restId: rtId,
             userId: userData.id,
+            rating: rating,
         };
         try {
             await axiosInstance.post("/review-posts", body);
-            // alert("완료");
             navigate(`/mate/${cateId}/restaurants/${rtId}`);
         } catch (error) {
             console.log(error);
         }
     }
+
+    function handleStarClick(idx) {
+        setRating(idx + 1);
+    }
+
+    useEffect(() => {
+        async function restaurantView() {
+            const res = await axiosInstance.get(
+                `/restaurants/${cateId}/${rtId}`
+            );
+            setRestaurantData([...restaurantData, res.data.restaurant]);
+        }
+        restaurantView();
+    }, []);
 
     return (
         <SectionWrap>
@@ -63,7 +74,25 @@ function ReviewAdd(props) {
                     <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}>리뷰 등록해볼까?</Title>
                 </div>
-
+                <div className="w-full min-h-[120px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border items-center">
+                    <div className=" w-[100px] overflow-hidden border-r-[1px] p-2">
+                        {restaurantData.length > 0 && (
+                            <img
+                                src={restaurantData[0].image[0]}
+                                alt=""
+                                className="block"
+                            />
+                        )}
+                    </div>
+                    <div className="flex-auto p-[20px]">
+                        {restaurantData.length > 0 && (
+                            <div>
+                                <h2>{restaurantData[0].name}</h2>
+                                <p>{restaurantData[0].category[0].foodtype}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
                 <div className="mb-10">
                     <Title className={"titleComment"}>내용</Title>
                     <InputWrap>
@@ -98,24 +127,19 @@ function ReviewAdd(props) {
                     <Title className={"titleComment"}>
                         <label htmlFor="rating">별점주기</label>
                     </Title>
-                    <InputWrap>
-                        <textarea
-                            type="text"
-                            id="rating"
-                            className="text-left"
-                            onChange={handleChange}
-                            name="rating"
-                            value={text.rating}
-                        />
-                    </InputWrap>
-                    {/* <div className="flex">
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                    </div> */}
+                    <div className="starRating flex">
+                        {[1, 2, 3, 4, 5].map((index) => (
+                            <IconStar
+                                key={index}
+                                onClick={() => handleStarClick(index)}
+                                className={index <= rating ? "selected" : ""}
+                            >
+                                별
+                            </IconStar>
+                        ))}
+                    </div>
                 </div>
+
                 <div className="mb-10">
                     <div>
                         <Title className={"titleComment"}>이미지등록</Title>
