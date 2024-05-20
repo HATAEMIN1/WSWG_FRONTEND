@@ -2,7 +2,7 @@ import "../../assets/css/style.scss";
 import "../../assets/css/tStyle.scss";
 
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../store/thunkFunctions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
@@ -18,6 +18,8 @@ function Register() {
         watch,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
+    const error = useSelector((state) => state.user.error);
+    console.log("error in register:", error);
 
     const [modalOn, setModalOn] = useState(false);
     const [pwShow, setPwShow] = useState(false);
@@ -67,6 +69,7 @@ function Register() {
             message: "최소 4자입니다.",
         },
     };
+    console.log("Error object:", error);
 
     return (
         <>
@@ -74,11 +77,25 @@ function Register() {
                 className={`w-full h-full flex flex-col justify-center items-center`}
             >
                 {modalOn && (
-                    <NotificationModal
-                        text="회원가입이 완료되었습니다!"
-                        path="/login"
-                    />
+                    <>
+                        {error && error.error ? (
+                            <NotificationModal
+                                text={error.error}
+                                path="/register"
+                                imgSrc="/images/iconSad.png"
+                                imgAlt="sad icon"
+                            />
+                        ) : (
+                            <NotificationModal
+                                text="회원가입이 완료되었습니다!"
+                                path="/login"
+                                imgSrc="/images/iconSmile.png"
+                                imgAlt="smile icon"
+                            />
+                        )}
+                    </>
                 )}
+
                 <div
                     className="w-full h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
                     style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
