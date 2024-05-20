@@ -82,68 +82,72 @@ function Search(props) {
     return (
         <>
             <SectionWrap>
-                <div>[{query}] 검색 결과</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
-                    {results.map((item, index) => {
-                        return (
-                            <div
-                                key={`restaurantData-${index}`}
-                                className="flex gap-7 restaurantListWrap"
-                            >
-                                <div className="flex-none imgWrap">
-                                    <Link
-                                        to={`/mate/${cateId}/restaurants/${item._id}`}
-                                    >
-                                        <img
-                                            src={item.image[0]}
-                                            alt={item.name}
-                                        />
-                                    </Link>
-                                </div>
-                                <div className="flex flex-wrap items-center textWrap py-2">
-                                    <div className="w-full">
+                <div className="">[{query}] 검색 결과</div>
+                {results.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
+                        {results.map((item, index) => {
+                            return (
+                                <div
+                                    key={`restaurantData-${index}`}
+                                    className="flex gap-7 restaurantListWrap"
+                                >
+                                    <div className="flex-none imgWrap">
                                         <Link
                                             to={`/mate/${cateId}/restaurants/${item._id}`}
                                         >
-                                            <h3>{item.name}</h3>
+                                            <img
+                                                src={item.image[0]}
+                                                alt={item.name}
+                                            />
                                         </Link>
-                                        <p>{item.category[0].foodtype}</p>
-                                        <div className="flex">
-                                            <span className="flex-none">
-                                                평점:{" "}
-                                            </span>
-                                            <StarRating
-                                                rating={item.rating}
-                                            ></StarRating>
-                                        </div>
                                     </div>
-                                    <div className="flex gap-2 h-[20px]">
-                                        <div className="flex items-center">
-                                            <IconWish
-                                                className={
-                                                    liked[item._id]
-                                                        ? "active"
-                                                        : ""
-                                                }
-                                                liked={liked[item._id]}
-                                                disabled={true}
+                                    <div className="flex flex-wrap items-center textWrap py-2">
+                                        <div className="w-full">
+                                            <Link
+                                                to={`/mate/${cateId}/restaurants/${item._id}`}
                                             >
-                                                좋아요
-                                            </IconWish>
-                                            {likeCount[item._id] || 0}
+                                                <h3>{item.name}</h3>
+                                            </Link>
+                                            <p>{item.category[0].foodtype}</p>
+                                            <div className="flex">
+                                                <span className="flex-none">
+                                                    평점:{" "}
+                                                </span>
+                                                <StarRating
+                                                    rating={item.rating}
+                                                ></StarRating>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center">
-                                            <i className="iconBasic iconView">
-                                                view
-                                            </i>{" "}
-                                            {item.views}
+                                        <div className="flex gap-2 h-[20px]">
+                                            <div className="flex items-center">
+                                                <IconWish
+                                                    className={
+                                                        liked[item._id]
+                                                            ? "active"
+                                                            : ""
+                                                    }
+                                                    liked={liked[item._id]}
+                                                    disabled={true}
+                                                >
+                                                    좋아요
+                                                </IconWish>
+                                                {likeCount[item._id] || 0}
+                                            </div>
+                                            <div className="flex items-center">
+                                                <i className="iconBasic iconView">
+                                                    view
+                                                </i>{" "}
+                                                {item.views}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <div>해당 단어의 검색결과가 없습니다.</div>
+                )}
             </SectionWrap>
         </>
     );
