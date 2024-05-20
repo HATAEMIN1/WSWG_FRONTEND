@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/thunkFunctions";
 import { useState } from "react";
@@ -7,6 +7,7 @@ function Header({ ...props }) {
     const [search, setSearch] = useState("");
     const isAuth = useSelector((state) => state.user.isAuth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function handleLogout() {
         dispatch(logoutUser());
