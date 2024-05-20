@@ -26,8 +26,7 @@ function MeetingList(props) {
     }, []);
 
     return (
-        <>
-            
+        <> 
             <SectionWrap>
                 <Title memTitle={false} className="mt-[80px]">
                     우리만날까?

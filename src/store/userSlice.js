@@ -6,14 +6,18 @@ import {
     authUser,
     logoutUser,
     registerUser,
+    oauthLogin,
+    updateUserPassword,
+    deleteUser,
 } from "./thunkFunctions";
 
 const initialState = {
     userData: {
         id: "",
-        eamil: "",
+        email: "",
         name: "",
         role: 0,
+        password: "",
         image: "",
         createdAt: "",
     },
@@ -25,22 +29,19 @@ const initialState = {
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {
-        setAuth(state, action) {
-            state.isAuth = action.payload;
-        },
-        setUserData(state, action) {
-            state.userData = action.payload;
-        },
-        // should I create setUserProfileImage here?
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(registerUser.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(registerUser.fulfilled, (state) => {
+            .addCase(registerUser.fulfilled, (state, action) => {
                 state.isLoading = false;
+                console.log(
+                    "action.payload when registerUser.fulfilled:",
+                    action.payload
+                );
+                state.userData = action.payload.user;
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.isLoading = false;
@@ -52,11 +53,32 @@ const userSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.userData = action.payload;
+                console.log(
+                    "action.payload when loginUser.fulfilled:",
+                    action.payload
+                );
+                state.userData = action.payload.user;
                 state.isAuth = true;
                 localStorage.setItem("accessToken", action.payload.accessToken);
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(oauthLogin.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(oauthLogin.fulfilled, (state, action) => {
+                state.isLoading = false;
+                console.log(
+                    "action.payload when oauthLogin.fulfilled:",
+                    action.payload
+                );
+                state.userData = action.payload.user;
+                state.isAuth = true;
+                localStorage.setItem("accessToken", action.payload.accessToken);
+            })
+            .addCase(oauthLogin.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             })
@@ -65,7 +87,12 @@ const userSlice = createSlice({
             })
             .addCase(authUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.userData = action.payload;
+                console.log(
+                    "action.payload when authUser.fulfilled:",
+                    action.payload
+                );
+                state.userData = action.payload.user;
+
                 state.isAuth = true;
             })
             .addCase(authUser.rejected, (state, action) => {
@@ -78,13 +105,43 @@ const userSlice = createSlice({
             .addCase(logoutUser.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(logoutUser.fulfilled, (state, action) => {
+            .addCase(logoutUser.fulfilled, (state) => {
                 state.isLoading = false;
                 state.userData = initialState.userData; //초기화
                 state.isAuth = false;
                 localStorage.removeItem("accessToken"); // token삭제
             })
             .addCase(logoutUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(updateUserPassword.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateUserPassword.fulfilled, (state, action) => {
+                state.isLoading = false;
+                console.log(
+                    "action.payload in updateUserPassword:",
+                    action.payload
+                );
+                state.userData = action.payload.user;
+                state.isAuth = true;
+            })
+            .addCase(updateUserPassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                state.isAuth = true;
+            })
+            .addCase(deleteUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteUser.fulfilled, (state) => {
+                state.isLoading = false;
+                state.userData = initialState.userData; //초기화
+                state.isAuth = false;
+                localStorage.removeItem("accessToken"); // token삭제
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             });

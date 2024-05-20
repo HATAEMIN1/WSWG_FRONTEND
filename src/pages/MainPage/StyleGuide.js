@@ -44,7 +44,9 @@ function StyleGuide({ ...props }) {
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">뷰페이지 내용 서브타이틀 </h2>
+                    <h2 className=" text-slate-500 font-bold">
+                        뷰페이지 내용 서브타이틀{" "}
+                    </h2>
                     <Title className={"titleListStt"}>메뉴</Title>
                 </div>
 
@@ -117,8 +119,10 @@ function StyleGuide({ ...props }) {
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">추천 아이콘 -  클릭용</h2>
-                    <div className="flex">
+                    <h2 className=" text-slate-500 font-bold">
+                        추천 아이콘 - 클릭용
+                    </h2>
+                    <div className="StarRatingInput flex">
                         <IconStar>별</IconStar>
                         <IconStar>별</IconStar>
                         <IconStar>별</IconStar>
@@ -128,7 +132,9 @@ function StyleGuide({ ...props }) {
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">추천 아이콘 -  보기용</h2>
+                    <h2 className=" text-slate-500 font-bold">
+                        추천 아이콘 - 보기용
+                    </h2>
                     <div className="flex">
                         <IconStarView className={"active"}>별</IconStarView>
                         <IconStarView>별</IconStarView>
@@ -139,7 +145,9 @@ function StyleGuide({ ...props }) {
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">추천 아이콘 - 이미지 위에 올릴때</h2>
+                    <h2 className=" text-slate-500 font-bold">
+                        추천 아이콘 - 이미지 위에 올릴때
+                    </h2>
                     <div className="flex bg-slate-500">
                         <IconStar className={"whiteLine"} lineStar="true">
                             별
