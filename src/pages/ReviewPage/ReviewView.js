@@ -11,8 +11,6 @@ function ReviewView(props) {
     const { rpId, rtId, cateId } = useParams();
     const [review, setReview] = useState("");
     const [restaurant, setRestaurant] = useState("");
-    // const [modalOpen, setModalOpen] = useState(false);
-    // const [selectedImage, setSelectedImage] = useState(null);
     const userId = useSelector((state) => {
         return state.user.userData.id;
     });
@@ -20,12 +18,14 @@ function ReviewView(props) {
     useEffect(() => {
         const fetchReviewAndRestaurant = async () => {
             try {
+                //리뷰정보가져오기
                 const reviewRes = await axiosInstance.get(
                     `/review-posts/${rpId}`
                 );
                 setReview(reviewRes.data.review);
                 console.log(reviewRes.data);
 
+                //레스토랑정보가져오기
                 const restaurantRes = await axiosInstance.get(
                     `/restaurants/${reviewRes.data.review.restaurantId}`
                 );
@@ -64,9 +64,7 @@ function ReviewView(props) {
                     <div className="w-[100px] rounded-md overflow-hidden">
                         {restaurant.image}
                     </div>
-                    {/* <div className="mx-5 mt-5 justify-center items-center">
-                        {`/mate/${cateId}/restaurants/${rtId}`}
-                        </div> */}
+
                     <div>
                         <div>{restaurant.name}</div>
                         <div className="text-sm">{restaurant.foodType}</div>
