@@ -12,6 +12,9 @@ align-items: center;
 background: #EBE9E9;
 border-radius : 5px;
 color: #333333;
+a {
+    display: flex;
+}
 &:hover {
     background: #D9D9D9;
 }

@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from "react";
-import $ from "jquery";
+import React, { useEffect , useState } from 'react';
+import $ from 'jquery';
 function SelectOption({ options, onSelect }) {
     return (
-        <ul className="option">
-            {options.map((option, index) => (
-                <li
-                    key={`option-${index}`}
-                    data-value={option.name}
-                    onClick={() => onSelect(option.name)}
-                >
-                    {option.name}
-                </li>
-            ))}
-        </ul>
+      <ul className="option">
+        {options.map((option, index) => (
+          <li key={index} data-value={option.name} onClick={() => onSelect(option.name)}>
+            {option.name}
+          </li>
+        ))}
+      </ul>
     );
-}
-function SelectDiv({ props }) {
-    const [selectedValues, setSelectedValues] = useState({
-        광역시도: "",
-        시도군: "",
-        읍면동: "",
-    });
+  }
+function SelectDiv({props}) {
+    const [selectedValues, setSelectedValues] = useState({ 광역시도: '', 시도군: '', 읍면동: '' });
     const handleSelect = (name, value) => {
-        setSelectedValues((prevState) => ({ ...prevState, [name]: value }));
+        setSelectedValues(prevState => ({ ...prevState, [name]: value }));
     };
     useEffect(() => {
         function selectCus() {
@@ -71,52 +63,48 @@ function SelectDiv({ props }) {
     }, []);
     const region1 = [
         {
-            name: "서울",
-            region2: [
+            name:"서울",
+            region2 : [
                 {
-                    region2Name: "종로구",
-                    region3: [
+                    region2Name:"종로구",
+                    region3 : [
                         {
-                            region2Name: "종로1가",
+                            region2Name:"종로1가"
                         },
-                    ],
+                    ]
                 },
-            ],
+            ]
+
         },
         {
-            name: "경기도",
-            region2: [
+            name:"경기도",
+            region2 : [
                 {
-                    region2Name: "종로구",
-                    region3: [
+                    region2Name:"종로구",
+                    region3 : [
                         {
-                            region2Name: "종로1가",
+                            region2Name:"종로1가"
                         },
-                    ],
+                    ]
                 },
-            ],
+            ]
+
         },
-    ];
+    ]
 
     return (
-        <div className="selectbox">
-            {Object.keys(selectedValues).map((name, index) => (
-                <div className="select_cus" key={`selectbox-${index}`}>
-                    <input
-                        type="hidden"
-                        className="opt_val"
-                        value={selectedValues[name]}
-                    />
-                    <div className="trigger">
-                        <span className="trigger_txt">{name}</span>
-                    </div>
-                    <SelectOption
-                        options={region1.map((item) => ({ name: item.name }))}
-                        onSelect={(value) => handleSelect(name, value)}
-                    />
-                </div>
-            ))}
+
+    <div className="selectbox">
+      {Object.keys(selectedValues).map((name, index) => (
+        <div className="select_cus" key={index}>
+          <input type="hidden" className="opt_val" value={selectedValues[name]} />
+          <div className="trigger">
+            <span className="trigger_txt">{name}</span>
+          </div>
+          <SelectOption options={region1.map(item => ({ name: item.name }))} onSelect={value => handleSelect(name, value)} />
         </div>
+      ))}
+    </div>
     );
 }
 

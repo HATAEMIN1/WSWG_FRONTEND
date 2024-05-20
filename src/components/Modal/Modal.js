@@ -2,9 +2,9 @@ import React from 'react'
 import { Button } from '../Form/Button'
 import Title from '../Layout/Title'
 
-function Modal(props) {
+function Modal({...props}) {
   return (
-    <div className=" fixed w-full h-full bg-black bg-opacity-50 z-20 layer">
+    <div className="fixed w-full h-full bg-black bg-opacity-50 z-20 layer">
         <div className="relative max-w-[530px] min-w-[400px] m-auto modalWrap">
             <button onClick={props.onClick} className="absolute top-[-40px] right-[0px]">
                 <img src={`${process.env.PUBLIC_URL}/images/btnModalClose.svg`} />

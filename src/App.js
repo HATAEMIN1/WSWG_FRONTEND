@@ -103,7 +103,9 @@ function App() {
                         path="/styleGuide"
                         element={<StyleGuide modalOpen={modalOpen} />}
                     ></Route>
-                    <Route path="/" element={<Home />}></Route>
+                    <Route path="/" element={<Home modalOpen={modalOpen} />}></Route>
+                    {/* <Route path="/login" element={<Login />}></Route>
+                    <Route path="/register" element={<Register />}></Route> */}
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
                     <Route path="/mate" element={<MateList />}></Route>
