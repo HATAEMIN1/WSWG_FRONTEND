@@ -110,10 +110,7 @@ function Register() {
                     </>
                 )}
 
-                <div
-                    className="w-full h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
-                    style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
-                >
+                <div className="w-full h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
                     <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}>가입 해볼까?</Title>
                     <form onSubmit={handleSubmit(onSubmit)}>

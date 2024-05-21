@@ -56,10 +56,7 @@ function AccountDelete() {
     }
     return (
         <>
-            <div
-                className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
-                style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
-            >
+            <div className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
                 <Title memTitle={true}>어까</Title>
                 <Title memTitle={false}>우리 헤어지는 걸까?</Title>
 
