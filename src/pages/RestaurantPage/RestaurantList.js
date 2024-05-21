@@ -6,7 +6,6 @@ import Title from "../../components/Layout/Title";
 import StarRating from "../../components/Form/StarRating";
 import { IconWish } from "../../components/Form/Icon";
 import SelectDiv from "../../components/Form/Select";
-import { Button } from "../../components/Form/Button";
 import { useSelector } from "react-redux";
 
 function RestaurantList(props) {
@@ -55,6 +54,10 @@ function RestaurantList(props) {
     const limit = 6;
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(false);
+    const [filters, setFilters] = useState({
+        metropolitan: "",
+        city: "",
+    });
     const userId = useSelector((state) => {
         return state.user.userData.id;
     });
@@ -63,17 +66,23 @@ function RestaurantList(props) {
     useEffect(() => {
         restaurantInfo({ skip, limit });
     }, []);
-    async function restaurantInfo({ skip, limit, loadmore = false }) {
+    async function restaurantInfo({
+        skip,
+        limit,
+        loadMore = false,
+        filters = {},
+    }) {
         try {
-            const params = { skip, limit };
+            const params = { skip, limit, filters };
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
                 params,
             });
             setRestaurantData((prevData) =>
-                loadmore
-                    ? [...prevData, ...res.data.restaurant]
-                    : prevData.concat(res.data.restaurant)
+                loadMore
+                    ? [...restaurantData, ...res.data.restaurant]
+                    : res.data.restaurant
             );
+            console.log(restaurantData);
             setHasMore(res.data.hasMore);
             setLoading(false);
             res.data.restaurant.forEach((item) => likes(item._id));
@@ -88,7 +97,11 @@ function RestaurantList(props) {
         ) {
             if (!loading && hasMore) {
                 setLoading(true);
-                restaurantInfo({ skip: restaurantData.length, limit });
+                restaurantInfo({
+                    skip: restaurantData.length,
+                    limit,
+                    loadMore: true,
+                });
             }
         }
     };
@@ -115,12 +128,33 @@ function RestaurantList(props) {
             console.log(error);
         }
     };
+    const handleFilter = (newFilterData, cate1, cate2) => {
+        const newFilters = { ...filters };
+        newFilters[cate1] = newFilterData.metropolitan;
+        newFilters[cate2] = newFilterData.city;
+        showFilterResult(newFilterData);
+        setFilters(newFilters);
+    };
+    function showFilterResult(filters) {
+        const body = {
+            limit,
+            skip: 0,
+            filters: filters,
+        };
+        restaurantInfo(body);
+        setSkip(0);
+    }
     return (
         <SectionWrap>
             <Title className={"titleStt"}>{selectedCategory.name}</Title>
             <div className="flex gap-2 mb-5">
-                <SelectDiv></SelectDiv>
-                <Button basicButton={true} className={"max-w-[100px]"}>지역선택</Button>
+                <SelectDiv
+                    checkedMetropolitan={filters.metropolitan}
+                    checkedCity={filters.city}
+                    onFilters={(filters) => {
+                        handleFilter(filters, "metropolitan", "city");
+                    }}
+                ></SelectDiv>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
                 {restaurantData.map((item, index) => {

@@ -26,7 +26,7 @@ function MeetingList(props) {
     }, []);
 
     return (
-        <> 
+        <>
             <SectionWrap>
                 <Title memTitle={false} className="mt-[80px]">
                     우리만날까?
@@ -34,12 +34,12 @@ function MeetingList(props) {
                 <div className="flex justify-between gap-2 mb-5">
                     <div className="flex gap-2">
                         <SelectDiv></SelectDiv>
-                        <Button basicButton={true} className={"max-w-[100px]"}>지역선택</Button>
                     </div>
                     <div className="flex items-center">
                         <Button className={"lineSmallButton"}>
                             <Link to="/meet-posts/new">
-                            <i className="iconSmall iconWriter">writer</i> 나도 작성하기
+                                <i className="iconSmall iconWriter">writer</i>{" "}
+                                나도 작성하기
                             </Link>
                         </Button>
                     </div>
@@ -48,30 +48,40 @@ function MeetingList(props) {
                     등록된 게시글이 없습니다.
                 </div>
                 {meetingAdd && meetingAdd.length > 0 && (
-                <div>
-                    {meetingAdd.map((meeting, meetindex) => {
-                        return (
-                            <>
-                            <div key={meetindex} >
-                                <div className="flex justify-between items-center">
-                                    <Title className={"titleListStt"}>{meeting.title}</Title>
-                                    <div className="flex gap-2">
-                                        <div className="flex">
-                                            <i className="iconBasic iconView">view</i>1234
+                    <div>
+                        {meetingAdd.map((meeting, meetindex) => {
+                            return (
+                                <>
+                                    <div key={meetindex}>
+                                        <div className="flex justify-between items-center">
+                                            <Title className={"titleListStt"}>
+                                                {meeting.title}
+                                            </Title>
+                                            <div className="flex gap-2">
+                                                <div className="flex">
+                                                    <i className="iconBasic iconView">
+                                                        view
+                                                    </i>
+                                                    1234
+                                                </div>
+                                                <div className="flex">
+                                                    <i className="iconBasic iconView">
+                                                        view
+                                                    </i>
+                                                    1234
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex">
-                                            <i className="iconBasic iconView">view</i>1234
-                                        </div>
+                                        <div>{meeting.chatLink}</div>
+                                        <MeetingOpenLink
+                                            Linkurl={meeting.chatLink}
+                                        ></MeetingOpenLink>
                                     </div>
-                                </div>
-                                <div>{meeting.chatLink}</div>
-                                <MeetingOpenLink Linkurl={meeting.chatLink} ></MeetingOpenLink>
-                            </div>
-                            </>
-                        );
-                    })}
-                </div>
-            )}
+                                </>
+                            );
+                        })}
+                    </div>
+                )}
             </SectionWrap>
         </>
     );
