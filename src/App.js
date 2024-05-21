@@ -100,59 +100,46 @@ function App() {
             })}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
-                    <Route element={<AuthRouter isAuth={isAuth} />}>
-                        <Route path="/account" element={<Account />}></Route>
-                        <Route
-                            path="/account/edit"
-                            element={<AccountEdit />}
-                        ></Route>
+                    <Route element={<AuthRouter />}>
+                        <Route path="/account" element={<Account />} />
+                        <Route path="/account/edit" element={<AccountEdit />} />
                         <Route
                             path="/account/delete"
                             element={<AccountDelete />}
-                        ></Route>
+                        />
                     </Route>
 
-                    <Route
-                        index
-                        element={<Home modalOpen={modalOpen} />}
-                    ></Route>
+                    <Route index element={<Home modalOpen={modalOpen} />} />
 
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
-                    <Route path="/mate" element={<MateList />}></Route>
-                    <Route
-                        path="/mate/:cateId"
-                        element={<RestaurantList />}
-                    ></Route>
+                    <Route path="/mate" element={<MateList />} />
+                    <Route path="/mate/:cateId" element={<RestaurantList />} />
                     <Route
                         path="/mate/:cateId/restaurants/:rtId"
                         element={<RestaurantView />}
-                    ></Route>
+                    />
                     <Route
                         path="/mate/:cateId/restaurants/:rtId/review-post/new"
                         element={<ReviewAdd />}
-                    ></Route>
+                    />
                     <Route
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
-                    ></Route>
+                    />
 
-                    <Route path="/meet-posts" element={<MeetingList />}></Route>
-                    <Route
-                        path="/meet-posts/new"
-                        element={<MeetingAdd />}
-                    ></Route>
-                    <Route
-                        path="/meet-posts/:mpId"
-                        element={<MeetingView />}
-                    ></Route>
+                    <Route path="/meet-posts" element={<MeetingList />} />
+                    <Route path="/meet-posts/new" element={<MeetingAdd />} />
+                    <Route path="/meet-posts/:mpId" element={<MeetingView />} />
 
-                    <Route path="/search" element={<Search />}></Route>
-                    {/* <Route path="/styleguide" element={<StyleGuide />}></Route> */}
+                    <Route path="/search" element={<Search />} />
+                    {/* <Route path="/styleguide" element={<StyleGuide />}/> */}
                 </Route>
-                <Route element={<LayoutEtc />}>
-                    <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route>
+                <Route element={<NotAuthRouter />}>
+                    <Route element={<LayoutEtc />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Route>
                 </Route>
             </Routes>
         </>
