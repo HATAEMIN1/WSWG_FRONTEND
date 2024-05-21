@@ -9,7 +9,7 @@ import AccountDelete from "./pages/AccountPage/AccountDelete";
 import MateList from "./pages/GoingWithPage/MateList";
 import Login from "./pages/LoginPage/Login";
 import Home from "./pages/MainPage/Home";
-import StyleGuide from "./pages/MainPage/StyleGuide";
+// import StyleGuide from "./pages/MainPage/StyleGuide";
 import MeetingAdd from "./pages/MeetingPage/MeetingAdd";
 import MeetingList from "./pages/MeetingPage/MeetingList";
 import MeetingView from "./pages/MeetingPage/MeetingView";
