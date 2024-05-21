@@ -4,12 +4,20 @@ import InputWrap from "../../components/Form/Input";
 import { useForm } from "react-hook-form";
 import { updateUserPassword } from "../../store/thunkFunctions";
 import axiosInstance from "../../utils/axios";
+import NotificationModal from "../../components/Modal/NotificationModal";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 function AccountEdit() {
     const [changePwd, setChangePwd] = useState(false);
     const userData = useSelector((state) => state?.user?.userData);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
+    const error = useSelector((state) => state.user.error);
+    const [modalOn, setModalOn] = useState(false);
+    const [oldPwShow, setOldPwShow] = useState(false);
+    const [newPwShow, setNewPwShow] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -17,6 +25,7 @@ function AccountEdit() {
         reset,
         watch,
     } = useForm({ mode: "onChange" });
+
     const userPassword = {
         required: {
             value: true,
@@ -26,9 +35,25 @@ function AccountEdit() {
             value: 4,
             message: "최소 4자입니다.",
         },
+        validate: async (password) => {
+            const body = {
+                newPassword: password,
+                oldPassword: userData.password,
+            };
+            const response = await axiosInstance.post(
+                "/users/passwordCheck",
+                body
+            );
+            const isMatch = response.data.isMatch;
+            return isMatch || "비밀번호가 기존 비밀번호와 일치하지 않습니다!";
+            // return (
+            //     password === userData.password ||
+            //     "비밀번호가 기존 비밀번호와 일치하지 않습니다!"
+            // );
+        },
+    };
+    const userPasswordNew = {
         validate: async (newPassword) => {
-            console.log("userData:", userData);
-            console.log("userData.password:", userData.password);
             const body = {
                 newPassword,
                 oldPassword: userData.password,
@@ -41,23 +66,39 @@ function AccountEdit() {
             return !isMatch || "이미 등록된 비밀번호에요!";
         },
     };
-    const userPasswordConfirm = {
-        validate: (value) => {
-            return value === watch("password") || "비밀번호가 달라요!";
-        },
-    };
 
     function handleClickPwdChange() {
         setChangePwd(true);
     }
     const dispatch = useDispatch();
-    async function onSubmit({ password }) {
-        dispatch(updateUserPassword({ password }));
-        console.log("updated password:", password);
+    async function onSubmit({ passwordNew }) {
+        dispatch(updateUserPassword({ passwordNew }));
+        setModalOn(true);
         reset();
     }
     return (
-        <>
+        <div
+            className={`w-full h-full flex flex-col justify-center items-center`}
+        >
+            {modalOn && (
+                <>
+                    {error && error.error ? (
+                        <NotificationModal
+                            text={error.error}
+                            path="/account/edit"
+                            imgSrc="/images/iconSad.png"
+                            imgAlt="sad icon"
+                        />
+                    ) : (
+                        <NotificationModal
+                            text="비밀번호 변경이 완료되었습니다!"
+                            path="/login"
+                            imgSrc="/images/iconSmile.png"
+                            imgAlt="smile icon"
+                        />
+                    )}
+                </>
+            )}
             <div
                 className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
                 style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
@@ -114,14 +155,33 @@ function AccountEdit() {
                                     />
                                     <InputWrap>
                                         <input
-                                            type="text"
+                                            type={
+                                                oldPwShow ? "text" : "password"
+                                            }
                                             id="password"
-                                            placeholder="비밀번호를 입력하세요"
+                                            placeholder="기존 비밀번호를 입력해주세요"
                                             {...register(
                                                 "password",
                                                 userPassword
                                             )}
                                         />
+                                        <div className="absolute right-[10px] top-[7px]">
+                                            {oldPwShow ? (
+                                                <FontAwesomeIcon
+                                                    onClick={() => {
+                                                        setOldPwShow(false);
+                                                    }}
+                                                    icon={faEye}
+                                                />
+                                            ) : (
+                                                <FontAwesomeIcon
+                                                    onClick={() => {
+                                                        setOldPwShow(true);
+                                                    }}
+                                                    icon={faEyeSlash}
+                                                />
+                                            )}
+                                        </div>
                                     </InputWrap>
                                 </div>
                                 {errors.password && (
@@ -138,19 +198,37 @@ function AccountEdit() {
                                     />
                                     <InputWrap>
                                         <input
-                                            type="text"
-                                            id="passwordConfirm"
-                                            placeholder="비밀번호를 확인하세요"
+                                            type={
+                                                newPwShow ? "text" : "password"
+                                            }
+                                            placeholder="새로운 비밀번호를 입력해주세요"
                                             {...register(
-                                                "passwordConfirm",
-                                                userPasswordConfirm
+                                                "passwordNew",
+                                                userPasswordNew
                                             )}
                                         />
+                                        <div className="absolute right-[10px] top-[7px]">
+                                            {newPwShow ? (
+                                                <FontAwesomeIcon
+                                                    onClick={() => {
+                                                        setNewPwShow(false);
+                                                    }}
+                                                    icon={faEye}
+                                                />
+                                            ) : (
+                                                <FontAwesomeIcon
+                                                    onClick={() => {
+                                                        setNewPwShow(true);
+                                                    }}
+                                                    icon={faEyeSlash}
+                                                />
+                                            )}
+                                        </div>
                                     </InputWrap>
                                 </div>
-                                {errors.passwordConfirm && (
+                                {errors.passwordNew && (
                                     <div className="text-red-400 text-xs mt-4">
-                                        {errors.passwordConfirm.message}
+                                        {errors.passwordNew.message}
                                     </div>
                                 )}
                             </div>
@@ -181,7 +259,7 @@ function AccountEdit() {
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     );
 }
 

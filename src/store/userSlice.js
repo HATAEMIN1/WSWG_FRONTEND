@@ -135,8 +135,9 @@ const userSlice = createSlice({
                     "action.payload in updateUserPassword:",
                     action.payload
                 );
-                state.userData = action.payload.user;
-                state.isAuth = true;
+                state.userData.password = action.payload.user.password;
+                state.isAuth = false;
+                localStorage.removeItem("accessToken");
             })
             .addCase(updateUserPassword.rejected, (state, action) => {
                 state.isLoading = false;

@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 
 function Account() {
     const isAuth = useSelector((state) => state.user.isAuth);
+
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
 
     const userData = useSelector((state) => state?.user?.userData);
-
-    console.log("isAuth from account", isAuth);
-    console.log("oauthLogin from account", oauthLogin);
 
     return (
         <div>
