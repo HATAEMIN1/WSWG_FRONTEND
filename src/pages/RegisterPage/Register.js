@@ -71,18 +71,18 @@ function Register() {
         },
     };
 
-    const imageMimeType = "/image/(png|jpg|jpeg)/i";
+    // const imageMimeType = "/image/(png|jpg|jpeg)/i";
 
-    async function handleImgUpload(file) {
+    function handleImgUpload(file) {
         // if (!file.type.match(imageMimeType)) {
         //     alert("Image mime type is not valid");
         //     return;
         // }
-        // const fileReader = new FileReader();
-        // fileReader.onload = (e) => {
-        // }
-        // fileReader.readAsDataURL(file); // encode file as a base64 url string
-        // return;
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+            setImgSrc(fileReader.result);
+        };
+        fileReader.readAsDataURL(file); // encode file as a base64 url string
     }
 
     return (
