@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/thunkFunctions";
-import { useNavigate } from "react-router-dom";
 import KakaoLogin from "./KakaoLogin";
 import NaverLogin from "./NaverLogin";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import NotificationModal from "../../components/Modal/NotificationModal";
 
 function Login() {
     const {
@@ -16,7 +16,8 @@ function Login() {
         reset,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const error = useSelector((state) => state.user.error);
+    const [modalOn, setModalOn] = useState(false);
     const [pwShow, setPwShow] = useState(false);
     async function onSubmit({ email, password }) {
         const body = {
@@ -25,8 +26,7 @@ function Login() {
         };
 
         dispatch(loginUser(body));
-        console.log("after dispatch login user");
-        navigate("/");
+        setModalOn(true);
         reset();
     }
     const userEmail = {
@@ -36,7 +36,7 @@ function Login() {
         },
         pattern: {
             value: /^\S+@\S+$/i,
-            message: "이메일을 입력",
+            message: "이메일을 옳은 방식으로 입력해주세요",
         },
     };
     const userPassword = {
@@ -50,7 +50,26 @@ function Login() {
         },
     };
     return (
-        <div className="w-[100%] h-[1000px] flex justify-center">
+        <div className="w-full h-full flex flex-col justify-center items-center">
+            {modalOn && (
+                <>
+                    {error && error.error ? (
+                        <NotificationModal
+                            text={error.error}
+                            path="/login"
+                            imgSrc="/images/iconSad.png"
+                            imgAlt="sad icon"
+                        />
+                    ) : (
+                        <NotificationModal
+                            text="로그인이 완료되었습니다!"
+                            path="/"
+                            imgSrc="/images/iconSmile.png"
+                            imgAlt="smile icon"
+                        />
+                    )}
+                </>
+            )}
             <div
                 className="w-[100%] h-[100px] flex-col justify-start items-center inline-flex font-normal text-zinc-800"
                 style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
@@ -140,7 +159,7 @@ function Login() {
                     </button>
                     <div
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="w-[400px] h-10 px-2.5 py-[5px] mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
+                        className="w-[400px] h-10 px-2.5 py-[5px] ml-1 mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
                     >
                         간편로그인
                     </div>
@@ -148,7 +167,7 @@ function Login() {
                     <NaverLogin />
                     <div
                         style={{ fontFamily: "Pretendard-Regular" }}
-                        className="text-black text-[15px] font-normal flex justify-center items-center"
+                        className="text-black text-[15px] font-normal ml-3 flex justify-center items-center"
                     >
                         <span className="mr-[6px]">이미 어까의 회원이시면</span>
                         <a href="/register" className="underline mr-[6px]">
