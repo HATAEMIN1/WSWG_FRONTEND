@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children } from 'react'
 import { Button } from '../Form/Button'
 import Title from '../Layout/Title'
 
@@ -77,4 +77,14 @@ function FilterModal(...props) {
       </div>
     )
   }
-export {Modal, MapModal , MapModalSelect, FilterModal}
+  function TextModal({Children,...props}) {
+    return (
+        <>
+            <div className="m-auto bg-white min-h-[100px] rounded-[1.25em] p-[30px]" {...props}>
+            <div>{Children}</div>
+            <Button basicButton={true}>확인</Button>
+            </div>
+        </>
+    )
+  }
+export {Modal, MapModal , MapModalSelect, FilterModal , TextModal}

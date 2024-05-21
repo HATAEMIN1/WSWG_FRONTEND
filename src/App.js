@@ -27,6 +27,7 @@ import {
     MapModal,
     FilterModal,
     MapModalSelect,
+    TextModal
 } from "./components/Modal/Modal";
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
@@ -62,6 +63,7 @@ function App() {
         <MapModalSelect modalOpen={modalOpen} />,
         <MapModal />,
         <FilterModal />,
+        <TextModal />,
     ];
     function modalOpen(idx) {
         setModalView(true);
@@ -126,7 +128,7 @@ function App() {
                         element={<ReviewView />}
                     ></Route>
 
-                    <Route path="/meet-posts" element={<MeetingList />}></Route>
+                    <Route path="/meet-posts" element={<MeetingList modalOpen={modalOpen} />}></Route>
                     <Route
                         path="/meet-posts/new"
                         element={<MeetingAdd />}

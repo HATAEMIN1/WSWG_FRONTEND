@@ -678,6 +678,27 @@ i.iconSmall {
         background: #F5F5F5;
     }
 }
+.iconTrash {
+    content: '';
+    display: flex;
+    width: 32px;
+    height: 32px;
+    font-size: 0;
+    background: url("../images/iconTrash.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin-left: 0 !important;
+}
+.hashBox {
+    width: auto;
+    padding: 3px 10px;
+    font-size: 0.815em;
+    font-weight: 600;
+    border: solid 1px #ccc;
+    border-radius: 20px;
+    background: #F5F5F5;
+}
 
 @media (max-width: 768px) {
     header {
