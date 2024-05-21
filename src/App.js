@@ -5,8 +5,8 @@ import "./assets/css/style.scss";
 import Footer from "./layouts/Footer/Footer";
 import { Header, HeaderMom } from "./layouts/Header/Header";
 import Account from "./pages/AccountPage/Account";
-import AccountEdit from "./pages/AccountPage/AccountEdit";
 import AccountDelete from "./pages/AccountPage/AccountDelete";
+import AccountEdit from "./pages/AccountPage/AccountEdit";
 import MateList from "./pages/GoingWithPage/MateList";
 import Login from "./pages/LoginPage/Login";
 import Home from "./pages/MainPage/Home";
@@ -18,20 +18,20 @@ import Register from "./pages/RegisterPage/Register";
 import RestaurantList from "./pages/RestaurantPage/RestaurantList";
 import RestaurantView from "./pages/RestaurantPage/RestaurantView";
 // import ReviewList from "./pages/ReviewPage/ReviewList";
-import ReviewView from "./pages/ReviewPage/ReviewView";
-import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
-import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    Modal,
-    MapModal,
     FilterModal,
+    MapModal,
     MapModalSelect,
+    Modal,
     TextModal
 } from "./components/Modal/Modal";
-import { authUser } from "./store/thunkFunctions";
+import GlobalNav from "./layouts/Navigation/GlobalNav";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
+import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
+import ReviewView from "./pages/ReviewPage/ReviewView";
+import { authUser } from "./store/thunkFunctions";
 
 function Layout({ modalOpen }) {
     return (
@@ -65,11 +65,19 @@ function App() {
         <FilterModal />,
         <TextModal />,
     ];
+    // function modalOpen(idx) {
+    //     setModalView(true);
+    //     setModalNum(idx);
+    // }
+    // function modalClsose() {
+    //     setModalView(false);
+    // }
     function modalOpen(idx) {
         setModalView(true);
         setModalNum(idx);
     }
-    function modalClsose() {
+
+    function modalClose() {
         setModalView(false);
     }
     useEffect(() => {
@@ -90,7 +98,7 @@ function App() {
     return (
         <>
             {/* Modal layer */}
-            {modalData.map((item, idx) => {
+            {/* {modalData.map((item, idx) => {
                 return modalView === true ? (
                     <Modal
                         onClick={modalClsose}
@@ -98,7 +106,10 @@ function App() {
                         modalNum={modalNum}
                     />
                 ) : null;
-            })}
+            })} */}
+            {modalView && (
+                <Modal onClick={modalClose} viewlistData={modalData} modalNum={modalNum} />
+            )}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
                     <Route
