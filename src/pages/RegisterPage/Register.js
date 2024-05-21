@@ -35,7 +35,6 @@ function Register() {
 
         dispatch(registerUser(body));
         setModalOn(true);
-        // navigate("/login"); // 그리고 이미 있는 이메일 닉네임이면 회원가입 불가능 처리 해야됌
         reset();
     }
 

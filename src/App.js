@@ -1,4 +1,3 @@
-// import "./assets/css/tStyle.scss";
 import { useEffect, useState } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import "./assets/css/style.scss";
@@ -17,7 +16,6 @@ import MeetingView from "./pages/MeetingPage/MeetingView";
 import Register from "./pages/RegisterPage/Register";
 import RestaurantList from "./pages/RestaurantPage/RestaurantList";
 import RestaurantView from "./pages/RestaurantPage/RestaurantView";
-// import ReviewList from "./pages/ReviewPage/ReviewList";
 import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
@@ -31,21 +29,11 @@ import {
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
-import { useNavigate } from "react-router-dom";
 import Search from "./pages/SearchPage/Search";
-
+import NotAuthRouter from "./components/Router/NotAuthRouter";
+import AuthRouter from "./components/Router/AuthRouter";
 
 function Layout({ modalOpen }) {
-    const isAuth = useSelector((state) => state.user.isAuth);
-    const navigate = useNavigate();
-    function navigateToHome() {
-        navigate("/");
-    }
-
-    useEffect(() => {
-        navigateToHome();
-    }, [isAuth]);
-
     return (
         <>
             <Header modalOpen={modalOpen} />
@@ -101,7 +89,7 @@ function App() {
     return (
         <>
             {/* Modal layer */}
-            {modalData.map((item, idx) => {
+            {modalData.map((_) => {
                 return modalView === true ? (
                     <Modal
                         onClick={modalClsose}
@@ -112,57 +100,46 @@ function App() {
             })}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
-                    <Route
-                        path="/styleGuide"
-                        element={<StyleGuide modalOpen={modalOpen} />}
-                    ></Route>
-                    <Route path="/" element={<Home modalOpen={modalOpen} />}></Route>
-                    {/* <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route> */}
+                    <Route element={<AuthRouter />}>
+                        <Route path="/account" element={<Account />} />
+                        <Route path="/account/edit" element={<AccountEdit />} />
+                        <Route
+                            path="/account/delete"
+                            element={<AccountDelete />}
+                        />
+                    </Route>
+
+                    <Route index element={<Home modalOpen={modalOpen} />} />
+
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
-                    <Route path="/mate" element={<MateList />}></Route>
-                    <Route
-                        path="/mate/:cateId"
-                        element={<RestaurantList />}
-                    ></Route>
+                    <Route path="/mate" element={<MateList />} />
+                    <Route path="/mate/:cateId" element={<RestaurantList />} />
                     <Route
                         path="/mate/:cateId/restaurants/:rtId"
                         element={<RestaurantView />}
-                    ></Route>
+                    />
                     <Route
                         path="/mate/:cateId/restaurants/:rtId/review-post/new"
                         element={<ReviewAdd />}
-                    ></Route>
+                    />
                     <Route
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
-                    ></Route>
+                    />
 
-                    <Route path="/meet-posts" element={<MeetingList />}></Route>
-                    <Route
-                        path="/meet-posts/new"
-                        element={<MeetingAdd />}
-                    ></Route>
-                    <Route
-                        path="/meet-posts/:mpId"
-                        element={<MeetingView />}
-                    ></Route>
-                    <Route path="/account" element={<Account />}></Route>
-                    <Route
-                        path="/account/edit"
-                        element={<AccountEdit />}
-                    ></Route>
-                    <Route
-                        path="/account/delete"
-                        element={<AccountDelete />}
-                    ></Route>
-                    <Route path="/search" element={<Search />}></Route>
-                    <Route path="/styleguide" element={<StyleGuide />}></Route>
+                    <Route path="/meet-posts" element={<MeetingList />} />
+                    <Route path="/meet-posts/new" element={<MeetingAdd />} />
+                    <Route path="/meet-posts/:mpId" element={<MeetingView />} />
+
+                    <Route path="/search" element={<Search />} />
+                    {/* <Route path="/styleguide" element={<StyleGuide />}/> */}
                 </Route>
-                <Route element={<LayoutEtc />}>
-                    <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route>
+                <Route element={<NotAuthRouter />}>
+                    <Route element={<LayoutEtc />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Route>
                 </Route>
             </Routes>
         </>
