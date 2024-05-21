@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { useState } from "react";
+import Title from "../../components/Layout/Title";
 
 function Register() {
     const {
@@ -22,6 +23,7 @@ function Register() {
     console.log("error in register:", error);
 
     const [modalOn, setModalOn] = useState(false);
+    const [imgSrc, setImgSrc] = useState("");
     const [pwShow, setPwShow] = useState(false);
     const [pwShowConfirm, setPwShowConfirm] = useState(false);
 
@@ -68,7 +70,20 @@ function Register() {
             message: "최소 4자입니다.",
         },
     };
-    console.log("Error object:", error);
+
+    const imageMimeType = "/image/(png|jpg|jpeg)/i";
+
+    async function handleImgUpload(file) {
+        // if (!file.type.match(imageMimeType)) {
+        //     alert("Image mime type is not valid");
+        //     return;
+        // }
+        // const fileReader = new FileReader();
+        // fileReader.onload = (e) => {
+        // }
+        // fileReader.readAsDataURL(file); // encode file as a base64 url string
+        // return;
+    }
 
     return (
         <>
@@ -99,8 +114,8 @@ function Register() {
                     className="w-full h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
                     style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
                 >
-                    <div className="text-center text-5xl">어까</div>
-                    <div className="text-center text-3xl">가입 해볼까?</div>
+                    <Title memTitle={true}>어까</Title>
+                    <Title memTitle={false}>가입 해볼까?</Title>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="emailWrap flex justify-center gap-4 ml-2 mt-5 mb-5">
                             <div className="w-10 h-10 relative">
@@ -255,6 +270,24 @@ function Register() {
                                         />
                                     )}
                                 </div>
+                            </div>
+                        </div>
+                        <div className="w-[380px] ml-3 mb-5">
+                            <input
+                                type="file"
+                                onChange={(e) =>
+                                    handleImgUpload(e.target.files[0])
+                                }
+                                name="image"
+                                accept="image/*"
+                            />
+                            <div>
+                                {imgSrc && (
+                                    <img
+                                        src={imgSrc}
+                                        alt="preview of uploaded img"
+                                    />
+                                )}
                             </div>
                         </div>
                         <button

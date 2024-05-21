@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Title from "../../components/Layout/Title";
 
 function Account() {
     const isAuth = useSelector((state) => state.user.isAuth);
@@ -12,15 +13,9 @@ function Account() {
         <div>
             {isAuth ? (
                 <div>
-                    <div
-                        className="mt-12 mb-6 w-[100%] h-[100px] flex-col justify-start items-center inline-flex text-zinc-800"
-                        style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
-                    >
-                        <div className="text-center text-5xl mb-2">어까</div>
-                        <div className="text-center text-3xl">
-                            나는 어디까지 가봤을까?
-                        </div>
-                    </div>
+                    <Title memTitle={true}>어까</Title>
+                    <Title memTitle={false}> 나는 어디까지 가봤을까?</Title>
+
                     <div className="flex justify-center">
                         <div className="flex flex-col gap-8 font-['Pretendard']">
                             <div className="w-[960px] h-[350px] p-[15px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">

@@ -4,10 +4,14 @@ import { useForm } from "react-hook-form";
 import { deleteUser } from "../../store/thunkFunctions";
 import axiosInstance from "../../utils/axios";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Title from "../../components/Layout/Title";
 
 function AccountDelete() {
     const userData = useSelector((state) => state?.user?.userData);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
+    const [firstModalOn, setFirstModalOn] = useState(false);
+    const [secondModalOn, setSecondModalOn] = useState(false);
     const {
         register,
         handleSubmit,
@@ -56,10 +60,9 @@ function AccountDelete() {
                 className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
                 style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
             >
-                <div className="text-center text-5xl mb-2">어까</div>
-                <div className="text-center text-3xl mb-10">
-                    우리 헤어지는 걸까?
-                </div>
+                <Title memTitle={true}>어까</Title>
+                <Title memTitle={false}>우리 헤어지는 걸까?</Title>
+
                 <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
                     <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4"></div>
                     <div

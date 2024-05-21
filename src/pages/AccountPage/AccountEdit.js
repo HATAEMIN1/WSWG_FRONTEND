@@ -6,6 +6,7 @@ import { updateUserPassword } from "../../store/thunkFunctions";
 import axiosInstance from "../../utils/axios";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { Link } from "react-router-dom";
+import Title from "../../components/Layout/Title";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
@@ -103,10 +104,8 @@ function AccountEdit() {
                 className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
                 style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
             >
-                <div className="text-center text-5xl mb-2">어까</div>
-                <div className="text-center text-3xl mb-10">
-                    나 좀 수정해볼까?
-                </div>
+                <Title memTitle={true}>어까</Title>
+                <Title memTitle={false}>나 좀 수정해볼까?</Title>
                 <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
                     <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4"></div>
                     <div

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
+import Title from "../../components/Layout/Title";
 
 function Login() {
     const {
@@ -74,8 +75,9 @@ function Login() {
                 className="w-[100%] h-[100px] flex-col justify-start items-center inline-flex font-normal text-zinc-800"
                 style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
             >
-                <div className="text-center text-5xl">어까</div>
-                <div className="text-center text-3xl">로그인 해볼까?</div>
+                <Title memTitle={true}>어까</Title>
+                <Title memTitle={false}>로그인 해볼까?</Title>
+
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="emailWrap w-[380px] flex justify-center gap-4 ml-2 items-center mt-5 mb-5">
                         <div className="w-10 h-10 relative">
