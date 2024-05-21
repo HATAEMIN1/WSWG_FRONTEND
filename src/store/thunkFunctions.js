@@ -7,6 +7,7 @@ export const registerUser = createAsyncThunk(
     "user/registerUser",
     async (body, thunkAPI) => {
         try {
+            console.log("registerUser thunkapi body:", body);
             const response = await axiosInstance.post(`/users/register`, body);
             console.log("thunkapi 회원가입");
             return response.data;

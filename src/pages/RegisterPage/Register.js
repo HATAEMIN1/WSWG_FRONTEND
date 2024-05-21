@@ -9,35 +9,66 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { useState } from "react";
 import Title from "../../components/Layout/Title";
+import imageCompression from "browser-image-compression";
 
 function Register() {
     const {
         register,
-        handleSubmit,
         formState: { errors },
-        reset,
         watch,
+        reset,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
     const error = useSelector((state) => state.user.error);
-    console.log("error in register:", error);
 
     const [modalOn, setModalOn] = useState(false);
     const [imgSrc, setImgSrc] = useState("");
     const [pwShow, setPwShow] = useState(false);
     const [pwShowConfirm, setPwShowConfirm] = useState(false);
 
-    async function onSubmit({ email, name, password }) {
-        const body = {
-            email,
-            name,
-            password,
-            image: `https://via.placeholder.com/600x400?text=no+user+image`,
+    const [signupInfo, setSignupInfo] = useState({
+        name: "",
+        email: "",
+        password: "",
+    });
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData();
+        const file = event.target.elements.image.files[0];
+        console.log("handleSubmit");
+        console.log("file is an instance of Blob:", file instanceof Blob); // true (if file chosen)
+        console.log(`originalFile size ${file.size / 1024 / 1024} MB`);
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
         };
 
-        dispatch(registerUser(body));
-        setModalOn(true);
-        reset();
+        try {
+            const compressedFile = await imageCompression(file, options);
+            formData.append("file", compressedFile);
+            console.log(
+                "compressed file is an instance of Blob:",
+                compressedFile instanceof Blob
+            ); // true
+            console.log(
+                `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+            ); // smaller than maxSizeMB
+            formData.append("name", signupInfo.name);
+            formData.append("email", signupInfo.email);
+            formData.append("password", signupInfo.password);
+
+            for (let keyVal of formData.entries()) {
+                console.log(`${[keyVal[0]]}: ${keyVal[1]}`);
+            }
+
+            // dispatch(registerUser(signupInfo);
+            // setModalOn(true);
+            // reset();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const userEmail = {
@@ -71,19 +102,34 @@ function Register() {
         },
     };
 
-    // const imageMimeType = "/image/(png|jpg|jpeg)/i";
-
-    function handleImgUpload(file) {
-        // if (!file.type.match(imageMimeType)) {
-        //     alert("Image mime type is not valid");
-        //     return;
-        // }
+    async function handleImgUpload(file) {
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        };
+        console.log("handleImgUpload");
+        console.log(`originalFile size ${file.size / 1024 / 1024} MB`);
         const fileReader = new FileReader();
         fileReader.onload = () => {
             setImgSrc(fileReader.result);
         };
-        fileReader.readAsDataURL(file); // encode file as a base64 url string
+        const compressedFile = await imageCompression(file, options);
+        console.log(
+            `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+        );
+        fileReader.readAsDataURL(compressedFile); // encode file as a base64 url string
     }
+
+    // function handleChange(e) {
+    //     console.log("e.target", e.target);
+    //     const { name, value } = e.target;
+    //     setSignupInfo((prevState) => {
+    //         return { ...prevState, [name]: value };
+    //     });
+    //     console.log("in handleChange");
+    //     console.log("signupinfo", signupInfo);
+    // }
 
     return (
         <>
@@ -113,7 +159,7 @@ function Register() {
                 <div className="w-full h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
                     <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}>가입 해볼까?</Title>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit}>
                         <div className="emailWrap flex justify-center gap-4 ml-2 mt-5 mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
@@ -128,9 +174,11 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type="text"
                                     id="emailInput"
-                                    name="emailInput"
+                                    // name="email"
+                                    // value={signupInfo.email}
                                     required
                                     placeholder="이메일을 입력하세요!"
+                                    // onChange={handleChange}
                                     {...register("email", userEmail)}
                                 />
                                 {errors.email && (
@@ -154,9 +202,11 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type="text"
                                     id="usernameInput"
-                                    name="usernameInput"
+                                    // name="name"
+                                    // value={signupInfo.name}
                                     required
                                     maxLength="50"
+                                    // onChange={handleChange}
                                     placeholder="닉네임을 입력하세요!"
                                     {...register("name", userName)}
                                 />
@@ -184,10 +234,12 @@ function Register() {
                                 <input
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     id="passwordInput"
-                                    name="passwordInput"
+                                    // name="password"
+                                    // value={signupInfo.password}
                                     type={pwShow ? "text" : "password"}
                                     required
                                     minLength="4"
+                                    // onChange={handleChange}
                                     placeholder="비밀번호를 입력하세요!"
                                     {...register("password", userPassword)}
                                 />
@@ -232,7 +284,6 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type={pwShowConfirm ? "text" : "password"}
                                     id="passwordConfirmInput"
-                                    name="passwordConfirmInput"
                                     required
                                     minLength="4"
                                     placeholder="비밀번호를 다시 입력하세요!"
@@ -277,6 +328,7 @@ function Register() {
                                 }
                                 name="image"
                                 accept="image/*"
+                                className="mb-4"
                             />
                             <div>
                                 {imgSrc && (
