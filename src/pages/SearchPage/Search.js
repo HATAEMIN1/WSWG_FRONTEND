@@ -3,35 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import StarRating from "../../components/Form/StarRating";
 import { IconWish } from "../../components/Form/Icon";
 import { SectionWrap } from "../../components/Layout/Section";
-import styled from "styled-components";
-import starBasic from "../../assets/images/iconStarList.png";
-import starLine from "../../assets/images/iconStarLine.png";
-import starActive from "../../assets/images/iconStarListActive.png";
 import axiosInstance from "../../utils/axios";
 import { useSelector } from "react-redux";
-
-//임시용 스타
-const Star = styled.i`
-    content: "";
-    display: flex;
-    width: 20px;
-    height: 20px;
-    background: url("${starBasic}");
-    background-repeat: no-repeat;
-    background-size: 100%;
-    font-size: 0;
-    &.starline {
-        background: url("${starLine}");
-    }
-    &.active {
-        background: url("${starActive}");
-    }
-    ${({ active }) =>
-        active &&
-        `
-        background: url("${starActive}");
-    `}
-`;
+import { Button, ButtonWrap } from "../../components/Form/Button";
 
 function Search(props) {
     //임시 카테고리
@@ -44,17 +18,39 @@ function Search(props) {
     });
     const [liked, setLiked] = useState({});
     const [likeCount, setLikeCount] = useState(0);
+    const limit = 6;
+    const [skip, setSkip] = useState(0);
+    const [hasMore, setHasMore] = useState(false);
+    const [search, setSearch] = useState("");
     useEffect(() => {
         if (query) {
-            fetchSearchResults(query);
+            setSkip(0);
+            fetchSearchResults({ search: query, limit, skip });
+            setSearch(query);
         }
     }, [query]);
-    const fetchSearchResults = async (searchTerm) => {
+    const fetchSearchResults = async ({
+        search,
+        limit,
+        skip,
+        loadMore = false,
+    }) => {
         try {
+            console.log(search);
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
-                params: { search: searchTerm },
+                params: {
+                    search: search,
+                    limit: limit,
+                    skip: skip,
+                },
             });
-            setResults(res.data.restaurant);
+            if (loadMore) {
+                setResults([...results, ...res.data.restaurant]);
+            } else {
+                setResults(res.data.restaurant);
+            }
+
+            setHasMore(res.data.hasMore);
             res.data.restaurant.forEach((item) => likes(item._id));
         } catch (error) {
             console.error(error);
@@ -79,6 +75,16 @@ function Search(props) {
             console.log(error);
         }
     };
+    function handleLoadMore() {
+        const body = {
+            search: search,
+            limit: limit,
+            skip: skip + limit,
+            loadMore: true,
+        };
+        fetchSearchResults(body);
+        setSkip(Number(skip) + Number(limit));
+    }
     return (
         <>
             <SectionWrap>
@@ -144,6 +150,17 @@ function Search(props) {
                                 </div>
                             );
                         })}
+                        <ButtonWrap>
+                            {hasMore && (
+                                <Button
+                                    className={"lineButton"}
+                                    onClick={handleLoadMore}
+                                >
+                                    <i className="iconBasic iconMore">more</i>{" "}
+                                    더보기
+                                </Button>
+                            )}
+                        </ButtonWrap>
                     </div>
                 ) : (
                     <div>해당 단어의 검색결과가 없습니다.</div>

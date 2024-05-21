@@ -82,7 +82,6 @@ function RestaurantList(props) {
                     ? [...restaurantData, ...res.data.restaurant]
                     : res.data.restaurant
             );
-            console.log(restaurantData);
             setHasMore(res.data.hasMore);
             setLoading(false);
             res.data.restaurant.forEach((item) => likes(item._id));
