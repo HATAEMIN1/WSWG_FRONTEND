@@ -11,12 +11,13 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import StarRating from "../../components/Form/StarRating";
+import Dropzone from "react-dropzone";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
     const [reviews, setReviews] = useState([]);
     const [inputHashTag, setInputHashTag] = useState("");
-    const [hashtag, setHashTag] = useState(["맛집", "중식"]);
+    const [hashtag, setHashTag] = useState([]);
     const [error, setError] = useState(""); //에러상태정의
     const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
@@ -89,20 +90,20 @@ function ReviewAdd(props) {
     //--------------------------------------------------------------------------------------->
 
     //useEffect로 해당 게시물의 리뷰를 불러오는 작업수행
-    useEffect(() => {
-        async function fetchReviews() {
-            try {
-                const response = await axiosInstance.get(
-                    `/posts/${rtId}/reviews`
-                );
-                setReviews(response.data);
-            } catch (error) {
-                console.error("Fail to fetch reviews", error);
-            }
-        }
+    // useEffect(() => {
+    //     async function fetchReviews() {
+    //         try {
+    //             const response = await axiosInstance.get(
+    //                 `/review-posts/${rtId}`
+    //             );
+    //             setReviews(response.data);
+    //         } catch (error) {
+    //             console.error("Fail to fetch reviews", error);
+    //         }
+    //     }
 
-        fetchReviews();
-    }, [rtId]);
+    //     fetchReviews();
+    // }, [rtId]);
 
     const [restaurantData, setRestaurantData] = useState([]);
 
@@ -116,14 +117,14 @@ function ReviewAdd(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
+
         const body = {
             ...text,
             restId: rtId, //해당게시물의 ID를 전달
             userId: userData.id,
             rating: rating,
-            hashtag: hashtag,
+            hashTag: hashtag,
         };
-        // console.log(rating);
 
         try {
             await axiosInstance.post("/review-posts", body);
@@ -150,6 +151,45 @@ function ReviewAdd(props) {
     const handleCancelClick = () => {
         navigate(`/mate/${cateId}/restaurants/${rtId}`);
     };
+
+    //이미지----------------------------------------------------------------------------------->
+    // function imgFileUpload({ images, onImageChange }) {
+    async function handleDrop(files) {
+        console.log(files);
+        let formData = new FormData();
+        formData.append("image", files[0]);
+
+        const config = {
+            header: { "content-type": "multipart/form-data" },
+        };
+
+        try {
+            const res = await axiosInstance.post(
+                "/review-posts/image",
+                formData,
+                config
+            );
+            console.log(res.data);
+            // onImageChange([...images, res.data]);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // function handleDelete(image) {
+    //     const currentIndex = images.indexOf(image);
+    //     let newImages = [...images];
+    //     newImages.splice(currentIndex, 1);
+    //     onImageChange(newImages);
+    // }
+
+    function handleImage(newImages) {
+        setText((prevState) => ({
+            ...prevState,
+            images: newImages,
+        }));
+    }
+
+    //----------------------------------------------------------------------------------------->
 
     return (
         <SectionWrap>
@@ -253,14 +293,49 @@ function ReviewAdd(props) {
                                     className="text-left"
                                 />
                             </InputWrap>
+
+                            <div
+                                images={text.images}
+                                onImageChange={handleImage}
+                            ></div>
+                            {/* 
                             <button className={"btnFileUpload"}>
                                 파일업로드
-                            </button>
+                            </button> */}
+                            <div className="overflow-hidden">
+                                <Dropzone onDrop={handleDrop}>
+                                    {({ getRootProps, getInputProps }) => (
+                                        <section>
+                                            <div {...getRootProps()}>
+                                                <input {...getInputProps()} />
+                                                <div
+                                                    className={"btnFileUpload"}
+                                                >
+                                                    파일업로드
+                                                </div>
+                                            </div>
+                                        </section>
+                                    )}
+                                </Dropzone>
+                            </div>
+
+                            {text.images.map((image) => {
+                                return (
+                                    <div key={image}>
+                                        <img
+                                            src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
+                                            alt=""
+                                        />
+                                    </div>
+                                );
+                            })}
                         </div>
+
                         <div className="text-md text-slate-500 text-base my-1">
                             *이미지는 00MB 이하 jpg, png 형식만 가능합니다
                         </div>
-                        <div className="flex gap-2 mb-14">
+
+                        {/* <div className="flex gap-2 mb-14">
                             <Button className={"lineDelButton"}>
                                 daadfadsfa.jpg
                                 <i className="iconSmall iconDel">delet</i>
@@ -269,7 +344,7 @@ function ReviewAdd(props) {
                                 daadfadsfa2.jpg
                                 <i className="iconSmall iconDel">delet</i>
                             </Button>
-                        </div>
+                        </div> */}
                     </div>
                     <div className=" text-md flex justify-center mb-5 text-red-600">
                         *타인을 비방하거나 불건전한 내용을 등록 시 삭제 될 수

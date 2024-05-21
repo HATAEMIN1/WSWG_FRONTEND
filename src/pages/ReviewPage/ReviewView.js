@@ -6,6 +6,7 @@ import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
 import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
+import { faObjectUngroup } from "@fortawesome/free-regular-svg-icons";
 
 function ReviewView(props) {
     const { rpId, rtId, cateId } = useParams();
@@ -37,20 +38,6 @@ function ReviewView(props) {
         fetchReviewAndRestaurant();
     }, []);
 
-    // const defaultImage = (
-    //     <div className="default-image">
-    //         <span>No Image</span>
-    //     </div>
-    // );
-
-    // const [defaultImage, setDefaultImage] = useState(false);
-    const DefaultImage = <div className="default-image"></div>;
-
-    // if (!review || !restaurant) {
-    //     return <div>Loading...</div>;
-    // }
-
-    console.log(review.length);
     return (
         <SectionWrap>
             <form>
@@ -102,12 +89,19 @@ function ReviewView(props) {
                         </div>
                     </div>
                 </div>
-                <div className="content w-full justify-center items-center mt-5 mb-2">
+                <div className="content w-full justify-center items-center mt-5 mb-7">
                     {review.content}
                 </div>
-                <div>{review.titleComment}</div>
+                {/* <div>{review.hashTag}</div> */}
+                <div className="hashBoxWrap">
+                    {review.hashTag.map((tag, i) => (
+                        <span key={i} className="hashBox">
+                            #{tag}
+                        </span>
+                    ))}
+                </div>
 
-                <div className="flex justify-between gap-2 mb-40">
+                {/* <div className="flex justify-between gap-2 mb-40">
                     {(review.image || []).map((image, index) => (
                         <div
                             key={index}
@@ -119,7 +113,7 @@ function ReviewView(props) {
                             />
                         </div>
                     ))}
-                </div>
+                </div> */}
             </form>
         </SectionWrap>
     );
