@@ -22,6 +22,7 @@ const initialState = {
         createdAt: "",
     },
     isAuth: false,
+    oauthLogin: false,
     isLoading: false,
     error: "",
 };
@@ -42,10 +43,12 @@ const userSlice = createSlice({
                     action.payload
                 );
                 state.userData = action.payload.user;
+                state.error = "";
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
+                console.log("registerUser rejected:", action.payload);
             })
 
             .addCase(loginUser.pending, (state) => {
@@ -53,6 +56,8 @@ const userSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.oauthLogin = false;
+                state.error = "";
                 console.log(
                     "action.payload when loginUser.fulfilled:",
                     action.payload
@@ -70,6 +75,8 @@ const userSlice = createSlice({
             })
             .addCase(oauthLogin.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.oauthLogin = true;
+                state.error = "";
                 console.log(
                     "action.payload when oauthLogin.fulfilled:",
                     action.payload
@@ -87,6 +94,7 @@ const userSlice = createSlice({
             })
             .addCase(authUser.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.error = "";
                 console.log(
                     "action.payload when authUser.fulfilled:",
                     action.payload
@@ -107,6 +115,8 @@ const userSlice = createSlice({
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.isLoading = false;
+                state.oauthLogin = false;
+                state.error = "";
                 state.userData = initialState.userData; //초기화
                 state.isAuth = false;
                 localStorage.removeItem("accessToken"); // token삭제
@@ -120,12 +130,14 @@ const userSlice = createSlice({
             })
             .addCase(updateUserPassword.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.error = "";
                 console.log(
                     "action.payload in updateUserPassword:",
                     action.payload
                 );
-                state.userData = action.payload.user;
-                state.isAuth = true;
+                state.userData.password = action.payload.user.password;
+                state.isAuth = false;
+                localStorage.removeItem("accessToken");
             })
             .addCase(updateUserPassword.rejected, (state, action) => {
                 state.isLoading = false;
@@ -137,6 +149,8 @@ const userSlice = createSlice({
             })
             .addCase(deleteUser.fulfilled, (state) => {
                 state.isLoading = false;
+                state.oauthLogin = false;
+                state.error = "";
                 state.userData = initialState.userData; //초기화
                 state.isAuth = false;
                 localStorage.removeItem("accessToken"); // token삭제
