@@ -4,8 +4,8 @@ import "./assets/css/style.scss";
 import Footer from "./layouts/Footer/Footer";
 import { Header, HeaderMom } from "./layouts/Header/Header";
 import Account from "./pages/AccountPage/Account";
-import AccountEdit from "./pages/AccountPage/AccountEdit";
 import AccountDelete from "./pages/AccountPage/AccountDelete";
+import AccountEdit from "./pages/AccountPage/AccountEdit";
 import MateList from "./pages/GoingWithPage/MateList";
 import Login from "./pages/LoginPage/Login";
 import Home from "./pages/MainPage/Home";
@@ -21,14 +21,19 @@ import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    Modal,
-    MapModal,
     FilterModal,
+    MapModal,
     MapModalSelect,
+    Modal,
+    TextModal
 } from "./components/Modal/Modal";
-import { authUser } from "./store/thunkFunctions";
+import GlobalNav from "./layouts/Navigation/GlobalNav";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
+import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
+import ReviewView from "./pages/ReviewPage/ReviewView";
+import { authUser } from "./store/thunkFunctions";
+import DefualtModal from "./components/Modal/DefualtModal";
 import Search from "./pages/SearchPage/Search";
 import NotAuthRouter from "./components/Router/NotAuthRouter";
 import AuthRouter from "./components/Router/AuthRouter";
@@ -68,7 +73,8 @@ function App() {
         setModalView(true);
         setModalNum(idx);
     }
-    function modalClsose() {
+
+    function modalClose() {
         setModalView(false);
     }
     useEffect(() => {
@@ -89,15 +95,9 @@ function App() {
     return (
         <>
             {/* Modal layer */}
-            {modalData.map((_) => {
-                return modalView === true ? (
-                    <Modal
-                        onClick={modalClsose}
-                        viewlistData={modalData}
-                        modalNum={modalNum}
-                    />
-                ) : null;
-            })}
+            {modalView && (
+                <Modal onClick={modalClose} viewlistData={modalData} modalNum={modalNum} />
+            )}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
                     <Route element={<AuthRouter />}>
@@ -127,11 +127,10 @@ function App() {
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
                     />
-
+                    <Route path="/meet-posts" element={<MeetingList  modalOpen={modalOpen} />}></Route>
                     <Route path="/meet-posts" element={<MeetingList />} />
                     <Route path="/meet-posts/new" element={<MeetingAdd />} />
                     <Route path="/meet-posts/:mpId" element={<MeetingView />} />
-
                     <Route path="/search" element={<Search />} />
                     {/* <Route path="/styleguide" element={<StyleGuide />}/> */}
                 </Route>
