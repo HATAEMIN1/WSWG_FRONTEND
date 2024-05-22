@@ -9,33 +9,55 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { useState } from "react";
 import Title from "../../components/Layout/Title";
+import imageCompression from "browser-image-compression";
 
 function Register() {
     const {
         register,
         formState: { errors },
         watch,
-        handleSubmit,
         reset,
+        setValue,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
     const error = useSelector((state) => state.user.error);
 
     const [modalOn, setModalOn] = useState(false);
+    const [compressedFile, setCompressedFile] = useState({});
+    const [imgSrc, setImgSrc] = useState("");
     const [pwShow, setPwShow] = useState(false);
     const [pwShowConfirm, setPwShowConfirm] = useState(false);
 
-    function onSubmit({ email, name, password, passwordConfirm }) {
-        const body = {
-            email,
-            name,
-            password,
-            passwordConfirm,
-        };
+    const [signupInfo, setSignupInfo] = useState({
+        name: "",
+        email: "",
+        password: "",
+        passwordConfirm: "",
+    });
 
-        dispatch(registerUser(body));
-        setModalOn(true);
-        reset();
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData();
+        const file = event.target.elements.image.files[0];
+        console.log(
+            "file is an instance of Blob in handleSubmit:",
+            file instanceof Blob
+        );
+
+        try {
+            // formData.append("filename", imgSrc); // appending the compressed file (as string) to a FormData object to upload it to server. // causes payload too larger error
+            formData.append("image", file);
+            formData.append("name", signupInfo.name);
+            formData.append("email", signupInfo.email);
+            formData.append("password", signupInfo.password);
+            formData.append("passwordConfirm", signupInfo.passwordConfirm);
+
+            dispatch(registerUser(formData));
+            setModalOn(true);
+            reset();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const userEmail = {
@@ -83,6 +105,45 @@ function Register() {
         },
     };
 
+    async function handleImgUpload(file) {
+        console.log(
+            "file is an instance of Blob in handleImgUpload:",
+            file instanceof Blob
+        );
+        // const options = {
+        //     maxSizeMB: 1,
+        //     maxWidthOrHeight: 300,
+        //     useWebWorker: true,
+        // };
+        // console.log("handleImgUpload");
+
+        // setCompressedFile(await imageCompression(file, options));
+        // console.log("compressedFile:", compressedFile);
+        // console.log(
+        //     "compressedFile is a blob:",
+        //     compressedFile instanceof Blob
+        // );
+
+        // if (compressedFile !== "") {
+        const fileReader = new FileReader();
+
+        fileReader.onload = () => {
+            setImgSrc(fileReader.result); // this is the compressed actual image file saved as url string in base64
+        };
+
+        fileReader.readAsDataURL(file); // encode file as a base64 url string
+        // }
+    }
+
+    function handleChange(e) {
+        console.log("e.target", e.target);
+        const { name, value } = e.target;
+        setSignupInfo((prevState) => {
+            return { ...prevState, [name]: value };
+        });
+        setValue(name, value); // sync the value with react-hook-form
+    }
+
     return (
         <>
             <div
@@ -111,7 +172,7 @@ function Register() {
                 <div className="w-full h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
                     <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}>가입 해볼까?</Title>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit}>
                         <div className="emailWrap flex justify-center gap-4 ml-2 mt-5 mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
@@ -126,9 +187,13 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type="text"
                                     id="emailInput"
+                                    name="email"
                                     required
                                     placeholder="이메일을 입력하세요!"
-                                    {...register("email", userEmail)}
+                                    {...register("email", {
+                                        ...userEmail,
+                                        onChange: (e) => handleChange(e),
+                                    })}
                                 />
                                 {errors.email && (
                                     <div className="text-red-500 text-xs mt-1">
@@ -151,10 +216,14 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type="text"
                                     id="usernameInput"
+                                    name="name"
                                     required
                                     maxLength="50"
                                     placeholder="닉네임을 입력하세요!"
-                                    {...register("name", userName)}
+                                    {...register("name", {
+                                        ...userName,
+                                        onChange: (e) => handleChange(e),
+                                    })}
                                 />
 
                                 {errors.name && (
@@ -180,11 +249,15 @@ function Register() {
                                 <input
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     id="passwordInput"
+                                    name="password"
                                     type={pwShow ? "text" : "password"}
                                     required
                                     minLength="4"
                                     placeholder="비밀번호를 입력하세요!"
-                                    {...register("password", userPassword)}
+                                    {...register("password", {
+                                        ...userPassword,
+                                        onChange: (e) => handleChange(e),
+                                    })}
                                 />
                                 {errors.password && (
                                     <div className="text-red-500 text-xs mt-1">
@@ -227,13 +300,14 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type={pwShowConfirm ? "text" : "password"}
                                     id="passwordConfirmInput"
+                                    name="passwordConfirm"
                                     required
                                     minLength="4"
                                     placeholder="비밀번호를 다시 입력하세요!"
-                                    {...register(
-                                        "passwordConfirm",
-                                        userPasswordConfirm
-                                    )}
+                                    {...register("passwordConfirm", {
+                                        ...userPasswordConfirm,
+                                        onChange: (e) => handleChange(e),
+                                    })}
                                 />
                                 {errors.passwordConfirm && (
                                     <div className="text-red-500 text-xs mt-1">
@@ -259,7 +333,25 @@ function Register() {
                                 </div>
                             </div>
                         </div>
-
+                        <div className="w-[380px] ml-3 mb-5">
+                            <input
+                                type="file"
+                                onChange={(e) =>
+                                    handleImgUpload(e.target.files[0])
+                                }
+                                name="image"
+                                accept="image/*"
+                                className="mb-4"
+                            />
+                            <div>
+                                {imgSrc && (
+                                    <img
+                                        src={imgSrc}
+                                        alt="preview of uploaded img"
+                                    />
+                                )}
+                            </div>
+                        </div>
                         <button
                             style={{ fontFamily: "Pretendard-Regular" }}
                             className="w-[380px] h-[50px] px-2.5 py-[5px] ml-3 mb-5 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 inline-flex"

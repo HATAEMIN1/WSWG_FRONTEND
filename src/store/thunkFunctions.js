@@ -5,18 +5,9 @@ import axiosInstance from "../utils/axios";
 
 export const registerUser = createAsyncThunk(
     "user/registerUser",
-    async (formData, thunkAPI) => {
+    async (body, thunkAPI) => {
         try {
-            // console.log("inside register thunkapi");
-            // let body = {};
-            // for (let keyVal of formData.entries()) {
-            //     body[keyVal[0]] = keyVal[1];
-            // }
-            // console.log("body:", body);
-            const response = await axiosInstance.post(
-                `/users/register`,
-                formData
-            );
+            const response = await axiosInstance.post(`/users/register`, body);
             console.log("thunkapi 회원가입");
             console.log(
                 "response.data in register thunkapi - response back from server:",
