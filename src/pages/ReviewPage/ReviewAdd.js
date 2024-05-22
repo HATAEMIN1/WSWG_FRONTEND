@@ -12,10 +12,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import StarRating from "../../components/Form/StarRating";
 import Dropzone from "react-dropzone";
+import FileUpload from "../../components/Form/FileUpload";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
-    const [reviews, setReviews] = useState([]);
+    // const [reviews, setReviews] = useState([]);
     const [inputHashTag, setInputHashTag] = useState("");
     const [hashtag, setHashTag] = useState([]);
     const [error, setError] = useState(""); //에러상태정의
@@ -153,42 +154,13 @@ function ReviewAdd(props) {
     };
 
     //이미지----------------------------------------------------------------------------------->
-    // function imgFileUpload({ images, onImageChange }) {
-    async function handleDrop(files) {
-        console.log(files);
-        let formData = new FormData();
-        formData.append("image", files[0]);
-
-        const config = {
-            header: { "content-type": "multipart/form-data" },
-        };
-
-        try {
-            const res = await axiosInstance.post(
-                "/review-posts/image",
-                formData,
-                config
-            );
-            console.log(res.data);
-            // onImageChange([...images, res.data]);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    // function handleDelete(image) {
-    //     const currentIndex = images.indexOf(image);
-    //     let newImages = [...images];
-    //     newImages.splice(currentIndex, 1);
-    //     onImageChange(newImages);
-    // }
-
     function handleImage(newImages) {
+        // console.log("image");
         setText((prevState) => ({
             ...prevState,
             images: newImages,
         }));
     }
-
     //----------------------------------------------------------------------------------------->
 
     return (
@@ -294,41 +266,20 @@ function ReviewAdd(props) {
                                 />
                             </InputWrap>
 
-                            <div
+                            {/* <div
                                 images={text.images}
                                 onImageChange={handleImage}
                             ></div>
-                            {/* 
-                            <button className={"btnFileUpload"}>
+                             */}
+
+                            <FileUpload
+                                images={text.images}
+                                onImageChange={handleImage}
+                            />
+
+                            {/* <button className={"btnFileUpload"}>
                                 파일업로드
                             </button> */}
-                            <div className="overflow-hidden">
-                                <Dropzone onDrop={handleDrop}>
-                                    {({ getRootProps, getInputProps }) => (
-                                        <section>
-                                            <div {...getRootProps()}>
-                                                <input {...getInputProps()} />
-                                                <div
-                                                    className={"btnFileUpload"}
-                                                >
-                                                    파일업로드
-                                                </div>
-                                            </div>
-                                        </section>
-                                    )}
-                                </Dropzone>
-                            </div>
-
-                            {text.images.map((image) => {
-                                return (
-                                    <div key={image}>
-                                        <img
-                                            src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
-                                            alt=""
-                                        />
-                                    </div>
-                                );
-                            })}
                         </div>
 
                         <div className="text-md text-slate-500 text-base my-1">
