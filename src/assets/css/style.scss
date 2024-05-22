@@ -381,6 +381,9 @@ i.iconSmall {
 .iconWriter {
     background: url("../images/iconPen.png");
 }
+.iconPen {
+    background: url("../images/iconWriter.png");
+}
 .iconHello {
     background: url("../images/iconHello.png");
 }
@@ -684,6 +687,18 @@ i.iconSmall {
         border-radius: 20px;
         background: #f5f5f5;
     }
+}
+.iconTrash {
+    content: '';
+    display: flex;
+    width: 32px;
+    height: 32px;
+    font-size: 0;
+    background: url("../images/iconTrash.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin-left: 0 !important;
 }
 .hashBox {
     width: auto;

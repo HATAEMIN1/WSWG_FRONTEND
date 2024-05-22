@@ -72,9 +72,9 @@ function FilterModal(...props) {
                     <li><label><input type="checkbox" name="radio2" id="#check_type1" /><span>#디저트</span></label></li>
                 </ul>
             </div>
-          </div>
-          <Button basicButton={true}>확인</Button>    
-      </div>
+        </div>
+        <Button basicButton={true}>확인</Button>    
+    </div>
     )
   }
 export {Modal, MapModal , MapModalSelect, FilterModal}
