@@ -37,44 +37,21 @@ function Register() {
         event.preventDefault();
         const formData = new FormData();
         const file = event.target.elements.image.files[0];
+        formData.append("originalname", file.name);
         console.log("file from event target elements:", file);
         console.log("handleSubmit");
-        console.log("file is an instance of Blob:", file instanceof Blob); // true (if file chosen)
-        console.log(`originalFile size ${file.size / 1024 / 1024} MB`);
-        const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true,
-        };
 
         try {
-            const compressedFile = await imageCompression(file, options);
-            console.log("compressedFile:", compressedFile);
-            formData.append("file", compressedFile);
-            console.log(
-                "compressed file is an instance of Blob:",
-                compressedFile instanceof Blob
-            ); // true
-            console.log(
-                `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-            ); // smaller than maxSizeMB
+            formData.append("filename", imgSrc); // appending the compressed file (as string) to a FormData object to upload it to server.
             formData.append("name", signupInfo.name);
             formData.append("email", signupInfo.email);
             formData.append("password", signupInfo.password);
 
             for (let keyVal of formData.entries()) {
-                if (keyVal[0] === "file") {
-                    const fileObject = keyVal[1];
-                    console.log(`${keyVal[0]}:`);
-                    console.log("name:", fileObject.name);
-                    console.log("size:", fileObject.size);
-                    console.log("type:", fileObject.type);
-                } else {
-                    console.log(`${[keyVal[0]]}: ${keyVal[1]}`);
-                }
+                console.log(`${[keyVal[0]]}: ${keyVal[1]}`);
             }
 
-            // dispatch(registerUser(signupInfo);
+            dispatch(registerUser(formData));
             // setModalOn(true);
             // reset();
         } catch (error) {
@@ -122,14 +99,17 @@ function Register() {
         console.log("handleImgUpload");
         console.log(`originalFile size ${file.size / 1024 / 1024} MB`);
         const fileReader = new FileReader();
-        fileReader.onload = () => {
-            setImgSrc(fileReader.result);
-        };
         const compressedFile = await imageCompression(file, options);
         console.log(
             `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
         );
+        // calling readAsDataURL on a FileReader object converts the file's contents into a base64-encoded data URL
+        // This data URL represents the file's content as a string, encoded in base64, prefixed with a data type and format.
+        // This data URL can then be used to display the image in an <img> tag or for other purposes where you need to work with the image data in its string representation.
         fileReader.readAsDataURL(compressedFile); // encode file as a base64 url string
+        fileReader.onload = () => {
+            setImgSrc(fileReader.result); // this is the compressed actual image file saved as url string in base64
+        };
     }
 
     // setValue("name", signupInfo.name);
