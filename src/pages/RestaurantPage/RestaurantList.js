@@ -77,7 +77,7 @@ function RestaurantList(props) {
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
                 params,
             });
-            setRestaurantData((prevData) =>
+            setRestaurantData(() =>
                 loadMore
                     ? [...restaurantData, ...res.data.restaurant]
                     : res.data.restaurant

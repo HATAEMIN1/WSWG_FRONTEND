@@ -23,9 +23,7 @@ function Search(props) {
         );
         return selectedMateType ? selectedMateType.cateId : "";
     });
-    const food = useSelector((state) => {
-        console.log(state.filter.foodType);
-    });
+    const foodtype = useSelector((state) => state.filter.foodType);
     const location = useLocation();
     const query = new URLSearchParams(location.search).get("q");
     const [results, setResults] = useState([]);
@@ -41,23 +39,25 @@ function Search(props) {
     useEffect(() => {
         if (query) {
             setSkip(0);
-            fetchSearchResults({ search: query, limit, skip });
+            fetchSearchResults({ search: query, limit, skip, foodtype });
             setSearch(query);
         }
-    }, [query]);
+    }, [query, foodtype]);
+
     const fetchSearchResults = async ({
         search,
         limit,
         skip,
         loadMore = false,
+        foodtype,
     }) => {
         try {
-            console.log(search);
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
                 params: {
                     search: search,
                     limit: limit,
                     skip: skip,
+                    foodtype: foodtype,
                 },
             });
             if (loadMore) {
