@@ -23,6 +23,7 @@ function Register() {
     const error = useSelector((state) => state.user.error);
 
     const [modalOn, setModalOn] = useState(false);
+    const [compressedFile, setCompressedFile] = useState({});
     const [imgSrc, setImgSrc] = useState("");
     const [pwShow, setPwShow] = useState(false);
     const [pwShowConfirm, setPwShowConfirm] = useState(false);
@@ -31,25 +32,25 @@ function Register() {
         name: "",
         email: "",
         password: "",
+        passwordConfirm: "",
     });
 
     async function handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData();
         const file = event.target.elements.image.files[0];
-        formData.append("originalname", file.name);
-        console.log("file from event target elements:", file);
-        console.log("handleSubmit");
+        console.log(
+            "file is an instance of Blob in handleSubmit:",
+            file instanceof Blob
+        );
 
         try {
-            formData.append("filename", imgSrc); // appending the compressed file (as string) to a FormData object to upload it to server.
+            // formData.append("filename", imgSrc); // appending the compressed file (as string) to a FormData object to upload it to server. // causes payload too larger error
+            formData.append("image", file);
             formData.append("name", signupInfo.name);
             formData.append("email", signupInfo.email);
             formData.append("password", signupInfo.password);
-
-            for (let keyVal of formData.entries()) {
-                console.log(`${[keyVal[0]]}: ${keyVal[1]}`);
-            }
+            formData.append("passwordConfirm", signupInfo.passwordConfirm);
 
             dispatch(registerUser(formData));
             // setModalOn(true);
@@ -90,31 +91,43 @@ function Register() {
         },
     };
 
+    const userPasswordConfirm = {
+        minLength: {
+            value: 4,
+            message: "최소 4자입니다.",
+        },
+        required: {
+            value: true,
+            message: "비밀번호 확인은 필수 입니다.",
+        },
+        validate: (value) => {
+            return value === watch("password") || "비밀번호일치안함";
+        },
+    };
+
     async function handleImgUpload(file) {
+        console.log(
+            "file is an instance of Blob in handleImgUpload:",
+            file instanceof Blob
+        );
         const options = {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,
             useWebWorker: true,
         };
         console.log("handleImgUpload");
-        console.log(`originalFile size ${file.size / 1024 / 1024} MB`);
+
+        setCompressedFile(await imageCompression(file, options));
+        console.log("typeof compressedFile:", typeof compressedFile);
+
         const fileReader = new FileReader();
-        const compressedFile = await imageCompression(file, options);
-        console.log(
-            `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-        );
-        // calling readAsDataURL on a FileReader object converts the file's contents into a base64-encoded data URL
-        // This data URL represents the file's content as a string, encoded in base64, prefixed with a data type and format.
-        // This data URL can then be used to display the image in an <img> tag or for other purposes where you need to work with the image data in its string representation.
-        fileReader.readAsDataURL(compressedFile); // encode file as a base64 url string
+
         fileReader.onload = () => {
             setImgSrc(fileReader.result); // this is the compressed actual image file saved as url string in base64
         };
-    }
 
-    // setValue("name", signupInfo.name);
-    // setValue("email", signupInfo.email);
-    // setValue("password", signupInfo.password);
+        fileReader.readAsDataURL(compressedFile); // encode file as a base64 url string
+    }
 
     function handleChange(e) {
         console.log("e.target", e.target);
@@ -169,8 +182,6 @@ function Register() {
                                     type="text"
                                     id="emailInput"
                                     name="email"
-                                    // value={signupInfo.email}
-                                    // onChange={handleChange}
                                     required
                                     placeholder="이메일을 입력하세요!"
                                     {...register("email", {
@@ -200,10 +211,8 @@ function Register() {
                                     type="text"
                                     id="usernameInput"
                                     name="name"
-                                    // value={signupInfo.name}
                                     required
                                     maxLength="50"
-                                    // onChange={handleChange}
                                     placeholder="닉네임을 입력하세요!"
                                     {...register("name", {
                                         ...userName,
@@ -235,11 +244,9 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     id="passwordInput"
                                     name="password"
-                                    // value={signupInfo.password}
                                     type={pwShow ? "text" : "password"}
                                     required
                                     minLength="4"
-                                    // onChange={handleChange}
                                     placeholder="비밀번호를 입력하세요!"
                                     {...register("password", {
                                         ...userPassword,
@@ -287,16 +294,13 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type={pwShowConfirm ? "text" : "password"}
                                     id="passwordConfirmInput"
+                                    name="passwordConfirm"
                                     required
                                     minLength="4"
                                     placeholder="비밀번호를 다시 입력하세요!"
                                     {...register("passwordConfirm", {
-                                        validate: (value) => {
-                                            return (
-                                                value === watch("password") ||
-                                                "비밀번호일치안함"
-                                            );
-                                        },
+                                        ...userPasswordConfirm,
+                                        onChange: (e) => handleChange(e),
                                     })}
                                 />
                                 {errors.passwordConfirm && (

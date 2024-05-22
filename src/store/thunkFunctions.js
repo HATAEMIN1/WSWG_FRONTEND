@@ -7,13 +7,22 @@ export const registerUser = createAsyncThunk(
     "user/registerUser",
     async (formData, thunkAPI) => {
         try {
-            console.log("inside register thunkapi");
-            for (let keyVal of formData.entries()) {
-                console.log(`${[keyVal[0]]}: ${keyVal[1]}`);
-            }
-            // const response = await axiosInstance.post(`/users/register`, body);
-            // console.log("thunkapi 회원가입");
-            // return response.data;
+            // console.log("inside register thunkapi");
+            // let body = {};
+            // for (let keyVal of formData.entries()) {
+            //     body[keyVal[0]] = keyVal[1];
+            // }
+            // console.log("body:", body);
+            const response = await axiosInstance.post(
+                `/users/register`,
+                formData
+            );
+            console.log("thunkapi 회원가입");
+            console.log(
+                "response.data in register thunkapi - response back from server:",
+                response.data
+            );
+            return response.data;
         } catch (error) {
             console.log(error);
             return thunkAPI.rejectWithValue(
