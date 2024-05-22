@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 function MpCommentList(comment,deleteComment) {
     // const user = useSelector((state) => state.user); 
@@ -15,7 +15,7 @@ function MpCommentList(comment,deleteComment) {
     return (
       <div>
        {comment.comment.user.name} / {comment.comment.content}
-       <div  className="iconTrash" style={{cursor: "pointer", }} onClick={() => handleDeleteComment(  comment._id )}alt="삭제" >1</div>
+       <div className="iconTrash" style={{cursor: "pointer", width:"10px"}} onClick={() => handleDeleteComment(  comment._id )} alt="삭제" ></div>
 
       </div>
     );
