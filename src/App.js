@@ -9,7 +9,7 @@ import AccountEdit from "./pages/AccountPage/AccountEdit";
 import MateList from "./pages/GoingWithPage/MateList";
 import Login from "./pages/LoginPage/Login";
 import Home from "./pages/MainPage/Home";
-// import StyleGuide from "./pages/MainPage/StyleGuide";
+import StyleGuide from "./pages/MainPage/StyleGuide";
 import MeetingAdd from "./pages/MeetingPage/MeetingAdd";
 import MeetingList from "./pages/MeetingPage/MeetingList";
 import MeetingView from "./pages/MeetingPage/MeetingView";
@@ -20,18 +20,9 @@ import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    FilterModal,
-    MapModal,
-    MapModalSelect,
-    Modal,
-    TextModal
-} from "./components/Modal/Modal";
-import GlobalNav from "./layouts/Navigation/GlobalNav";
+import {FilterModal, MapModal, MapModalSelect, Modal} from "./components/Modal/Modal";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
-import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
-import ReviewView from "./pages/ReviewPage/ReviewView";
 import { authUser } from "./store/thunkFunctions";
 import DefualtModal from "./components/Modal/DefualtModal";
 import Search from "./pages/SearchPage/Search";
@@ -132,7 +123,7 @@ function App() {
                     <Route path="/meet-posts/new" element={<MeetingAdd />} />
                     <Route path="/meet-posts/:mpId" element={<MeetingView />} />
                     <Route path="/search" element={<Search />} />
-                    {/* <Route path="/styleguide" element={<StyleGuide />}/> */}
+                    <Route path="/styleguide" element={<StyleGuide />}/>
                 </Route>
                 <Route element={<NotAuthRouter />}>
                     <Route element={<LayoutEtc />}>
