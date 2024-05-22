@@ -8,6 +8,7 @@ import axiosInstance from "../../utils/axios";
 // import MeetingAdd from "./MeetingAdd";
 import { useSelector } from "react-redux";
 import SelectDiv from "../../components/Form/Select";
+import DefualtModal from "../../components/Modal/DefualtModal";
 
 const fetchMetaData = async (url) => {
     try {
@@ -86,17 +87,54 @@ function MeetingList(props) {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
-    const handleDeleteList = async(mpId) =>{
+    // const handleDeleteList = async(mpId) =>{
+    //     try {
+    //         await axiosInstance.delete(`/meet-posts/${mpId}`);
+    //             setMeetingAdd((prevData) => prevData.filter(meeting => meeting._id !== mpId));
+    //             return (
+    //                 <></>
+    //             )
+    //     } catch (error) {
+    //         console.error("Failed to delete the meeting post", error);
+    //     }
+    //   }
+
+    //   const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    //   const openModal = () => {
+    //     setIsModalOpen(true);
+    //   };
+    
+    //   const closeModal = () => {
+    //     setIsModalOpen(false);
+    //   };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedMeetingId, setSelectedMeetingId] = useState(null);
+
+    const openModal = (mpId) => {
+        setSelectedMeetingId(mpId);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedMeetingId(null);
+    };
+
+    const handleDeleteList = async () => {
+        if (!selectedMeetingId) return;
+
         try {
-            await axiosInstance.delete(`/meet-posts/${mpId}`);
-                setMeetingAdd((prevData) => prevData.filter(meeting => meeting._id !== mpId));
+            await axiosInstance.delete(`/meet-posts/${selectedMeetingId}`);
+            setMeetingAdd((prevData) => prevData.filter(meeting => meeting._id !== selectedMeetingId));
+            closeModal();
         } catch (error) {
             console.error("Failed to delete the meeting post", error);
         }
-      }
+    };
     return (
-        <> 
-            <TextModal></TextModal> 
+        <>          
             <SectionWrap>
                 <Title memTitle={false} className="mt-[80px]">
                     우리만날까?
@@ -126,7 +164,7 @@ function MeetingList(props) {
                             <div key={meetindex} className="mb-[40px]" >
                                 <div className="flex justify-between items-center mb-1">
                                 <Link to={`/meet-posts/${meeting._id}`}><div className="text-xl font-semibold hover:underline">{meeting.title}</div></Link>
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-3 items-center">
                                         <div className="flex">
                                             <i className="iconBasic iconView">view</i>1234
                                         </div>
@@ -135,13 +173,12 @@ function MeetingList(props) {
                                         </div>
                                         {meeting.user.name === userName && (
                                             <div className="flex gap-2">
-                                                <i className="iconTrash" onClick={() => props.modalOpen(3)}>Delet</i>
-                                                {/* <i className="iconTrash" onClick={() => handleDeleteList(meeting._id)}>Delet</i> */}
+                                                <button className="iconTrash" onClick={() => openModal(meeting._id)}>Delet</button>
                                             </div>
                                          )}
                                     </div>
                                 </div>
-                                <div className="text-sm mb-4">{meeting.user.name}</div>
+                                <div className="flex text-sm mb-4 items-center"><i className="iconBasic iconPen mr-2"></i> 작성자 : {meeting.user.name}</div>
                                 {metaDataList[meeting.chatLink] && (
                                     <SectionWrap basicSection={true}>
                                         <a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">
@@ -165,6 +202,10 @@ function MeetingList(props) {
                 </div>
             )}
             </SectionWrap>
+            <DefualtModal show={isModalOpen} onClose={closeModal}>
+                <div>정말 삭제하시겠습니까?</div>
+                <Button basicButton={true} onClick={handleDeleteList}>확인</Button>
+            </DefualtModal>
         </>
     );
 }

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import { SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
-import StarRating from "../../components/Form/StarRating";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useSelector } from "react-redux";
+import DefualtModal from "../../components/Modal/DefualtModal";
+import { Button, ButtonWrap } from "../../components/Form/Button";
 
 function MeetingView(props) {
     const swiperImg = [
@@ -19,8 +20,11 @@ function MeetingView(props) {
     ]
     const [meetingData, setMeetingData] = useState(null); // 단일 객체로 변경
     const { mpId } = useParams();
+    const navigate = useNavigate();
     const [metaDataList, setMetaDataList] = useState({});
+    const userName = useSelector((state) => state.user.userData.name);
     const [loading, setLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const fetchMetaData = async (url, mpId) => {
         try {
             const response = await axiosInstance.post(`/meet-posts/${mpId}`, { url });
@@ -59,6 +63,26 @@ function MeetingView(props) {
         fetchAllMetaData();
     }, [meetingData, mpId]);
 
+    //
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleDelete = async () => {
+        try {
+            await axiosInstance.delete(`/meet-posts/${mpId}`);
+            navigate('/meet-posts');
+        } catch (error) {
+            console.error("Failed to delete the meeting post", error);
+        } finally {
+            closeModal();
+        }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -79,7 +103,7 @@ function MeetingView(props) {
                     {meetingData && (
                         <>
                             <div className="flex justify-between items-center">
-                            <div className="text-xl font-semibold pt-5">{meetingData.title}</div>
+                            <div className="text-xl font-semibold py-4 pb-2">{meetingData.title}</div>
                                 <div className="flex gap-2">
                                     <div className="flex">
                                         <i className="iconBasic iconView">view</i>1234
@@ -89,7 +113,7 @@ function MeetingView(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex pb-5">{meetingData.user.name}</div> 
+                            <div className="flex text-sm mb-6 text-gray-500"><i className="iconBasic iconPen mr-2"></i> 작성자 : {meetingData.user.name}</div> 
                         </>
                     )}
                     {/* --- title userinfo end */}
@@ -123,9 +147,7 @@ function MeetingView(props) {
                                 <ul>
                                     <li>푸드 타입</li>
                                     <li className="flex">
-                                        <span className="flex-none">
-                                                    평점:
-                                                </span>
+                                        <span className="flex-none">평점: </span>
                                     </li>
                                 </ul>
                                 <div className="flex textBox">
@@ -153,13 +175,20 @@ function MeetingView(props) {
                             </div>
                             </a>
                         </SectionWrap>
+                        {meetingData.user.name === userName && (
+                        <div className="flex gap-2 w-[300px] m-auto">
+                            <Button onClick={openModal} basicButton={false} >삭제</Button>
+                        </div>
+                         )}
                     </>
                 )}
                 {/* --- mata data end */}
                 <Title className={"titleComment"}>댓글</Title>
             </SectionWrap>
-            
-        
+            <DefualtModal show={isModalOpen} onClose={closeModal}>
+                <div className="pb-3">정말 삭제하시겠습니까?</div>
+                <Button basicButton={true} onClick={handleDelete}>확인</Button>
+            </DefualtModal>
         </>
     )
 }

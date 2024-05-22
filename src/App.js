@@ -32,6 +32,7 @@ import NaverLogin from "./pages/LoginPage/NaverLogin";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import ReviewView from "./pages/ReviewPage/ReviewView";
 import { authUser } from "./store/thunkFunctions";
+import DefualtModal from "./components/Modal/DefualtModal";
 
 function Layout({ modalOpen }) {
     return (
@@ -63,15 +64,7 @@ function App() {
         <MapModalSelect modalOpen={modalOpen} />,
         <MapModal />,
         <FilterModal />,
-        <TextModal />,
     ];
-    // function modalOpen(idx) {
-    //     setModalView(true);
-    //     setModalNum(idx);
-    // }
-    // function modalClsose() {
-    //     setModalView(false);
-    // }
     function modalOpen(idx) {
         setModalView(true);
         setModalNum(idx);
@@ -139,7 +132,7 @@ function App() {
                         element={<ReviewView />}
                     ></Route>
 
-                    <Route path="/meet-posts" element={<MeetingList modalOpen={modalOpen} />}></Route>
+                    <Route path="/meet-posts" element={<MeetingList  modalOpen={modalOpen} />}></Route>
                     <Route
                         path="/meet-posts/new"
                         element={<MeetingAdd />}
