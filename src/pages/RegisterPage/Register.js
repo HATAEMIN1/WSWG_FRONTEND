@@ -49,6 +49,7 @@ function Register() {
 
         try {
             const compressedFile = await imageCompression(file, options);
+            console.log("compressedFile:", compressedFile);
             formData.append("file", compressedFile);
             console.log(
                 "compressed file is an instance of Blob:",
@@ -62,7 +63,15 @@ function Register() {
             formData.append("password", signupInfo.password);
 
             for (let keyVal of formData.entries()) {
-                console.log(`${[keyVal[0]]}: ${keyVal[1]}`);
+                if (keyVal[0] === "file") {
+                    const fileObject = keyVal[1];
+                    console.log(`${keyVal[0]}:`);
+                    console.log("name:", fileObject.name);
+                    console.log("size:", fileObject.size);
+                    console.log("type:", fileObject.type);
+                } else {
+                    console.log(`${[keyVal[0]]}: ${keyVal[1]}`);
+                }
             }
 
             // dispatch(registerUser(signupInfo);
