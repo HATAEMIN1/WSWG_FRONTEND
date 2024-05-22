@@ -194,4 +194,3 @@ function MeetingView(props) {
 }
 
 export default MeetingView;
-
