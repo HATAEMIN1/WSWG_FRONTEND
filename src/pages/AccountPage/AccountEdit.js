@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import InputWrap from "../../components/Form/Input";
 import { useForm } from "react-hook-form";
@@ -18,6 +18,7 @@ function AccountEdit() {
     const [modalOn, setModalOn] = useState(false);
     const [oldPwShow, setOldPwShow] = useState(false);
     const [newPwShow, setNewPwShow] = useState(false);
+    const [imgSrc, setImgSrc] = useState("");
 
     const {
         register,
@@ -68,6 +69,10 @@ function AccountEdit() {
         },
     };
 
+    function handleImageChange() {
+        alert("handleImageChange");
+    }
+
     function handleClickPwdChange() {
         setChangePwd(true);
     }
@@ -76,6 +81,10 @@ function AccountEdit() {
         dispatch(updateUserPassword({ passwordNew }));
         setModalOn(true);
         reset();
+    }
+    const imageInput = useRef();
+    function onClickPenIcon() {
+        imageInput.current.click();
     }
     return (
         <div
@@ -104,7 +113,21 @@ function AccountEdit() {
                 <Title memTitle={true}>어까</Title>
                 <Title memTitle={false}>나 좀 수정해볼까?</Title>
                 <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
-                    <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4"></div>
+                    <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative">
+                        <img
+                            onClick={onClickPenIcon}
+                            className="absolute right-[10px] top-[10px]"
+                            src="/images/iconPen.png"
+                            alt="pen icon to edit profile img"
+                        />
+                        <input
+                            className="hidden"
+                            type="file"
+                            accept="image/*"
+                            onClick={handleImageChange}
+                            ref={imageInput}
+                        />
+                    </div>
                     <div
                         style={{ fontFamily: "Pretendard" }}
                         className="text-center text-[16px]"

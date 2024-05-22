@@ -9,7 +9,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { useState } from "react";
 import Title from "../../components/Layout/Title";
-import imageCompression from "browser-image-compression";
+// import imageCompression from "browser-image-compression";
 
 function Register() {
     const {
@@ -23,7 +23,7 @@ function Register() {
     const error = useSelector((state) => state.user.error);
 
     const [modalOn, setModalOn] = useState(false);
-    const [compressedFile, setCompressedFile] = useState({});
+    // const [compressedFile, setCompressedFile] = useState({});
     const [imgSrc, setImgSrc] = useState("");
     const [pwShow, setPwShow] = useState(false);
     const [pwShowConfirm, setPwShowConfirm] = useState(false);
