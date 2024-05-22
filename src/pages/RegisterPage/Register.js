@@ -17,6 +17,7 @@ function Register() {
         formState: { errors },
         watch,
         reset,
+        // setValue,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
     const error = useSelector((state) => state.user.error);
@@ -120,6 +121,10 @@ function Register() {
         );
         fileReader.readAsDataURL(compressedFile); // encode file as a base64 url string
     }
+
+    // setValue("name", signupInfo.name);
+    // setValue("email", signupInfo.email);
+    // setValue("password", signupInfo.password);
 
     // function handleChange(e) {
     //     console.log("e.target", e.target);
@@ -322,6 +327,7 @@ function Register() {
                         </div>
                         <div className="w-[380px] ml-3 mb-5">
                             <input
+                                {...register("image")}
                                 type="file"
                                 onChange={(e) =>
                                     handleImgUpload(e.target.files[0])
