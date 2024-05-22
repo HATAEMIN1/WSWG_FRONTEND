@@ -17,7 +17,7 @@ function Register() {
         formState: { errors },
         watch,
         reset,
-        // setValue,
+        setValue,
     } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
     const error = useSelector((state) => state.user.error);
@@ -37,6 +37,7 @@ function Register() {
         event.preventDefault();
         const formData = new FormData();
         const file = event.target.elements.image.files[0];
+        console.log("file from event target elements:", file);
         console.log("handleSubmit");
         console.log("file is an instance of Blob:", file instanceof Blob); // true (if file chosen)
         console.log(`originalFile size ${file.size / 1024 / 1024} MB`);
@@ -126,15 +127,14 @@ function Register() {
     // setValue("email", signupInfo.email);
     // setValue("password", signupInfo.password);
 
-    // function handleChange(e) {
-    //     console.log("e.target", e.target);
-    //     const { name, value } = e.target;
-    //     setSignupInfo((prevState) => {
-    //         return { ...prevState, [name]: value };
-    //     });
-    //     console.log("in handleChange");
-    //     console.log("signupinfo", signupInfo);
-    // }
+    function handleChange(e) {
+        console.log("e.target", e.target);
+        const { name, value } = e.target;
+        setSignupInfo((prevState) => {
+            return { ...prevState, [name]: value };
+        });
+        setValue(name, value); // sync the value with react-hook-form
+    }
 
     return (
         <>
@@ -179,12 +179,15 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type="text"
                                     id="emailInput"
-                                    // name="email"
+                                    name="email"
                                     // value={signupInfo.email}
+                                    // onChange={handleChange}
                                     required
                                     placeholder="이메일을 입력하세요!"
-                                    // onChange={handleChange}
-                                    {...register("email", userEmail)}
+                                    {...register("email", {
+                                        ...userEmail,
+                                        onChange: (e) => handleChange(e),
+                                    })}
                                 />
                                 {errors.email && (
                                     <div className="text-red-500 text-xs mt-1">
@@ -207,13 +210,16 @@ function Register() {
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type="text"
                                     id="usernameInput"
-                                    // name="name"
+                                    name="name"
                                     // value={signupInfo.name}
                                     required
                                     maxLength="50"
                                     // onChange={handleChange}
                                     placeholder="닉네임을 입력하세요!"
-                                    {...register("name", userName)}
+                                    {...register("name", {
+                                        ...userName,
+                                        onChange: (e) => handleChange(e),
+                                    })}
                                 />
 
                                 {errors.name && (
@@ -239,14 +245,17 @@ function Register() {
                                 <input
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     id="passwordInput"
-                                    // name="password"
+                                    name="password"
                                     // value={signupInfo.password}
                                     type={pwShow ? "text" : "password"}
                                     required
                                     minLength="4"
                                     // onChange={handleChange}
                                     placeholder="비밀번호를 입력하세요!"
-                                    {...register("password", userPassword)}
+                                    {...register("password", {
+                                        ...userPassword,
+                                        onChange: (e) => handleChange(e),
+                                    })}
                                 />
                                 {errors.password && (
                                     <div className="text-red-500 text-xs mt-1">
