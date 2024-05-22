@@ -69,8 +69,23 @@ function AccountEdit() {
         },
     };
 
-    function handleImageChange() {
-        alert("handleImageChange");
+    function handleImageChange(file) {
+        console.log("handleImageChange");
+        if (!file) {
+            console.log("no img file selected yet");
+            return;
+        }
+        console.log(
+            "file is an instance of Blob in handleImgUpload:",
+            file instanceof Blob
+        );
+        const fileReader = new FileReader();
+
+        fileReader.onload = () => {
+            setImgSrc(fileReader.result); // this is the compressed actual image file saved as url string in base64
+        };
+
+        fileReader.readAsDataURL(file); // encode file as a base64 url string
     }
 
     function handleClickPwdChange() {
@@ -114,6 +129,15 @@ function AccountEdit() {
                 <Title memTitle={false}>나 좀 수정해볼까?</Title>
                 <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
                     <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative">
+                        {imgSrc && (
+                            <>
+                                <img
+                                    src={imgSrc}
+                                    className="object-cover"
+                                    alt="profile pic"
+                                />
+                            </>
+                        )}
                         <img
                             onClick={onClickPenIcon}
                             className="absolute right-[10px] top-[10px]"
@@ -124,7 +148,9 @@ function AccountEdit() {
                             className="hidden"
                             type="file"
                             accept="image/*"
-                            onClick={handleImageChange}
+                            onChange={(e) =>
+                                handleImageChange(e.target.files[0])
+                            }
                             ref={imageInput}
                         />
                     </div>
