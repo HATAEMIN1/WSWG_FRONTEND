@@ -9,7 +9,10 @@ import { Button, ButtonWrap } from "../../components/Form/Button";
 
 function Search(props) {
     //임시 카테고리
-    const cateId = "lover";
+    // const cateId = "lover";
+    const cateId = useSelector((state) => {
+        return state.filter.mateType;
+    });
     const location = useLocation();
     const query = new URLSearchParams(location.search).get("q");
     const [results, setResults] = useState([]);

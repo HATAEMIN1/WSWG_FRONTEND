@@ -22,16 +22,12 @@ import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    Modal,
-    MapModal,
-    FilterModal,
-    MapModalSelect,
-} from "./components/Modal/Modal";
+import { Modal, MapModal, MapModalSelect } from "./components/Modal/Modal";
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
 import Search from "./pages/SearchPage/Search";
+import FilterModal from "./components/Modal/FilterModal";
 
 function Layout({ modalOpen }) {
     return (
@@ -104,7 +100,10 @@ function App() {
                         path="/styleGuide"
                         element={<StyleGuide modalOpen={modalOpen} />}
                     ></Route>
-                    <Route path="/" element={<Home modalOpen={modalOpen} />}></Route>
+                    <Route
+                        path="/"
+                        element={<Home modalOpen={modalOpen} />}
+                    ></Route>
                     {/* <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />}></Route> */}
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
