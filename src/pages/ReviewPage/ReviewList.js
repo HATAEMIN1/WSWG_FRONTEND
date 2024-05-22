@@ -25,12 +25,9 @@ function ReviewList(props) {
             const res = await axiosInstance.get("/review-posts", { params });
             console.log(res.data);
             if (loadMore) {
-                setReviewAdd((prevData) => [
-                    ...prevData,
-                    ...res.data.review.reverse(),
-                ]);
+                setReviewAdd((prevData) => [...prevData, ...res.data.review]);
             } else {
-                setReviewAdd(res.data.review.reverse());
+                setReviewAdd(res.data.review);
                 //res.data.review배열을 역순으로 만들어서 setReviewAdd함수를 통해 해당 배열을 업데이트
             }
 
@@ -127,7 +124,7 @@ function ReviewList(props) {
                                                         <li className="content w-full ">
                                                             {review.content}
                                                         </li>
-                                                        <li className="flex">
+                                                        <li className="flex mb-2">
                                                             {/* 평점:{review.rating} */}
                                                             <span className="flex-none">
                                                                 평점:{" "}
@@ -139,7 +136,26 @@ function ReviewList(props) {
                                                             ></StarRating>
                                                         </li>
                                                         <li>
-                                                            {review.hashtag}
+                                                            <div className="hashBoxWrap">
+                                                                {review.hashTag.map(
+                                                                    (
+                                                                        tag,
+                                                                        i
+                                                                    ) => (
+                                                                        <span
+                                                                            key={
+                                                                                i
+                                                                            }
+                                                                            className="hashBox"
+                                                                        >
+                                                                            #
+                                                                            {
+                                                                                tag
+                                                                            }
+                                                                        </span>
+                                                                    )
+                                                                )}
+                                                            </div>
                                                         </li>
                                                     </ul>
                                                 </div>
