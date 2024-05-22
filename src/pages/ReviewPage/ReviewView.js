@@ -6,7 +6,8 @@ import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
 import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
-import { faObjectUngroup } from "@fortawesome/free-regular-svg-icons";
+// import { faObjectUngroup } from "@fortawesome/free-regular-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 function ReviewView(props) {
     const { rpId, rtId, cateId } = useParams();
@@ -15,29 +16,42 @@ function ReviewView(props) {
     const userId = useSelector((state) => {
         return state.user.userData.id;
     });
+    const navigate = useNavigate();
 
+    //리뷰정보가져오기
     useEffect(() => {
-        const fetchReviewAndRestaurant = async () => {
+        const fetchReview = async () => {
             try {
-                //리뷰정보가져오기
                 const reviewRes = await axiosInstance.get(
                     `/review-posts/${rpId}`
                 );
                 setReview(reviewRes.data.review);
                 console.log(reviewRes.data);
-
-                //레스토랑정보가져오기
-                const restaurantRes = await axiosInstance.get(
-                    `/restaurants/${reviewRes.data.review.restaurantId}`
-                );
-                setRestaurant(restaurantRes.data.restaurant);
             } catch (error) {
-                console.log(error);
+                console.log("리뷰정보가져오기오류", error);
             }
         };
-        fetchReviewAndRestaurant();
-    }, []);
+        fetchReview();
+    }, [rpId]);
 
+    // 레스토랑 정보 가져오기
+    useEffect(() => {
+        const fetchRestaurant = async () => {
+            try {
+                const res = await axiosInstance.get(
+                    `/restaurants/${cateId}/${rtId}`
+                );
+                setRestaurant((prevData) => [...prevData, res.data.restaurant]);
+            } catch (error) {
+                console.error("레스토랑 정보 가져오기 오류:", error);
+            }
+        };
+        fetchRestaurant();
+    }, [cateId, rtId]);
+
+    const handleCancelClick = () => {
+        navigate(`/mate/${cateId}/restaurants/${rtId}`);
+    };
     return (
         <SectionWrap>
             <form>
@@ -46,6 +60,25 @@ function ReviewView(props) {
                         <i className="btnBack">more</i> 뒤로가기
                     </button>
                 </Title>
+                <div className="w-full min-h-[120px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border items-center">
+                    <div className=" w-[100px] overflow-hidden border-r-[1px] p-2">
+                        {restaurant.length > 0 && (
+                            <img
+                                src={restaurant[0].image[0]}
+                                alt=""
+                                className="block"
+                            />
+                        )}
+                    </div>
+                    <div className="flex-auto p-[20px]">
+                        {restaurant.length > 0 && (
+                            <div>
+                                <h2>{restaurant[0].name}</h2>
+                                <p>{restaurant[0].category[0].foodtype}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
 
                 <div className="flex mb-7">
                     <div className="w-[100px] rounded-md overflow-hidden">
@@ -92,28 +125,40 @@ function ReviewView(props) {
                 <div className="content w-full justify-center items-center mt-5 mb-7">
                     {review.content}
                 </div>
-                {/* <div>{review.hashTag}</div> */}
                 <div className="hashBoxWrap">
-                    {review.hashTag.map((tag, i) => (
-                        <span key={i} className="hashBox">
-                            #{tag}
-                        </span>
-                    ))}
+                    {review.hashTag &&
+                        review.hashTag.length > 0 &&
+                        review.hashTag.map((tag, i) => (
+                            <span key={i} className="hashBox">
+                                #{tag}
+                            </span>
+                        ))}
+                </div>
+                <div className="flex justify-between gap-2 mb-40">
+                    {review.images &&
+                        review.images.length > 0 &&
+                        review.images.map((image, index) => (
+                            <div
+                                key={index}
+                                className="w-[175px] overflow-hidden rounded-md"
+                            >
+                                <img
+                                    src={image}
+                                    alt={`Review Image ${index + 1}`}
+                                />
+                            </div>
+                        ))}
                 </div>
 
-                {/* <div className="flex justify-between gap-2 mb-40">
-                    {(review.image || []).map((image, index) => (
-                        <div
-                            key={index}
-                            className="w-[175px] overflow-hidden rounded-md"
-                        >
-                            <img
-                                src={review.image}
-                                alt={`Review Image ${index + 1}`}
-                            />
-                        </div>
-                    ))}
-                </div> */}
+                <div className="hashBoxWrap">
+                    {review.hashTag > 0 &&
+                        review.hashTag.map((tag, i) => (
+                            <span key={i} className="hashBox">
+                                #{tag}
+                            </span>
+                        ))}
+                </div>
+                {/* <div>{review.images}</div> */}
             </form>
         </SectionWrap>
     );
