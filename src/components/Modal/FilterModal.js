@@ -17,7 +17,7 @@ function FilterModal(...props) {
     const dispatch = useDispatch();
     const filterState = useSelector((state) => state.filter);
     const handleMateType = (e) => {
-        const valueWithoutSuffix = e.target.value.replace("과", "");
+        const valueWithoutSuffix = e.target.value.replace(/과|와/g, "");
         dispatch(setMateType(valueWithoutSuffix));
     };
     const handleFoodType = (e) => {
@@ -44,7 +44,7 @@ function FilterModal(...props) {
                                             value={item}
                                             checked={
                                                 filterState.mateType ===
-                                                item.replace("과", "")
+                                                item.replace(/과|와/g, "")
                                             }
                                             onChange={handleMateType}
                                         />

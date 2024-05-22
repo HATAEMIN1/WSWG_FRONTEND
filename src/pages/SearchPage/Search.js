@@ -8,10 +8,23 @@ import { useSelector } from "react-redux";
 import { Button, ButtonWrap } from "../../components/Form/Button";
 
 function Search(props) {
-    //임시 카테고리
-    // const cateId = "lover";
+    const mateType = [
+        { no: 1, cateId: "lover", name: "연인" },
+        { no: 2, cateId: "friend", name: "친구" },
+        { no: 3, cateId: "family", name: "가족" },
+        { no: 4, cateId: "group", name: "단체모임" },
+        { no: 5, cateId: "pet", name: "반려동물" },
+        { no: 6, cateId: "self", name: "혼자" },
+    ];
     const cateId = useSelector((state) => {
-        return state.filter.mateType;
+        const mateTypeName = state.filter.mateType;
+        const selectedMateType = mateType.find(
+            (type) => type.name === mateTypeName
+        );
+        return selectedMateType ? selectedMateType.cateId : "";
+    });
+    const food = useSelector((state) => {
+        console.log(state.filter.foodType);
     });
     const location = useLocation();
     const query = new URLSearchParams(location.search).get("q");
