@@ -47,7 +47,6 @@ function RestaurantView(props) {
             const res = await axiosInstance.get(
                 `/restaurants/${cateId}/${rtId}`
             );
-            console.log(res.data.restaurant);
             setRestaurantData([...restaurantData, res.data.restaurant]);
             setTimeout(() => {
                 setLoading(false);
@@ -66,7 +65,7 @@ function RestaurantView(props) {
     const incrementViews = async () => {
         try {
             const res = await axiosInstance.post(
-                `restaurants/${cateId}/${userId}/${rtId}`
+                `restaurants/${cateId}/${rtId}/view`
             );
             setViews(res.data.restaurant.views);
         } catch (error) {
