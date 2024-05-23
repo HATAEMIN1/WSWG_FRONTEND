@@ -120,12 +120,12 @@ function MeetingList(props) {
                 <div className="flex justify-between gap-2 mb-5">
                     <div className="flex gap-2">
                         <SelectDiv></SelectDiv>
-                        <Button basicButton={true} className={"max-w-[100px]"}>지역선택</Button>
                     </div>
                     <div className="flex items-center">
                         <Button className={"lineSmallButton"}>
                             <Link to="/meet-posts/new">
-                            <i className="iconSmall iconWriter">writer</i> 나도 작성하기
+                                <i className="iconSmall iconWriter">writer</i>{" "}
+                                나도 작성하기
                             </Link>
                         </Button>
                     </div>
