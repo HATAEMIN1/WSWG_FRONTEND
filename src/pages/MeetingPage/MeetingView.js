@@ -38,7 +38,7 @@ function MeetingView(props) {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
-                setLoading(false); // 로딩을 중지해야 페이지가 멈추지 않습니다.
+                setLoading(false); 
             }
         }
         meetingView();
@@ -65,7 +65,6 @@ function MeetingView(props) {
         try {
             const res = await axiosInstance.post(`/meet-posts/${mpId}/comments`, commentData);
             const newComment = res.data.comment;
-            // user 객체를 포함하는 새로운 댓글을 추가
             const updatedComment = {
                 ...newComment,
                 user: {
@@ -135,7 +134,7 @@ function MeetingView(props) {
                                     <i className="iconBasic iconView">view</i>1234
                                 </div>
                                 <div className="flex">
-                                    <i className="iconBasic iconComment">view</i>1234
+                                    <i className="iconBasic iconComment">view</i>{comments.length}
                                 </div>
                             </div>
                         </div>
@@ -201,15 +200,14 @@ function MeetingView(props) {
                     <Title className={"titleComment"}>댓글</Title>
                     <CommentWrite onSubmit={handleInsertComment} />
                     {comments.length === 0 ? (
-    <p>댓글이 없습니다🥲</p>
-) : (
-    comments.map((item) => (
-        <div key={item._id}>
-            <MpCommentList comment={item} deleteComment={deleteComment} currentUserId={userId} />
-        </div>
-    ))
-)}
-
+                        <p>댓글이 없습니다🥲</p>
+                    ) : (
+                        comments.map((item) => (
+                            <div key={item._id}>
+                                <MpCommentList comment={item} deleteComment={deleteComment} currentUserId={userId} />
+                            </div>
+                        ))
+                    )}
                 </div>
             </SectionWrap>
             <DefualtModal show={isModalOpen} onClose={closeModal}>
