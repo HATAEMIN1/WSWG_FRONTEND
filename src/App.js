@@ -20,14 +20,17 @@ import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
-import {FilterModal, MapModal, MapModalSelect, Modal} from "./components/Modal/Modal";
+import { Modal, MapModal, MapModalSelect } from "./components/Modal/Modal";
+import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
 import { authUser } from "./store/thunkFunctions";
 import DefualtModal from "./components/Modal/DefualtModal";
 import Search from "./pages/SearchPage/Search";
+import FilterModal from "./components/Modal/FilterModal";
 import NotAuthRouter from "./components/Router/NotAuthRouter";
 import AuthRouter from "./components/Router/AuthRouter";
+
 
 function Layout({ modalOpen }) {
     return (
@@ -91,6 +94,14 @@ function App() {
             )}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
+                    <Route
+                        path="/styleGuide"
+                        element={<StyleGuide modalOpen={modalOpen} />}
+                    ></Route>
+                    <Route
+                        path="/"
+                        element={<Home modalOpen={modalOpen} />}
+                    ></Route>
                     <Route element={<AuthRouter />}>
                         <Route path="/account" element={<Account />} />
                         <Route path="/account/edit" element={<AccountEdit />} />
@@ -99,9 +110,7 @@ function App() {
                             element={<AccountDelete />}
                         />
                     </Route>
-
                     <Route index element={<Home modalOpen={modalOpen} />} />
-
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
                     <Route path="/mate" element={<MateList />} />

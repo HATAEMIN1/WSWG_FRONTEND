@@ -46,6 +46,7 @@ function RestaurantView(props) {
             const res = await axiosInstance.get(
                 `/restaurants/${cateId}/${rtId}`
             );
+            console.log(res.data.restaurant);
             setRestaurantData([...restaurantData, res.data.restaurant]);
             setTimeout(() => {
                 setLoading(false);
@@ -200,7 +201,12 @@ function RestaurantView(props) {
                     <div className="flex gap-2">
                         <i className="iconTypeStore iconStoreLoc">local</i>
                         {restaurantData.length > 0 && (
-                            <>{restaurantData[0].address}</>
+                            <>
+                                {restaurantData[0].address.metropolitan + " "}
+                                {restaurantData[0].address.city + " "}
+                                {restaurantData[0].address.district + " "}
+                                {restaurantData[0].address.detailedAddress}
+                            </>
                         )}
                     </div>
                     <div className="flex gap-2">
