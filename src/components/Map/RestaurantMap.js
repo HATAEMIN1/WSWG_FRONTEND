@@ -24,7 +24,6 @@ function RestaurantMap(props) {
             restaurant.longitude
         ),
     };
-    console.log(geoData);
     useEffect(() => {
         fetchRestaurant();
     }, []);
