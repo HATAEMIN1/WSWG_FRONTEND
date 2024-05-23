@@ -35,6 +35,7 @@ const userSlice = createSlice({
         builder
             .addCase(registerUser.pending, (state) => {
                 state.isLoading = true;
+                state.error = "";
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -53,6 +54,7 @@ const userSlice = createSlice({
 
             .addCase(loginUser.pending, (state) => {
                 state.isLoading = true;
+                state.error = "";
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -72,6 +74,7 @@ const userSlice = createSlice({
             })
             .addCase(oauthLogin.pending, (state) => {
                 state.isLoading = true;
+                state.error = "";
             })
             .addCase(oauthLogin.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -91,6 +94,7 @@ const userSlice = createSlice({
             })
             .addCase(authUser.pending, (state) => {
                 state.isLoading = true;
+                state.error = "";
             })
             .addCase(authUser.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -112,6 +116,7 @@ const userSlice = createSlice({
             })
             .addCase(logoutUser.pending, (state) => {
                 state.isLoading = true;
+                state.error = "";
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.isLoading = false;
@@ -127,6 +132,7 @@ const userSlice = createSlice({
             })
             .addCase(updateUserPassword.pending, (state) => {
                 state.isLoading = true;
+                state.error = "";
             })
             .addCase(updateUserPassword.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -146,6 +152,7 @@ const userSlice = createSlice({
             })
             .addCase(deleteUser.pending, (state) => {
                 state.isLoading = true;
+                state.error = "";
             })
             .addCase(deleteUser.fulfilled, (state) => {
                 state.isLoading = false;
