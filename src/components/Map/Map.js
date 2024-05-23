@@ -45,7 +45,8 @@ function Map(props) {
     useEffect(() => {
         fetchRestaurant();
     }, []);
-    useEffect(() => {
+
+    function MapSet(click) {
         const mapContainer = document.getElementById("map"), // 지도를 표시할 div
             mapOption = {
                 center: new kakao.maps.LatLng(
@@ -122,33 +123,25 @@ function Map(props) {
             // 지도 중심좌표를 접속위치로 변경합니다
             map.setCenter(locPosition);
         }
-    }, [geoData]);
-    useEffect(() => {
-        var mapContainer = document.getElementById("map"), // 지도를 표시할 div
-            mapOption = {
-                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                level: 3, // 지도의 확대 레벨
-            };
-
-        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-        function setCenter() {
+        const panTo = () => {
             // 이동할 위도 경도 위치를 생성합니다
-            var moveLatLon = new kakao.maps.LatLng(33.452613, 126.570888);
-
-            // 지도 중심을 이동 시킵니다
-            map.setCenter(moveLatLon);
-        }
-
-        function panTo() {
-            // 이동할 위도 경도 위치를 생성합니다
-            var moveLatLon = new kakao.maps.LatLng(33.45058, 126.574942);
+            const moveLatLon = new window.kakao.maps.LatLng(
+                33.45058,
+                126.574942
+            );
 
             // 지도 중심을 부드럽게 이동시킵니다
             // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
             map.panTo(moveLatLon);
+        };
+        if (click) {
+            panTo();
         }
-    }, []);
+    }
+    useEffect(() => {
+        MapSet();
+    }, [geoData]);
+
     return (
         <>
             <div id="map" style={{ width: "100%", height: "400px" }}></div>
@@ -168,8 +161,14 @@ function Map(props) {
                         </Link>
                     </div>
                     <div className="w-1/2 text-white text-[20px]">
-                        <Link className="flex justify-center align-middle">
-                            <i className="iconMap"></i>현위치보기
+                        <Link
+                            className="flex justify-center align-middle"
+                            onClick={() => {
+                                MapSet("click");
+                            }}
+                        >
+                            <i className="iconMap"></i>
+                            현위치보기
                         </Link>
                     </div>
                 </SectionWrap>

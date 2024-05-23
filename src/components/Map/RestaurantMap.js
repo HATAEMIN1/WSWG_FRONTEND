@@ -24,7 +24,6 @@ function RestaurantMap(props) {
 
     useEffect(() => {
         if (restaurant) {
-            // 레스토랑이 존재하는 경우에만 실행
             const mapContainer = document.getElementById("map");
             const mapOption = {
                 center: new kakao.maps.LatLng(
