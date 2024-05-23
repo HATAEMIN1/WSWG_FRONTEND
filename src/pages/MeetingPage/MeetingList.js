@@ -162,18 +162,18 @@ function MeetingList(props) {
                                 </div>
                                 {metaDataList[meeting.chatLink] && (
                                     <SectionWrap basicSection={true}>
-                                        <a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">
                                         <div className="container flex border rounded-md">
                                             <div className="w-1/3">
+                                                <a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">
                                                 <img src={metaDataList[meeting.chatLink].image} alt="Meta" />
+                                                </a>
                                             </div>
-                                            <div className="w-full flex-wrap justify-between flex-auto p-[10px]">
-                                                <p className="font-semibold">{metaDataList[meeting.chatLink].title}</p>
+                                            <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">
+                                                <p className="font-semibold"><a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">{metaDataList[meeting.chatLink].title}</a></p>
                                                 <p className="text-sm text-gray-500">{metaDataList[meeting.chatLink].description}</p>
                                                 <p className="text-sm">{metaDataList[meeting.chatLink].url}</p>
                                             </div>
                                         </div>
-                                        </a>
                                     </SectionWrap>
                                 )}
                             </div>
