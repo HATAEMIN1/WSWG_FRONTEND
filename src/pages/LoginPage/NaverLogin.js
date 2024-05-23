@@ -19,7 +19,6 @@ const NaverLogin = () => {
 &response_type=code`;
 
     const code = searchParams.get("code");
-    console.log("naver oauth - code from query string", code);
 
     const dispatch = useDispatch();
 

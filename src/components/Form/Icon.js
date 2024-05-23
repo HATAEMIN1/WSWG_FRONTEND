@@ -36,28 +36,20 @@ const Wish = styled.i`
         background: url("${wishActive}");
     }
 `;
-function IconStar({ className, lineStar, ...props }) {
-    const [btnActive, setBtnActive] = useState(false);
-    function clickStar() {
-        setBtnActive(!btnActive);
-    }
+
+
+function IconStar({ className, lineStar, isActive, onClick, ...props }) {
     let cssClasses = lineStar ? "whiteLine" : "";
     cssClasses += " " + className;
+    cssClasses += isActive ? " active" : "";
 
     return (
-        <>
-            <Star
-                className={`${btnActive ? "active" : ""}  ${cssClasses}`}
-                {...props}
-                onClick={() => {
-                    clickStar();
-                }}
-            >
-                &#9733;
-            </Star>
-        </>
+        <Star className={cssClasses} onClick={onClick} {...props}>
+            &#9733;
+        </Star>
     );
 }
+
 function IconStarView({ className, lineStar, ...props }) {
     let cssClasses = lineStar ? "whiteLine" : "";
     cssClasses += " " + className;
