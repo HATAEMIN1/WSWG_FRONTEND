@@ -38,20 +38,22 @@ function FileUpload({ images, onImageChange }) {
                 {images.map((image) => {
                     console.log(image);
                     return (
-                        <div key={image} className="w-[90px] relative ">
+                        <div key={image} className="w-[100px] relative ">
                             <div
                                 onClick={() => {
                                     handleDelete(image);
                                 }}
-                                className="w-[20px] h-[20px] flex justify-center items-center bg-red-300 absolute rounded-[50%] right-[-10px] top-[-10px]"
+                                className="w-full h-[20px] flex justify-center items-center bg-gray-100 absolute rounded-sm left-[0px] bottom-[0px]"
                             >
-                                X
+                                &#10005;
                             </div>
-
-                            <img
-                                src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
-                                alt=""
-                            />
+                            <div className="w-[100px] h-[100px] overflow-hidden ">
+                                <img
+                                    src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
+                                    className="w-full h-full object-cover"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                     );
                 })}

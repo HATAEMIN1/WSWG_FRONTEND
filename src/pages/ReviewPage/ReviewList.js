@@ -22,7 +22,9 @@ function ReviewList(props) {
             limit,
         };
         try {
-            const res = await axiosInstance.get("/review-posts", { params });
+            const res = await axiosInstance.get(`/review-posts/${rtId}`, {
+                params,
+            });
             console.log(res.data);
             if (loadMore) {
                 setReviewAdd((prevData) => [...prevData, ...res.data.review]);
@@ -102,11 +104,21 @@ function ReviewList(props) {
                                             className="flex reviewListWrap gap-5"
                                             key={index}
                                         >
-                                            <div className="flex-none imgWrap">
+                                            {/* <div className="flex-none imgWrap">
                                                 <img
                                                     src={`${process.env.PUBLIC_URL}/images/imageSample1.png`}
                                                     alt="sampleimg"
                                                 />
+                                            </div> */}
+                                            <div className="flex-none imgWrap">
+                                                {review.images &&
+                                                    review.images.length >
+                                                        0 && (
+                                                        <img
+                                                            src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${review.images[0]}`}
+                                                            alt="Review"
+                                                        />
+                                                    )}
                                             </div>
                                             <div className="w-full flex justify-center items-center">
                                                 <div className="w-full flex flex-col justify-between py-[10px]">

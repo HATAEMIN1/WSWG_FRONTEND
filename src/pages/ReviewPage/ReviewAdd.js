@@ -86,6 +86,14 @@ function ReviewAdd(props) {
         e.preventDefault();
         addHashTag(e);
     };
+
+    // 해시태그 삭제 함수
+    const removeHashTag = (indexToRemove) => {
+        setHashTag((prevHashTags) =>
+            prevHashTags.filter((_, index) => index !== indexToRemove)
+        );
+    };
+
     //--------------------------------------------------------------------------------------->
 
     const [restaurantData, setRestaurantData] = useState([]);
@@ -135,21 +143,21 @@ function ReviewAdd(props) {
     };
 
     //이미지----------------------------------------------------------------------------------->
-    // function handleImage(newImages) {
-    //     // console.log("image");
-    //     setText((prevState) => ({
-    //         ...prevState,
-    //         images: newImages,
-    //     }));
-    //     console.log(newImages);
-    // }
-
-    const handleImage = (images) => {
+    function handleImage(newImages) {
+        // console.log("image");
         setText((prevState) => ({
             ...prevState,
-            images: images.map((image) => URL.createObjectURL(image)), // 업로드한 이미지 파일의 URL을 생성하여 저장
+            images: newImages,
         }));
-    };
+        console.log(newImages);
+    }
+
+    // const handleImage = (images) => {
+    //     setText((prevState) => ({
+    //         ...prevState,
+    //         images: images.map((image) => URL.createObjectURL(image)), // 업로드한 이미지 파일의 URL을 생성하여 저장
+    //     }));
+    // };
     //----------------------------------------------------------------------------------------->
 
     return (
@@ -212,14 +220,23 @@ function ReviewAdd(props) {
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {/* 해시태그 목록 렌더링 */}
                     <div className="flex gap-2 pt-2">
-                        {inputHashTag}
+                        {/* {inputHashTag} */}
                         {hashtag.length > 0 &&
-                            hashtag.map((hashTag) => (
+                            hashtag.map((hashTag, index) => (
                                 <div
                                     key={hashTag}
-                                    className="flex items-center gap-2"
+                                    className="flex relative items-center gap-2"
                                 >
-                                    <span className="hashBox">#{hashTag}</span>
+                                    <div className="flex gap-2 hashBox justify-center items-center">
+                                        #{hashTag}
+                                        <button
+                                            type="button"
+                                            onClick={() => removeHashTag(index)}
+                                            className=" text-gray-400"
+                                        >
+                                            &#10005;
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
                     </div>

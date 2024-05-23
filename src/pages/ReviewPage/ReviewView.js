@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Title from "../../components/Layout/Title";
 import { SectionWrap } from "../../components/Layout/Section";
-import { IconStar, IconWish } from "../../components/Form/Icon";
+// import { IconStar, IconWish } from "../../components/Form/Icon";
+
 import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
 import { useSelector } from "react-redux";
@@ -23,7 +24,7 @@ function ReviewView(props) {
         const fetchReview = async () => {
             try {
                 const reviewRes = await axiosInstance.get(
-                    `/review-posts/${rpId}`
+                    `/review-posts/${rpId}/view`
                 );
                 setReview(reviewRes.data.review);
                 console.log(reviewRes.data);
@@ -122,10 +123,10 @@ function ReviewView(props) {
                         </div>
                     </div>
                 </div>
-                <div className="content w-full justify-center items-center mt-5 mb-7">
+                <div className="content w-full justify-center items-center mt-5 mb-3">
                     {review.content}
                 </div>
-                <div className="hashBoxWrap">
+                <div className="hashBoxWrap mb-9">
                     {review.hashTag &&
                         review.hashTag.length > 0 &&
                         review.hashTag.map((tag, i) => (
@@ -134,18 +135,21 @@ function ReviewView(props) {
                             </span>
                         ))}
                 </div>
-                <div className="flex justify-between gap-2 mb-40">
+                <div className="flex gap-2 mb-40">
                     {review.images &&
                         review.images.length > 0 &&
                         review.images.map((image, index) => (
                             <div
                                 key={index}
-                                className="w-[175px] overflow-hidden rounded-md"
+                                className="w-[175px] overflow-hidden border rounded-lg"
                             >
+                                {/* <div className="border rounded"> */}
                                 <img
-                                    src={image}
+                                    src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
+                                    className="w-full h-full object-cover"
                                     alt={`Review Image ${index + 1}`}
                                 />
+                                {/* </div> */}
                             </div>
                         ))}
                 </div>
