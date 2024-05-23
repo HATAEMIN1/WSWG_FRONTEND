@@ -60,7 +60,6 @@ function Map(props) {
         // 마커 이미지의 이미지 주소입니다
         var imageSrc =
             "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
         for (let i = 0; i < positions.length; i++) {
             // 마커 이미지의 이미지 크기 입니다
             let imageSize = new kakao.maps.Size(24, 35);
@@ -75,8 +74,10 @@ function Map(props) {
                 title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                 image: markerImage, // 마커 이미지
             });
+            displayMarker(positions[i].latlng, positions[i].title);
         }
-        //////////내위치 마커////////////////////////////////////////////////////
+
+        //내 위치 마커
         // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
         if (navigator.geolocation) {
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -116,12 +117,13 @@ function Map(props) {
                 content: iwContent,
                 removable: iwRemoveable,
             });
-
-            // 인포윈도우를 마커위에 표시합니다
-            infowindow.open(map, marker);
-
+            // 마커에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, "click", function () {
+                // 마커 위에 인포윈도우를 표시합니다
+                infowindow.open(map, marker);
+            });
             // 지도 중심좌표를 접속위치로 변경합니다
-            map.setCenter(locPosition);
+            // map.setCenter(locPosition);
         }
         const panTo = () => {
             // 이동할 위도 경도 위치를 생성합니다
@@ -129,7 +131,6 @@ function Map(props) {
                 33.45058,
                 126.574942
             );
-
             // 지도 중심을 부드럽게 이동시킵니다
             // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
             map.panTo(moveLatLon);
