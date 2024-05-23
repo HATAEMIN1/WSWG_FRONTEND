@@ -21,6 +21,7 @@ function MeetingView(props) {
     const [meetingData, setMeetingData] = useState(null); // 단일 객체로 변경
     const { mpId } = useParams();
     const navigate = useNavigate();
+    const [views, setViews] = useState(0);
     const [metaDataList, setMetaDataList] = useState({});
     const userName = useSelector((state) => state.user.userData.name);
     const [loading, setLoading] = useState(true);
@@ -45,8 +46,18 @@ function MeetingView(props) {
             }
         }
         meetingView();
+        incrementViews();
     }, [mpId]);
-
+    const incrementViews = async () => {
+        try {
+            const res = await axiosInstance.post(
+                `meet-posts/${mpId}/view`
+            );
+            setViews(res.data.meetUpPost.views);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
     useEffect(() => {
         const fetchAllMetaData = async () => {
             if (meetingData) {
@@ -106,10 +117,11 @@ function MeetingView(props) {
                             <div className="text-xl font-semibold py-4 pb-2">{meetingData.title}</div>
                                 <div className="flex gap-2">
                                     <div className="flex">
-                                        <i className="iconBasic iconView">view</i>1234
+                                        <i className="iconBasic iconView">view</i>{" "}
+                                    {views}
                                     </div>
                                     <div className="flex">
-                                        <i className="iconBasic iconComment">view</i>1234
+                                        <i className="iconBasic iconComment">comment</i>1234
                                     </div>
                                 </div>
                             </div>
