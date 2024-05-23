@@ -31,7 +31,33 @@ function FileUpload({ images, onImageChange }) {
         onImageChange(newImages);
     }
     return (
-        <div>
+        <div className="w-full flex justify-between items-center">
+            {/* {images} */}
+
+            <div className="flex items-center gap-4 ">
+                {images.map((image) => {
+                    console.log(image);
+                    return (
+                        <div key={image} className="w-[100px] relative ">
+                            <div
+                                onClick={() => {
+                                    handleDelete(image);
+                                }}
+                                className="w-full h-[20px] flex justify-center items-center bg-gray-100 absolute rounded-sm left-[0px] bottom-[0px]"
+                            >
+                                &#10005;
+                            </div>
+                            <div className="w-[100px] h-[100px] overflow-hidden ">
+                                <img
+                                    src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
+                                    className="w-full h-full object-cover"
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
             <div className="overflow-hidden">
                 <Dropzone onDrop={handleDrop}>
                     {({ getRootProps, getInputProps }) => (
@@ -46,8 +72,9 @@ function FileUpload({ images, onImageChange }) {
                     )}
                 </Dropzone>
             </div>
-            <div className="flex items-center gap-4">
+            {/* <div className="flex items-center gap-4">
                 {images.map((image) => {
+                    console.log(image);
                     return (
                         <div key={image} className="w-[90px] relative ">
                             <div
@@ -58,6 +85,7 @@ function FileUpload({ images, onImageChange }) {
                             >
                                 X
                             </div>
+
                             <img
                                 src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
                                 alt=""
@@ -65,7 +93,7 @@ function FileUpload({ images, onImageChange }) {
                         </div>
                     );
                 })}
-            </div>
+            </div> */}
         </div>
     );
 }
