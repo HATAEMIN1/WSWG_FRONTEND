@@ -201,14 +201,15 @@ function MeetingView(props) {
                     <Title className={"titleComment"}>댓글</Title>
                     <CommentWrite onSubmit={handleInsertComment} />
                     {comments.length === 0 ? (
-                        <p>댓글이 없습니다🥲</p>
-                    ) : (
-                        comments.map((item) => (
-                            <div key={item._id}>
-                                <MpCommentList comment={item} deleteComment={deleteComment} />
-                            </div>
-                        ))
-                    )}
+    <p>댓글이 없습니다🥲</p>
+) : (
+    comments.map((item) => (
+        <div key={item._id}>
+            <MpCommentList comment={item} deleteComment={deleteComment} currentUserId={userId} />
+        </div>
+    ))
+)}
+
                 </div>
             </SectionWrap>
             <DefualtModal show={isModalOpen} onClose={closeModal}>
