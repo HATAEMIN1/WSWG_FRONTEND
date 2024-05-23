@@ -1,12 +1,11 @@
-// import "./assets/css/tStyle.scss";
 import { useEffect, useState } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import "./assets/css/style.scss";
 import Footer from "./layouts/Footer/Footer";
 import { Header, HeaderMom } from "./layouts/Header/Header";
 import Account from "./pages/AccountPage/Account";
-import AccountEdit from "./pages/AccountPage/AccountEdit";
 import AccountDelete from "./pages/AccountPage/AccountDelete";
+import AccountEdit from "./pages/AccountPage/AccountEdit";
 import MateList from "./pages/GoingWithPage/MateList";
 import Login from "./pages/LoginPage/Login";
 import Home from "./pages/MainPage/Home";
@@ -17,7 +16,6 @@ import MeetingView from "./pages/MeetingPage/MeetingView";
 import Register from "./pages/RegisterPage/Register";
 import RestaurantList from "./pages/RestaurantPage/RestaurantList";
 import RestaurantView from "./pages/RestaurantPage/RestaurantView";
-// import ReviewList from "./pages/ReviewPage/ReviewList";
 import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
@@ -26,8 +24,13 @@ import { Modal, MapModal, MapModalSelect } from "./components/Modal/Modal";
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
+import { authUser } from "./store/thunkFunctions";
+import DefualtModal from "./components/Modal/DefualtModal";
 import Search from "./pages/SearchPage/Search";
 import FilterModal from "./components/Modal/FilterModal";
+import NotAuthRouter from "./components/Router/NotAuthRouter";
+import AuthRouter from "./components/Router/AuthRouter";
+
 
 function Layout({ modalOpen }) {
     return (
@@ -64,7 +67,8 @@ function App() {
         setModalView(true);
         setModalNum(idx);
     }
-    function modalClsose() {
+
+    function modalClose() {
         setModalView(false);
     }
     useEffect(() => {
@@ -85,15 +89,9 @@ function App() {
     return (
         <>
             {/* Modal layer */}
-            {modalData.map((item, idx) => {
-                return modalView === true ? (
-                    <Modal
-                        onClick={modalClsose}
-                        viewlistData={modalData}
-                        modalNum={modalNum}
-                    />
-                ) : null;
-            })}
+            {modalView && (
+                <Modal onClick={modalClose} viewlistData={modalData} modalNum={modalNum} />
+            )}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
                     <Route
@@ -104,52 +102,43 @@ function App() {
                         path="/"
                         element={<Home modalOpen={modalOpen} />}
                     ></Route>
-                    {/* <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route> */}
+                    <Route element={<AuthRouter />}>
+                        <Route path="/account" element={<Account />} />
+                        <Route path="/account/edit" element={<AccountEdit />} />
+                        <Route
+                            path="/account/delete"
+                            element={<AccountDelete />}
+                        />
+                    </Route>
+                    <Route index element={<Home modalOpen={modalOpen} />} />
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
-                    <Route path="/mate" element={<MateList />}></Route>
-                    <Route
-                        path="/mate/:cateId"
-                        element={<RestaurantList />}
-                    ></Route>
+                    <Route path="/mate" element={<MateList />} />
+                    <Route path="/mate/:cateId" element={<RestaurantList />} />
                     <Route
                         path="/mate/:cateId/restaurants/:rtId"
                         element={<RestaurantView />}
-                    ></Route>
+                    />
                     <Route
                         path="/mate/:cateId/restaurants/:rtId/review-post/new"
                         element={<ReviewAdd />}
-                    ></Route>
+                    />
                     <Route
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
-                    ></Route>
-
-                    <Route path="/meet-posts" element={<MeetingList />}></Route>
-                    <Route
-                        path="/meet-posts/new"
-                        element={<MeetingAdd />}
-                    ></Route>
-                    <Route
-                        path="/meet-posts/:mpId"
-                        element={<MeetingView />}
-                    ></Route>
-                    <Route path="/account" element={<Account />}></Route>
-                    <Route
-                        path="/account/edit"
-                        element={<AccountEdit />}
-                    ></Route>
-                    <Route
-                        path="/account/delete"
-                        element={<AccountDelete />}
-                    ></Route>
-                    <Route path="/search" element={<Search />}></Route>
-                    <Route path="/styleguide" element={<StyleGuide />}></Route>
+                    />
+                    <Route path="/meet-posts" element={<MeetingList  modalOpen={modalOpen} />}></Route>
+                    <Route path="/meet-posts" element={<MeetingList />} />
+                    <Route path="/meet-posts/new" element={<MeetingAdd />} />
+                    <Route path="/meet-posts/:mpId" element={<MeetingView />} />
+                    <Route path="/search" element={<Search />} />
+                    <Route path="/styleguide" element={<StyleGuide />}/>
                 </Route>
-                <Route element={<LayoutEtc />}>
-                    <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route>
+                <Route element={<NotAuthRouter />}>
+                    <Route element={<LayoutEtc />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Route>
                 </Route>
             </Routes>
         </>

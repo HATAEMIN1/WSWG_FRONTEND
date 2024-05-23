@@ -11,7 +11,6 @@ function Header({ ...props }) {
 
     function handleLogout() {
         dispatch(logoutUser());
-        navigate("/");
     }
     function handleSearch(e) {
         setSearch(e.target.value);
