@@ -38,6 +38,7 @@ function MeetingView(props) {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
+                setLoading(false); // 로딩을 중지해야 페이지가 멈추지 않습니다.
             }
         }
         meetingView();
@@ -105,6 +106,11 @@ function MeetingView(props) {
     const closeModal = () => {
         setIsModalOpen(false);
     };
+
+    useEffect(() => {
+        console.log('meetingData:', meetingData);
+        console.log('userName:', userName);
+    }, [meetingData, userName]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -184,12 +190,12 @@ function MeetingView(props) {
                                 </div>
                             </a>
                         </SectionWrap>
-                        {meetingData.user.name === userName && (
-                            <div className="flex gap-2 w-[300px] m-auto">
-                                <Button onClick={openModal} basicButton={false}>삭제</Button>
-                            </div>
-                        )}
                     </>
+                )}
+                {meetingData && meetingData.user.name === userName && (
+                    <div className="flex gap-2 w-[300px] m-auto">
+                        <Button onClick={openModal} basicButton={false}>삭제</Button>
+                    </div>
                 )}
                 <div className="mb-2">
                     <Title className={"titleComment"}>댓글</Title>
