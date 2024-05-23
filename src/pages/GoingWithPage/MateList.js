@@ -44,20 +44,20 @@ function MateList(props) {
     return (
         <>
             <SectionWrap>
-                <Title className="py-10">누구랑갈까</Title>
-                <div className="flex-wrap grid grid-cols-3">
+                <Title memTitle={false} className={"titleStt"}>
+                    누구랑갈까?
+                </Title>
+                <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-[30px]">
                     {category.map((item, index) => {
                         return (
-                            <div className="px-5" key={index}>
+                            <div className="mateMenu" key={`mateMenu-${index}`}>
                                 <Link to={item.link}>
                                     <img
                                         src={item.image}
-                                        alt=""
+                                        alt={item.name}
                                         className="block"
                                     />
-                                    <Title className={"titleMemStt"}>
-                                        {item.name}
-                                    </Title>
+                                    <div className="menuTitle">{item.name}</div>
                                 </Link>
                             </div>
                         );
@@ -66,7 +66,6 @@ function MateList(props) {
             </SectionWrap>
         </>
     );
-
 }
 
 export default MateList;

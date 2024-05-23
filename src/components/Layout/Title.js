@@ -27,20 +27,30 @@ const TitleWrap = styled.h3 `
         padding : 20px 0;
         justify-content: start;
         font-family: 'Pretendard-Regular';
+        font-weight : 500;
         font-size: 1.5rem; /* 24px */
         line-height: 2rem; /* 32px */
     }
+    &.titleListStt {
+        padding : 20px 0;
+        justify-content: start;
+        font-family: 'Pretendard-Regular';
+        font-weight : 600;
+        font-size: 1.25rem; /* 20px */
+        line-height: 1.5rem; /* 24px */
+    }
     &.titleComment {
+        padding : 30px 0 10px 0;
         justify-content: start;
         font-family: 'TTHakgyoansimMonggeulmonggeulR';
-        font-size: 1rem; /* 16px */
+        font-size: 1.25rem; /* 20px */
         line-height: 1.5rem; /* 24px */
     }
 `
 
 function Title({children,memTitle,className, ...props}) {
     let cssClasses = memTitle ? "titleMemtt" : "titleMemStt";
-    cssClasses += ' ' +className;
+    cssClasses += ' ' + className;
   return (
     <TitleWrap className={cssClasses} {...props}>{children}</TitleWrap>
   )

@@ -154,6 +154,32 @@ textarea::-webkit-input-placeholder {
     left: 50%;
     transform: translate(-50%,-50%);
 }
+.selectWrap {
+
+}
+.selectBox {
+    display: flex;
+    gap: 10px;
+}
+.selectBox select {
+    position: relative;
+    min-width: 100px;
+    max-width: 500px;
+    margin: 0 auto 0;
+    height: 40px;
+    padding: 0 36px 0 16px;
+    border:solid 1px #E3E3E3;
+    border-radius: 5px;
+    background:url('../images/selectArrow.png') center right no-repeat;
+    -webkit-appearance: none; /* 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    transition: 0.3s;
+}
+.selectBox select:focus {
+    background:url('../images/seclet.png') center right no-repeat;
+}
 /*local radio*/
 .localButton {
     width: 100%;
@@ -302,6 +328,9 @@ i.iconBasic {
     background-size: 100%;
     font-size: 0;
 }
+.iconLogout {
+    background: url("../images/iconLogout.png");
+}
 .iconMore {
     background: url("../images/iconMore.png");
 }
@@ -325,6 +354,10 @@ i.iconBasic {
 }
 .iconDel {
     background: url("../images/btnDelet.png");
+}
+.iconTrash {
+    background: url("../images/iconTrash.png");
+    margin-left: 0 !important;
 }
 /**18px*/
 i.iconSmall {
@@ -364,6 +397,288 @@ i.iconSmall {
     font-size: 0;
     background: url("../images/btnBack.png");
 }
+/*메인화면*/
+.rstWrap {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    .rstImagwrap {
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+    }
+    .rstLayerWrap {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        height: 200px;
+        bottom: -160px;
+        padding: 10px 10px;
+        left: 0;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        transition: 0.3s;
+        div {
+            width: 100%;
+        }
+    }
+    &:hover .rstLayerWrap {
+        bottom: 0;
+    }
+}
+.mainSwiper {
+    width: 1024px !important;
+    padding: 0 32px !important;
+}
+.swiper-button-prev::after,.swiper-button-next::after {
+    display: none !important;
+}
+.swiper-button-prev {
+    content: '';
+    width: auto;
+    height: auto;
+    left:0 !important;
+    background: url("../images/swiperPrev.png") no-repeat !important;
+}
+.swiper-button-next {
+    content: '';
+    width: auto;
+    height: auto;
+    right:0 !important;
+    background: url("../images/swiperNext.png") no-repeat !important;
+}
+.mainMapLayer {
+    background: rgba(66, 238, 238, 0.8);
+}
+.mainMapButton  {
+    text-shadow: 0 0 3px #333333;
+    align-items: center;
+    i {
+        content: '';
+        display: flex;
+        width: 26px;
+        height: 26px;
+        margin-right: 5px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: center;
+    }
+    i.iconMark {
+        background: url("../images/iconMark.png") no-repeat;
+    }
+    i.iconMap {
+        background: url("../images/iconMap.png") no-repeat;
+    }
+}
+.mainMapButton::after {
+    content: '';
+    position: absolute;
+    display: flex;
+    top:50%;
+    left:50%;
+    width: 2px;
+    height: 25px;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    box-shadow: 0 0 2px #333333;
+}
+/*누구랑 갈까 메뉴*/
+.mateMenu {
+    position: relative;
+    max-width: 300px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    border:solid 1px #ccc;
+    transition: 0.3s;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.3s;
+    }
+    .menuTitle {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 66px;
+        padding-top: 20px;
+        bottom: 0px;
+        z-index: 2;
+        font-size: 1em;
+        font-family: 'TTHakgyoansimMonggeulmonggeulR';
+        background: url("../images/menuOff.png");
+        border-top: none;
+        transition: 0.3s;
+    }
+    &:hover  {
+        border:solid 2px $Primary;
+        box-shadow:1px 1px 0 1px rgba(0, 0, 0, 0.1);
+    }
+    &:hover img {
+        width: 105%;
+        height: 105%;
+    }
+    &:hover .menuTitle {
+        background: url("../images/menuOn.png");
+        border-top: none;
+    }
+}
+/*누구랑 갈까 리스트 */
+.restaurantListWrap {
+    .imgWrap {
+        max-width: 160px;
+        max-height: 160px;
+        border-radius: 10px;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .textWrap {
+        width: 100%;
+        font-size: 0.9375em;
+        h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            text-overflow:ellipsis;
+            word-break: break-all;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;            
+        }
+    }
+}
+/*가게 정보 페이지*/
+.restarantView {
+    h4 {
+        width: 100%;
+        font-size: 1.5rem;
+        padding-top: 20px;
+    }
+    .textBox {
+        width: 100%;
+        font-size: 0.825em;
+        padding-top: 20px;
+        >div {
+            display: flex;
+            margin-right: 20px;
+        } 
+    }
+}
+.mateBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        font-size: 0.875em;
+        padding: 5px 10px 6px 10px;
+        box-shadow:0 0 0 1px #D9D9D9 inset;
+        border-radius: 10px;
+    i {
+        display: none;
+    }
+    &.checked {
+        box-shadow:0px 0px 2px $Primary inset;
+    }
+    &.checked i {
+        display: flex;
+        margin-right: 5px;
+    }
+}
+.swiperView {
+    width: 100%;
+    height: 100%;
+    .bgLayer {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(0, 0, 0, 0.0) 70%, black 100%);
+    }
+    img {
+        height: 100%;
+        object-fit: cover;
+    }
+    .swiper-pagination-bullet {
+        background-color: #fff !important;
+        opacity: 0.8!important;
+    }
+    .swiper-pagination-bullet-active {
+        background-color: $Primary !important;
+    }
+}
+.reviewListWrap {
+    width: 100%;
+    padding: 15px 0;
+    border-bottom: solid 1px #E3E3E3;
+    .imgWrap {
+        width: 140px;
+        height: 140px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: url("../images/imgReNone.png");
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .textWrap {
+        .name {
+            font-size: 1em;
+            font-weight: 600;
+        }
+        .content {
+            font-size: 0.9375em;
+            text-overflow:ellipsis;
+            word-break: break-all;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+    }
+    .iconTrash {
+        content: '';
+        display: flex;
+        width: 32px;
+        height: 32px;
+        font-size: 0;
+        background: url("../images/iconTrash.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        margin-left: 0 !important;
+    }
+    .hashBox {
+        width: auto;
+        padding: 3px 10px;
+        font-size: 0.815em;
+        font-weight: 600;
+        border: solid 1px #ccc;
+        border-radius: 20px;
+        background: #F5F5F5;
+    }
+}
+
 @media (max-width: 768px) {
     header {
         h1 {
@@ -374,7 +689,6 @@ i.iconSmall {
             width: 45px;
             height: 45px;
             border-radius: 25px;
-            
         }
     }
     footer {

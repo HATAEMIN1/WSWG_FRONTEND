@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, ButtonWrap } from "../../components/Form/Button";
+import { Button, ButtonCencel, ButtonWrap } from "../../components/Form/Button";
+import { IconStar, IconStarView, IconWish } from "../../components/Form/Icon";
+import InputWrap from "../../components/Form/Input";
 import { SectionFullWrap, SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
-import InputWrap from "../../components/Form/Input";
-import { IconStar, IconWish } from "../../components/Form/Icon";
 
 function StyleGuide({ ...props }) {
     return (
@@ -44,6 +44,13 @@ function StyleGuide({ ...props }) {
                 </div>
 
                 <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">
+                        뷰페이지 내용 서브타이틀{" "}
+                    </h2>
+                    <Title className={"titleListStt"}>메뉴</Title>
+                </div>
+
+                <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">뒤로가기 버튼</h2>
                     <Title className={"titleComment"}>
                         <button className="flex items-center">
@@ -58,7 +65,7 @@ function StyleGuide({ ...props }) {
                     </h2>
                     <ButtonWrap>
                         <Button basicButton={true}>기본 버튼</Button>
-                        <Button basicButton={false}>취소 버튼</Button>
+                        <ButtonCencel>취소 버튼</ButtonCencel>
                     </ButtonWrap>
                 </div>
 
@@ -112,13 +119,28 @@ function StyleGuide({ ...props }) {
                 </div>
 
                 <div className="mb-10">
-                    <h2 className=" text-slate-500 font-bold">추천 아이콘</h2>
+                    <h2 className=" text-slate-500 font-bold">
+                        추천 아이콘 - 클릭용
+                    </h2>
+                    <div className="StarRatingInput flex">
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                        <IconStar>별</IconStar>
+                    </div>
+                </div>
+
+                <div className="mb-10">
+                    <h2 className=" text-slate-500 font-bold">
+                        추천 아이콘 - 보기용
+                    </h2>
                     <div className="flex">
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
-                        <IconStar>별</IconStar>
+                        <IconStarView className={"active"}>별</IconStarView>
+                        <IconStarView>별</IconStarView>
+                        <IconStarView>별</IconStarView>
+                        <IconStarView>별</IconStarView>
+                        <IconStarView>별</IconStarView>
                     </div>
                 </div>
 
@@ -172,6 +194,13 @@ function StyleGuide({ ...props }) {
                         >
                             지역선택 모달
                         </Button>
+                        <Button
+                            onClick={() => {
+                                props.modalOpen();
+                            }}
+                        >
+                            텍스트 모달
+                        </Button>
                     </ButtonWrap>
                 </div>
 
@@ -186,6 +215,12 @@ function StyleGuide({ ...props }) {
                         <i className="iconTypeStore iconStoreTime">time</i>
                     </div>
                 </div>
+
+                <div>
+                    <h2 className=" text-slate-500 font-bold">해시태크</h2>
+                    <div className=" border">&#8983;</div>
+                </div>
+
                 <div className="mb-10">
                     <h2 className=" text-slate-500 font-bold">
                         인풋 관련 아이콘

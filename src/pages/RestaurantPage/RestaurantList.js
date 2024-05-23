@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { SectionWrap } from "../../components/Layout/Section";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
+import StarRating from "../../components/Form/StarRating";
+import { IconWish } from "../../components/Form/Icon";
+import SelectDiv from "../../components/Form/Select";
+import { useSelector } from "react-redux";
 
 function RestaurantList(props) {
     const category = [
@@ -46,60 +50,162 @@ function RestaurantList(props) {
     const { cateId } = useParams();
     const selectedCategory = category.find((item) => item.cateId === cateId);
     const [restaurantData, setRestaurantData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const limit = 6;
+    const [skip, setSkip] = useState(0);
+    const [hasMore, setHasMore] = useState(false);
+    const [filters, setFilters] = useState({
+        metropolitan: "",
+        city: "",
+    });
+    const userId = useSelector((state) => {
+        return state.user.userData.id;
+    });
+    const [liked, setLiked] = useState({});
+    const [likeCount, setLikeCount] = useState(0);
     useEffect(() => {
-        async function restaurantInfo() {
-            try {
-                const res = await axiosInstance.get(`/restaurants/${cateId}`);
-                console.log(res.data);
-                setRestaurantData([...restaurantData, ...res.data.restaurant]);
-                setTimeout(() => {
-                    setLoading(false);
-                }, 800);
-            } catch (e) {
-                console.log(e);
+        restaurantInfo({ skip, limit });
+    }, []);
+    async function restaurantInfo({
+        skip,
+        limit,
+        loadMore = false,
+        filters = {},
+    }) {
+        try {
+            const params = { skip, limit, filters };
+            const res = await axiosInstance.get(`/restaurants/${cateId}`, {
+                params,
+            });
+            setRestaurantData(() =>
+                loadMore
+                    ? [...restaurantData, ...res.data.restaurant]
+                    : res.data.restaurant
+            );
+            setHasMore(res.data.hasMore);
+            setLoading(false);
+            res.data.restaurant.forEach((item) => likes(item._id));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    const handleScroll = () => {
+        if (
+            window.innerHeight + document.documentElement.scrollTop >=
+            document.documentElement.offsetHeight - 100
+        ) {
+            if (!loading && hasMore) {
+                setLoading(true);
+                restaurantInfo({
+                    skip: restaurantData.length,
+                    limit,
+                    loadMore: true,
+                });
             }
         }
-        restaurantInfo();
-    }, []);
-
+    };
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [loading, hasMore]);
+    const likes = async (rtId) => {
+        const params = { userId };
+        try {
+            const res = await axiosInstance.get(`/likes/${rtId}`, { params });
+            if (
+                res.data.like &&
+                res.data.like.length > 0 &&
+                res.data.like[0].hasOwnProperty("liked")
+            ) {
+                setLiked((prev) => ({
+                    ...prev,
+                    [rtId]: res.data.like[0].liked,
+                }));
+            }
+            setLikeCount((prev) => ({ ...prev, [rtId]: res.data.likeCount }));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const handleFilter = (newFilterData, cate1, cate2) => {
+        const newFilters = { ...filters };
+        newFilters[cate1] = newFilterData.metropolitan;
+        newFilters[cate2] = newFilterData.city;
+        showFilterResult(newFilterData);
+        setFilters(newFilters);
+    };
+    function showFilterResult(filters) {
+        const body = {
+            limit,
+            skip: 0,
+            filters: filters,
+        };
+        restaurantInfo(body);
+        setSkip(0);
+    }
     return (
         <SectionWrap>
             <Title className={"titleStt"}>{selectedCategory.name}</Title>
-            <div>
-                <select>
-                    <option selected disabled>
-                        광역시도
-                    </option>
-                    <option>서울특별시</option>
-                </select>
-                <select>
-                    <option selected disabled>
-                        시군구
-                    </option>
-                </select>
-                <select>
-                    <option selected disabled>
-                        읍면동
-                    </option>
-                </select>
-                <button className="border rounded-md">지역 변경</button>
+            <div className="flex gap-2 mb-5">
+                <SelectDiv
+                    checkedMetropolitan={filters.metropolitan}
+                    checkedCity={filters.city}
+                    onFilters={(filters) => {
+                        handleFilter(filters, "metropolitan", "city");
+                    }}
+                ></SelectDiv>
             </div>
-            <div className="grid grid-cols-2 w-full border">
+            <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
                 {restaurantData.map((item, index) => {
                     return (
-                        <div key={index} className="flex gap-7 mb-8">
-                            <div>
-                                <img
-                                    className="w-[186.60px] h-40"
-                                    src={item.image[0]}
-                                    alt={item.name}
-                                />
+                        <div
+                            key={`restaurantData-${index}`}
+                            className="flex gap-7 restaurantListWrap"
+                        >
+                            <div className="flex-none imgWrap">
+                                <Link
+                                    to={`/mate/${cateId}/restaurants/${item._id}`}
+                                >
+                                    <img src={item.image[0]} alt={item.name} />
+                                </Link>
                             </div>
-                            <div>
-                                <h3>{item.name}</h3>
-                                <p>{item.category[0].foodtype}</p>
-                                <p>평점: {item.rating}</p>
+                            <div className="flex flex-wrap items-center textWrap py-2">
+                                <div className="w-full">
+                                    <Link
+                                        to={`/mate/${cateId}/restaurants/${item._id}`}
+                                    >
+                                        <h3>{item.name}</h3>
+                                    </Link>
+                                    <p>{item.category[0].foodtype}</p>
+                                    <div className="flex">
+                                        <span className="flex-none">
+                                            평점:{" "}
+                                        </span>
+                                        <StarRating
+                                            rating={item.rating}
+                                        ></StarRating>
+                                    </div>
+                                </div>
+                                <div className="flex gap-2 h-[20px]">
+                                    <div className="flex items-center">
+                                        <IconWish
+                                            className={
+                                                liked[item._id] ? "active" : ""
+                                            }
+                                            liked={liked[item._id]}
+                                            disabled={true}
+                                        >
+                                            좋아요
+                                        </IconWish>
+                                        {likeCount[item._id] || 0}
+                                    </div>
+                                    <div className="flex items-center">
+                                        <i className="iconBasic iconView">
+                                            view
+                                        </i>{" "}
+                                        {item.views}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     );

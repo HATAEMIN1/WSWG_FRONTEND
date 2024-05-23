@@ -21,6 +21,7 @@ function Login() {
         };
 
         dispatch(loginUser(body));
+
         navigate("/");
         reset();
     }

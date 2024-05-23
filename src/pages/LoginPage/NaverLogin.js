@@ -1,9 +1,14 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
-import axios from "axios";
-import { useEffect } from "react";
+import { useEffect } from "react"; //, useRef
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../store/userSlice";
+import { oauthLogin } from "../../store/thunkFunctions";
+import { styled } from "styled-components";
+import { useSelector } from "react-redux";
 
 const NaverLogin = () => {
+    const isAuth = useSelector((state) => state.user.isAuth);
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     // package.json proxy에 https://nid.naver.com
@@ -16,6 +21,8 @@ const NaverLogin = () => {
     const code = searchParams.get("code");
     console.log("naver oauth - code from query string", code);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchAccessToken = async () => {
             try {
@@ -26,9 +33,24 @@ const NaverLogin = () => {
                             code,
                         }
                     );
+                    // get accessToken and userData from existingUser from userDataResponse
                     console.log("userDataResponse", userDataResponse);
                     if (userDataResponse.status === 200) {
-                        alert("로그인 성공");
+                        const accessToken = userDataResponse.data.accessToken;
+                        const existingUser = userDataResponse.data.existingUser;
+
+                        const body = {
+                            user: {
+                                email: existingUser.email,
+                                name: existingUser.name,
+                                _id: existingUser._id,
+                                role: existingUser.role,
+                            },
+                            accessToken,
+                        };
+                        dispatch(oauthLogin(body));
+                        dispatch(setAuth(true));
+                        // alert("로그인 성공");
                         navigate("/");
                     }
                 }
@@ -46,14 +68,44 @@ const NaverLogin = () => {
             console.error(error);
         }
     };
+
     return (
-        <button
-            onClick={LoginWithNaver}
-            className="w-[400px] px-2.5 py-[5px] mb-4 rounded-[12px] block"
-        >
-            <img src="./images/naver_login.png" alt="naver login" />
-        </button>
+        <>
+            {!isAuth && (
+                <CustomNaverLoginBtn onClick={LoginWithNaver}>
+                    <NaverIcon alt="naver icon" />
+                    <NaverLoginText>네이버로 로그인</NaverLoginText>
+                </CustomNaverLoginBtn>
+            )}
+        </>
+        // </button>
     );
 };
 
 export default NaverLogin;
+
+const NaverIcon = styled.div`
+    width: 30px;
+    height: 30px;
+    margin-left: 14px;
+    background: url("/images/naverIcon.png") no-repeat center;
+    background-size: 30px;
+`;
+
+const NaverLoginText = styled.span`
+    margin-left: 90px;
+    color: white;
+    font: initial;
+    font-size: 17px;
+`;
+
+const CustomNaverLoginBtn = styled.button`
+    display: flex;
+    align-items: center;
+    width: 380px;
+    height: 57px;
+    background-color: #03c75a;
+    border-radius: 8px;
+    margin: 0 0.625rem;
+    margin-bottom: 1rem;
+`;
