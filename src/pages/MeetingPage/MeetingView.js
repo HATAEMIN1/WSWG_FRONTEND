@@ -31,6 +31,31 @@ function MeetingView(props) {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+    const fetchMetaData = async (url, mpId) => {
+        try {
+            const response = await axiosInstance.post(`/meet-posts/${mpId}`, { url });
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    };
+    useEffect(() => {
+        const fetchAllMetaData = async () => {
+            if (meetingData) {
+                const metaData = await fetchMetaData(meetingData.chatLink, {mpId});
+                if (metaData) {
+                    setMetaDataList((prevData) => ({
+                        ...prevData,
+                        [meetingData.chatLink]: metaData
+                    }));
+                }
+            }
+        };
+
+        fetchAllMetaData();
+    }, [meetingData, mpId]);
+
     useEffect(() => {
         async function meetingView() {
             try {
@@ -45,6 +70,7 @@ function MeetingView(props) {
         meetingView();
         incrementViews();
     }, [mpId]);
+
     const incrementViews = async () => {
         try {
             const res = await axiosInstance.post(
