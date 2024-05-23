@@ -38,7 +38,7 @@ function StarRating(props) {
     return (
         <div className="star_rating relative w-full">
             <div className="star_rating_fill flex absolute">
-                {ratingToPercent.widths.map((width, index) => (
+                {ratingToPercent.widths?.map((width, index) => (
                     <Star
                         key={`star-${index}`}
                         style={{ width: width }}

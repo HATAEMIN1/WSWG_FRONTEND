@@ -27,8 +27,6 @@ function ReviewAdd(props) {
     const [text, setText] = useState({
         title: "",
         content: "",
-        // rating: 0,
-        // hashtag: "",
         images: [],
     });
 
@@ -88,23 +86,15 @@ function ReviewAdd(props) {
         e.preventDefault();
         addHashTag(e);
     };
+
+    // 해시태그 삭제 함수
+    const removeHashTag = (indexToRemove) => {
+        setHashTag((prevHashTags) =>
+            prevHashTags.filter((_, index) => index !== indexToRemove)
+        );
+    };
+
     //--------------------------------------------------------------------------------------->
-
-    //useEffect로 해당 게시물의 리뷰를 불러오는 작업수행
-    // useEffect(() => {
-    //     async function fetchReviews() {
-    //         try {
-    //             const response = await axiosInstance.get(
-    //                 `/review-posts/${rtId}`
-    //             );
-    //             setReviews(response.data);
-    //         } catch (error) {
-    //             console.error("Fail to fetch reviews", error);
-    //         }
-    //     }
-
-    //     fetchReviews();
-    // }, [rtId]);
 
     const [restaurantData, setRestaurantData] = useState([]);
 
@@ -118,7 +108,6 @@ function ReviewAdd(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
         const body = {
             ...text,
             restId: rtId, //해당게시물의 ID를 전달
@@ -160,7 +149,15 @@ function ReviewAdd(props) {
             ...prevState,
             images: newImages,
         }));
+        console.log(newImages);
     }
+
+    // const handleImage = (images) => {
+    //     setText((prevState) => ({
+    //         ...prevState,
+    //         images: images.map((image) => URL.createObjectURL(image)), // 업로드한 이미지 파일의 URL을 생성하여 저장
+    //     }));
+    // };
     //----------------------------------------------------------------------------------------->
 
     return (
@@ -223,14 +220,23 @@ function ReviewAdd(props) {
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {/* 해시태그 목록 렌더링 */}
                     <div className="flex gap-2 pt-2">
-                        {inputHashTag}
+                        {/* {inputHashTag} */}
                         {hashtag.length > 0 &&
-                            hashtag.map((hashTag) => (
+                            hashtag.map((hashTag, index) => (
                                 <div
                                     key={hashTag}
-                                    className="flex items-center gap-2"
+                                    className="flex relative items-center gap-2"
                                 >
-                                    <span className="hashBox">#{hashTag}</span>
+                                    <div className="flex gap-2 hashBox justify-center items-center">
+                                        #{hashTag}
+                                        <button
+                                            type="button"
+                                            onClick={() => removeHashTag(index)}
+                                            className=" text-gray-400"
+                                        >
+                                            &#10005;
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
                     </div>
@@ -256,30 +262,20 @@ function ReviewAdd(props) {
                 <div className="mb-10">
                     <div>
                         <Title className={"titleComment"}>이미지등록</Title>
-                        <div className="flex gap-2 justify-between items-center">
-                            <InputWrap className="inputContainer iconPhoto">
+                        <div className="flex gap-2 justify-between items-center p-3 border">
+                            {/* <InputWrap className="inputContainer iconPhoto">
                                 <input
-                                    type="text"
+                                    // type="text"
                                     id="fileInput"
                                     placeholder="사진등록"
-                                    className="text-left"
+                                    // className="text-left"
                                 />
-                            </InputWrap>
-
-                            {/* <div
-                                images={text.images}
-                                onImageChange={handleImage}
-                            ></div>
-                             */}
+                            </InputWrap> */}
 
                             <FileUpload
                                 images={text.images}
                                 onImageChange={handleImage}
                             />
-
-                            {/* <button className={"btnFileUpload"}>
-                                파일업로드
-                            </button> */}
                         </div>
 
                         <div className="text-md text-slate-500 text-base my-1">
