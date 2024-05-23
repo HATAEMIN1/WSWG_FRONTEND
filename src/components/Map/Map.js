@@ -29,7 +29,7 @@ function Map(props) {
             console.log(e.message);
         }
     };
-    const mergedPositions = geoData.map((restaurant) => ({
+    const positions = geoData.map((restaurant) => ({
         title: restaurant.name,
         latlng: new kakao.maps.LatLng(
             restaurant.latitude,
@@ -40,7 +40,10 @@ function Map(props) {
     useEffect(() => {
         const mapContainer = document.getElementById("map"), // 지도를 표시할 div
             mapOption = {
-                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                center: new kakao.maps.LatLng(
+                    37.48073710748562,
+                    126.87963572538791
+                ), // 지도의 중심좌표
                 level: 3, // 지도의 확대 레벨
             };
         const map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -49,7 +52,7 @@ function Map(props) {
         var imageSrc =
             "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
-        for (let i = 0; i < mergedPositions.length; i++) {
+        for (let i = 0; i < positions.length; i++) {
             // 마커 이미지의 이미지 크기 입니다
             const imageSize = new kakao.maps.Size(24, 35);
 
@@ -59,8 +62,8 @@ function Map(props) {
             // 마커를 생성합니다
             const marker = new kakao.maps.Marker({
                 map: map, // 마커를 표시할 지도
-                position: mergedPositions[i].latlng, // 마커를 표시할 위치
-                title: mergedPositions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                position: positions[i].latlng, // 마커를 표시할 위치
+                title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                 image: markerImage, // 마커 이미지
             });
         }
