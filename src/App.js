@@ -24,7 +24,6 @@ import { Modal, MapModal, MapModalSelect } from "./components/Modal/Modal";
 import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
-import { authUser } from "./store/thunkFunctions";
 import DefualtModal from "./components/Modal/DefualtModal";
 import Search from "./pages/SearchPage/Search";
 import FilterModal from "./components/Modal/FilterModal";

@@ -137,11 +137,11 @@ function Home({ ...props }) {
     return (
         <>
             <SectionFullWrap className={"relative z-1"}>
-                <div>
+                <div className=" relative">
                     <Map></Map>
                     {/*<img src={`${process.env.PUBLIC_URL}/images/mainMap.png`} className="h-[380px] w-full"/>/!*나중에 맵 화면 붙히고 삭제해주세요!*!/*/}
                 </div>
-                <div className="w-full absolute bottom-0 py-3 mainMapLayer">
+                <div className="w-full absolute bottom-0 py-3 mainMapLayer z-10">
                     <SectionWrap
                         className={"flex justify-between mainMapButton"}
                         basicSection={true}
@@ -164,11 +164,7 @@ function Home({ ...props }) {
                     </SectionWrap>
                 </div>
             </SectionFullWrap>
-
-            <SectionFullWrap>
-                <Map></Map>
-            </SectionFullWrap>
-            <div className="w-[1024px] m-auto">
+            <SectionWrap>
                 {foodType.map((item, i) => {
                     return (
                         <div key={`foodType-${i}`} className="mb-[100px]">
@@ -209,7 +205,7 @@ function Home({ ...props }) {
                         </div>
                     );
                 })}
-            </div>
+            </SectionWrap>
         </>
     );
 }
