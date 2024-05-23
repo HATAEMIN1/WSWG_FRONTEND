@@ -142,7 +142,7 @@ function Home({ ...props }) {
                     {/*<img src={`${process.env.PUBLIC_URL}/images/mainMap.png`} className="h-[380px] w-full"/>/!*나중에 맵 화면 붙히고 삭제해주세요!*!/*/}
                 </div>
             </SectionFullWrap>
-            <SectionWrap>
+            <div className="w-[1024px] m-auto pt-20">
                 {foodType.map((item, i) => {
                     return (
                         <div key={`foodType-${i}`} className="mb-[100px]">
@@ -183,7 +183,7 @@ function Home({ ...props }) {
                         </div>
                     );
                 })}
-            </SectionWrap>
+            </div>
         </>
     );
 }
