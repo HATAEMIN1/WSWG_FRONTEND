@@ -4,9 +4,14 @@ import { useForm } from "react-hook-form";
 import { deleteUser } from "../../store/thunkFunctions";
 import axiosInstance from "../../utils/axios";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Title from "../../components/Layout/Title";
 
 function AccountDelete() {
     const userData = useSelector((state) => state?.user?.userData);
+    const oauthLogin = useSelector((state) => state.user.oauthLogin);
+    const [firstModalOn, setFirstModalOn] = useState(false);
+    const [secondModalOn, setSecondModalOn] = useState(false);
     const {
         register,
         handleSubmit,
@@ -51,14 +56,10 @@ function AccountDelete() {
     }
     return (
         <>
-            <div
-                className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800"
-                style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
-            >
-                <div className="text-center text-5xl mb-2">어까</div>
-                <div className="text-center text-3xl mb-10">
-                    우리 헤어지는 걸까?
-                </div>
+            <div className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
+                <Title memTitle={true}>어까</Title>
+                <Title memTitle={false}>우리 헤어지는 걸까?</Title>
+
                 <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
                     <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4"></div>
                     <div
@@ -68,8 +69,13 @@ function AccountDelete() {
                         <div className="text-lg font-semibold">
                             {userData.name}
                         </div>
-                        <div className="text-lg font-medium">
-                            {userData.email}
+
+                        <div>
+                            {!oauthLogin && (
+                                <div className="text-lg font-medium">
+                                    {userData.email}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -132,16 +138,9 @@ function AccountDelete() {
                         <button className="w-full h-[40px] px-2.5 mb-4 rounded-md flex justify-center items-center bg-primary-300">
                             확인
                         </button>
-                        <div className="w-full h-[40px] px-2.5 mb-4 rounded-md flex justify-center items-center bg-primary-300">
-                            취소
-                        </div>
-                        <Link to="/account/delete">
-                            <div className="w-full h-[40px] px-2.5 mb-4 rounded-md flex gap-3 justify-center items-center">
-                                <img
-                                    src="/images/iconUserDelete.png"
-                                    alt="user delete icon for deleting user account"
-                                />
-                                회원탈퇴하기
+                        <Link to="/account">
+                            <div className="w-full h-[40px] px-2.5 mb-4 rounded-md flex justify-center items-center bg-primary-300">
+                                취소
                             </div>
                         </Link>
                     </div>

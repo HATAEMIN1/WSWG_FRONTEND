@@ -17,17 +17,18 @@ import MeetingView from "./pages/MeetingPage/MeetingView";
 import Register from "./pages/RegisterPage/Register";
 import RestaurantList from "./pages/RestaurantPage/RestaurantList";
 import RestaurantView from "./pages/RestaurantPage/RestaurantView";
-// import ReviewList from "./pages/ReviewPage/ReviewList";
 import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, MapModal, MapModalSelect } from "./components/Modal/Modal";
-import { authUser } from "./store/thunkFunctions";
+import {FilterModal, MapModal, MapModalSelect, Modal} from "./components/Modal/Modal";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
+import { authUser } from "./store/thunkFunctions";
+import DefualtModal from "./components/Modal/DefualtModal";
 import Search from "./pages/SearchPage/Search";
-import FilterModal from "./components/Modal/FilterModal";
+import NotAuthRouter from "./components/Router/NotAuthRouter";
+import AuthRouter from "./components/Router/AuthRouter";
 
 function Layout({ modalOpen }) {
     return (
@@ -64,7 +65,8 @@ function App() {
         setModalView(true);
         setModalNum(idx);
     }
-    function modalClsose() {
+
+    function modalClose() {
         setModalView(false);
     }
     useEffect(() => {
@@ -85,27 +87,22 @@ function App() {
     return (
         <>
             {/* Modal layer */}
-            {modalData.map((item, idx) => {
-                return modalView === true ? (
-                    <Modal
-                        onClick={modalClsose}
-                        viewlistData={modalData}
-                        modalNum={modalNum}
-                    />
-                ) : null;
-            })}
+            {modalView && (
+                <Modal onClick={modalClose} viewlistData={modalData} modalNum={modalNum} />
+            )}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
-                    <Route
-                        path="/styleGuide"
-                        element={<StyleGuide modalOpen={modalOpen} />}
-                    ></Route>
-                    <Route
-                        path="/"
-                        element={<Home modalOpen={modalOpen} />}
-                    ></Route>
-                    {/* <Route path="/login" element={<Login />}></Route>
-                    <Route path="/register" element={<Register />}></Route> */}
+                    <Route element={<AuthRouter />}>
+                        <Route path="/account" element={<Account />} />
+                        <Route path="/account/edit" element={<AccountEdit />} />
+                        <Route
+                            path="/account/delete"
+                            element={<AccountDelete />}
+                        />
+                    </Route>
+
+                    <Route index element={<Home modalOpen={modalOpen} />} />
+
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
                     <Route path="/mate" element={<MateList />}></Route>
