@@ -11,8 +11,12 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import StarRating from "../../components/Form/StarRating";
-import Dropzone from "react-dropzone";
+
 import FileUpload from "../../components/Form/FileUpload";
+import iconLT from "../../assets/images/iconLT.svg";
+import iconRT from "../../assets/images/iconRT.svg";
+import iconRB from "../../assets/images/iconRB.svg";
+import iconLB from "../../assets/images/iconLB.svg";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
@@ -262,36 +266,35 @@ function ReviewAdd(props) {
                 <div className="mb-10">
                     <div>
                         <Title className={"titleComment"}>이미지등록</Title>
-                        <div className="flex gap-2 justify-between items-center p-3 border">
-                            {/* <InputWrap className="inputContainer iconPhoto">
-                                <input
-                                    // type="text"
-                                    id="fileInput"
-                                    placeholder="사진등록"
-                                    // className="text-left"
-                                />
-                            </InputWrap> */}
-
+                        <div className="w-full relative bg-[#f5f5f5] h-[150px] ">
+                            <div className="absolute w-full left-0 top-0 flex justify-between">
+                                <span>
+                                    <img src={iconLT} />
+                                </span>
+                                <span>
+                                    <img src={iconRT} />
+                                </span>
+                            </div>
                             <FileUpload
                                 images={text.images}
                                 onImageChange={handleImage}
                             />
-                        </div>
 
-                        <div className="text-md text-slate-500 text-base my-1">
-                            *이미지는 00MB 이하 jpg, png 형식만 가능합니다
+                            <div className="absolute w-full left-0 bottom-0 flex justify-between">
+                                <span>
+                                    <img src={iconLB} />
+                                </span>
+                                <span>
+                                    <img src={iconRB} />
+                                </span>
+                            </div>
                         </div>
-
-                        {/* <div className="flex gap-2 mb-14">
-                            <Button className={"lineDelButton"}>
-                                daadfadsfa.jpg
-                                <i className="iconSmall iconDel">delet</i>
-                            </Button>
-                            <Button className={"lineDelButton"}>
-                                daadfadsfa2.jpg
-                                <i className="iconSmall iconDel">delet</i>
-                            </Button>
-                        </div> */}
+                        <div className="text-sm text-slate-500 text-base mt-1">
+                            *이미지는 최대 5개까지 업로드할 수 있습니다.
+                        </div>
+                        <div className="text-sm text-slate-500 text-base mt-1 mb-20">
+                            *이미지는 00MB 이하 jpg, png 형식만 가능합니다.
+                        </div>
                     </div>
                     <div className=" text-md flex justify-center mb-5 text-red-600">
                         *타인을 비방하거나 불건전한 내용을 등록 시 삭제 될 수
