@@ -137,6 +137,19 @@ function Map(props) {
         if (click) {
             panTo();
         }
+        // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+        kakao.maps.event.addListener(map, "dragend", async function () {
+            // 지도 중심좌표를 얻어옵니다
+            var latlng = map.getCenter();
+            const body = { lat: latlng.getLat(), lon: latlng.getLng() };
+            const res = await axiosInstance.post("restaurants/location", body);
+            // setGeoData(res.data.restaurant);
+            console.log(res.data);
+            var message =
+                "변경된 지도 중심좌표는 " + latlng.getLat() + " 이고, ";
+            message += "경도는 " + latlng.getLng() + " 입니다";
+            console.log(message);
+        });
     }
     useEffect(() => {
         mapSet();
