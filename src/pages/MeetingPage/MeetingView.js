@@ -70,7 +70,6 @@ function MeetingView(props) {
         meetingView();
         incrementViews();
     }, [mpId]);
-
     const incrementViews = async () => {
         try {
             const res = await axiosInstance.post(
@@ -169,10 +168,11 @@ function MeetingView(props) {
                             <div className="text-xl font-semibold py-4 pb-2">{meetingData.title}</div>
                             <div className="flex gap-2">
                                 <div className="flex">
-                                    <i className="iconBasic iconView">view</i>1234
+                                    <i className="iconBasic iconView">view</i> {" "}
+                                    {views}
                                 </div>
                                 <div className="flex">
-                                    <i className="iconBasic iconComment">comment</i>{comments.length}
+                                    <i className="iconBasic iconComment">comment</i> {comments.length}
                                 </div>
                             </div>
                         </div>
@@ -238,7 +238,7 @@ function MeetingView(props) {
                     <Title className={"titleComment"}>댓글</Title>
                     <CommentWrite onSubmit={handleInsertComment} />
                     {comments.length === 0 ? (
-                        <p>댓글이 없습니다🥲</p>
+                        <div className="w-full bg-slate-100  py-[10px] text-center mt-4">등록 된 댓글이 없습니다🥲</div>
                     ) : (
                         comments.map((item) => (
                             <div key={item._id}>
