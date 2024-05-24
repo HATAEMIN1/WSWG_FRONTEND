@@ -182,6 +182,10 @@ function MeetingList(props) {
                     })}
                 </div>
             )}
+             <div
+          className="flex justify-between mb-[30px] gap-[20px] items-center w-full p-[5px]"
+        >
+        </div>
             </SectionWrap>
             <DefualtModal show={isModalOpen} onClose={closeModal}>
                 <div className="pb-3">정말 삭제하시겠습니까?</div>
