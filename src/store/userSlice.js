@@ -7,7 +7,7 @@ import {
     logoutUser,
     registerUser,
     oauthLogin,
-    updateUserPassword,
+    updateUser,
     deleteUser,
 } from "./thunkFunctions";
 
@@ -130,22 +130,19 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
-            .addCase(updateUserPassword.pending, (state) => {
+            .addCase(updateUser.pending, (state) => {
                 state.isLoading = true;
                 state.error = "";
             })
-            .addCase(updateUserPassword.fulfilled, (state, action) => {
+            .addCase(updateUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = "";
-                console.log(
-                    "action.payload in updateUserPassword:",
-                    action.payload
-                );
+                console.log("action.payload in updateUser:", action.payload);
                 state.userData.password = action.payload.user.password;
                 state.isAuth = false;
                 localStorage.removeItem("accessToken");
             })
-            .addCase(updateUserPassword.rejected, (state, action) => {
+            .addCase(updateUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
                 state.isAuth = true;
@@ -169,5 +166,4 @@ const userSlice = createSlice({
     },
 });
 
-export const { setAuth, setUserData } = userSlice.actions;
 export default userSlice.reducer;

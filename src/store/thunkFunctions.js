@@ -43,18 +43,18 @@ export const deleteUser = createAsyncThunk(
     }
 );
 
-export const updateUserPassword = createAsyncThunk(
-    "user/updateUserPassword",
+export const updateUser = createAsyncThunk(
+    "user/updateUser",
     async (body, thunkAPI) => {
         try {
             // get userId
             const userId = thunkAPI.getState().user.userData.id;
 
             const response = await axiosInstance.put(
-                `/users/${userId}/pwdChange`,
+                `/users/${userId}/update`,
                 body
             );
-            console.log("thunkapi 비밀번호 수정");
+            console.log("thunkapi 회원 수정");
             return response.data;
         } catch (error) {
             console.log(error);

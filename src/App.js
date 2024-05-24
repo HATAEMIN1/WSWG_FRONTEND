@@ -139,12 +139,12 @@ function App() {
                     <Route path="/search" element={<Search />} />
                     <Route path="/styleguide" element={<StyleGuide />} />
                 </Route>
-                <Route element={<NotAuthRouter />}>
-                    <Route element={<LayoutEtc />}>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Route>
+                {/* <Route element={<NotAuthRouter />}> */}
+                <Route element={<LayoutEtc />}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                 </Route>
+                {/* </Route> */}
             </Routes>
         </>
     );

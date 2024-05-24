@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import InputWrap from "../../components/Form/Input";
 import { useForm } from "react-hook-form";
-import { updateUserPassword } from "../../store/thunkFunctions";
+import { updateUser } from "../../store/thunkFunctions";
 import axiosInstance from "../../utils/axios";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { Link } from "react-router-dom";
@@ -50,10 +50,6 @@ function AccountEdit() {
             );
             const isMatch = response.data.isMatch;
             return isMatch || "비밀번호가 기존 비밀번호와 일치하지 않습니다!";
-            // return (
-            //     password === userData.password ||
-            //     "비밀번호가 기존 비밀번호와 일치하지 않습니다!"
-            // );
         },
     };
     const userPasswordNew = {
@@ -94,7 +90,9 @@ function AccountEdit() {
     function handleClickPwdChange() {
         setChangePwd(true);
     }
+
     const dispatch = useDispatch();
+
     async function onSubmit(event) {
         event.preventDefault(); // prevent reload
         const formData = new FormData();
@@ -112,16 +110,12 @@ function AccountEdit() {
             //     console.log(`${key[0]}: ${key[1]}`);
             // }
 
-            dispatch(updateUserPassword(formData));
+            dispatch(updateUser(formData));
             setModalOn(true);
             reset();
         } catch (error) {
             console.log(error);
         }
-        //{ passwordNew }
-        // dispatch(updateUserPassword({ passwordNew }));
-        // setModalOn(true);
-        // reset();
     }
     const imageInput = useRef();
     function onClickPenIcon() {
