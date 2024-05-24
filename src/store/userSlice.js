@@ -18,7 +18,7 @@ const initialState = {
         name: "",
         role: 0,
         password: "",
-        image: "",
+        imageFile: {},
         createdAt: "",
     },
     isAuth: false,
@@ -139,6 +139,9 @@ const userSlice = createSlice({
                 state.error = "";
                 console.log("action.payload in updateUser:", action.payload);
                 state.userData.password = action.payload.user.password;
+                if (action.payload.file) {
+                    state.userData.imageFile = action.payload.file;
+                }
                 state.isAuth = false;
                 localStorage.removeItem("accessToken");
             })
