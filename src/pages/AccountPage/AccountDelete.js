@@ -10,6 +10,9 @@ import Title from "../../components/Layout/Title";
 function AccountDelete() {
     const userData = useSelector((state) => state?.user?.userData);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
+    const retrievedImage = useSelector(
+        (state) => state.user.userData.image?.filename
+    );
     const [firstModalOn, setFirstModalOn] = useState(false);
     const [secondModalOn, setSecondModalOn] = useState(false);
     const {
@@ -61,7 +64,16 @@ function AccountDelete() {
                 <Title memTitle={false}>우리 헤어지는 걸까?</Title>
 
                 <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
-                    <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4"></div>
+                    <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4">
+                        <img
+                            className="w-full h-full object-cover"
+                            src={
+                                process.env.REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                retrievedImage
+                            }
+                            alt="user profile pic"
+                        />
+                    </div>
                     <div
                         style={{ fontFamily: "Pretendard" }}
                         className="text-center text-[16px]"

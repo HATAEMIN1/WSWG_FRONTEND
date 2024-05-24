@@ -17,6 +17,7 @@ const initialState = {
         email: "",
         name: "",
         role: 0,
+        image: {},
         password: "",
         createdAt: "",
     },
@@ -137,9 +138,13 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = "";
                 console.log("action.payload in updateUser:", action.payload);
-                state.userData.password = action.payload.user.password;
-                state.isAuth = false;
-                localStorage.removeItem("accessToken");
+                state.userData = action.payload.user;
+                if (action.payload.passwordChange) {
+                    state.isAuth = false;
+                    localStorage.removeItem("accessToken");
+                } else {
+                    state.isAuth = true;
+                }
             })
             .addCase(updateUser.rejected, (state, action) => {
                 state.isLoading = false;

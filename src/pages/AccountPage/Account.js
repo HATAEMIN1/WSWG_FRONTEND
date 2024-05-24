@@ -4,10 +4,11 @@ import Title from "../../components/Layout/Title";
 
 function Account() {
     const isAuth = useSelector((state) => state.user.isAuth);
-
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
-
     const userData = useSelector((state) => state?.user?.userData);
+    const retrievedImage = useSelector(
+        (state) => state.user.userData.image?.filename
+    );
 
     return (
         <div>
@@ -18,9 +19,17 @@ function Account() {
 
                     <div className="flex justify-center">
                         <div className="flex flex-col gap-8 font-['Pretendard']">
-                            <div className="w-[960px] h-[350px] p-[15px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
+                            <div className="w-[960px] h-[300px] px-[30px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
                                 <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px]">
-                                    {/* <img src={userData.image.filename} alt="user profile pic" /> */}
+                                    <img
+                                        className="w-full h-full object-cover"
+                                        src={
+                                            process.env
+                                                .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                            retrievedImage
+                                        }
+                                        alt="user profile pic"
+                                    />
                                 </div>
                                 <div className="grow shrink basis-0 flex-col justify-start items-start gap-[26px] inline-flex">
                                     <>

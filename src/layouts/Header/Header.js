@@ -75,15 +75,17 @@ function Header({ ...props }) {
                             <div className="flex w-[150px] gap-4 justify-center items-center">
                                 <Link to="/account">
                                     {retrievedImage ? (
-                                        <img
-                                            className="w-[50px] h-[50px] rounded-full"
-                                            src={
-                                                process.env
-                                                    .REACT_APP_NODE_SERVER_UPLOAD_URL +
-                                                retrievedImage
-                                            }
-                                            alt="profileImage"
-                                        />
+                                        <div className="w-[50px] h-[50px]">
+                                            <img
+                                                className="rounded-full w-full h-full object-cover"
+                                                src={
+                                                    process.env
+                                                        .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                                    retrievedImage
+                                                }
+                                                alt="profileImage"
+                                            />
+                                        </div>
                                     ) : (
                                         <img
                                             src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
