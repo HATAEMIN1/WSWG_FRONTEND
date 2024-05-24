@@ -24,11 +24,37 @@ function MeetingView(props) {
     const { mpId } = useParams();
     const [comments, setComments] = useState([]);
     const navigate = useNavigate();
+    const [views, setViews] = useState(0);
     const [metaDataList, setMetaDataList] = useState({});
     const userName = useSelector((state) => state.user.userData.name);
     const userId = useSelector((state) => state.user.userData.id);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+    const fetchMetaData = async (url, mpId) => {
+        try {
+            const response = await axiosInstance.post(`/meet-posts/${mpId}`, { url });
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    };
+    useEffect(() => {
+        const fetchAllMetaData = async () => {
+            if (meetingData) {
+                const metaData = await fetchMetaData(meetingData.chatLink, {mpId});
+                if (metaData) {
+                    setMetaDataList((prevData) => ({
+                        ...prevData,
+                        [meetingData.chatLink]: metaData
+                    }));
+                }
+            }
+        };
+
+        fetchAllMetaData();
+    }, [meetingData, mpId]);
 
     useEffect(() => {
         async function meetingView() {
@@ -42,8 +68,19 @@ function MeetingView(props) {
             }
         }
         meetingView();
+        incrementViews();
     }, [mpId]);
 
+    const incrementViews = async () => {
+        try {
+            const res = await axiosInstance.post(
+                `meet-posts/${mpId}/view`
+            );
+            setViews(res.data.meetUpPost.views);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
     useEffect(() => {
         async function loadComments() {
             try {
@@ -135,7 +172,7 @@ function MeetingView(props) {
                                     <i className="iconBasic iconView">view</i>1234
                                 </div>
                                 <div className="flex">
-                                    <i className="iconBasic iconComment">view</i>{comments.length}
+                                    <i className="iconBasic iconComment">comment</i>{comments.length}
                                 </div>
                             </div>
                         </div>
