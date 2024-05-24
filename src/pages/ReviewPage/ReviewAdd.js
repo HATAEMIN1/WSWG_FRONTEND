@@ -18,6 +18,8 @@ import iconRT from "../../assets/images/iconRT.svg";
 import iconRB from "../../assets/images/iconRB.svg";
 import iconLB from "../../assets/images/iconLB.svg";
 
+import NotificationModal from "../../components/Modal/NotificationModal";
+
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
     // const [reviews, setReviews] = useState([]);
@@ -33,6 +35,8 @@ function ReviewAdd(props) {
         content: "",
         images: [],
     });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // 해시태그-------------------------------------------------------------------------------->
 
@@ -120,9 +124,20 @@ function ReviewAdd(props) {
             hashTag: hashtag,
         };
 
+        //     try {
+        //         await axiosInstance.post("/review-posts", body);
+        //         navigate(`/mate/${cateId}/restaurants/${rtId}`);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // }
+
         try {
             await axiosInstance.post("/review-posts", body);
-            navigate(`/mate/${cateId}/restaurants/${rtId}`);
+            setIsModalOpen(true); // 리뷰 등록 성공 시 모달 열기
+            setTimeout(() => {
+                navigate(`/mate/${cateId}/restaurants/${rtId}`);
+            }, 2000); // 2초 후에 페이지 이동
         } catch (error) {
             console.log(error);
         }
@@ -310,6 +325,14 @@ function ReviewAdd(props) {
                     </ButtonWrap>
                 </div>
             </form>
+            {isModalOpen && (
+                <NotificationModal
+                    text="리뷰 등록이 완료되었습니다!"
+                    path="/review"
+                    imgSrc="/images/iconSmile.png"
+                    imgAlt="smile icon"
+                />
+            )}
         </SectionWrap>
     );
 }
