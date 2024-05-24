@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     mateType: "연인",
-    foodType: ["한식"],
+    foodType: [],
 };
 
 const filterSlice = createSlice({
