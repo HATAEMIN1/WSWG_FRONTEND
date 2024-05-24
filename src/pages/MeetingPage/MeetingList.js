@@ -5,7 +5,6 @@ import { SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 import { TextModal } from "../../components/Modal/Modal";
 import axiosInstance from "../../utils/axios";
-// import MeetingAdd from "./MeetingAdd";
 import { useSelector } from "react-redux";
 import SelectDiv from "../../components/Form/Select";
 import DefualtModal from "../../components/Modal/DefualtModal";
@@ -22,12 +21,12 @@ const fetchMetaData = async (url) => {
 function MeetingList(props) {
     const [meetingAdd, setMeetingAdd] = useState([]);
     const [metaDataList, setMetaDataList] = useState({});
-    const deletedMeetUpPost = useState([]);
     const [loading, setLoading] = useState(false);
-    const userName = useSelector((state) => state.user.userData.name);
+    const userName = useSelector((state) => state.user.userData?.name);
     const limit = 5;
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(false);
+
     const fetchMeetingAdd = async ({ limit, skip, loadMore = false }) => {
         const params = { skip, limit };
         try {
@@ -85,10 +84,12 @@ function MeetingList(props) {
             }
         }
     };
+
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMeetingId, setSelectedMeetingId] = useState(null);
 
@@ -115,6 +116,7 @@ function MeetingList(props) {
             console.error("Failed to delete the meeting post", error);
         }
     };
+
     return (
         <>
             <SectionWrap>
@@ -156,37 +158,35 @@ function MeetingList(props) {
                                             <i className="iconBasic iconComment">comment</i> {" "}{meeting.comments}
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flex justify-between items-center mb-4">
-                                    <div className="flex text-sm items-center"><i className="iconBasic iconPen mr-2"></i> 작성자 : {meeting.user.name}</div>
-                                    {meeting.user.name === userName && (
+                                    <div className="flex justify-between items-center mb-4">
+                                        <div className="flex text-sm items-center"><i className="iconBasic iconPen mr-2"></i> 작성자 : {meeting.user?.name}</div>
+                                        {meeting.user?.name === userName && (
                                             <div className="flex gap-2">
                                                 <button className="iconTrash" onClick={() => openModal(meeting._id)}>Delet</button>
                                             </div>
-                                         )}
+                                        )}
+                                    </div>
+                                    {metaDataList[meeting.chatLink] && (
+                                        <SectionWrap basicSection={true}>
+                                            <div className="container flex border rounded-md">
+                                                <div className="w-1/3">
+                                                    <a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">
+                                                        <img src={metaDataList[meeting.chatLink].image} alt="Meta" />
+                                                    </a>
+                                                </div>
+                                                <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">
+                                                    <p className="font-semibold"><a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">{metaDataList[meeting.chatLink].title}</a></p>
+                                                    <p className="text-sm text-gray-500">{metaDataList[meeting.chatLink].description}</p>
+                                                    <p className="text-sm">{metaDataList[meeting.chatLink].url}</p>
+                                                </div>
+                                            </div>
+                                        </SectionWrap>
+                                    )}
                                 </div>
-                                {metaDataList[meeting.chatLink] && (
-                                    <SectionWrap basicSection={true}>
-                                        <div className="container flex border rounded-md">
-                                            <div className="w-1/3">
-                                                <a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">
-                                                <img src={metaDataList[meeting.chatLink].image} alt="Meta" />
-                                                </a>
-                                            </div>
-                                            <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">
-                                                <p className="font-semibold"><a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">{metaDataList[meeting.chatLink].title}</a></p>
-                                                <p className="text-sm text-gray-500">{metaDataList[meeting.chatLink].description}</p>
-                                                <p className="text-sm">{metaDataList[meeting.chatLink].url}</p>
-                                            </div>
-                                        </div>
-                                    </SectionWrap>
-                                )}
-                            </div>
-                            </>
-                        );
-                    })}
-                </div>
-            )}
+                            );
+                        })}
+                    </div>
+                )}
             </SectionWrap>
             <DefualtModal show={isModalOpen} onClose={closeModal}>
                 <div className="pb-3">정말 삭제하시겠습니까?</div>
