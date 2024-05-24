@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputWrap from "../../../components/Form/Input";
-
+import btnEnter from "../../../assets/images/btnEnter.png";
 
     function CommentWrite({ onSubmit }) {
         const [commentText, setCommentText] = useState("");
@@ -13,12 +13,12 @@ import InputWrap from "../../../components/Form/Input";
           setCommentText(e.target.value);
         }
   return (
-    <InputWrap>
-            <form onSubmit={handleSubmit}>
-
-                <input type="text" onChange={handleInputChange} placeholder="댓글을 입력해주세요" class="text-center" value={commentText}/>
-            </form>
-            </InputWrap>
+    <form onSubmit={handleSubmit} className="flex gap-4">
+        <InputWrap>
+            <input type="text" onChange={handleInputChange} placeholder="댓글을 입력해주세요" class="text-center" value={commentText}/>
+        </InputWrap>
+        <button onSubmit={handleSubmit}><img src={btnEnter} alt="enter" /></button>
+    </form>
   );
 }
 

@@ -148,7 +148,7 @@ function MeetingList(props) {
                                         {meeting.views}
                                         </div>
                                         <div className="flex">
-                                            <i className="iconBasic iconComment">comment</i>1234
+                                            <i className="iconBasic iconComment">comment</i> {" "}{meeting.comments}
                                         </div>
                                     </div>
                                 </div>
