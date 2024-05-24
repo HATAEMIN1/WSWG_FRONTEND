@@ -9,8 +9,11 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { useState } from "react";
 import Title from "../../components/Layout/Title";
+// import { Navigate } from "react-router-dom";
 
 function Register() {
+    // const isAuth = useSelector((state) => state.user.isAuth);
+
     const {
         register,
         formState: { errors },
@@ -82,6 +85,10 @@ function Register() {
             return value === watch("password") || "비밀번호일치안함";
         },
     };
+
+    // if (isAuth) {
+    //     return <Navigate to="/" />;
+    // }
 
     return (
         <>

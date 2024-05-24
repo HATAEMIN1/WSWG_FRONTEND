@@ -20,7 +20,12 @@ import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
-import {FilterModal, MapModal, MapModalSelect, Modal} from "./components/Modal/Modal";
+import {
+    FilterModal,
+    MapModal,
+    MapModalSelect,
+    Modal,
+} from "./components/Modal/Modal";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
 import { authUser } from "./store/thunkFunctions";
@@ -87,7 +92,11 @@ function App() {
         <>
             {/* Modal layer */}
             {modalView && (
-                <Modal onClick={modalClose} viewlistData={modalData} modalNum={modalNum} />
+                <Modal
+                    onClick={modalClose}
+                    viewlistData={modalData}
+                    modalNum={modalNum}
+                />
             )}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
@@ -118,19 +127,22 @@ function App() {
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
                     />
-                    <Route path="/meet-posts" element={<MeetingList  modalOpen={modalOpen} />}></Route>
+                    <Route
+                        path="/meet-posts"
+                        element={<MeetingList modalOpen={modalOpen} />}
+                    ></Route>
                     <Route path="/meet-posts" element={<MeetingList />} />
                     <Route path="/meet-posts/new" element={<MeetingAdd />} />
                     <Route path="/meet-posts/:mpId" element={<MeetingView />} />
                     <Route path="/search" element={<Search />} />
-                    <Route path="/styleguide" element={<StyleGuide />}/>
+                    <Route path="/styleguide" element={<StyleGuide />} />
                 </Route>
-                <Route element={<NotAuthRouter />}>
-                    <Route element={<LayoutEtc />}>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Route>
+                {/* <Route element={<NotAuthRouter />}> */}
+                <Route element={<LayoutEtc />}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                 </Route>
+                {/* </Route> */}
             </Routes>
         </>
     );

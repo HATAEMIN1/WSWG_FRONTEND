@@ -50,10 +50,6 @@ function AccountEdit() {
             );
             const isMatch = response.data.isMatch;
             return isMatch || "비밀번호가 기존 비밀번호와 일치하지 않습니다!";
-            // return (
-            //     password === userData.password ||
-            //     "비밀번호가 기존 비밀번호와 일치하지 않습니다!"
-            // );
         },
     };
     const userPasswordNew = {
@@ -118,10 +114,10 @@ function AccountEdit() {
         } catch (error) {
             console.log(error);
         }
-        //{ passwordNew }
-        // dispatch(updateUserPassword({ passwordNew }));
-        // setModalOn(true);
-        // reset();
+
+        dispatch(updateUserPassword({ newPw }));
+        setModalOn(true);
+        reset();
     }
     const imageInput = useRef();
     function onClickPenIcon() {

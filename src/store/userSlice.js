@@ -169,5 +169,4 @@ const userSlice = createSlice({
     },
 });
 
-export const { setAuth, setUserData } = userSlice.actions;
 export default userSlice.reducer;

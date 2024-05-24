@@ -1,8 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
-import { useEffect } from "react"; //, useRef
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setAuth } from "../../store/userSlice";
 import { oauthLogin } from "../../store/thunkFunctions";
 import { styled } from "styled-components";
 import { useSelector } from "react-redux";
@@ -48,8 +47,7 @@ const NaverLogin = () => {
                             accessToken,
                         };
                         dispatch(oauthLogin(body));
-                        dispatch(setAuth(true));
-                        // alert("로그인 성공");
+
                         navigate("/");
                     }
                 }
