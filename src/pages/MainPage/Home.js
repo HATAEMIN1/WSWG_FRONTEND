@@ -138,7 +138,7 @@ function Home({ ...props }) {
         <>
             <SectionFullWrap className={"relative z-1"}>
                 <div className=" relative">
-                    <Map></Map>
+                    <Map {...props}></Map>
                     {/*<img src={`${process.env.PUBLIC_URL}/images/mainMap.png`} className="h-[380px] w-full"/>/!*나중에 맵 화면 붙히고 삭제해주세요!*!/*/}
                 </div>
             </SectionFullWrap>
