@@ -42,7 +42,7 @@ function Search(props) {
             fetchSearchResults({ search: query, limit, skip, foodtype });
             setSearch(query);
         }
-    }, [query, foodtype]);
+    }, [query, foodtype, cateId]);
 
     const fetchSearchResults = async ({
         search,
@@ -130,7 +130,7 @@ function Search(props) {
                                             >
                                                 <h3>{item.name}</h3>
                                             </Link>
-                                            <p>{item.category[0].foodtype}</p>
+                                            <p>{item.category[0].foodType}</p>
                                             <div className="flex">
                                                 <span className="flex-none">
                                                     평점:{" "}

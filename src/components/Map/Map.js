@@ -5,39 +5,53 @@ import { SectionWrap } from "../Layout/Section";
 import { Link } from "react-router-dom";
 
 const { kakao } = window;
-function Map(props) {
-    const mateType = [
-        { no: 1, cateId: "lover", name: "연인" },
-        { no: 2, cateId: "friend", name: "친구" },
-        { no: 3, cateId: "family", name: "가족" },
-        { no: 4, cateId: "group", name: "단체모임" },
-        { no: 5, cateId: "pet", name: "반려동물" },
-        { no: 6, cateId: "self", name: "혼자" },
-    ];
-    const cateId = useSelector((state) => {
-        const mateTypeName = state.filter.mateType;
-        const selectedMateType = mateType.find(
-            (type) => type.name === mateTypeName
-        );
-        return selectedMateType ? selectedMateType.cateId : "";
-    });
-    const foodtype = useSelector((state) => state.filter.foodType);
-    const [geoData, setGeoData] = useState([]);
-    const [geoCenter, setGeoCenter] = useState([
-        37.48073710748562, 126.87963572538791,
-    ]);
-    const fetchRestaurant = async () => {
-        try {
-            const params = { foodtype };
-            const res = await axiosInstance.get(`/restaurants/${cateId}`, {
-                params,
-            });
-            console.log(res.data.restaurant);
-            setGeoData(res.data.restaurant);
-        } catch (e) {
-            console.log(e.message);
-        }
-    };
+function Map({
+    geoData,
+    geoCenter,
+    geoMouse,
+    setGeoCenter,
+    setGeoMouse,
+    fetchRestaurant,
+    setGeoData,
+    ...props
+}) {
+    // const mateType = [
+    //     { no: 1, cateId: "lover", name: "연인" },
+    //     { no: 2, cateId: "friend", name: "친구" },
+    //     { no: 3, cateId: "family", name: "가족" },
+    //     { no: 4, cateId: "group", name: "단체모임" },
+    //     { no: 5, cateId: "pet", name: "반려동물" },
+    //     { no: 6, cateId: "self", name: "혼자" },
+    // ];
+    // const cateId = useSelector((state) => {
+    //     const mateTypeName = state.filter.mateType;
+    //     const selectedMateType = mateType.find(
+    //         (type) => type.name === mateTypeName
+    //     );
+    //     return selectedMateType ? selectedMateType.cateId : "";
+    // });
+    // const foodtype = useSelector((state) => state.filter.foodType);
+    // const [geoData, setGeoData] = useState([]);
+    // const [geoCenter, setGeoCenter] = useState([
+    //     37.48073710748562, 126.87963572538791,
+    // ]);
+    // const [geoMouse, setGeoMouse] = useState(3);
+    // const fetchRestaurant = async () => {
+    //     try {
+    //         const params = { foodtype };
+    //         const res = await axiosInstance.get(`/restaurants/${cateId}`, {
+    //             params,
+    //         });
+    //         console.log(res.data.restaurant);
+    //         setGeoData(res.data.restaurant);
+    //     } catch (e) {
+    //         console.log(e.message);
+    //     }
+    // };
+    // useEffect(() => {
+    //     fetchRestaurant();
+    // }, [cateId, foodtype]);
+
     const positions = geoData.map((restaurant) => ({
         title: restaurant.name,
         latlng: new kakao.maps.LatLng(
@@ -46,17 +60,12 @@ function Map(props) {
         ),
         image: restaurant.image[0],
     }));
-
-    useEffect(() => {
-        fetchRestaurant();
-    }, [cateId, foodtype]);
-
     function mapSet(click) {
         const mapContainer = document.getElementById("map"),
             // 지도를 표시할 div
             mapOption = {
                 center: new kakao.maps.LatLng(...geoCenter), // 지도의 중심좌표
-                level: 3, // 지도의 확대 레벨
+                level: geoMouse, // 지도의 확대 레벨
             };
         const map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
         // 마커가 표시될 위치입니다
@@ -149,10 +158,12 @@ function Map(props) {
             const body = { lat: latlng.getLat(), lon: latlng.getLng() };
             const res = await axiosInstance.post("restaurants/location", body);
             setGeoData(res.data.restaurant);
-            var message =
-                "변경된 지도 중심좌표는 " + latlng.getLat() + " 이고, ";
-            message += "경도는 " + latlng.getLng() + " 입니다";
-            console.log(message);
+            console.log(res.data.restaurant);
+        });
+        kakao.maps.event.addListener(map, "zoom_changed", function () {
+            // 지도의 현재 레벨을 얻어옵니다
+            var level = map.getLevel();
+            setGeoMouse(level);
         });
     }
     useEffect(() => {
