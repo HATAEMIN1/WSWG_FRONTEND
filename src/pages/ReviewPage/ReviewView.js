@@ -50,15 +50,22 @@ function ReviewView(props) {
         fetchRestaurant();
     }, [cateId, rtId]);
 
-    const handleCancelClick = () => {
-        navigate(`/mate/${cateId}/restaurants/${rtId}`);
-    };
     return (
         <SectionWrap>
             <form>
-                <Title className={"titleComment"}>
+                {/* <Title className={"titleComment"}>
                     <button className="flex items-center">
                         <i className="btnBack">more</i> 뒤로가기
+                    </button>
+                </Title> */}
+                <Title className={"titleComment"}>
+                    <button className="flex items-center">
+                        <Link
+                            to={`/mate/${cateId}/restaurants/${rtId}`}
+                            className="flex justify-center items-center"
+                        >
+                            <i className="btnBack">more</i> 뒤로가기
+                        </Link>
                     </button>
                 </Title>
                 <div className="w-full min-h-[120px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border items-center">

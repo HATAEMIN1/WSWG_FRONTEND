@@ -104,14 +104,11 @@ function App() {
                         path="/"
                         element={<Home modalOpen={modalOpen} />}
                     ></Route>
-                    <Route element={<AuthRouter />}>
-                        <Route path="/account" element={<Account />} />
-                        <Route path="/account/edit" element={<AccountEdit />} />
-                        <Route
-                            path="/account/delete"
-                            element={<AccountDelete />}
-                        />
-                    </Route>
+                    {/* <Route element={<AuthRouter />}> */}
+                    <Route path="/account" element={<Account />} />
+                    <Route path="/account/edit" element={<AccountEdit />} />
+                    <Route path="/account/delete" element={<AccountDelete />} />
+                    {/* </Route> */}
                     <Route index element={<Home modalOpen={modalOpen} />} />
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
@@ -139,12 +136,12 @@ function App() {
                     <Route path="/search" element={<Search />} />
                     <Route path="/styleguide" element={<StyleGuide />} />
                 </Route>
-                <Route element={<NotAuthRouter />}>
-                    <Route element={<LayoutEtc />}>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Route>
+                {/* <Route element={<NotAuthRouter />}> */}
+                <Route element={<LayoutEtc />}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                 </Route>
+                {/* </Route> */}
             </Routes>
         </>
     );

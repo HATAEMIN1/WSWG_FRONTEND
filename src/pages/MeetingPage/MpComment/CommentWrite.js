@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import InputWrap from "../../../components/Form/Input";
+
 import btnEnter from "../../../assets/images/btnEnter.png";
 
     function CommentWrite({ onSubmit }) {
@@ -20,7 +21,7 @@ import btnEnter from "../../../assets/images/btnEnter.png";
         <button onSubmit={handleSubmit}><img src={btnEnter} alt="enter" /></button>
     </form>
   );
-}
 
+}
 
 export default CommentWrite;

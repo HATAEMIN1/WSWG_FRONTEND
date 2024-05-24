@@ -5,7 +5,23 @@ import { useState } from "react";
 
 function Header({ ...props }) {
     const [search, setSearch] = useState("");
-    const isAuth = useSelector((state) => state.user.isAuth);
+    // const [filename, setFilename] = useState("");
+    const isAuth = useSelector((state) => {
+        return state.user.isAuth;
+    });
+    const retrievedImage = useSelector(
+        (state) => state.user.userData.image?.filename
+    );
+    console.log("isAuth", isAuth);
+    console.log("retrievedImage", retrievedImage);
+    console.log(
+        "full img url:",
+        process.env.REACT_APP_NODE_SERVER_UPLOAD_URL + retrievedImage
+    );
+    // if (retrievedImage) {
+    //     setFilename(retrievedImage);
+    // }
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -58,10 +74,22 @@ function Header({ ...props }) {
                         {isAuth ? (
                             <div className="flex w-[150px] gap-4 justify-center items-center">
                                 <Link to="/account">
-                                    <img
-                                        src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
-                                        alt="profileImage"
-                                    />
+                                    {retrievedImage ? (
+                                        <img
+                                            className="w-[50px] h-[50px] rounded-full"
+                                            src={
+                                                process.env
+                                                    .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                                retrievedImage
+                                            }
+                                            alt="profileImage"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
+                                            alt="profileImage"
+                                        />
+                                    )}
                                 </Link>
                                 <Link className="" onClick={handleLogout}>
                                     <img
