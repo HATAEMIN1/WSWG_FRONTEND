@@ -89,28 +89,6 @@ function MeetingList(props) {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
-    // const handleDeleteList = async(mpId) =>{
-    //     try {
-    //         await axiosInstance.delete(`/meet-posts/${mpId}`);
-    //             setMeetingAdd((prevData) => prevData.filter(meeting => meeting._id !== mpId));
-    //             return (
-    //                 <></>
-    //             )
-    //     } catch (error) {
-    //         console.error("Failed to delete the meeting post", error);
-    //     }
-    //   }
-
-    //   const [isModalOpen, setIsModalOpen] = useState(false);
-
-    //   const openModal = () => {
-    //     setIsModalOpen(true);
-    //   };
-
-    //   const closeModal = () => {
-    //     setIsModalOpen(false);
-    //   };
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMeetingId, setSelectedMeetingId] = useState(null);
 
@@ -161,119 +139,59 @@ function MeetingList(props) {
                         등록된 게시글이 없습니다.
                     </div>
                 ) : (
-                    <div>
-                        {meetingAdd.map((meeting, meetindex) => {
-                            return (
-                                <>
-                                    <div key={meetindex} className="mb-[40px]">
-                                        <div className="flex justify-between items-center mb-1">
-                                            <Link
-                                                to={`/meet-posts/${meeting._id}`}
-                                            >
-                                                <div className="text-xl font-semibold hover:underline">
-                                                    {meeting.title}
-                                                </div>
-                                            </Link>
-                                            <div className="flex gap-3 items-center">
-                                                <div className="flex">
-                                                    <i className="iconBasic iconView">
-                                                        view
-                                                    </i>
-                                                    1234
-                                                </div>
-                                                <div className="flex">
-                                                    <i className="iconBasic iconComment">
-                                                        view
-                                                    </i>
-                                                    1234
-                                                </div>
-                                                {meeting.user.name ===
-                                                    userName && (
-                                                    <div className="flex gap-2">
-                                                        <button
-                                                            className="iconTrash"
-                                                            onClick={() =>
-                                                                openModal(
-                                                                    meeting._id
-                                                                )
-                                                            }
-                                                        >
-                                                            Delet
-                                                        </button>
-                                                    </div>
-                                                )}
+
+                <div>
+                    {meetingAdd.map((meeting, meetindex) => {
+                        return (
+                            <>
+                            <div key={meetindex} className="mb-[40px]" >
+                                <div className="flex justify-between items-center mb-1">
+                                <Link to={`/meet-posts/${meeting._id}`}><div className="text-xl font-semibold hover:underline">{meeting.title}</div></Link>
+                                    <div className="flex gap-3 items-center">
+                                        <div className="flex">
+                                            <i className="iconBasic iconView">view</i>{" "}
+                                        {meeting.views}
+                                        </div>
+                                        <div className="flex">
+                                            <i className="iconBasic iconComment">comment</i> {" "}{meeting.comments}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="flex text-sm items-center"><i className="iconBasic iconPen mr-2"></i> 작성자 : {meeting.user.name}</div>
+                                    {meeting.user.name === userName && (
+                                            <div className="flex gap-2">
+                                                <button className="iconTrash" onClick={() => openModal(meeting._id)}>Delet</button>
+                                            </div>
+                                         )}
+                                </div>
+                                {metaDataList[meeting.chatLink] && (
+                                    <SectionWrap basicSection={true}>
+                                        <div className="container flex border rounded-md">
+                                            <div className="w-1/3">
+                                                <a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">
+                                                <img src={metaDataList[meeting.chatLink].image} alt="Meta" />
+                                                </a>
+                                            </div>
+                                            <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">
+                                                <p className="font-semibold"><a href={metaDataList[meeting.chatLink].url} target="_blank" rel="noopener noreferrer">{metaDataList[meeting.chatLink].title}</a></p>
+                                                <p className="text-sm text-gray-500">{metaDataList[meeting.chatLink].description}</p>
+                                                <p className="text-sm">{metaDataList[meeting.chatLink].url}</p>
                                             </div>
                                         </div>
-                                        <div className="flex text-sm mb-4 items-center">
-                                            <i className="iconBasic iconPen mr-2"></i>{" "}
-                                            작성자 : {meeting.user.name}
-                                        </div>
-                                        {metaDataList[meeting.chatLink] && (
-                                            <SectionWrap basicSection={true}>
-                                                <a
-                                                    href={
-                                                        metaDataList[
-                                                            meeting.chatLink
-                                                        ].url
-                                                    }
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    <div className="container flex border rounded-md">
-                                                        <div className="w-1/3">
-                                                            <img
-                                                                src={
-                                                                    metaDataList[
-                                                                        meeting
-                                                                            .chatLink
-                                                                    ].image
-                                                                }
-                                                                alt="Meta"
-                                                            />
-                                                        </div>
-                                                        <div className="w-full flex-wrap justify-between flex-auto p-[10px]">
-                                                            <p className="font-semibold">
-                                                                {
-                                                                    metaDataList[
-                                                                        meeting
-                                                                            .chatLink
-                                                                    ].title
-                                                                }
-                                                            </p>
-                                                            <p className="text-sm text-gray-500">
-                                                                {
-                                                                    metaDataList[
-                                                                        meeting
-                                                                            .chatLink
-                                                                    ]
-                                                                        .description
-                                                                }
-                                                            </p>
-                                                            <p className="text-sm">
-                                                                {
-                                                                    metaDataList[
-                                                                        meeting
-                                                                            .chatLink
-                                                                    ].url
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </SectionWrap>
-                                        )}
-                                    </div>
-                                </>
-                            );
-                        })}
-                    </div>
-                )}
+                                    </SectionWrap>
+                                )}
+                            </div>
+                            </>
+                        );
+                    })}
+                </div>
+            )}
             </SectionWrap>
             <DefualtModal show={isModalOpen} onClose={closeModal}>
-                <div>정말 삭제하시겠습니까?</div>
-                <Button basicButton={true} onClick={handleDeleteList}>
-                    확인
-                </Button>
+                <div className="pb-3">정말 삭제하시겠습니까?</div>
+                <Button basicButton={true} onClick={handleDeleteList}>확인</Button>
+
             </DefualtModal>
         </>
     );

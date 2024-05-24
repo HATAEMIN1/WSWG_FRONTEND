@@ -30,7 +30,6 @@ import FilterModal from "./components/Modal/FilterModal";
 import NotAuthRouter from "./components/Router/NotAuthRouter";
 import AuthRouter from "./components/Router/AuthRouter";
 
-
 function Layout({ modalOpen }) {
     return (
         <>
@@ -89,7 +88,11 @@ function App() {
         <>
             {/* Modal layer */}
             {modalView && (
-                <Modal onClick={modalClose} viewlistData={modalData} modalNum={modalNum} />
+                <Modal
+                    onClick={modalClose}
+                    viewlistData={modalData}
+                    modalNum={modalNum}
+                />
             )}
             <Routes>
                 <Route path="/" element={<Layout modalOpen={modalOpen} />}>
@@ -126,12 +129,15 @@ function App() {
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
                     />
-                    <Route path="/meet-posts" element={<MeetingList  modalOpen={modalOpen} />}></Route>
+                    <Route
+                        path="/meet-posts"
+                        element={<MeetingList modalOpen={modalOpen} />}
+                    ></Route>
                     <Route path="/meet-posts" element={<MeetingList />} />
                     <Route path="/meet-posts/new" element={<MeetingAdd />} />
                     <Route path="/meet-posts/:mpId" element={<MeetingView />} />
                     <Route path="/search" element={<Search />} />
-                    <Route path="/styleguide" element={<StyleGuide />}/>
+                    <Route path="/styleguide" element={<StyleGuide />} />
                 </Route>
                 <Route element={<NotAuthRouter />}>
                     <Route element={<LayoutEtc />}>
