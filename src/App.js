@@ -104,14 +104,11 @@ function App() {
                         path="/"
                         element={<Home modalOpen={modalOpen} />}
                     ></Route>
-                    <Route element={<AuthRouter />}>
-                        <Route path="/account" element={<Account />} />
-                        <Route path="/account/edit" element={<AccountEdit />} />
-                        <Route
-                            path="/account/delete"
-                            element={<AccountDelete />}
-                        />
-                    </Route>
+                    {/* <Route element={<AuthRouter />}> */}
+                    <Route path="/account" element={<Account />} />
+                    <Route path="/account/edit" element={<AccountEdit />} />
+                    <Route path="/account/delete" element={<AccountDelete />} />
+                    {/* </Route> */}
                     <Route index element={<Home modalOpen={modalOpen} />} />
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
