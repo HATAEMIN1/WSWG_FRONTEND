@@ -3,13 +3,13 @@ import { SectionFullWrap, SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
 import { Navigation } from "swiper/modules";
 import StarRating from "../../components/Form/StarRating";
-import { Swiper ,SwiperSlide } from "swiper/react";
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import MyMap from "../../components/Map/MyMap";
 import { Link } from "react-router-dom";
-
+import Map from "../../components/Map/Map";
 
 function Home({ ...props }) {
     const foodType = [
@@ -137,22 +137,12 @@ function Home({ ...props }) {
     return (
         <>
             <SectionFullWrap className={"relative z-1"}>
-                <div className="bg-blue-500">
-                    {/* <MyMap></MyMap> */}
-                    <img src={`${process.env.PUBLIC_URL}/images/mainMap.png`} className="h-[380px] w-full"/>{/*나중에 맵 화면 붙히고 삭제해주세요!*/}
-                </div>
-                <div className="w-full absolute bottom-0 py-3 mainMapLayer">
-                    <SectionWrap className={"flex justify-between mainMapButton"} basicSection={true}>
-                        <div className="w-1/2 text-white text-[20px]"><Link className="flex justify-center align-middle" onClick={() => {
-                                props.modalOpen(0);
-                            }}><i className="iconMark"></i>지역설정하기</Link></div>
-                        <div className="w-1/2 text-white text-[20px]"><Link className="flex justify-center align-middle"><i className="iconMap"></i>현위치보기</Link></div>
-                    </SectionWrap>
+                <div className=" relative">
+                    <Map></Map>
+                    {/*<img src={`${process.env.PUBLIC_URL}/images/mainMap.png`} className="h-[380px] w-full"/>/!*나중에 맵 화면 붙히고 삭제해주세요!*!/*/}
                 </div>
             </SectionFullWrap>
-
-            <SectionFullWrap>풀화면 지도</SectionFullWrap>
-            <div className="w-[1024px] m-auto">
+            <div className="w-[1024px] m-auto pt-20">
                 {foodType.map((item, i) => {
                     return (
                         <div key={`foodType-${i}`} className="mb-[100px]">

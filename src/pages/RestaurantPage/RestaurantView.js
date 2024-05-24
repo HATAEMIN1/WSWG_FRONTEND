@@ -12,6 +12,7 @@ import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
 import { useSelector } from "react-redux";
+import RestaurantMap from "../../components/Map/RestaurantMap";
 
 function RestaurantView(props) {
     const foodType = [
@@ -64,7 +65,7 @@ function RestaurantView(props) {
     const incrementViews = async () => {
         try {
             const res = await axiosInstance.post(
-                `restaurants/${cateId}/${userId}/${rtId}`
+                `restaurants/${cateId}/${rtId}/view`
             );
             setViews(res.data.restaurant.views);
         } catch (error) {
@@ -127,7 +128,7 @@ function RestaurantView(props) {
                 {/* restaurant info start--- */}
                 <div className="w-full min-h-[543px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border restarantView">
                     <div className="w-full overflow-hidden border-r-[1px]">
-                        지도를 넣어봅시다.
+                        <RestaurantMap></RestaurantMap>
                     </div>
                     <div className="flex-auto p-[20px]">
                         <div className="w-[360px] h-[360px] bg-slate-300 rounded-md overflow-hidden">
@@ -200,7 +201,12 @@ function RestaurantView(props) {
                     <div className="flex gap-2">
                         <i className="iconTypeStore iconStoreLoc">local</i>
                         {restaurantData.length > 0 && (
-                            <>{restaurantData[0].address}</>
+                            <>
+                                {restaurantData[0].address.metropolitan + " "}
+                                {restaurantData[0].address.city + " "}
+                                {restaurantData[0].address.district + " "}
+                                {restaurantData[0].address.detailedAddress}
+                            </>
                         )}
                     </div>
                     <div className="flex gap-2">
