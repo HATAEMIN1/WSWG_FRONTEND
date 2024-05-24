@@ -7,6 +7,7 @@ import { Button, ButtonWrap } from "../../components/Form/Button";
 import { IconStarView, IconWish } from "../../components/Form/Icon";
 import jQuery from "jquery";
 import StarRating from "../../components/Form/StarRating";
+import DefualtModal from "../../components/Modal/DefualtModal";
 
 function ReviewList(props) {
     const { cateId, rtId } = useParams();
@@ -15,6 +16,9 @@ function ReviewList(props) {
     const limit = 5;
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(false);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedReviewId, setSelectedReviewId] = useState(null);
 
     const fetchReviewAdd = async ({ limit, skip, loadMore = false }) => {
         const params = {
@@ -69,195 +73,181 @@ function ReviewList(props) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
 
-    const handleDelete = async (rpId) => {
-        console.log(reviewAdd);
-        try {
-            await axiosInstance.delete(`/review-posts/${rpId}`);
+    const openModal = (rpId) => {
+        setSelectedReviewId(rpId);
+        setIsModalOpen(true);
+    };
 
-            fetchReviewAdd({ limit, skip });
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedReviewId(null);
+    };
+
+    // const handleDelete = async (rpId) => {
+    //     console.log(reviewAdd);
+    //     try {
+    //         await axiosInstance.delete(`/review-posts/${rpId}`);
+
+    //         fetchReviewAdd({ limit, skip });
+    //     } catch (error) {
+    //         console.log(error);
+    //     } finally {
+    //         closeModal();
+    //     }
+    // };
+
+    const handleDeleteConfirm = async () => {
+        if (!selectedReviewId) return;
+
+        try {
+            await axiosInstance.delete(`/review-posts/${selectedReviewId}`);
+            setReviewAdd((prevData) =>
+                prevData.filter((review) => review._id !== selectedReviewId)
+            );
+            closeModal();
         } catch (error) {
             console.log(error);
         }
     };
 
     return (
-        <SectionWrap>
-            <form>
-                <div className="reviewWrap">
-                    <div className="w-full flex justify-between items-center">
-                        <Title className={"titleComment"}>리뷰</Title>
-                        <Link
-                            to={`/mate/${cateId}/restaurants/${rtId}/review-post/new`}
-                        >
-                            <Button className={"lineSmallButton"}>
-                                <i className="iconSmall iconWriter">writer</i>{" "}
-                                나도 작성해 볼까
-                            </Button>
-                        </Link>
-                    </div>
-                    <div className="w-full flex reviewListWrap gap-5">
-                        {reviewAdd && reviewAdd.length > 0 && (
-                            <div className="w-full">
-                                {reviewAdd.map((review, index) => {
-                                    return (
-                                        <div
-                                            className="flex reviewListWrap gap-5"
-                                            key={index}
-                                        >
-                                            {/* <div className="flex-none imgWrap">
-                                                <img
-                                                    src={`${process.env.PUBLIC_URL}/images/imageSample1.png`}
-                                                    alt="sampleimg"
-                                                />
-                                            </div> */}
-                                            <div className="flex-none imgWrap">
-                                                {review.images &&
-                                                    review.images.length >
-                                                        0 && (
-                                                        <img
-                                                            src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${review.images[0]}`}
-                                                            alt="Review"
-                                                        />
-                                                    )}
-                                            </div>
-                                            <div className="w-full flex justify-center items-center">
-                                                <div className="w-full flex flex-col justify-between py-[10px]">
-                                                    <ul className="textWrap">
-                                                        <li className="name">
-                                                            <Link
-                                                                to={`/mate/restaurants/${rtId}/review-post/${review._id}`}
-                                                            >
-                                                                {
-                                                                    review.user
-                                                                        .name
-                                                                }
-                                                            </Link>
-                                                        </li>
-                                                        <li className="content w-full ">
-                                                            {review.content}
-                                                        </li>
-                                                        <li className="flex mb-2">
-                                                            {/* 평점:{review.rating} */}
-                                                            <span className="flex-none">
-                                                                평점:{" "}
-                                                            </span>
-                                                            <StarRating
-                                                                rating={
-                                                                    review.rating
-                                                                }
-                                                            ></StarRating>
-                                                        </li>
-                                                        <li>
-                                                            <div className="hashBoxWrap">
-                                                                {review.hashTag.map(
-                                                                    (
-                                                                        tag,
-                                                                        i
-                                                                    ) => (
-                                                                        <span
-                                                                            key={
-                                                                                i
-                                                                            }
-                                                                            className="hashBox"
-                                                                        >
-                                                                            #
-                                                                            {
-                                                                                tag
-                                                                            }
-                                                                        </span>
-                                                                    )
-                                                                )}
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+        <>
+            <SectionWrap>
+                <form>
+                    <div className="reviewWrap">
+                        <div className="w-full flex justify-between items-center">
+                            <Title className={"titleComment"}>리뷰</Title>
+                            <Link
+                                to={`/mate/${cateId}/restaurants/${rtId}/review-post/new`}
+                            >
+                                <Button className={"lineSmallButton"}>
+                                    <i className="iconSmall iconWriter">
+                                        writer
+                                    </i>{" "}
+                                    나도 작성해 볼까
+                                </Button>
+                            </Link>
+                        </div>
+
+                        <div className="w-full flex reviewListWrap gap-5">
+                            {reviewAdd && reviewAdd.length > 0 ? (
+                                <div className="w-full">
+                                    {reviewAdd.map((review, index) => {
+                                        return (
+                                            <div
+                                                className="flex reviewListWrap gap-5"
+                                                key={index}
+                                            >
+                                                <div className="flex-none imgWrap">
+                                                    {review.images &&
+                                                        review.images.length >
+                                                            0 && (
+                                                            <img
+                                                                src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${review.images[0]}`}
+                                                                alt=""
+                                                            />
+                                                        )}
                                                 </div>
-                                                <div>
-                                                    <div
-                                                        className="iconTrash"
-                                                        style={{
-                                                            cursor: "pointer",
-                                                        }}
-                                                        onClick={() =>
-                                                            handleDelete(
-                                                                review._id
-                                                            )
-                                                        }
-                                                        alt="삭제"
-                                                    ></div>
+                                                <div className="w-full flex justify-center items-center">
+                                                    <div className="w-full flex flex-col justify-between py-[10px]">
+                                                        <ul className="textWrap">
+                                                            <li className="name">
+                                                                <Link
+                                                                    to={`/mate/restaurants/${rtId}/review-post/${review._id}`}
+                                                                >
+                                                                    {
+                                                                        review
+                                                                            .user
+                                                                            .name
+                                                                    }
+                                                                </Link>
+                                                            </li>
+                                                            <li className="content w-full ">
+                                                                {review.content}
+                                                            </li>
+                                                            <li className="flex mb-2">
+                                                                {/* 평점:{review.rating} */}
+                                                                <span className="flex-none">
+                                                                    평점:{" "}
+                                                                </span>
+                                                                <StarRating
+                                                                    rating={
+                                                                        review.rating
+                                                                    }
+                                                                ></StarRating>
+                                                            </li>
+                                                            <li>
+                                                                <div className="hashBoxWrap">
+                                                                    {review.hashTag.map(
+                                                                        (
+                                                                            tag,
+                                                                            i
+                                                                        ) => (
+                                                                            <span
+                                                                                key={
+                                                                                    i
+                                                                                }
+                                                                                className="hashBox"
+                                                                            >
+                                                                                #
+                                                                                {
+                                                                                    tag
+                                                                                }
+                                                                            </span>
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div>
+                                                        {/* <div
+                                                            className="iconTrash"
+                                                            style={{
+                                                                cursor: "pointer",
+                                                            }}
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    review._id
+                                                                )
+                                                            }
+                                                            alt="삭제"
+                                                        ></div> */}
+                                                        <div
+                                                            className="iconTrash"
+                                                            style={{
+                                                                cursor: "pointer",
+                                                            }}
+                                                            onClick={() =>
+                                                                openModal(
+                                                                    review._id
+                                                                )
+                                                            }
+                                                            alt="삭제"
+                                                        ></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )}
-
-                        {/* <div className="w-full flex flex-col justify-between py-[10px]">
->>>>>>> main
-                            <ul className="textWrap">
-                                <li className="name">우주여신 최보람</li>
-                                <li className="content w-full ">
-                                    정말 오래 기다려서 먹었습니다. 그런데 너무
-                                    맛있네요. 왜기다리는지 알겠어요. 정말
-                                    여기서만 먹을 수 있는 음식이란 생각이네요.
-                                    왜기다리는지 알겠어요. 정말 여기서만 먹을 수
-                                    있는 음식이란 생각이네요.
-                                </li>
-                                <li className="flex">
-                                    평점
-                                    <span className="flex">
-                                        <IconStarView className={"active"}>
-                                            별
-                                        </IconStarView>
-                                        <IconStarView className={"active"}>
-                                            별
-                                        </IconStarView>
-                                        <IconStarView className={"active"}>
-                                            별
-                                        </IconStarView>
-                                        <IconStarView>별</IconStarView>
-                                        <IconStarView>별</IconStarView>
-                                    </span>
-                                </li>
-                            </ul>
-                            <div className="flex justify-between">
-                                <div className="flex items-center gap-2">
-                                    <span className="hashBox">#보쌈</span>
-                                    <span className="hashBox">#족발</span>
+                                        );
+                                    })}
                                 </div>
-                                <div>
-                                    <button
-                                        className="iconTrash"
-                                        alt="삭제"
-                                    ></button>
+                            ) : (
+                                <div className="w-full text-center py-10">
+                                    등록된 게시글이 없습니다
                                 </div>
-                            </div>
-                        </div> */}
+                            )}
+                        </div>
                     </div>
-                </div>
+                </form>
+            </SectionWrap>
+            <DefualtModal show={isModalOpen} onClose={closeModal}>
+                <div>정말 삭제하시겠습니까?</div>
 
-                {/* {reviewAdd && reviewAdd.length > 0 && (
-                    <div>
-                        {reviewAdd.map((review, index) => {
-                            return (
-                                <div>
-                                    <div key={index}>
-                                        <div>{review.user.name}</div>
-                                        <div>{review.userId}</div>
-                                        <div>{review.cateId}</div>
-                                        <div>{review.content}</div>
-                                        <div>{review.rating}</div>
-                                    </div>
+                <Button onClick={handleDeleteConfirm}>확인</Button>
 
-                                </div>
-
-                            );
-                        })}
-                    </div>
-
-                )} */}
-            </form>
-        </SectionWrap>
+                <Button onClick={closeModal}>취소</Button>
+            </DefualtModal>
+        </>
     );
 }
 
