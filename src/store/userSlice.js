@@ -18,7 +18,6 @@ const initialState = {
         name: "",
         role: 0,
         password: "",
-        image: "",
         createdAt: "",
     },
     isAuth: false,
