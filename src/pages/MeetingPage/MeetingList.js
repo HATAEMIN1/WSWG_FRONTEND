@@ -7,7 +7,7 @@ import { TextModal } from "../../components/Modal/Modal";
 import axiosInstance from "../../utils/axios";
 import { useSelector } from "react-redux";
 import SelectDiv from "../../components/Form/Select";
-import DefualtModal from "../../components/Modal/DefualtModal";
+import DefaultModal from "../../components/Modal/DefualtModal";
 
 const fetchMetaData = async (url) => {
     try {
@@ -34,7 +34,7 @@ function MeetingList(props) {
             if (loadMore) {
                 setMeetingAdd((prevData) => [
                     ...prevData,
-                    ...res.data.meetUpPost,
+                    ...res.data.meetUpPost
                 ]);
             } else {
                 setMeetingAdd(res.data.meetUpPost);
@@ -53,14 +53,12 @@ function MeetingList(props) {
     useEffect(() => {
         const fetchAllMetaData = async () => {
             const newMetaDataList = {};
-            await Promise.all(
-                meetingAdd.map(async (meeting) => {
-                    const metaData = await fetchMetaData(meeting.chatLink);
-                    if (metaData) {
-                        newMetaDataList[meeting.chatLink] = metaData;
-                    }
-                })
-            );
+            await Promise.all(meetingAdd.map(async (meeting) => {
+                const metaData = await fetchMetaData(meeting.chatLink);
+                if (metaData) {
+                    newMetaDataList[meeting.chatLink] = metaData;
+                }
+            }));
             setMetaDataList(newMetaDataList);
         };
 
@@ -108,9 +106,7 @@ function MeetingList(props) {
 
         try {
             await axiosInstance.delete(`/meet-posts/${selectedMeetingId}`);
-            setMeetingAdd((prevData) =>
-                prevData.filter((meeting) => meeting._id !== selectedMeetingId)
-            );
+            setMeetingAdd((prevData) => prevData.filter(meeting => meeting._id !== selectedMeetingId));
             closeModal();
         } catch (error) {
             console.error("Failed to delete the meeting post", error);
@@ -118,7 +114,7 @@ function MeetingList(props) {
     };
 
     return (
-        <>
+        <>          
             <SectionWrap>
                 <Title memTitle={false} className="mt-[80px]">
                     우리만날까?
@@ -141,28 +137,28 @@ function MeetingList(props) {
                         등록된 게시글이 없습니다.
                     </div>
                 ) : (
-
-                <div>
-                    {meetingAdd.map((meeting, meetindex) => {
-                        return (
-                            <>
-                            <div key={meetindex} className="mb-[40px]" >
-                                <div className="flex justify-between items-center mb-1">
-                                <Link to={`/meet-posts/${meeting._id}`}><div className="text-xl font-semibold hover:underline">{meeting.title}</div></Link>
-                                    <div className="flex gap-3 items-center">
-                                        <div className="flex">
-                                            <i className="iconBasic iconView">view</i>{" "}
-                                        {meeting.views}
-                                        </div>
-                                        <div className="flex">
-                                            <i className="iconBasic iconComment">comment</i> {" "}{meeting.comments}
+                    <div>
+                        {meetingAdd.map((meeting, meetindex) => {
+                            return (
+                                <div key={meetindex} className="mb-[40px]" >
+                                    <div className="flex justify-between items-center mb-1">
+                                        <Link to={`/meet-posts/${meeting._id}`}><div className="text-xl font-semibold hover:underline">{meeting.title}</div></Link>
+                                        <div className="flex gap-3 items-center">
+                                            <div className="flex">
+                                                <i className="iconBasic iconView">view</i>{" "}
+                                                {meeting.views}
+                                            </div>
+                                            <div className="flex">
+                                                <i className="iconBasic iconComment">comment</i>
+                                                {meeting.commentCount || 0}
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex justify-between items-center mb-4">
                                         <div className="flex text-sm items-center"><i className="iconBasic iconPen mr-2"></i> 작성자 : {meeting.user?.name}</div>
                                         {meeting.user?.name === userName && (
                                             <div className="flex gap-2">
-                                                <button className="iconTrash" onClick={() => openModal(meeting._id)}>Delet</button>
+                                                <button className="iconTrash" onClick={() => openModal(meeting._id)}>Delete</button>
                                             </div>
                                         )}
                                     </div>
@@ -188,11 +184,10 @@ function MeetingList(props) {
                     </div>
                 )}
             </SectionWrap>
-            <DefualtModal show={isModalOpen} onClose={closeModal}>
+            <DefaultModal show={isModalOpen} onClose={closeModal}>
                 <div className="pb-3">정말 삭제하시겠습니까?</div>
                 <Button basicButton={true} onClick={handleDeleteList}>확인</Button>
-
-            </DefualtModal>
+            </DefaultModal>
         </>
     );
 }
