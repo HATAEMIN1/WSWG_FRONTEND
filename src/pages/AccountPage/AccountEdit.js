@@ -136,7 +136,7 @@ function AccountEdit() {
                         />
                     ) : (
                         <NotificationModal
-                            text="비밀번호 변경이 완료되었습니다!"
+                            text="회원 수정이 완료되었습니다!"
                             path="/login"
                             imgSrc="/images/iconSmile.png"
                             imgAlt="smile icon"
