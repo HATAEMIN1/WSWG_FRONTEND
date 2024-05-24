@@ -23,14 +23,15 @@ function MeetingView(props) {
     const [meetingData, setMeetingData] = useState(null);
     const { mpId } = useParams();
     const [comments, setComments] = useState([]);
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
     const navigate = useNavigate();
     const [views, setViews] = useState(0);
     const [metaDataList, setMetaDataList] = useState({});
-    const userName = useSelector((state) => state.user.userData.name);
-    const userId = useSelector((state) => state.user.userData.id);
+    const userName = useSelector((state) => state.user.userData?.name);
+    const userId = useSelector((state) => state.user.userData?.id);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
 
     const fetchMetaData = async (url, mpId) => {
         try {
@@ -40,10 +41,11 @@ function MeetingView(props) {
             return null;
         }
     };
+
     useEffect(() => {
         const fetchAllMetaData = async () => {
             if (meetingData) {
-                const metaData = await fetchMetaData(meetingData.chatLink, {mpId});
+                const metaData = await fetchMetaData(meetingData.chatLink, { mpId });
                 if (metaData) {
                     setMetaDataList((prevData) => ({
                         ...prevData,
@@ -64,7 +66,7 @@ function MeetingView(props) {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
-                setLoading(false); 
+                setLoading(false);
             }
         }
         meetingView();
@@ -73,25 +75,44 @@ function MeetingView(props) {
 
     const incrementViews = async () => {
         try {
-            const res = await axiosInstance.post(
-                `meet-posts/${mpId}/view`
-            );
+            const res = await axiosInstance.post(`meet-posts/${mpId}/view`);
             setViews(res.data.meetUpPost.views);
         } catch (error) {
             console.log(error.message);
         }
     };
-    useEffect(() => {
-        async function loadComments() {
-            try {
-                const res = await axiosInstance.get(`/meet-posts/${mpId}/comments`);
-                setComments(res.data.comment);
-            } catch (error) {
-                console.log(error);
-            }
+
+    const loadInitialComments = async () => {
+        try {
+            const res = await axiosInstance.get(`/meet-posts/${mpId}/comments?skip=0&limit=10`);
+            const sortedComments = res.data.comment.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setComments(sortedComments);
+            setPage(1);
+            setHasMore(res.data.comment.length === 10);
+        } catch (error) {
+            console.log(error);
         }
-        loadComments();
+    };
+
+    useEffect(() => {
+        loadInitialComments();
     }, [mpId]);
+
+    const fetchMoreComments = async () => {
+        if (!hasMore) return;
+        try {
+            const res = await axiosInstance.get(`/meet-posts/${mpId}/comments?skip=${page * 10}&limit=10`);
+            const newComments = res.data.comment.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            if (newComments.length > 0) {
+                setComments((prevComments) => [...prevComments, ...newComments]);
+                setPage((prevPage) => prevPage + 1);
+            } else {
+                setHasMore(false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     async function handleInsertComment(commentContent) {
         const commentData = {
@@ -109,7 +130,7 @@ function MeetingView(props) {
                     name: userName
                 }
             };
-            setComments((prevComments) => [...prevComments, updatedComment]);
+            setComments((prevComments) => [updatedComment, ...prevComments]);
         } catch (error) {
             console.log(error);
         }
@@ -147,7 +168,6 @@ function MeetingView(props) {
         console.log('meetingData:', meetingData);
         console.log('userName:', userName);
     }, [meetingData, userName]);
-    // test
 
     if (loading) {
         return <div>Loading...</div>;
@@ -176,7 +196,7 @@ function MeetingView(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex text-sm mb-6 text-gray-500"><i className="iconBasic iconPen mr-2"></i> 작성자 : {meetingData.user.name}</div>
+                        <div className="flex text-sm mb-6 text-gray-500"><i className="iconBasic iconPen mr-2"></i> 작성자 : {meetingData.user?.name}</div>
                     </>
                 )}
                 <div className="w-full min-h-[543px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border restarantView">
@@ -229,7 +249,7 @@ function MeetingView(props) {
                         </SectionWrap>
                     </>
                 )}
-                {meetingData && meetingData.user.name === userName && (
+                {meetingData && meetingData.user?.name === userName && (
                     <div className="flex gap-2 w-[300px] m-auto">
                         <Button onClick={openModal} basicButton={false}>삭제</Button>
                     </div>
@@ -240,11 +260,12 @@ function MeetingView(props) {
                     {comments.length === 0 ? (
                         <p>댓글이 없습니다🥲</p>
                     ) : (
-                        comments.map((item) => (
-                            <div key={item._id}>
-                                <MpCommentList comment={item} deleteComment={deleteComment} currentUserId={userId} />
-                            </div>
-                        ))
+                        <MpCommentList 
+                            comments={comments}
+                            fetchMoreComments={fetchMoreComments}
+                            deleteComment={deleteComment}
+                            currentUserId={userId} 
+                        />
                     )}
                 </div>
             </SectionWrap>
