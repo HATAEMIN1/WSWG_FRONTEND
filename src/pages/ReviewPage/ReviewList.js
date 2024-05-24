@@ -17,6 +17,9 @@ function ReviewList(props) {
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(false);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedReviewId, setSelectedReviewId] = useState(null);
+
     const fetchReviewAdd = async ({ limit, skip, loadMore = false }) => {
         const params = {
             skip,
@@ -70,21 +73,41 @@ function ReviewList(props) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, hasMore]);
 
-    const handleDelete = async (rpId) => {
-        console.log(reviewAdd);
-        try {
-            await axiosInstance.delete(`/review-posts/${rpId}`);
-
-            fetchReviewAdd({ limit, skip });
-        } catch (error) {
-            console.log(error);
-        }
+    const openModal = (rpId) => {
+        setSelectedReviewId(rpId);
+        setIsModalOpen(true);
     };
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setSelectedReviewId(null);
+    };
+
+    // const handleDelete = async (rpId) => {
+    //     console.log(reviewAdd);
+    //     try {
+    //         await axiosInstance.delete(`/review-posts/${rpId}`);
+
+    //         fetchReviewAdd({ limit, skip });
+    //     } catch (error) {
+    //         console.log(error);
+    //     } finally {
+    //         closeModal();
+    //     }
+    // };
+
+    const handleDeleteConfirm = async () => {
+        if (!selectedReviewId) return;
+
+        try {
+            await axiosInstance.delete(`/review-posts/${selectedReviewId}`);
+            setReviewAdd((prevData) =>
+                prevData.filter((review) => review._id !== selectedReviewId)
+            );
+            closeModal();
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -178,13 +201,25 @@ function ReviewList(props) {
                                                         </ul>
                                                     </div>
                                                     <div>
-                                                        <div
+                                                        {/* <div
                                                             className="iconTrash"
                                                             style={{
                                                                 cursor: "pointer",
                                                             }}
                                                             onClick={() =>
                                                                 handleDelete(
+                                                                    review._id
+                                                                )
+                                                            }
+                                                            alt="삭제"
+                                                        ></div> */}
+                                                        <div
+                                                            className="iconTrash"
+                                                            style={{
+                                                                cursor: "pointer",
+                                                            }}
+                                                            onClick={() =>
+                                                                openModal(
                                                                     review._id
                                                                 )
                                                             }
@@ -205,6 +240,13 @@ function ReviewList(props) {
                     </div>
                 </form>
             </SectionWrap>
+            <DefualtModal show={isModalOpen} onClose={closeModal}>
+                <div>정말 삭제하시겠습니까?</div>
+
+                <Button onClick={handleDeleteConfirm}>확인</Button>
+
+                <Button onClick={closeModal}>취소</Button>
+            </DefualtModal>
         </>
     );
 }
