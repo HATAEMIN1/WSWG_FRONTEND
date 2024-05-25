@@ -8,6 +8,8 @@ import { SectionWrap } from "../../components/Layout/Section";
 import { useSelector } from "react-redux";
 import { IconStar, IconWish } from "../../components/Form/Icon";
 import StarRating from "../../components/Form/StarRating";
+import NotificationModal from "../../components/Modal/NotificationModal";
+import DefaultModal from "../../components/Modal/DefualtModal";
 
 import FileUpload from "../../components/Form/FileUpload";
 import iconLT from "../../assets/images/iconLT.svg";
@@ -30,6 +32,10 @@ function ReviewAdd(props) {
         content: "",
         images: [],
     });
+    //모달창---------------------------------------------------------------------------------->
+    const [modalOpen, setModalOpen] = useState(false);
+
+    //---------------------------------------------------------------------------------------->
 
     // 해시태그-------------------------------------------------------------------------------->
 
@@ -119,9 +125,11 @@ function ReviewAdd(props) {
 
         try {
             await axiosInstance.post("/review-posts", body);
-            navigate(`/mate/${cateId}/restaurants/${rtId}`);
+            setModalOpen(true); //리뷰등록 후 모달열기
+            // navigate(`/mate/${cateId}/restaurants/${rtId}`);
         } catch (error) {
             console.log(error);
+            setModalOpen(false);
         }
     }
 
@@ -161,8 +169,37 @@ function ReviewAdd(props) {
     // };
     //----------------------------------------------------------------------------------------->
 
+    function handleConfirm() {
+        setModalOpen(false); //모달닫기
+        navigate(`/mate/${cateId}/restaurants/${rtId}`);
+    }
+
+    function handleClose() {
+        setModalOpen(false); // 모달 닫기
+    }
+
     return (
         <SectionWrap>
+            {modalOpen && (
+                <>
+                    {error && error.error ? (
+                        <NotificationModal
+                            text={error.error}
+                            path="/review-posts"
+                            imgSrc="/images/iconSad.png"
+                            imgAlt="sad icon"
+                        />
+                    ) : (
+                        <NotificationModal
+                            text="회원가입이 완료되었습니다!"
+                            path="/review-posts"
+                            imgSrc="/images/iconSmile.png"
+                            imgAlt="smile icon"
+                        />
+                    )}
+                </>
+            )}
+
             <form onSubmit={handleSubmit}>
                 <div className="mb-10">
                     <Title memTitle={true}>어까</Title>
@@ -307,6 +344,13 @@ function ReviewAdd(props) {
                     </ButtonWrap>
                 </div>
             </form>
+
+            <DefaultModal show={modalOpen} onClose={handleClose}>
+                <div className="pb-3">리뷰 등록이 완료되었습니다</div>
+                <Button basicButton={true} onClick={handleConfirm}>
+                    확인
+                </Button>
+            </DefaultModal>
         </SectionWrap>
     );
 }
