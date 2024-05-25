@@ -23,7 +23,8 @@ function MeetingView(props) {
     const [meetingData, setMeetingData] = useState(null);
     const { mpId } = useParams();
     const [comments, setComments] = useState([]);
-    const [page, setPage] = useState(0);
+    const [totalComments, setTotalComments] = useState(0);  // 총 댓글 수 상태 추가
+    const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const navigate = useNavigate();
     const [views, setViews] = useState(0);
@@ -35,9 +36,10 @@ function MeetingView(props) {
 
     const fetchMetaData = async (url, mpId) => {
         try {
-            const response = await axiosInstance.post(`/meet-posts/${mpId}`, { url });
+            const response = await axiosInstance.post(`/meet-posts/meta`, { url, mpId });
             return response.data;
         } catch (error) {
+            console.error("Failed to fetch meta data", error);
             return null;
         }
     };
@@ -45,7 +47,7 @@ function MeetingView(props) {
     useEffect(() => {
         const fetchAllMetaData = async () => {
             if (meetingData) {
-                const metaData = await fetchMetaData(meetingData.chatLink, { mpId });
+                const metaData = await fetchMetaData(meetingData.chatLink, mpId);
                 if (metaData) {
                     setMetaDataList((prevData) => ({
                         ...prevData,
@@ -72,9 +74,14 @@ function MeetingView(props) {
         meetingView();
         incrementViews();
     }, [mpId]);
+
+    useEffect(() => {
+        loadInitialComments();
+    }, [mpId]);
+
     const incrementViews = async () => {
         try {
-            const res = await axiosInstance.post(`meet-posts/${mpId}/view`);
+            const res = await axiosInstance.post(`/meet-posts/${mpId}/view`);
             setViews(res.data.meetUpPost.views);
         } catch (error) {
             console.log(error.message);
@@ -83,28 +90,34 @@ function MeetingView(props) {
 
     const loadInitialComments = async () => {
         try {
-            const res = await axiosInstance.get(`/meet-posts/${mpId}/comments?skip=0&limit=10`);
-            const sortedComments = res.data.comment.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            const res = await axiosInstance.get(`/meet-posts/${mpId}/comments?page=1&limit=10`);
+            console.log("초기 댓글 로드 응답:", res.data);
+
+            const sortedComments = res.data.comments.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
             setComments(sortedComments);
-            setPage(1);
-            setHasMore(res.data.comment.length === 10);
+            setTotalComments(res.data.totalComments);  // 총 댓글 수 설정
+            setPage(2);
+            setHasMore(sortedComments.length < res.data.totalComments);
+            console.log("초기 로드 - 댓글 개수:", sortedComments.length);
+            console.log("초기 로드 - 총 댓글 개수:", res.data.totalComments);
         } catch (error) {
             console.log(error);
         }
     };
 
-    useEffect(() => {
-        loadInitialComments();
-    }, [mpId]);
-
     const fetchMoreComments = async () => {
         if (!hasMore) return;
         try {
-            const res = await axiosInstance.get(`/meet-posts/${mpId}/comments?skip=${page * 10}&limit=10`);
-            const newComments = res.data.comment.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            const res = await axiosInstance.get(`/meet-posts/${mpId}/comments?page=${page}&limit=10`);
+            console.log("추가 댓글 로드 응답:", res.data);
+
+            const newComments = res.data.comments.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
             if (newComments.length > 0) {
                 setComments((prevComments) => [...prevComments, ...newComments]);
                 setPage((prevPage) => prevPage + 1);
+                setHasMore(comments.length + newComments.length < totalComments);  // 수정된 부분
+                console.log("추가 로드 - 댓글 개수:", comments.length + newComments.length);
+                console.log("추가 로드 - 총 댓글 개수:", res.data.totalComments);
             } else {
                 setHasMore(false);
             }
@@ -130,6 +143,7 @@ function MeetingView(props) {
                 }
             };
             setComments((prevComments) => [updatedComment, ...prevComments]);
+            setTotalComments((prevTotal) => prevTotal + 1);  // 댓글 추가 시 총 댓글 수 증가
         } catch (error) {
             console.log(error);
         }
@@ -139,6 +153,7 @@ function MeetingView(props) {
         try {
             await axiosInstance.delete(`/meet-posts/${mpId}/comments/${commentId}`);
             setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
+            setTotalComments((prevTotal) => prevTotal - 1);  // 댓글 삭제 시 총 댓글 수 감소
         } catch (error) {
             console.log(error);
         }
@@ -188,11 +203,11 @@ function MeetingView(props) {
                             <div className="text-xl font-semibold py-4 pb-2">{meetingData.title}</div>
                             <div className="flex gap-2">
                                 <div className="flex">
-                                    <i className="iconBasic iconView">view</i> {" "}
+                                    <i className="iconBasic iconView">view</i>{" "}
                                     {views}
                                 </div>
                                 <div className="flex">
-                                    <i className="iconBasic iconComment">comment</i> {comments.length}
+                                    <i className="iconBasic iconComment">comment</i> {totalComments} {/* 총 댓글 수 표시 */}
                                 </div>
                             </div>
                         </div>
@@ -264,7 +279,8 @@ function MeetingView(props) {
                             comments={comments}
                             fetchMoreComments={fetchMoreComments}
                             deleteComment={deleteComment}
-                            currentUserId={userId} 
+                            currentUserId={userId}
+                            hasMore={hasMore}
                         />
                     )}
                 </div>

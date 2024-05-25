@@ -6,6 +6,8 @@ import { Button, ButtonCencel, ButtonWrap } from "../../components/Form/Button";
 import axiosInstance from "../../utils/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import DefaultModal from "../../components/Modal/DefualtModal";
+
 function MeetingAdd(props) {
     const [meeting, setMeeting] = useState({
         title: "",
@@ -13,8 +15,8 @@ function MeetingAdd(props) {
         chatLink: "",
     });
     const userData = useSelector((state) => state.user.userData);
-    console.log(userData.id);
     const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -34,15 +36,20 @@ function MeetingAdd(props) {
         };
         try {
             await axiosInstance.post("/meet-posts", body);
-
-            navigate("/meet-posts");
+            setIsModalOpen(true); // 모달 열기
         } catch (error) {
             console.log(error.message);
         }
     }
-    const [modal, setModal] = useState(true);
 
-    // 오픈채팅
+    function handleConfirm() {
+        setIsModalOpen(false); // 모달 닫기
+        navigate("/meet-posts");
+    }
+
+    function handleClose() {
+        setIsModalOpen(false); // 모달 닫기
+    }
 
     return (
         <SectionWrap>
@@ -61,7 +68,7 @@ function MeetingAdd(props) {
                         type="text"
                         name="title"
                         placeholder="제목을 입력하세요"
-                        class="text-center"
+                        className="text-center"
                         onChange={handleChange}
                         value={meeting.title}
                     />
@@ -78,29 +85,35 @@ function MeetingAdd(props) {
                     </InputWrap>
                 </div>
                 <div>
-                <Title className={"titleComment"}>오픈 채팅 링크</Title>
-                <InputWrap>
-                    <input
-                        type="text"
-                        name="chatLink"
-                        placeholder="오픈채팅방 주소를 입력하세요"
-                        class="text-center"
-                        onChange={handleChange}
-                        value={meeting.chatLink}
-                    />
-                </InputWrap>
+                    <Title className={"titleComment"}>오픈 채팅 링크</Title>
+                    <InputWrap>
+                        <input
+                            type="text"
+                            name="chatLink"
+                            placeholder="오픈채팅방 주소를 입력하세요"
+                            className="text-center"
+                            onChange={handleChange}
+                            value={meeting.chatLink}
+                        />
+                    </InputWrap>
                 </div>
                 <div>
                     <h2 className="text-center text-red-600">
-                        *타인을 비방하거나 불건전한 내용을 등록시 삭제 될 수
-                        있습니다.
+                        *타인을 비방하거나 불건전한 내용을 등록시 삭제 될 수 있습니다.
                     </h2>
                 </div>
                 <ButtonWrap>
                     <Button basicButton={true}>등록</Button>
-                    <ButtonCencel><Link to="/meet-posts">취소</Link></ButtonCencel>
+                    <ButtonCencel>
+                        <Link to="/meet-posts">취소</Link>
+                    </ButtonCencel>
                 </ButtonWrap>
             </form>
+
+            <DefaultModal show={isModalOpen} onClose={handleClose}>
+                <div className="pb-3">게시물 등록이 완료되었습니다</div>
+                <Button basicButton={true} onClick={handleConfirm}>확인</Button>
+            </DefaultModal>
         </SectionWrap>
     );
 }
