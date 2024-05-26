@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axios";
+import { useSelector } from "react-redux";
 import { SectionWrap } from "../Layout/Section";
 import { Link } from "react-router-dom";
-import "../../assets/css/style_teamin.scss";
 
 const { kakao } = window;
-function Map({
+function MeetingMap({
     geoData,
     geoCenter,
     geoMouse,
@@ -41,34 +41,17 @@ function Map({
             let imageSize = new kakao.maps.Size(24, 35);
             // 마커 이미지를 생성합니다
             let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-            let content =
-                '<div class="wrap">' +
-                '    <div class="info">' +
-                '        <div class="title">' +
-                `            ${geoData[i].name}` +
-                '            <div class="close"  title="닫기"></div>' +
-                "        </div>" +
-                '        <div class="body">' +
-                '            <div class="img">' +
-                `               <img src="${geoData[i].image[0]}" alt="Image" class="block w-[70px] h-[70]" />` +
-                "           </div>" +
-                '            <div class="desc">' +
-                `<div class="ellipsis">  ${geoData[i].address.city} ${geoData[i].address.district} ${geoData[i].address.detailedAddress}</div>` +
-                `<div><a href="/mate/${cateId}/restaurants/${geoData[i]._id}" target="_blank" class="link">홈페이지</a></div>` +
-                "            </div>" +
-                "        </div>" +
-                "    </div>" +
-                "</div>";
+            //마커 생성
+            const message = `<div class="w-[110px]"><img src="${geoData[i].image[0]}" alt="Image" class="block" />${geoData[i].name}</div>`;
             displayMarker(
                 positions[i].latlng,
-                content, // 마커 인포윈도우 내용들
+                message, // 마커 인포윈도우 내용들
                 markerImage, //마커 이미지
                 positions[i].title
             );
         }
-        let currentOverlay = null; // 현재 열려 있는 오버레이를 추적하는 변수
         // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-        function displayMarker(locPosition, content, markerImage, title) {
+        function displayMarker(locPosition, message, markerImage, title) {
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
                 map: map,
@@ -76,31 +59,30 @@ function Map({
                 image: markerImage,
                 title: title,
             });
-            var overlay = new kakao.maps.CustomOverlay({
-                content: content,
-                map: map,
-                position: marker.getPosition(),
+
+            var iwContent = message, // 인포윈도우에 표시할 내용
+                iwRemoveable = true;
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: iwContent,
+                removable: iwRemoveable,
             });
+            let currentInfoWindow = null;
+            // 마커에 클릭이벤트를 등록합니다
             kakao.maps.event.addListener(marker, "click", function () {
-                if (currentOverlay) {
-                    currentOverlay.setMap(null); // 현재 열려 있는 오버레이 닫기
-                }
-                overlay.setMap(map); // 새로운 오버레이 열기
-                currentOverlay = overlay; // 현재 열려 있는 오버레이 업데이트
-
-                // 오버레이 내부의 닫기 버튼 클릭 이벤트 설정
-                // document
-                //     .querySelector(".wrap .close")
-                //     .addEventListener("click", function () {
-                //         overlay.setMap(null); // 오버레이 닫기
-                //     });
-                overlay.a = document.querySelector(".wrap .close");
-                overlay.a.addEventListener("click", function () {
-                    overlay.setMap(null); // 오버레이 닫기
-                });
+                // if (currentInfoWindow) {
+                //     currentInfoWindow.close(); // 현재 열려 있는 인포윈도우 닫기
+                // }
+                //
+                // infowindow.open(map, marker); // 새로운 인포윈도우 열기
+                // currentInfoWindow = infowindow; // 현재 열려 있는 인포윈도우 업데이트
+                // 마커 위에 인포윈도우를 표시합니다
+                infowindow.open(map, marker);
+                console.log(infowindow);
+                var lat = marker.getPosition().getLat();
+                var lng = marker.getPosition().getLng();
+                console.log("위도: " + lat + ", 경도: " + lng);
             });
-
-            overlay.setMap(null);
         }
         //내 위치 마커
         // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
@@ -160,40 +142,7 @@ function Map({
     useEffect(() => {
         mapSet();
     }, [geoData, geoCenter]);
-
-    return (
-        <>
-            <div id="map" style={{ width: "100%", height: "400px" }}></div>
-            <div className="w-full absolute bottom-0 py-3 mainMapLayer z-10">
-                <SectionWrap
-                    className={"flex justify-between mainMapButton"}
-                    basicSection={true}
-                >
-                    <div className="w-1/2 text-white text-[20px]">
-                        <Link
-                            className="flex justify-center align-middle"
-                            onClick={() => {
-                                props.modalOpen(0);
-                            }}
-                        >
-                            <i className="iconMark"></i>지역설정하기
-                        </Link>
-                    </div>
-                    <div className="w-1/2 text-white text-[20px]">
-                        <Link
-                            className="flex justify-center align-middle"
-                            onClick={() => {
-                                mapSet("click");
-                            }}
-                        >
-                            <i className="iconMap"></i>
-                            현위치보기
-                        </Link>
-                    </div>
-                </SectionWrap>
-            </div>
-        </>
-    );
+    return <div id="map" style={{ width: "100%", height: "400px" }}></div>;
 }
 
-export default Map;
+export default MeetingMap;
