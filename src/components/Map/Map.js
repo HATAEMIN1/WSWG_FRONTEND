@@ -13,45 +13,9 @@ function Map({
     setGeoMouse,
     fetchRestaurant,
     setGeoData,
+    cateId,
     ...props
 }) {
-    // const mateType = [
-    //     { no: 1, cateId: "lover", name: "연인" },
-    //     { no: 2, cateId: "friend", name: "친구" },
-    //     { no: 3, cateId: "family", name: "가족" },
-    //     { no: 4, cateId: "group", name: "단체모임" },
-    //     { no: 5, cateId: "pet", name: "반려동물" },
-    //     { no: 6, cateId: "self", name: "혼자" },
-    // ];
-    // const cateId = useSelector((state) => {
-    //     const mateTypeName = state.filter.mateType;
-    //     const selectedMateType = mateType.find(
-    //         (type) => type.name === mateTypeName
-    //     );
-    //     return selectedMateType ? selectedMateType.cateId : "";
-    // });
-    // const foodtype = useSelector((state) => state.filter.foodType);
-    // const [geoData, setGeoData] = useState([]);
-    // const [geoCenter, setGeoCenter] = useState([
-    //     37.48073710748562, 126.87963572538791,
-    // ]);
-    // const [geoMouse, setGeoMouse] = useState(3);
-    // const fetchRestaurant = async () => {
-    //     try {
-    //         const params = { foodtype };
-    //         const res = await axiosInstance.get(`/restaurants/${cateId}`, {
-    //             params,
-    //         });
-    //         console.log(res.data.restaurant);
-    //         setGeoData(res.data.restaurant);
-    //     } catch (e) {
-    //         console.log(e.message);
-    //     }
-    // };
-    // useEffect(() => {
-    //     fetchRestaurant();
-    // }, [cateId, foodtype]);
-
     const positions = geoData.map((restaurant) => ({
         title: restaurant.name,
         latlng: new kakao.maps.LatLng(
@@ -155,7 +119,7 @@ function Map({
             // 지도 중심좌표를 얻어옵니다
             var latlng = map.getCenter();
             setGeoCenter([latlng.Ma, latlng.La]);
-            const body = { lat: latlng.getLat(), lon: latlng.getLng() };
+            const body = { lat: latlng.getLat(), lon: latlng.getLng(), cateId };
             const res = await axiosInstance.post("restaurants/location", body);
             setGeoData(res.data.restaurant);
             console.log(res.data.restaurant);

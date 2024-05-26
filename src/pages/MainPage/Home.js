@@ -68,8 +68,8 @@ function Home({ ...props }) {
                         setGeoMouse={setGeoMouse}
                         fetchRestaurant={fetchRestaurant}
                         setGeoData={setGeoData}
+                        cateId={cateId}
                     ></Map>
-                    {/*<img src={`${process.env.PUBLIC_URL}/images/mainMap.png`} className="h-[380px] w-full"/>/!*나중에 맵 화면 붙히고 삭제해주세요!*!/*/}
                 </div>
             </SectionFullWrap>
             <div className="w-[1024px] m-auto pt-20">
@@ -121,23 +121,6 @@ function Home({ ...props }) {
                         </div>
                     );
                 })}
-                {/*{foodType.map((foodtype, i) => {*/}
-                {/*    const filteredGeoData = geoData.filter(*/}
-                {/*        (restaurant) =>*/}
-                {/*            restaurant.category[0].foodType === foodtype*/}
-                {/*    );*/}
-                {/*    console.log(filteredGeoData);*/}
-                {/*    return (*/}
-                {/*        <div key={i}>*/}
-                {/*            <h2>{foodtype}</h2>*/}
-                {/*            <ul>*/}
-                {/*                {filteredGeoData.map((restaurant, index) => (*/}
-                {/*                    <li key={index}>{restaurant.name}</li>*/}
-                {/*                ))}*/}
-                {/*            </ul>*/}
-                {/*        </div>*/}
-                {/*    );*/}
-                {/*})}*/}
             </div>
         </>
     );
