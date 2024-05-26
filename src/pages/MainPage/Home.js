@@ -47,10 +47,6 @@ function Home({ ...props }) {
             console.log(e.message);
         }
     };
-
-    // useEffect(() => {
-    //     fetchRestaurant();
-    // }, [cateId, foodtype]);
     useEffect(() => {
         fetchRestaurant(cateId);
     }, [cateId]);

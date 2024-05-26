@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axios";
+import { useSelector } from "react-redux";
 import { SectionWrap } from "../Layout/Section";
 import { Link } from "react-router-dom";
-import "../../assets/css/style_teamin.scss";
 
 const { kakao } = window;
-function Map({
+function MeetingMap({
     geoData,
     geoCenter,
     geoMouse,
@@ -14,8 +14,16 @@ function Map({
     fetchRestaurant,
     setGeoData,
     cateId,
+    setLocation,
+    setRestaurantName,
     ...props
 }) {
+    const saveLocation = (lat, lng) => {
+        setLocation({
+            latitude: lat,
+            longitude: lng,
+        });
+    };
     const positions = geoData.map((restaurant) => ({
         title: restaurant.name,
         latlng: new kakao.maps.LatLng(
@@ -41,6 +49,7 @@ function Map({
             let imageSize = new kakao.maps.Size(24, 35);
             // 마커 이미지를 생성합니다
             let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+            //마커 생성
             let content =
                 '<div class="wrap">' +
                 '    <div class="info">' +
@@ -66,9 +75,17 @@ function Map({
                 positions[i].title
             );
         }
-        let currentOverlay = null; // 현재 열려 있는 오버레이를 추적하는 변수
         // 지도에 마커와 인포윈도우를 표시하는 함수입니다
         function displayMarker(locPosition, content, markerImage, title) {
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: locPosition,
+                image: markerImage,
+                title: title,
+            });
+            let currentOverlay = null; // 현재 열려 있는 오버레이를 추적하는 변수
+            // 지도에 마커와 인포윈도우를 표시하는 함수입니다
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
                 map: map,
@@ -87,13 +104,11 @@ function Map({
                 }
                 overlay.setMap(map); // 새로운 오버레이 열기
                 currentOverlay = overlay; // 현재 열려 있는 오버레이 업데이트
-
-                // 오버레이 내부의 닫기 버튼 클릭 이벤트 설정
-                // document
-                //     .querySelector(".wrap .close")
-                //     .addEventListener("click", function () {
-                //         overlay.setMap(null); // 오버레이 닫기
-                //     });
+                var lat = marker.getPosition().getLat();
+                var lng = marker.getPosition().getLng();
+                const resuaurantName = marker.getTitle();
+                saveLocation(lat, lng);
+                setRestaurantName(resuaurantName);
                 overlay.a = document.querySelector(".wrap .close");
                 overlay.a.addEventListener("click", function () {
                     overlay.setMap(null); // 오버레이 닫기
@@ -149,7 +164,6 @@ function Map({
             const body = { lat: latlng.getLat(), lon: latlng.getLng(), cateId };
             const res = await axiosInstance.post("restaurants/location", body);
             setGeoData(res.data.restaurant);
-            console.log(res.data.restaurant);
         });
         kakao.maps.event.addListener(map, "zoom_changed", function () {
             // 지도의 현재 레벨을 얻어옵니다
@@ -160,40 +174,7 @@ function Map({
     useEffect(() => {
         mapSet();
     }, [geoData, geoCenter]);
-
-    return (
-        <>
-            <div id="map" style={{ width: "100%", height: "400px" }}></div>
-            <div className="w-full absolute bottom-0 py-3 mainMapLayer z-10">
-                <SectionWrap
-                    className={"flex justify-between mainMapButton"}
-                    basicSection={true}
-                >
-                    <div className="w-1/2 text-white text-[20px]">
-                        <Link
-                            className="flex justify-center align-middle"
-                            onClick={() => {
-                                props.modalOpen(0);
-                            }}
-                        >
-                            <i className="iconMark"></i>지역설정하기
-                        </Link>
-                    </div>
-                    <div className="w-1/2 text-white text-[20px]">
-                        <Link
-                            className="flex justify-center align-middle"
-                            onClick={() => {
-                                mapSet("click");
-                            }}
-                        >
-                            <i className="iconMap"></i>
-                            현위치보기
-                        </Link>
-                    </div>
-                </SectionWrap>
-            </div>
-        </>
-    );
+    return <div id="map" style={{ width: "100%", height: "400px" }}></div>;
 }
 
-export default Map;
+export default MeetingMap;

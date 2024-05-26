@@ -7,12 +7,51 @@ import axiosInstance from "../../utils/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DefaultModal from "../../components/Modal/DefualtModal";
+import MeetingMap from "../../components/Map/MeetingMap";
 
 function MeetingAdd(props) {
+    const mateType = [
+        { no: 1, cateId: "lover", name: "연인" },
+        { no: 2, cateId: "friend", name: "친구" },
+        { no: 3, cateId: "family", name: "가족" },
+        { no: 4, cateId: "group", name: "단체모임" },
+        { no: 5, cateId: "pet", name: "반려동물" },
+        { no: 6, cateId: "self", name: "혼자" },
+    ];
+    const foodType = ["한식", "양식", "중식", "일식", "디저트"];
+    const [geoData, setGeoData] = useState([]);
+    const [geoCenter, setGeoCenter] = useState([
+        37.48073710748562, 126.87963572538791,
+    ]);
+    const [restaurantName, setRestaurantName] = useState("");
+    const foodtype = useSelector((state) => state.filter.foodType);
+    const cateId = useSelector((state) => {
+        const mateTypeName = state.filter.mateType;
+        const selectedMateType = mateType.find(
+            (type) => type.name === mateTypeName
+        );
+        return selectedMateType ? selectedMateType.cateId : "";
+    });
+    const [geoMouse, setGeoMouse] = useState(3);
+    const fetchRestaurant = async (cateId, foodtype) => {
+        try {
+            const params = { foodtype };
+            const res = await axiosInstance.get(`/restaurants/${cateId}`, {
+                params,
+            });
+            setGeoData(res.data.restaurant);
+        } catch (e) {
+            console.log(e.message);
+        }
+    };
     const [meeting, setMeeting] = useState({
         title: "",
         content: "",
         chatLink: "",
+    });
+    const [location, setLocation] = useState({
+        latitude: "",
+        longitude: "",
     });
     const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
@@ -33,6 +72,8 @@ function MeetingAdd(props) {
         const body = {
             ...meeting,
             userId: userData.id,
+            latitude: location.latitude,
+            longitude: location.longitude,
         };
         try {
             await axiosInstance.post("/meet-posts", body);
@@ -62,6 +103,30 @@ function MeetingAdd(props) {
             </Title>
 
             <form onSubmit={handleSubmit}>
+                <MeetingMap
+                    {...props}
+                    geoData={geoData}
+                    geoCenter={geoCenter}
+                    geoMouse={geoMouse}
+                    setGeoCenter={setGeoCenter}
+                    setGeoMouse={setGeoMouse}
+                    fetchRestaurant={fetchRestaurant}
+                    setGeoData={setGeoData}
+                    cateId={cateId}
+                    setLocation={setLocation}
+                    setRestaurantName={setRestaurantName}
+                ></MeetingMap>
+                <Title className={"titleComment"}>가게이름</Title>
+                <InputWrap>
+                    <input
+                        readonly
+                        type="text"
+                        name="restaurant"
+                        placeholder="가게를 클릭하세요"
+                        className="text-center"
+                        value={restaurantName}
+                    />
+                </InputWrap>
                 <Title className={"titleComment"}>제목</Title>
                 <InputWrap>
                     <input
@@ -99,7 +164,8 @@ function MeetingAdd(props) {
                 </div>
                 <div>
                     <h2 className="text-center text-red-600">
-                        *타인을 비방하거나 불건전한 내용을 등록시 삭제 될 수 있습니다.
+                        *타인을 비방하거나 불건전한 내용을 등록시 삭제 될 수
+                        있습니다.
                     </h2>
                 </div>
                 <ButtonWrap>
@@ -112,7 +178,9 @@ function MeetingAdd(props) {
 
             <DefaultModal show={isModalOpen} onClose={handleClose}>
                 <div className="pb-3">게시물 등록이 완료되었습니다</div>
-                <Button basicButton={true} onClick={handleConfirm}>확인</Button>
+                <Button basicButton={true} onClick={handleConfirm}>
+                    확인
+                </Button>
             </DefaultModal>
         </SectionWrap>
     );
