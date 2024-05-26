@@ -23,6 +23,7 @@ function MeetingAdd(props) {
     const [geoCenter, setGeoCenter] = useState([
         37.48073710748562, 126.87963572538791,
     ]);
+    const [restaurantName, setRestaurantName] = useState("");
     const foodtype = useSelector((state) => state.filter.foodType);
     const cateId = useSelector((state) => {
         const mateTypeName = state.filter.mateType;
@@ -48,6 +49,10 @@ function MeetingAdd(props) {
         content: "",
         chatLink: "",
     });
+    const [location, setLocation] = useState({
+        latitude: "",
+        longitude: "",
+    });
     const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,6 +72,8 @@ function MeetingAdd(props) {
         const body = {
             ...meeting,
             userId: userData.id,
+            latitude: location.latitude,
+            longitude: location.longitude,
         };
         try {
             await axiosInstance.post("/meet-posts", body);
@@ -106,7 +113,20 @@ function MeetingAdd(props) {
                     fetchRestaurant={fetchRestaurant}
                     setGeoData={setGeoData}
                     cateId={cateId}
+                    setLocation={setLocation}
+                    setRestaurantName={setRestaurantName}
                 ></MeetingMap>
+                <Title className={"titleComment"}>가게이름</Title>
+                <InputWrap>
+                    <input
+                        readonly
+                        type="text"
+                        name="restaurant"
+                        placeholder="가게를 클릭하세요"
+                        className="text-center"
+                        value={restaurantName}
+                    />
+                </InputWrap>
                 <Title className={"titleComment"}>제목</Title>
                 <InputWrap>
                     <input
