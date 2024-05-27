@@ -35,7 +35,8 @@ function Map({
         // 마커가 표시될 위치입니다
         // 마커 이미지의 이미지 주소입니다
         var imageSrc =
-            "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            // "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            `${process.env.PUBLIC_URL}/images/mapPickActive.png`;
         for (let i = 0; i < positions.length; i++) {
             // 마커 이미지의 이미지 크기 입니다
             let imageSize = new kakao.maps.Size(24, 35);
@@ -43,20 +44,21 @@ function Map({
             let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
             let content =
                 '<div class="wrap">' +
-                '    <div class="info">' +
-                '        <div class="title">' +
-                `            ${geoData[i].name}` +
-                '            <div class="close"  title="닫기"></div>' +
-                "        </div>" +
-                '        <div class="body">' +
-                '            <div class="img">' +
-                `               <img src="${geoData[i].image[0]}" alt="Image" class="block w-[70px] h-[70]" />` +
-                "           </div>" +
-                '            <div class="desc">' +
-                `<div class="ellipsis">  ${geoData[i].address.city} ${geoData[i].address.district} ${geoData[i].address.detailedAddress}</div>` +
-                `<div><a href="/mate/${cateId}/restaurants/${geoData[i]._id}" target="_blank" class="link">홈페이지</a></div>` +
+                '    <div class="info p-2">' +
+                '        <div class="close" title="닫기"></div>' +                
+                '        <div class="flex justify-between gap-2">' +             
+                '            <div class="border flex-none rounded-md overflow-hidden">' +
+                `               <img src="${geoData[i].image[0]}" alt="Image" class="block w-[70px] h-[70px] object-cover" />` +
                 "            </div>" +
-                "        </div>" +
+                '            <div class="flex-auto p-1">' +
+                '               <div class="text-lg font-semibold">' +
+                `               ${geoData[i].name}` +
+                "               </div>" +          
+                `               <div class="ellipsis">  ${geoData[i].address.city} ${geoData[i].address.district} ${geoData[i].address.detailedAddress}</div>` +
+                `               <div><a href="/mate/${cateId}/restaurants/${geoData[i]._id}" target="_blank" class="link">자세히</a></div>` +
+                "           </div>" +                
+                "        </div>" +                   
+
                 "    </div>" +
                 "</div>";
             displayMarker(
@@ -163,8 +165,8 @@ function Map({
 
     return (
         <>
-            <div id="map" style={{ width: "100%", height: "400px" }}></div>
-            <div className="w-full absolute bottom-0 py-3 mainMapLayer z-10">
+            <div id="map" style={{ width: "100%", height: "450px" }}></div>
+            <div className="w-full absolute bottom-0 py-3 mainMapLayer z-[1]">
                 <SectionWrap
                     className={"flex justify-between mainMapButton"}
                     basicSection={true}

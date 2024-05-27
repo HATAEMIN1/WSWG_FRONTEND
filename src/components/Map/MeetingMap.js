@@ -43,7 +43,8 @@ function MeetingMap({
         // 마커가 표시될 위치입니다
         // 마커 이미지의 이미지 주소입니다
         var imageSrc =
-            "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            // "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            `${process.env.PUBLIC_URL}/images/mapPickActive.png`;
         for (let i = 0; i < positions.length; i++) {
             // 마커 이미지의 이미지 크기 입니다
             let imageSize = new kakao.maps.Size(24, 35);
