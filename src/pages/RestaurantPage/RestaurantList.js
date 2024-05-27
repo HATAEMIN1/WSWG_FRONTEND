@@ -176,7 +176,7 @@ function RestaurantList(props) {
                                     >
                                         <h3>{item.name}</h3>
                                     </Link>
-                                    <p>{item.category[0].foodtype}</p>
+                                    <p>{item.category[0].foodType}</p>
                                     <div className="flex">
                                         <span className="flex-none">
                                             평점:{" "}

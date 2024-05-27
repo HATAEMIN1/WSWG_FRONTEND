@@ -162,7 +162,7 @@ function RestaurantView(props) {
                             <ul>
                                 <li>
                                     {restaurantData.length > 0 &&
-                                        restaurantData[0].category[0].foodtype}
+                                        restaurantData[0].category[0].foodType}
                                 </li>
                                 <li className="flex">
                                     {restaurantData.length > 0 && (
