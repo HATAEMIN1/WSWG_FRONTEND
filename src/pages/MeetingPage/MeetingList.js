@@ -9,11 +9,12 @@ import { useSelector } from "react-redux";
 import SelectDiv from "../../components/Form/Select";
 import DefaultModal from "../../components/Modal/DefualtModal";
 
-const fetchMetaData = async (url) => {
+const fetchMetaData = async (url, mpId) => {
     try {
-        const response = await axiosInstance.post("/meet-posts/:mata", { url });
+        const response = await axiosInstance.post("/meet-posts/meta", { url, mpId });
         return response.data;
     } catch (error) {
+        console.error(error);
         return null;
     }
 };
@@ -42,7 +43,8 @@ function MeetingList(props) {
             setHasMore(res.data.hasMore);
             setLoading(false);
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            setLoading(false);
         }
     };
 
@@ -54,7 +56,7 @@ function MeetingList(props) {
         const fetchAllMetaData = async () => {
             const newMetaDataList = {};
             await Promise.all(meetingAdd.map(async (meeting) => {
-                const metaData = await fetchMetaData(meeting.chatLink);
+                const metaData = await fetchMetaData(meeting.chatLink, meeting._id);
                 if (metaData) {
                     newMetaDataList[meeting.chatLink] = metaData;
                 }
@@ -138,9 +140,9 @@ function MeetingList(props) {
                     </div>
                 ) : (
                     <div>
-                        {meetingAdd.map((meeting, meetindex) => {
+                        {meetingAdd.map((meeting) => {
                             return (
-                                <div key={meetindex} className="mb-[40px]" >
+                                <div key={meeting._id} className="mb-[40px]" >
                                     <div className="flex justify-between items-center mb-1">
                                         <Link to={`/meet-posts/${meeting._id}`}><div className="text-xl font-semibold hover:underline">{meeting.title}</div></Link>
                                         <div className="flex gap-3 items-center">

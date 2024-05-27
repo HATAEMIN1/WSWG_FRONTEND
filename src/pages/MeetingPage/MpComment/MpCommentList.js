@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function MpCommentList({ comments, fetchMoreComments, deleteComment, currentUserId }) {
+function MpCommentList({ comments, fetchMoreComments, deleteComment, currentUserId, hasMore }) {
     const [loading, setLoading] = useState(false);
     const observerRef = useRef(null);
 
     const loadMoreComments = async () => {
-        if (loading) return;
+        if (loading || !hasMore) return;
         setLoading(true);
         try {
             await fetchMoreComments();
@@ -33,7 +33,7 @@ function MpCommentList({ comments, fetchMoreComments, deleteComment, currentUser
                 observer.unobserve(observerRef.current);
             }
         };
-    }, []);
+    }, [loadMoreComments]);
 
     const handleDeleteComment = (commentId) => {
         deleteComment(commentId);
@@ -41,8 +41,8 @@ function MpCommentList({ comments, fetchMoreComments, deleteComment, currentUser
 
     return (
         <div>
-            {comments.map((comment) => (
-                <div key={comment._id} style={{ display: "flex", alignItems: "center", padding: "10px" }}>
+            {comments.map((comment, index) => (
+                <div key={`${comment._id}-${index}`} style={{ display: "flex", alignItems: "center", padding: "10px" }}>
                     <div style={{ 
                         width: "40px", 
                         height: "40px", 
@@ -74,7 +74,9 @@ function MpCommentList({ comments, fetchMoreComments, deleteComment, currentUser
                     )}
                 </div>
             ))}
-            <div ref={observerRef} style={{ height: '20px', backgroundColor: 'transparent' }} />
+            {hasMore && (
+                <div ref={observerRef} style={{ height: '20px', backgroundColor: 'transparent' }} />
+            )}
             {loading && <div>Loading more comments...</div>}
         </div>
     );

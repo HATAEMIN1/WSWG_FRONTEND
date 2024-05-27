@@ -14,128 +14,6 @@ import axiosInstance from "../../utils/axios";
 import { useSelector } from "react-redux";
 
 function Home({ ...props }) {
-    // const foodType = [
-    //     {
-    //         no: 1,
-    //         name: "#한식",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample2.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample3.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample4.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         no: 2,
-    //         name: "#양식",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         no: 3,
-    //         name: "#중식",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         no: 4,
-    //         name: "#일식",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         no: 5,
-    //         name: "#디저트",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    // ];
     const mateType = [
         { no: 1, cateId: "lover", name: "연인" },
         { no: 2, cateId: "friend", name: "친구" },
@@ -158,7 +36,7 @@ function Home({ ...props }) {
         return selectedMateType ? selectedMateType.cateId : "";
     });
     const [geoMouse, setGeoMouse] = useState(3);
-    const fetchRestaurant = async (foodtype, cateId) => {
+    const fetchRestaurant = async (cateId, foodtype) => {
         try {
             const params = { foodtype };
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
@@ -169,13 +47,9 @@ function Home({ ...props }) {
             console.log(e.message);
         }
     };
-
-    // useEffect(() => {
-    //     fetchRestaurant();
-    // }, [cateId, foodtype]);
     useEffect(() => {
-        fetchRestaurant();
-    }, []);
+        fetchRestaurant(cateId);
+    }, [cateId]);
 
     return (
         <>
@@ -190,8 +64,8 @@ function Home({ ...props }) {
                         setGeoMouse={setGeoMouse}
                         fetchRestaurant={fetchRestaurant}
                         setGeoData={setGeoData}
+                        cateId={cateId}
                     ></Map>
-                    {/*<img src={`${process.env.PUBLIC_URL}/images/mainMap.png`} className="h-[380px] w-full"/>/!*나중에 맵 화면 붙히고 삭제해주세요!*!/*/}
                 </div>
             </SectionFullWrap>
             <div className="w-[1024px] m-auto pt-20">
@@ -225,14 +99,17 @@ function Home({ ...props }) {
                                                     alt="rstImgWrap"
                                                 />
                                             </div>
-                                            <div className="rstLayerWrap">
+                                            <Link
+                                                to={`/mate/${cateId}/restaurants/${item._id}`}
+                                                className="rstLayerWrap"
+                                            >
                                                 <div>{item.name}</div>
                                                 <div>
                                                     <StarRating
                                                         rating={item.rating}
                                                     ></StarRating>{" "}
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </SwiperSlide>
                                     );
                                 })}
@@ -240,23 +117,6 @@ function Home({ ...props }) {
                         </div>
                     );
                 })}
-                {/*{foodType.map((foodtype, i) => {*/}
-                {/*    const filteredGeoData = geoData.filter(*/}
-                {/*        (restaurant) =>*/}
-                {/*            restaurant.category[0].foodType === foodtype*/}
-                {/*    );*/}
-                {/*    console.log(filteredGeoData);*/}
-                {/*    return (*/}
-                {/*        <div key={i}>*/}
-                {/*            <h2>{foodtype}</h2>*/}
-                {/*            <ul>*/}
-                {/*                {filteredGeoData.map((restaurant, index) => (*/}
-                {/*                    <li key={index}>{restaurant.name}</li>*/}
-                {/*                ))}*/}
-                {/*            </ul>*/}
-                {/*        </div>*/}
-                {/*    );*/}
-                {/*})}*/}
             </div>
         </>
     );
