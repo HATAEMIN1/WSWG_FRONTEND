@@ -131,7 +131,7 @@ function ReviewList(props) {
                             </Link>
                         </div>
 
-                        <div className="w-full flex reviewListWrap gap-5">
+                        <div className="w-full flex gap-5">
                             {reviewAdd && reviewAdd.length > 0 ? (
                                 <div className="w-full">
                                     {reviewAdd.map((review, index) => {

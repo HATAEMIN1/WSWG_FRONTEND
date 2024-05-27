@@ -77,11 +77,7 @@ function Header({ ...props }) {
                                     {retrievedImage ? (
                                         <img
                                             className="w-[50px] h-[50px] rounded-full"
-                                            src={
-                                                process.env
-                                                    .REACT_APP_NODE_SERVER_UPLOAD_URL +
-                                                retrievedImage
-                                            }
+                                            src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}`}
                                             alt="profileImage"
                                         />
                                     ) : (

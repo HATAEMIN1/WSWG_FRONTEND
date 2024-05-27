@@ -15,7 +15,8 @@ function MeetingViewMap({ meetingData }) {
         };
         const map = new kakao.maps.Map(mapContainer, mapOption);
         var imageSrc =
-            "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            // "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            `${process.env.PUBLIC_URL}/images/mapPickActive.png`;
         let imageSize = new kakao.maps.Size(24, 35);
         let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
         let marker = new kakao.maps.Marker({
