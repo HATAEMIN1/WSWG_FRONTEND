@@ -1,28 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    mateType: "연인",
-    foodType: [],
+    mateType: '연인', // 기본 mateType 값 설정
+    foodType: '',
 };
 
 const filterSlice = createSlice({
-    name: "filter",
+    name: 'filter',
     initialState,
     reducers: {
-        setMateType: (state, action) => {
+        setMateType(state, action) {
             state.mateType = action.payload;
         },
-        toggleFoodType: (state, action) => {
-            const foodType = action.payload;
-            if (state.foodType.includes(foodType)) {
-                state.foodType = state.foodType.filter(
-                    (type) => type !== foodType
-                );
-            } else {
-                state.foodType.push(foodType);
-            }
+        setFoodType(state, action) {
+            state.foodType = action.payload;
         },
+        toggleFoodType(state) {
+            // foodType을 토글하는 로직을 추가합니다.
+            state.foodType = state.foodType === 'type1' ? 'type2' : 'type1';
+        }
     },
 });
-export const { setMateType, toggleFoodType } = filterSlice.actions;
+
+export const { setMateType, setFoodType, toggleFoodType } = filterSlice.actions;
 export default filterSlice.reducer;

@@ -9,18 +9,9 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { useState } from "react";
 import Title from "../../components/Layout/Title";
-// import { Navigate } from "react-router-dom";
 
 function Register() {
-    // const isAuth = useSelector((state) => state.user.isAuth);
-
-    const {
-        register,
-        formState: { errors },
-        watch,
-        handleSubmit,
-        reset,
-    } = useForm({ mode: "onChange" });
+    const { register, formState: { errors }, watch, handleSubmit, reset } = useForm({ mode: "onChange" });
     const dispatch = useDispatch();
     const error = useSelector((state) => state.user.error);
 
@@ -28,76 +19,46 @@ function Register() {
     const [pwShow, setPwShow] = useState(false);
     const [pwShowConfirm, setPwShowConfirm] = useState(false);
 
-    function onSubmit({ email, name, password, passwordConfirm }) {
-        const body = {
-            email,
-            name,
-            password,
-            passwordConfirm,
-        };
+    async function onSubmit({ email, name, password, passwordConfirm }) {
+        const body = { email, name, password, passwordConfirm };
 
-        dispatch(registerUser(body));
+        console.log("회원가입 요청 데이터:", body);
+
+        const resultAction = await dispatch(registerUser(body));
+        if (registerUser.fulfilled.match(resultAction)) {
+            console.log("회원가입 성공");
+        } else {
+            console.log("회원가입 실패");
+            console.log(resultAction.payload);
+        }
         setModalOn(true);
         reset();
     }
 
     const userEmail = {
-        required: {
-            value: true,
-            message: "이메일은 필수 입니다.",
-        },
-        pattern: {
-            value: /^\S+@\S+$/i,
-            message: "이메일을 입력",
-        },
+        required: { value: true, message: "이메일은 필수 입니다." },
+        pattern: { value: /^\S+@\S+$/i, message: "이메일을 입력하세요." },
     };
     const userName = {
-        required: {
-            value: true,
-            message: "이름은 필수 입니다.",
-        },
-        maxLength: {
-            value: 50,
-            message: "최대 50자입니다.",
-        },
+        required: { value: true, message: "이름은 필수 입니다." },
+        maxLength: { value: 50, message: "최대 50자입니다." },
     };
     const userPassword = {
-        required: {
-            value: true,
-            message: "비밀번호는 필수 입니다.",
-        },
-        minLength: {
-            value: 4,
-            message: "최소 4자입니다.",
-        },
+        required: { value: true, message: "비밀번호는 필수 입니다." },
+        minLength: { value: 4, message: "최소 4자입니다." },
     };
-
     const userPasswordConfirm = {
-        minLength: {
-            value: 4,
-            message: "최소 4자입니다.",
-        },
-        required: {
-            value: true,
-            message: "비밀번호 확인은 필수 입니다.",
-        },
-        validate: (value) => {
-            return value === watch("password") || "비밀번호일치안함";
-        },
+        minLength: { value: 4, message: "최소 4자입니다." },
+        required: { value: true, message: "비밀번호 확인은 필수 입니다." },
+        validate: (value) => value === watch("password") || "비밀번호가 일치하지 않습니다.",
     };
-
-    // if (isAuth) {
-    //     return <Navigate to="/" />;
-    // }
 
     return (
         <>
-            <div
-                className={`w-full h-full flex flex-col justify-center items-center`}
-            >
+            <div className={`w-full h-full flex flex-col justify-center items-center`}>
                 {modalOn && (
                     <>
-                        {error && error.error ? (
+                        {error ? (
                             <NotificationModal
                                 text={error.error}
                                 path="/register"
@@ -122,10 +83,7 @@ function Register() {
                         <div className="emailWrap flex justify-center gap-4 ml-2 mt-5 mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                    <img
-                                        src="./images/iconMail.png"
-                                        alt="email icon"
-                                    />
+                                    <img src="./images/iconMail.png" alt="email icon" />
                                 </div>
                             </div>
                             <div style={{ fontFamily: "Pretendard-Regular" }}>
@@ -138,19 +96,14 @@ function Register() {
                                     {...register("email", userEmail)}
                                 />
                                 {errors.email && (
-                                    <div className="text-red-500 text-xs mt-1">
-                                        {errors.email.message}
-                                    </div>
+                                    <div className="text-red-500 text-xs mt-1">{errors.email.message}</div>
                                 )}
                             </div>
                         </div>
                         <div className="usernameWrap gap-4 flex ml-2 justify-between mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                    <img
-                                        src="./images/iconPerson.png"
-                                        alt="person icon"
-                                    />
+                                    <img src="./images/iconPerson.png" alt="person icon" />
                                 </div>
                             </div>
                             <div style={{ fontFamily: "Pretendard-Regular" }}>
@@ -163,27 +116,18 @@ function Register() {
                                     placeholder="닉네임을 입력하세요!"
                                     {...register("name", userName)}
                                 />
-
                                 {errors.name && (
-                                    <div className="text-red-500 text-xs mt-1">
-                                        {errors.name.message}
-                                    </div>
+                                    <div className="text-red-500 text-xs mt-1">{errors.name.message}</div>
                                 )}
                             </div>
                         </div>
                         <div className="passwordWrap ml-2 gap-4 flex justify-between mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                    <img
-                                        src="./images/iconPwd.png"
-                                        alt="password key icon"
-                                    />
+                                    <img src="./images/iconPwd.png" alt="password key icon" />
                                 </div>
                             </div>
-                            <div
-                                style={{ fontFamily: "Pretendard-Regular" }}
-                                className="relative"
-                            >
+                            <div style={{ fontFamily: "Pretendard-Regular" }} className="relative">
                                 <input
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     id="passwordInput"
@@ -194,23 +138,17 @@ function Register() {
                                     {...register("password", userPassword)}
                                 />
                                 {errors.password && (
-                                    <div className="text-red-500 text-xs mt-1">
-                                        {errors.password.message}
-                                    </div>
+                                    <div className="text-red-500 text-xs mt-1">{errors.password.message}</div>
                                 )}
                                 <div className="absolute right-[10px] top-[7px]">
                                     {pwShow ? (
                                         <FontAwesomeIcon
-                                            onClick={() => {
-                                                setPwShow(false);
-                                            }}
+                                            onClick={() => { setPwShow(false); }}
                                             icon={faEye}
                                         />
                                     ) : (
                                         <FontAwesomeIcon
-                                            onClick={() => {
-                                                setPwShow(true);
-                                            }}
+                                            onClick={() => { setPwShow(true); }}
                                             icon={faEyeSlash}
                                         />
                                     )}
@@ -220,16 +158,10 @@ function Register() {
                         <div className="passwordConfirmWrap ml-2 flex justify-between gap-4 mb-5">
                             <div className="w-10 h-10 relative">
                                 <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                    <img
-                                        src="./images/iconPwdDoubleCheck.png"
-                                        alt="password double check icon"
-                                    />
+                                    <img src="./images/iconPwdDoubleCheck.png" alt="password double check icon" />
                                 </div>
                             </div>
-                            <div
-                                style={{ fontFamily: "Pretendard-Regular" }}
-                                className="relative"
-                            >
+                            <div style={{ fontFamily: "Pretendard-Regular" }} className="relative">
                                 <input
                                     className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                     type={pwShowConfirm ? "text" : "password"}
@@ -237,29 +169,20 @@ function Register() {
                                     required
                                     minLength="4"
                                     placeholder="비밀번호를 다시 입력하세요!"
-                                    {...register(
-                                        "passwordConfirm",
-                                        userPasswordConfirm
-                                    )}
+                                    {...register("passwordConfirm", userPasswordConfirm)}
                                 />
                                 {errors.passwordConfirm && (
-                                    <div className="text-red-500 text-xs mt-1">
-                                        {errors.passwordConfirm.message}
-                                    </div>
+                                    <div className="text-red-500 text-xs mt-1">{errors.passwordConfirm.message}</div>
                                 )}
                                 <div className="absolute right-[10px] top-[7px]">
                                     {pwShowConfirm ? (
                                         <FontAwesomeIcon
-                                            onClick={() => {
-                                                setPwShowConfirm(false);
-                                            }}
+                                            onClick={() => { setPwShowConfirm(false); }}
                                             icon={faEye}
                                         />
                                     ) : (
                                         <FontAwesomeIcon
-                                            onClick={() => {
-                                                setPwShowConfirm(true);
-                                            }}
+                                            onClick={() => { setPwShowConfirm(true); }}
                                             icon={faEyeSlash}
                                         />
                                     )}

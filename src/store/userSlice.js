@@ -1,5 +1,3 @@
-//reducer
-
 import { createSlice } from "@reduxjs/toolkit";
 import {
     loginUser,
@@ -38,19 +36,13 @@ const userSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                console.log(
-                    "action.payload when registerUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.error = "";
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
-                console.log("registerUser rejected:", action.payload);
             })
-
             .addCase(loginUser.pending, (state) => {
                 state.isLoading = true;
                 state.error = "";
@@ -59,10 +51,6 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.oauthLogin = false;
                 state.error = "";
-                console.log(
-                    "action.payload when loginUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.isAuth = true;
                 localStorage.setItem("accessToken", action.payload.accessToken);
@@ -79,10 +67,6 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.oauthLogin = true;
                 state.error = "";
-                console.log(
-                    "action.payload when oauthLogin.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.isAuth = true;
                 localStorage.setItem("accessToken", action.payload.accessToken);
@@ -98,12 +82,7 @@ const userSlice = createSlice({
             .addCase(authUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = "";
-                console.log(
-                    "action.payload when authUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
-
                 state.isAuth = true;
             })
             .addCase(authUser.rejected, (state, action) => {
@@ -121,9 +100,9 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.oauthLogin = false;
                 state.error = "";
-                state.userData = initialState.userData; //초기화
+                state.userData = initialState.userData;
                 state.isAuth = false;
-                localStorage.removeItem("accessToken"); // token삭제
+                localStorage.removeItem("accessToken");
             })
             .addCase(logoutUser.rejected, (state, action) => {
                 state.isLoading = false;
@@ -136,7 +115,6 @@ const userSlice = createSlice({
             .addCase(updateUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = "";
-                console.log("action.payload in updateUser:", action.payload);
                 state.userData.password = action.payload.user.password;
                 state.isAuth = false;
                 localStorage.removeItem("accessToken");
@@ -154,9 +132,9 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.oauthLogin = false;
                 state.error = "";
-                state.userData = initialState.userData; //초기화
+                state.userData = initialState.userData;
                 state.isAuth = false;
-                localStorage.removeItem("accessToken"); // token삭제
+                localStorage.removeItem("accessToken");
             })
             .addCase(deleteUser.rejected, (state, action) => {
                 state.isLoading = false;
