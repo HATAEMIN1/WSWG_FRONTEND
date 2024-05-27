@@ -13,6 +13,8 @@ import { Button } from '../../components/Form/Button';
 import CommentWrite from './MpComment/CommentWrite';
 import MpCommentList from './MpComment/MpCommentList';
 import MeetingViewMap from '../../components/Map/MeetingViewMap';
+import StarRating from "../../components/Form/StarRating";
+
 
 function MeetingView(props) {
     const swiperImg = [
@@ -22,6 +24,7 @@ function MeetingView(props) {
         { imgUrl: 'imageSample4.png' },
     ];
     const [meetingData, setMeetingData] = useState(null);
+    const [restaurantData, setRestaurantData] = useState(null);
     const { mpId } = useParams();
     const [comments, setComments] = useState([]);
     const [totalComments, setTotalComments] = useState(0);
@@ -63,19 +66,37 @@ function MeetingView(props) {
 
         fetchAllMetaData();
     }, [meetingData, mpId]);
-
-    useEffect(() => {
-        async function meetingView() {
-            try {
-                const res = await axiosInstance.get(`/meet-posts/${mpId}`);
-                setMeetingData(res.data.meetUpPost);
-                setLoading(false);
-            } catch (error) {
-                console.error(error);
-                setLoading(false);
-            }
+    async function meetingView() {
+        try {
+            const res = await axiosInstance.get(`/meet-posts/${mpId}`);
+            setMeetingData(res.data.meetUpPost);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
         }
+    }
+    async function fetchRestaurant() {
+        try {
+            if (meetingData) {
+                const params = {
+                    longitude: meetingData.longitude,
+                    latitude: meetingData.latitude,
+                };
+                const res = await axiosInstance.get(`/restaurants`, { params });
+                console.log(res.data.restaurant[0]);
+                setRestaurantData(res.data.restaurant[0]);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    useEffect(() => {
+        fetchRestaurant();
+    }, [meetingData]);
+    useEffect(() => {
         meetingView();
+
         incrementViews();
     }, [mpId]);
 
@@ -224,23 +245,48 @@ function MeetingView(props) {
                                 {swiperImg.map((item, i) => {
                                     return (
                                         <SwiperSlide key={i}>
-                                            <div className='bgLayer'></div>
-                                            <img src={`${process.env.PUBLIC_URL}/images/${item.imgUrl}`} />
+                                            <div className="bgLayer"></div>
+                                            <img
+                                                src={
+                                                    restaurantData &&
+                                                    restaurantData.image[i]
+                                                }
+                                            />
                                         </SwiperSlide>
                                     );
                                 })}
                             </Swiper>
                         </div>
-                        <div className='flex flex-wrap'>
-                            <h4>어디겠습니까</h4>
+                        <div className="flex flex-wrap">
+                            <h4>{restaurantData && restaurantData.name}</h4>
                             <ul>
-                                <li>푸드 타입</li>
-                                <li className='flex'>
-                                    <span className='flex-none'>평점: </span>
+                                <li>
+                                    {restaurantData &&
+                                        restaurantData.category[0].foodType}
+                                </li>
+                                <li className="flex">
+                                    <span className="flex-none">
+                                        평점:
+                                        <StarRating
+                                            rating={
+                                                restaurantData &&
+                                                restaurantData.rating
+                                            }
+                                        ></StarRating>
+                                    </span>
                                 </li>
                             </ul>
-                            <div className='flex textBox'>
-                                <i className='iconTypeStore iconStoreLoc'>local</i> 서울시 강남구 강남대로
+                            <div className="flex textBox">
+                                <i className="iconTypeStore iconStoreLoc">
+                                    local
+                                </i>{" "}
+                                {restaurantData &&
+                                    restaurantData.address.metropolitan}{" "}
+                                {restaurantData && restaurantData.address.city}{" "}
+                                {restaurantData &&
+                                    restaurantData.address.district}{" "}
+                                {restaurantData &&
+                                    restaurantData.address.detailedAddress}
                             </div>
                         </div>
                     </div>
