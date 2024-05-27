@@ -8,6 +8,7 @@ import { IconStarView, IconWish } from "../../components/Form/Icon";
 import jQuery from "jquery";
 import StarRating from "../../components/Form/StarRating";
 import DefualtModal from "../../components/Modal/DefualtModal";
+import { useSelector } from "react-redux";
 
 function ReviewList(props) {
     const { cateId, rtId } = useParams();
@@ -19,6 +20,7 @@ function ReviewList(props) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedReviewId, setSelectedReviewId] = useState(null);
+    const userName = useSelector((state) => state.user.userData.name);
 
     const fetchReviewAdd = async ({ limit, skip, loadMore = false }) => {
         const params = {
@@ -143,7 +145,7 @@ function ReviewList(props) {
                                                         review.images.length >
                                                             0 && (
                                                             <img
-                                                                src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${review.images[0]}`}
+                                                                src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${review.images[0]}`}
                                                                 alt=""
                                                             />
                                                         )}
@@ -213,18 +215,24 @@ function ReviewList(props) {
                                                             }
                                                             alt="삭제"
                                                         ></div> */}
-                                                        <div
-                                                            className="iconTrash"
-                                                            style={{
-                                                                cursor: "pointer",
-                                                            }}
-                                                            onClick={() =>
-                                                                openModal(
-                                                                    review._id
-                                                                )
-                                                            }
-                                                            alt="삭제"
-                                                        ></div>
+                                                        <div>
+                                                            {review.user
+                                                                .name ===
+                                                                userName && ( // 리뷰를 작성한 사용자와 현재 로그인한 사용자가 일치하는 경우에만 삭제 버튼을 표시
+                                                                <div
+                                                                    className="iconTrash"
+                                                                    style={{
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                    onClick={() =>
+                                                                        openModal(
+                                                                            review._id
+                                                                        )
+                                                                    }
+                                                                    alt="삭제"
+                                                                ></div>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
