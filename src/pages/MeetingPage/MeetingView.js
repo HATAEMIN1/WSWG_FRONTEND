@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "../../utils/axios";
-import { SectionWrap } from "../../components/Layout/Section";
-import Title from "../../components/Layout/Title";
-import { Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import { useSelector } from "react-redux";
-import DefualtModal from "../../components/Modal/DefualtModal";
-import { Button } from "../../components/Form/Button";
-import CommentWrite from "./MpComment/CommentWrite";
-import MpCommentList from "./MpComment/MpCommentList";
-import MeetingViewMap from "../../components/Map/MeetingViewMap";
+import React, { useEffect, useState, useRef } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../../utils/axios';
+import { SectionWrap } from '../../components/Layout/Section';
+import Title from '../../components/Layout/Title';
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { useSelector } from 'react-redux';
+import DefualtModal from '../../components/Modal/DefualtModal';
+import { Button } from '../../components/Form/Button';
+import CommentWrite from './MpComment/CommentWrite';
+import MpCommentList from './MpComment/MpCommentList';
+import MeetingViewMap from '../../components/Map/MeetingViewMap';
 import StarRating from "../../components/Form/StarRating";
+
 
 function MeetingView(props) {
     const swiperImg = [
-        { imgUrl: "imageSample1.png" },
-        { imgUrl: "imageSample2.png" },
-        { imgUrl: "imageSample3.png" },
-        { imgUrl: "imageSample4.png" },
+        { imgUrl: 'imageSample1.png' },
+        { imgUrl: 'imageSample2.png' },
+        { imgUrl: 'imageSample3.png' },
+        { imgUrl: 'imageSample4.png' },
     ];
     const [meetingData, setMeetingData] = useState(null);
     const [restaurantData, setRestaurantData] = useState(null);
     const { mpId } = useParams();
     const [comments, setComments] = useState([]);
-    const [totalComments, setTotalComments] = useState(0); // 총 댓글 수 상태 추가
+    const [totalComments, setTotalComments] = useState(0);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const navigate = useNavigate();
@@ -45,7 +46,7 @@ function MeetingView(props) {
             });
             return response.data;
         } catch (error) {
-            console.error("Failed to fetch meta data", error);
+            console.error('Failed to fetch meta data', error);
             return null;
         }
     };
@@ -53,10 +54,7 @@ function MeetingView(props) {
     useEffect(() => {
         const fetchAllMetaData = async () => {
             if (meetingData) {
-                const metaData = await fetchMetaData(
-                    meetingData.chatLink,
-                    mpId
-                );
+                const metaData = await fetchMetaData(meetingData.chatLink, mpId);
                 if (metaData) {
                     setMetaDataList((prevData) => ({
                         ...prevData,
@@ -117,20 +115,16 @@ function MeetingView(props) {
 
     const loadInitialComments = async () => {
         try {
-            const res = await axiosInstance.get(
-                `/meet-posts/${mpId}/comments?page=1&limit=10`
-            );
-            console.log("초기 댓글 로드 응답:", res.data);
+            const res = await axiosInstance.get(`/meet-posts/${mpId}/comments?page=1&limit=10`);
+            console.log('초기 댓글 로드 응답:', res.data);
 
-            const sortedComments = res.data.comments.sort(
-                (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-            );
+            const sortedComments = res.data.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             setComments(sortedComments);
-            setTotalComments(res.data.totalComments); // 총 댓글 수 설정
+            setTotalComments(res.data.totalComments);
             setPage(2);
             setHasMore(sortedComments.length < res.data.totalComments);
-            console.log("초기 로드 - 댓글 개수:", sortedComments.length);
-            console.log("초기 로드 - 총 댓글 개수:", res.data.totalComments);
+            console.log('초기 로드 - 댓글 개수:', sortedComments.length);
+            console.log('초기 로드 - 총 댓글 개수:', res.data.totalComments);
         } catch (error) {
             console.log(error);
         }
@@ -139,31 +133,16 @@ function MeetingView(props) {
     const fetchMoreComments = async () => {
         if (!hasMore) return;
         try {
-            const res = await axiosInstance.get(
-                `/meet-posts/${mpId}/comments?page=${page}&limit=10`
-            );
-            console.log("추가 댓글 로드 응답:", res.data);
+            const res = await axiosInstance.get(`/meet-posts/${mpId}/comments?page=${page}&limit=10`);
+            console.log('추가 댓글 로드 응답:', res.data);
 
-            const newComments = res.data.comments.sort(
-                (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-            );
+            const newComments = res.data.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             if (newComments.length > 0) {
-                setComments((prevComments) => [
-                    ...prevComments,
-                    ...newComments,
-                ]);
+                setComments((prevComments) => [...prevComments, ...newComments]);
                 setPage((prevPage) => prevPage + 1);
-                setHasMore(
-                    comments.length + newComments.length < totalComments
-                ); // 수정된 부분
-                console.log(
-                    "추가 로드 - 댓글 개수:",
-                    comments.length + newComments.length
-                );
-                console.log(
-                    "추가 로드 - 총 댓글 개수:",
-                    res.data.totalComments
-                );
+                setHasMore(comments.length + newComments.length < totalComments);
+                console.log('추가 로드 - 댓글 개수:', comments.length + newComments.length);
+                console.log('추가 로드 - 총 댓글 개수:', res.data.totalComments);
             } else {
                 setHasMore(false);
             }
@@ -177,36 +156,24 @@ function MeetingView(props) {
             content: commentContent,
             userId: userId,
         };
-
+    
         try {
-            const res = await axiosInstance.post(
-                `/meet-posts/${mpId}/comments`,
-                commentData
-            );
+            const res = await axiosInstance.post(`/meet-posts/${mpId}/comments`, commentData);
             const newComment = res.data.comment;
-            const updatedComment = {
-                ...newComment,
-                user: {
-                    _id: userId,
-                    name: userName,
-                },
-            };
-            setComments((prevComments) => [updatedComment, ...prevComments]);
-            setTotalComments((prevTotal) => prevTotal + 1); // 댓글 추가 시 총 댓글 수 증가
+            setComments((prevComments) => [newComment, ...prevComments]);
+            setTotalComments((prevTotal) => prevTotal + 1);
         } catch (error) {
-            console.log(error);
+            console.error("Error posting comment:", error.response?.data || error.message);
         }
     }
+    
+    
 
     const deleteComment = async (commentId) => {
         try {
-            await axiosInstance.delete(
-                `/meet-posts/${mpId}/comments/${commentId}`
-            );
-            setComments((prevComments) =>
-                prevComments.filter((comment) => comment._id !== commentId)
-            );
-            setTotalComments((prevTotal) => prevTotal - 1); // 댓글 삭제 시 총 댓글 수 감소
+            await axiosInstance.delete(`/meet-posts/${mpId}/comments/${commentId}`);
+            setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
+            setTotalComments((prevTotal) => prevTotal - 1);
         } catch (error) {
             console.log(error);
         }
@@ -215,9 +182,9 @@ function MeetingView(props) {
     const handleDelete = async () => {
         try {
             await axiosInstance.delete(`/meet-posts/${mpId}`);
-            navigate("/meet-posts");
+            navigate('/meet-posts');
         } catch (error) {
-            console.error("Failed to delete the meeting post", error);
+            console.error('Failed to delete the meeting post', error);
         } finally {
             closeModal();
         }
@@ -232,8 +199,8 @@ function MeetingView(props) {
     };
 
     useEffect(() => {
-        console.log("meetingData:", meetingData);
-        console.log("userName:", userName);
+        console.log('meetingData:', meetingData);
+        console.log('userName:', userName);
     }, [meetingData, userName]);
 
     if (loading) {
@@ -243,54 +210,38 @@ function MeetingView(props) {
     return (
         <>
             <SectionWrap>
-                <Title className={"titleComment"}>
-                    <button className="flex items-center">
-                        <Link
-                            to={`/meet-posts`}
-                            className="flex justify-center items-center"
-                        >
-                            <i className="btnBack">more</i> 뒤로가기
+                <Title className={'titleComment'}>
+                    <button className='flex items-center'>
+                        <Link to={`/meet-posts`} className='flex justify-center items-center'>
+                            <i className='btnBack'>more</i> 뒤로가기
                         </Link>
                     </button>
                 </Title>
                 {meetingData && (
                     <>
-                        <div className="flex justify-between items-center">
-                            <div className="text-xl font-semibold py-4 pb-2">
-                                {meetingData.title}
-                            </div>
-                            <div className="flex gap-2">
-                                <div className="flex">
-                                    <i className="iconBasic iconView">view</i>{" "}
-                                    {views}
+                        <div className='flex justify-between items-center'>
+                            <div className='text-xl font-semibold py-4 pb-2'>{meetingData.title}</div>
+                            <div className='flex gap-2'>
+                                <div className='flex'>
+                                    <i className='iconBasic iconView'>view</i> {views}
                                 </div>
-                                <div className="flex">
-                                    <i className="iconBasic iconComment">
-                                        comment
-                                    </i>{" "}
-                                    {totalComments} {/* 총 댓글 수 표시 */}
+                                <div className='flex'>
+                                    <i className='iconBasic iconComment'>comment</i> {totalComments}
                                 </div>
                             </div>
                         </div>
-                        <div className="flex text-sm mb-6 text-gray-500">
-                            <i className="iconBasic iconPen mr-2"></i> 작성자 :{" "}
-                            {meetingData.user?.name}
+                        <div className='flex text-sm mb-6 text-gray-500'>
+                            <i className='iconBasic iconPen mr-2'></i> 작성자 : {meetingData.user?.name}
                         </div>
                     </>
                 )}
-                <div className="w-full min-h-[543px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border restarantView">
-                    <div className="w-full overflow-hidden border-r-[1px]">
-                        <MeetingViewMap
-                            meetingData={meetingData}
-                        ></MeetingViewMap>
+                <div className='w-full min-h-[543px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border restarantView'>
+                    <div className='w-full overflow-hidden border-r-[1px]'>
+                        <MeetingViewMap meetingData={meetingData}></MeetingViewMap>
                     </div>
-                    <div className="flex-auto p-[20px]">
-                        <div className="w-[360px] h-[360px] bg-slate-300 rounded-md overflow-hidden">
-                            <Swiper
-                                pagination={true}
-                                modules={[Pagination]}
-                                className="mySwiper swiperView"
-                            >
+                    <div className='flex-auto p-[20px]'>
+                        <div className='w-[360px] h-[360px] bg-slate-300 rounded-md overflow-hidden'>
+                            <Swiper pagination={true} modules={[Pagination]} className='mySwiper swiperView'>
                                 {swiperImg.map((item, i) => {
                                     return (
                                         <SwiperSlide key={i}>
@@ -342,49 +293,17 @@ function MeetingView(props) {
                 </div>
                 {meetingData && metaDataList[meetingData.chatLink] && (
                     <>
-                        <div className="my-[40px]">{meetingData.content}</div>
-                        <SectionWrap
-                            basicSection={true}
-                            className={"mb-[40px]"}
-                        >
-                            <a
-                                href={metaDataList[meetingData.chatLink].url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <div className="container flex border rounded-md">
-                                    <div className="w-1/3">
-                                        <img
-                                            src={
-                                                metaDataList[
-                                                    meetingData.chatLink
-                                                ].image
-                                            }
-                                            alt="Meta"
-                                        />
+                        <div className='my-[40px]'>{meetingData.content}</div>
+                        <SectionWrap basicSection={true} className={'mb-[40px]'}>
+                            <a href={metaDataList[meetingData.chatLink].url} target='_blank' rel='noopener noreferrer'>
+                                <div className='container flex border rounded-md'>
+                                    <div className='w-1/3'>
+                                        <img src={metaDataList[meetingData.chatLink].image} alt='Meta' />
                                     </div>
-                                    <div className="w-full flex-wrap justify-between flex-auto p-[10px]">
-                                        <p className="font-semibold">
-                                            {
-                                                metaDataList[
-                                                    meetingData.chatLink
-                                                ].title
-                                            }
-                                        </p>
-                                        <p className="text-sm text-gray-500">
-                                            {
-                                                metaDataList[
-                                                    meetingData.chatLink
-                                                ].description
-                                            }
-                                        </p>
-                                        <p className="text-sm">
-                                            {
-                                                metaDataList[
-                                                    meetingData.chatLink
-                                                ].url
-                                            }
-                                        </p>
+                                    <div className='w-full flex-wrap justify-between flex-auto p-[10px]'>
+                                        <p className='font-semibold'>{metaDataList[meetingData.chatLink].title}</p>
+                                        <p className='text-sm text-gray-500'>{metaDataList[meetingData.chatLink].description}</p>
+                                        <p className='text-sm'>{metaDataList[meetingData.chatLink].url}</p>
                                     </div>
                                 </div>
                             </a>
@@ -392,32 +311,24 @@ function MeetingView(props) {
                     </>
                 )}
                 {meetingData && meetingData.user?.name === userName && (
-                    <div className="flex gap-2 w-[300px] m-auto">
+                    <div className='flex gap-2 w-[300px] m-auto'>
                         <Button onClick={openModal} basicButton={false}>
                             삭제
                         </Button>
                     </div>
                 )}
-                <div className="mb-2">
-                    <Title className={"titleComment"}>댓글</Title>
+                <div className='mb-2'>
+                    <Title className={'titleComment'}>댓글</Title>
                     <CommentWrite onSubmit={handleInsertComment} />
                     {comments.length === 0 ? (
-                        <div className="w-full bg-slate-100  py-[10px] text-center mt-4">
-                            등록 된 댓글이 없습니다🥲
-                        </div>
+                        <div className='w-full bg-slate-100 py-[10px] text-center mt-4'>등록 된 댓글이 없습니다🥲</div>
                     ) : (
-                        <MpCommentList
-                            comments={comments}
-                            fetchMoreComments={fetchMoreComments}
-                            deleteComment={deleteComment}
-                            currentUserId={userId}
-                            hasMore={hasMore}
-                        />
+                        <MpCommentList comments={comments} fetchMoreComments={fetchMoreComments} deleteComment={deleteComment} currentUserId={userId} hasMore={hasMore} />
                     )}
                 </div>
             </SectionWrap>
             <DefualtModal show={isModalOpen} onClose={closeModal}>
-                <div className="pb-3">정말 삭제하시겠습니까?</div>
+                <div className='pb-3'>정말 삭제하시겠습니까?</div>
                 <Button basicButton={true} onClick={handleDelete}>
                     확인
                 </Button>
