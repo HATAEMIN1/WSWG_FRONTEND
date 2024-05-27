@@ -103,7 +103,6 @@ function Map({
                         overlay.setMap(null); // 오버레이 닫기
                     });
             });
-
             overlay.setMap(null);
         }
 
@@ -157,6 +156,7 @@ function Map({
             const res = await axiosInstance.post("restaurants/location", body);
             setGeoData(res.data.restaurant);
             console.log(res.data.restaurant);
+            currentOverlay = null; // 열려 있는 인포윈도우 변수 초기화
         });
 
         kakao.maps.event.addListener(map, "zoom_changed", function () {
