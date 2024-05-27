@@ -12,7 +12,6 @@ import DefualtModal from "../../components/Modal/DefualtModal";
 import { Button } from "../../components/Form/Button";
 import CommentWrite from "./MpComment/CommentWrite";
 import MpCommentList from "./MpComment/MpCommentList";
-import RestaurantMap from "../../components/Map/RestaurantMap";
 import MeetingViewMap from "../../components/Map/MeetingViewMap";
 
 function MeetingView(props) {
@@ -67,19 +66,31 @@ function MeetingView(props) {
 
         fetchAllMetaData();
     }, [meetingData, mpId]);
-
-    useEffect(() => {
-        async function meetingView() {
-            try {
-                const res = await axiosInstance.get(`/meet-posts/${mpId}`);
-                setMeetingData(res.data.meetUpPost);
-                setLoading(false);
-            } catch (error) {
-                console.error(error);
-                setLoading(false);
-            }
+    async function meetingView() {
+        try {
+            const res = await axiosInstance.get(`/meet-posts/${mpId}`);
+            setMeetingData(res.data.meetUpPost);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
         }
+    }
+    async function fetchRestaurant() {
+        const params = {
+            longitude: meetingData.longitude,
+            latitude: meetingData.latitude,
+        };
+        try {
+            const res = await axiosInstance.get(`/restaurants`, { params });
+            console.log(res);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    useEffect(() => {
         meetingView();
+
         incrementViews();
     }, [mpId]);
 

@@ -45,20 +45,19 @@ function Map({
             let content =
                 '<div class="wrap">' +
                 '    <div class="info p-2">' +
-                '        <div class="close" title="닫기"></div>' +                
-                '        <div class="flex justify-between gap-2">' +             
+                '        <div class="close" title="닫기"></div>' +
+                '        <div class="flex justify-between gap-2">' +
                 '            <div class="border flex-none rounded-md overflow-hidden">' +
                 `               <img src="${geoData[i].image[0]}" alt="Image" class="block w-[70px] h-[70px] object-cover" />` +
                 "            </div>" +
                 '            <div class="flex-auto p-1">' +
                 '               <div class="text-lg font-semibold">' +
                 `               ${geoData[i].name}` +
-                "               </div>" +          
+                "               </div>" +
                 `               <div class="ellipsis">  ${geoData[i].address.city} ${geoData[i].address.district} ${geoData[i].address.detailedAddress}</div>` +
                 `               <div><a href="/mate/${cateId}/restaurants/${geoData[i]._id}" target="_blank" class="link">자세히</a></div>` +
-                "           </div>" +                
-                "        </div>" +                   
-
+                "           </div>" +
+                "        </div>" +
                 "    </div>" +
                 "</div>";
             displayMarker(
@@ -91,15 +90,15 @@ function Map({
                 currentOverlay = overlay; // 현재 열려 있는 오버레이 업데이트
 
                 // 오버레이 내부의 닫기 버튼 클릭 이벤트 설정
-                // document
-                //     .querySelector(".wrap .close")
-                //     .addEventListener("click", function () {
-                //         overlay.setMap(null); // 오버레이 닫기
-                //     });
-                overlay.a = document.querySelector(".wrap .close");
-                overlay.a.addEventListener("click", function () {
-                    overlay.setMap(null); // 오버레이 닫기
-                });
+                document
+                    .querySelector(".wrap .close")
+                    .addEventListener("click", function () {
+                        overlay.setMap(null); // 오버레이 닫기
+                    });
+                // overlay.a = document.querySelector(".wrap .close");
+                // overlay.a.addEventListener("click", function () {
+                //     overlay.setMap(null); // 오버레이 닫기
+                // });
             });
 
             overlay.setMap(null);
