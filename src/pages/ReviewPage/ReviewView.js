@@ -152,7 +152,7 @@ function ReviewView(props) {
                             >
                                 {/* <div className="border rounded"> */}
                                 <img
-                                    src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
+                                    src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
                                     className="w-full h-full object-cover"
                                     alt={`Review Image ${index + 1}`}
                                 />
