@@ -145,7 +145,7 @@ function ReviewList(props) {
                                                         review.images.length >
                                                             0 && (
                                                             <img
-                                                                src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${review.images[0]}`}
+                                                                src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${review.images[0]}`}
                                                                 alt=""
                                                             />
                                                         )}
