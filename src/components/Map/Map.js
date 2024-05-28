@@ -190,7 +190,7 @@ function Map({
                     </div>
                     <div className="w-1/2 text-white text-[20px]">
                         <Link
-                            className="flex justify-center.align-middle"
+                            className="flex justify-center align-middle"
                             onClick={() => {
                                 mapSet("click");
                             }}
