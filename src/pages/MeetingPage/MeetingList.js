@@ -123,7 +123,7 @@ function MeetingList(props) {
                 </Title>
                 <div className="flex justify-between gap-2 mb-5">
                     <div className="flex gap-2">
-                        <SelectDiv></SelectDiv>
+                        {/* <SelectDiv></SelectDiv> */}
                     </div>
                     <div className="flex items-center">
                         <Button className={"lineSmallButton"}>
