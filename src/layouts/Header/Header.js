@@ -74,17 +74,24 @@ function Header({ ...props }) {
                         {isAuth ? (
                             <div className="flex w-[150px] gap-4 justify-center items-center">
                                 <Link to="/account">
-                                    {retrievedImage ? (
-                                        <img
-                                            className="w-[50px] h-[50px] rounded-full"
-                                            src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}`}
-                                            alt="profileImage"
-                                        />
+                                    {retrievedImage!=="noimage.jpg" ? (
+                                        <div className="w-[50px] h-[50px]">
+                                            <img
+                                                className="rounded-full w-full h-full object-cover"
+                                                src={
+                                                    process.env
+                                                        .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                                    retrievedImage
+                                                }
+                                                alt="profileImage"
+                                            />
+                                        </div>
                                     ) : (
                                         <img
-                                            src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
-                                            alt="profileImage"
-                                        />
+                                        className="w-full h-full object-cover"
+                                        src="/images/profileDefault.png"
+                                        alt="defaultPic"
+                                    />
                                     )}
                                 </Link>
                                 <Link className="" onClick={handleLogout}>
@@ -97,8 +104,8 @@ function Header({ ...props }) {
                         ) : (
                             <Link to="/login">
                                 <img
-                                    src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
-                                    alt="profileImage"
+                                    src="/images/profileDefault.png"
+                                    alt="defaultPic"
                                 />
                             </Link>
                         )}
@@ -109,7 +116,7 @@ function Header({ ...props }) {
     );
 }
 
-function HeaderMom(props) {
+function HeaderMom() {
     return (
         <header className="w-full h-[60px] md:h-[82px] bg-white shadow">
             <div className="container m-auto h-[100%] flex justify-center">

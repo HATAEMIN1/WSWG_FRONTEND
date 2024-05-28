@@ -47,7 +47,7 @@ function Map({
             let content =
                 '<div class="wrap">' +
                 '    <div class="info p-2">' +
-                '        <div class="close" title="닫기"></div>' +
+                '        <div class="close" title="닫기"></div>' + // 여기서 onclick 이벤트 추가
                 '        <div class="flex justify-between gap-2">' +
                 '            <div class="border flex-none rounded-md overflow-hidden">' +
                 `               <img src="${geoData[i].image[0]}" alt="Image" class="block w-[70px] h-[70px] object-cover" />` +
@@ -83,8 +83,12 @@ function Map({
                 title: title,
             });
 
+            // 오버레이 컨텐츠를 문자열이 아닌 DOM 요소로 변환
+            var contentElement = document.createElement('div');
+            contentElement.innerHTML = content;
+
             var overlay = new kakao.maps.CustomOverlay({
-                content: content,
+                content: contentElement,
                 map: map,
                 position: marker.getPosition(),
             });
@@ -97,11 +101,9 @@ function Map({
                 currentOverlay = overlay; // 현재 열려 있는 오버레이 업데이트
 
                 // 오버레이 내부의 닫기 버튼 클릭 이벤트 설정
-                document
-                    .querySelector(".wrap .close")
-                    .addEventListener("click", function () {
-                        overlay.setMap(null); // 오버레이 닫기
-                    });
+                contentElement.querySelector(".close").addEventListener("click", function () {
+                    overlay.setMap(null); // 오버레이 닫기
+                });
             });
             overlay.setMap(null);
         }
