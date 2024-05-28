@@ -57,8 +57,6 @@ function AccountDelete() {
     const dispatch = useDispatch();
     function onSubmit() {
         setFirstModalOn(true);
-        // dispatch(deleteUser());
-        // reset();
     }
     function onDelete() {
         dispatch(deleteUser());
