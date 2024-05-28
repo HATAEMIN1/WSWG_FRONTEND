@@ -10,6 +10,7 @@ function Account() {
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
     const userData = useSelector((state) => state?.user?.userData);
     const [userReviews, setUserReviews] = useState([]);
+    const [meetUpPosts, setMeetUpPosts] = useState([]);
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
@@ -24,11 +25,19 @@ function Account() {
                     console.log("리뷰 불러오기 오류:", error);
                 }
             };
+            const fetchUserMeetUpPosts = async () => {
+                try {
+                    const response = await axiosInstance.get(`/meet-posts/user/${userData.id}`);
+                    setMeetUpPosts(response.data.meetUpPosts);
+                } catch (error) {
+                    console.log("우리 만날까 글 불러오기 오류:", error);
+                }
+            };
             fetchUserReviews();
+            fetchUserMeetUpPosts();
         }
     }, [userData?.id]);
 
-    // 별점 표시 컴포넌트
     const StarRating = ({ rating }) => {
         return (
             <div className="flex">
@@ -149,11 +158,31 @@ function Account() {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div>작성한 리뷰가 없습니다!!!!!.</div>
+                                            <div>작성한 리뷰가 없습니다.</div>
                                         )}
                                     </div>
                                 </div>
-                                <div>내가 등록한 우리 만날까</div>
+                                <div>내가 등록한 우리 만날까
+                                    <div className="flex flex-col gap-4 mt-4">
+                                        {meetUpPosts.length > 0 ? (
+                                            meetUpPosts.map((post) => (
+                                                <div key={post._id} className="bg-neutral-100 p-4 rounded-md border border-neutral-200">
+                                                    <Link to={`/meet-posts/${post._id}`} className="text-base font-semibold text-blue-500">
+                                                        {post.title}
+                                                    </Link>
+                                                    <div className="text-sm text-zinc-600">{post.content}</div>
+                                                    <div className="text-sm text-zinc-400">작성일: {new Date(post.createdAt).toLocaleDateString()}</div>
+                                                    <div className="flex items-center mt-2">
+                                                        <span className="mr-1">작성자: </span>
+                                                        <span>{post.user?.name}</span>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div>작성한 우리 만날까 글이 없습니다.</div>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
