@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { Button } from "../../components/Form/Button";
 import { SectionWrap } from "../../components/Layout/Section";
 import Title from "../../components/Layout/Title";
-import { TextModal } from "../../components/Modal/Modal";
 import axiosInstance from "../../utils/axios";
 import { useSelector } from "react-redux";
-import SelectDiv from "../../components/Form/Select";
 import DefaultModal from "../../components/Modal/DefualtModal";
 
 const fetchMetaData = async (url, mpId) => {
@@ -123,7 +121,7 @@ function MeetingList(props) {
                 </Title>
                 <div className="flex justify-between gap-2 mb-5">
                     <div className="flex gap-2">
-                        <SelectDiv></SelectDiv>
+                        {/* <SelectDiv></SelectDiv> */}
                     </div>
                     <div className="flex items-center">
                         <Button className={"lineSmallButton"}>
