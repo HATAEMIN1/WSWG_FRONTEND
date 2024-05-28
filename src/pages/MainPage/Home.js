@@ -7,7 +7,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import MyMap from "../../components/Map/MyMap";
 import { Link } from "react-router-dom";
 import Map from "../../components/Map/Map";
 import axiosInstance from "../../utils/axios";

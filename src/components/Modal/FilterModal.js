@@ -81,7 +81,6 @@ function FilterModal(...props) {
                         </ul>
                     </div>
                 </div>
-                <Button basicButton={true}>확인</Button>
             </div>
         </>
     );
