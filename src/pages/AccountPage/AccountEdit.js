@@ -25,6 +25,8 @@ function AccountEdit() {
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
+    console.log("retrievedImage in AccountEdit", retrievedImage)
+    console.log('retrievedImage!=="noimage.jpg":',retrievedImage!=="noimage.jpg")
 
     const {
         register,
@@ -115,8 +117,9 @@ function AccountEdit() {
             // }
 
             dispatch(updateUser(formData));
-            setModalOn(true);
             reset();
+            setModalOn(true);
+            
         } catch (error) {
             console.log(error);
         }
@@ -164,7 +167,9 @@ function AccountEdit() {
                                     className="object-cover"
                                     alt="profile pic"
                                 />
-                            ) : (
+                            ):
+                            <>
+                            { retrievedImage!=="noimage.jpg" ? (
                                 <img
                                     className="w-full h-full object-cover"
                                     src={
@@ -174,7 +179,13 @@ function AccountEdit() {
                                     }
                                     alt="user profile pic"
                                 />
-                            )}
+                            ): (
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src="/images/profileDefault.png"
+                                    alt="defaultPic"
+                                />
+                            )}</>}
                             <img
                                 onClick={onClickPenIcon}
                                 className="absolute right-[10px] top-[10px]"

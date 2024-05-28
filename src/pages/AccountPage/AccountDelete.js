@@ -6,10 +6,12 @@ import axiosInstance from "../../utils/axios";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Title from "../../components/Layout/Title";
+import NotificationModal from "../../components/Modal/NotificationModal";
 
 function AccountDelete() {
     const userData = useSelector((state) => state?.user?.userData);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
+    const error = useSelector((state) => state.user.error);
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
@@ -53,18 +55,55 @@ function AccountDelete() {
     };
 
     const dispatch = useDispatch();
-    async function onSubmit() {
+    function onSubmit() {
+        setFirstModalOn(true);
+        // dispatch(deleteUser());
+        // reset();
+    }
+    function onDelete() {
         dispatch(deleteUser());
         reset();
+        setSecondModalOn(true);
+        
     }
     return (
-        <>
+        <div
+            className={`w-full h-full flex flex-col justify-center items-center`}
+        >
+            {firstModalOn && (
+                <NotificationModal
+                text="정말 떠나는 걸까?"
+                onClickFunction={onDelete}
+                imgSrc="/images/iconSad.png"
+                imgAlt="sad icon"
+            />
+            )}
+            {secondModalOn && (
+                <>
+                    {error && error.error ? (
+                        <NotificationModal
+                            text={error.error}
+                            path="/account/delete"
+                            imgSrc="/images/iconSad.png"
+                            imgAlt="sad icon"
+                        />
+                    ) : (
+                        <NotificationModal
+                            text="어까를 떠나셨습니다"
+                            path="/"
+                            imgSrc="/images/iconSad.png"
+                            imgAlt="sad icon"
+                        />
+                    )}
+                </>
+            )}
             <div className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
                 <Title memTitle={true}>어까</Title>
                 <Title memTitle={false}>우리 헤어지는 걸까?</Title>
 
                 <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
                     <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4">
+                    { retrievedImage!=="noimage.jpg" ? (
                         <img
                             className="w-full h-full object-cover"
                             src={
@@ -72,7 +111,11 @@ function AccountDelete() {
                                 retrievedImage
                             }
                             alt="user profile pic"
-                        />
+                        />):(<img
+                            className="w-full h-full object-cover"
+                            src="/images/profileDefault.png"
+                            alt="defaultPic"
+                        />)}
                     </div>
                     <div
                         style={{ fontFamily: "Pretendard" }}
@@ -158,7 +201,7 @@ function AccountDelete() {
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     );
 }
 
