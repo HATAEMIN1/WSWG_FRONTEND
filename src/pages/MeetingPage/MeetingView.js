@@ -83,14 +83,16 @@ function MeetingView(props) {
                     longitude: meetingData.longitude,
                     latitude: meetingData.latitude,
                 };
+                console.log('Request Params:', params); // 요청 전 로그
                 const res = await axiosInstance.get(`/restaurants`, { params });
-                console.log(res.data.restaurant[0]);
+                console.log('fetchRestaurant response:', res.data.restaurant[0]); // 응답 로그
                 setRestaurantData(res.data.restaurant[0]);
             }
         } catch (error) {
-            console.error(error);
+            console.error('Error fetching restaurant data:', error.response ? error.response.data : error.message);
         }
     }
+    
     useEffect(() => {
         fetchRestaurant();
     }, [meetingData]);
