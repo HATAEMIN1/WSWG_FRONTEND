@@ -107,6 +107,11 @@ function ReviewAdd(props) {
 
     function handleChange(e) {
         const { name, value } = e.target;
+        if (name === "content" && value.length > 300) {
+            setError("내용은 최대 300자까지 입력 가능합니다.");
+            return;
+        }
+        setError("");
         setText((prevState) => ({
             ...prevState,
             [name]: value,
@@ -235,7 +240,16 @@ function ReviewAdd(props) {
                             onChange={handleChange}
                             name="content"
                             value={text.content}
+                            maxLength={300}
                         ></textarea>
+                        <div className="text-right text-sm text-gray-500">
+                            {text.content.length}/300
+                        </div>
+                        {error && (
+                            <p style={{ color: "red" }} className="mt-2">
+                                {error}
+                            </p>
+                        )}
                     </InputWrap>
                 </div>
 
@@ -255,7 +269,6 @@ function ReviewAdd(props) {
                             value={inputHashTag}
                         />
                     </InputWrap>
-                    {error && <p style={{ color: "red" }}>{error}</p>}
                     {/* 해시태그 목록 렌더링 */}
                     <div className="flex gap-2 pt-2">
                         {/* {inputHashTag} */}
