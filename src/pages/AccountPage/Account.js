@@ -21,6 +21,7 @@ function Account() {
                         <div className="flex flex-col gap-8 font-['Pretendard']">
                             <div className="w-[960px] h-[300px] px-[30px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
                                 <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px]">
+                                { retrievedImage!=="noimage.jpg" ? (
                                     <img
                                         className="w-full h-full object-cover"
                                         src={
@@ -29,7 +30,11 @@ function Account() {
                                             retrievedImage
                                         }
                                         alt="user profile pic"
-                                    />
+                                    />):(<img
+                                        className="w-full h-full object-cover"
+                                        src="/images/profileDefault.png"
+                                        alt="defaultPic"
+                                    />)}
                                 </div>
                                 <div className="grow shrink basis-0 flex-col justify-start items-start gap-[26px] inline-flex">
                                     <>
