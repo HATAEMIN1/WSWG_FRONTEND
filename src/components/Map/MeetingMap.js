@@ -43,7 +43,8 @@ function MeetingMap({
         // 마커가 표시될 위치입니다
         // 마커 이미지의 이미지 주소입니다
         var imageSrc =
-            "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            // "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            `${process.env.PUBLIC_URL}/images/mapPickActive.png`;
         for (let i = 0; i < positions.length; i++) {
             // 마커 이미지의 이미지 크기 입니다
             let imageSize = new kakao.maps.Size(24, 35);
@@ -52,19 +53,19 @@ function MeetingMap({
             //마커 생성
             let content =
                 '<div class="wrap">' +
-                '    <div class="info">' +
-                '        <div class="title">' +
-                `            ${geoData[i].name}` +
-                '            <div class="close"  title="닫기"></div>' +
-                "        </div>" +
-                '        <div class="body">' +
-                '            <div class="img">' +
-                `               <img src="${geoData[i].image[0]}" alt="Image" class="block w-[70px] h-[70]" />` +
-                "           </div>" +
-                '            <div class="desc">' +
-                `<div class="ellipsis">  ${geoData[i].address.city} ${geoData[i].address.district} ${geoData[i].address.detailedAddress}</div>` +
-                `<div><a href="/mate/${cateId}/restaurants/${geoData[i]._id}" target="_blank" class="link">홈페이지</a></div>` +
+                '    <div class="info p-2">' +
+                // '        <div class="close" title="닫기"></div>' +
+                '        <div class="flex justify-between gap-2">' +
+                '            <div class="border flex-none rounded-md overflow-hidden">' +
+                `               <img src="${geoData[i].image[0]}" alt="Image" class="block w-[70px] h-[70px] object-cover" />` +
                 "            </div>" +
+                '            <div class="flex-auto p-1">' +
+                '               <div class="text-lg font-semibold">' +
+                `               ${geoData[i].name}` +
+                "               </div>" +
+                `               <div class="ellipsis">  ${geoData[i].address.city} ${geoData[i].address.district} ${geoData[i].address.detailedAddress}</div>` +
+                `               <div><a href="/mate/${cateId}/restaurants/${geoData[i]._id}" target="_blank" class="link">자세히</a></div>` +
+                "           </div>" +
                 "        </div>" +
                 "    </div>" +
                 "</div>";
@@ -75,6 +76,7 @@ function MeetingMap({
                 positions[i].title
             );
         }
+        let currentOverlay = null; // 현재 열려 있는 오버레이를 추적하는 변수
         // 지도에 마커와 인포윈도우를 표시하는 함수입니다
         function displayMarker(locPosition, content, markerImage, title) {
             // 마커를 생성합니다
@@ -84,7 +86,6 @@ function MeetingMap({
                 image: markerImage,
                 title: title,
             });
-            let currentOverlay = null; // 현재 열려 있는 오버레이를 추적하는 변수
             // 지도에 마커와 인포윈도우를 표시하는 함수입니다
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
@@ -109,10 +110,12 @@ function MeetingMap({
                 const resuaurantName = marker.getTitle();
                 saveLocation(lat, lng);
                 setRestaurantName(resuaurantName);
-                overlay.a = document.querySelector(".wrap .close");
-                overlay.a.addEventListener("click", function () {
-                    overlay.setMap(null); // 오버레이 닫기
-                });
+                currentOverlay = overlay; // 현재 열려 있는 오버레이 업데이트
+                document
+                    .querySelector(".wrap .close")
+                    .addEventListener("click", function () {
+                        overlay.setMap(null); // 오버레이 닫기
+                    });
             });
 
             overlay.setMap(null);
