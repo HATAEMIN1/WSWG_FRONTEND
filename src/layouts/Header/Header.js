@@ -88,7 +88,7 @@ function Header({ ...props }) {
                                         </div>
                                     ) : (
                                         <img
-                                            src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
+                                            src={`$y{process.env.PUBLIC_URL}/assets/profileDefult.png`}
                                             alt="profileImage"
                                         />
                                     )}
