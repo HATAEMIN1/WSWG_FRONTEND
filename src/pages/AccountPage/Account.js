@@ -111,7 +111,7 @@ function Account() {
                     className="w-full h-[400px] flex justify-center items-center text-zinc-800"
                     style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
                 >
-                    Loading...
+                    Logged Out 로그아웃 되셨습니다
                 </div>
             )}
         </div>
