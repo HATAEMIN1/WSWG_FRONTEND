@@ -21,6 +21,10 @@ function AccountEdit() {
     const [imgSrc, setImgSrc] = useState("");
     const [newPw, setNewPw] = useState("");
     const [imgFile, setImgFile] = useState("");
+    const isAuth = useSelector((state) => state.user.isAuth);
+    const retrievedImage = useSelector(
+        (state) => state.user.userData.image?.filename
+    );
 
     const {
         register,
@@ -73,15 +77,15 @@ function AccountEdit() {
             console.log("no img file selected yet");
             return;
         }
-        console.log(
-            "file is an instance of Blob in handleImgUpload:",
-            file instanceof Blob
-        );
+        // console.log(
+        //     "file is an instance of Blob in handleImgUpload:",
+        //     file instanceof Blob
+        // );
         setImgFile(file);
         const fileReader = new FileReader();
 
         fileReader.onload = () => {
-            setImgSrc(fileReader.result); // this is the compressed actual image file saved as url string in base64
+            setImgSrc(fileReader.result); // image file saved as url string in base64
         };
 
         fileReader.readAsDataURL(file); // encode file as a base64 url string
@@ -137,7 +141,8 @@ function AccountEdit() {
                     ) : (
                         <NotificationModal
                             text="회원 수정이 완료되었습니다!"
-                            path="/login"
+                            // path="/login"
+                            path={`${isAuth ? "/" : "/login"}`}
                             imgSrc="/images/iconSmile.png"
                             imgAlt="smile icon"
                         />
@@ -153,14 +158,22 @@ function AccountEdit() {
                 >
                     <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
                         <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative flex justify-center itmes-center">
-                            {imgSrc && (
-                                <>
-                                    <img
-                                        src={imgSrc}
-                                        className="object-cover"
-                                        alt="profile pic"
-                                    />
-                                </>
+                            {imgSrc ? (
+                                <img
+                                    src={imgSrc}
+                                    className="object-cover"
+                                    alt="profile pic"
+                                />
+                            ) : (
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src={
+                                        process.env
+                                            .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                        retrievedImage
+                                    }
+                                    alt="user profile pic"
+                                />
                             )}
                             <img
                                 onClick={onClickPenIcon}
