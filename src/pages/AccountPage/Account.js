@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
 
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axios";
+
 function Account() {
     const dispatch = useDispatch();
     const isAuth = useSelector((state) => state.user.isAuth);
@@ -55,6 +58,26 @@ function Account() {
             </div>
         );
     };
+
+    // //리뷰
+    // const [userReviews, setUserReviews] = useStata([]);
+    // const userId = useSelector((state) => state.user.userData._id); // 현재 사용자의 ID 가져오기
+
+    // useEffect(() => {
+    //     // 페이지가 렌더링될 때 실행되는 효과
+    //     const fetchUserReviews = async () => {
+    //         try {
+    //             const response = await axiosInstance.get(
+    //                 `/review-posts/user/${userId}`
+    //             ); // 현재 사용자의 ID를 기반으로 리뷰를 가져오는 요청
+    //             setUserReviews(response.data.reviews); // 가져온 리뷰를 상태에 저장
+    //         } catch (error) {
+    //             console.error("Error fetching user reviews:", error);
+    //         }
+    //     };
+
+    //     fetchUserReviews(); // 리뷰를 가져오는 함수 호출
+    // }, [userId]); // userId가 변경될 때마다 실행
 
     return (
         <div>

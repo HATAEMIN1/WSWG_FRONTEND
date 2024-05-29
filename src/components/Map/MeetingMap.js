@@ -104,9 +104,7 @@ function MeetingMap({
                 const resuaurantName = marker.getTitle();
                 saveLocation(lat, lng);
                 setRestaurantName(resuaurantName);
-                currentOverlay = overlay; // 현재 열려 있는 오버레이 업데이트
 
-                // close 버튼이 있는지 확인하고 이벤트 리스너 추가
                 const closeButton = document.querySelector(".wrap .close");
                 if (closeButton) {
                     closeButton.addEventListener("click", function () {
