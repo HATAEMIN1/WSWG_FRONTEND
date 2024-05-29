@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
 
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axios";
-
 function Account() {
     const dispatch = useDispatch();
     const isAuth = useSelector((state) => state.user.isAuth);
