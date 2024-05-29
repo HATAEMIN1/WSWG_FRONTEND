@@ -86,19 +86,13 @@ function MeetingMap({
                 image: markerImage,
                 title: title,
             });
-            // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-            // 마커를 생성합니다
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: locPosition,
-                image: markerImage,
-                title: title,
-            });
+
             var overlay = new kakao.maps.CustomOverlay({
                 content: content,
                 map: map,
                 position: marker.getPosition(),
             });
+
             kakao.maps.event.addListener(marker, "click", function () {
                 if (currentOverlay) {
                     currentOverlay.setMap(null); // 현재 열려 있는 오버레이 닫기
@@ -110,6 +104,7 @@ function MeetingMap({
                 const resuaurantName = marker.getTitle();
                 saveLocation(lat, lng);
                 setRestaurantName(resuaurantName);
+
                 const closeButton = document.querySelector(".wrap .close");
                 if (closeButton) {
                     closeButton.addEventListener("click", function () {

@@ -86,6 +86,7 @@ export const oauthLogin = createAsyncThunk(
     "user/oauthLogin",
     async (body, thunkAPI) => {
         try {
+            console.log("body in oauthLogin thunkapi:", body);
             console.log("thunkapi oauth로그인");
             return body;
         } catch (error) {

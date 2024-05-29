@@ -22,8 +22,16 @@ function AccountEdit() {
     const [newPw, setNewPw] = useState("");
     const [imgFile, setImgFile] = useState("");
     const isAuth = useSelector((state) => state.user.isAuth);
+    const retrievedImageOauth = useSelector(
+        (state) => state.user.userData.image?.originalname
+    );
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
+    );
+    console.log("retrievedImage in AccountEdit", retrievedImage);
+    console.log(
+        'retrievedImage!=="noimage.jpg":',
+        retrievedImage !== "noimage.jpg"
     );
 
     const {
@@ -115,8 +123,8 @@ function AccountEdit() {
             // }
 
             dispatch(updateUser(formData));
-            setModalOn(true);
             reset();
+            setModalOn(true);
         } catch (error) {
             console.log(error);
         }
@@ -158,22 +166,43 @@ function AccountEdit() {
                 >
                     <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
                         <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative flex justify-center itmes-center">
-                            {imgSrc ? (
-                                <img
-                                    src={imgSrc}
-                                    className="object-cover"
-                                    alt="profile pic"
-                                />
-                            ) : (
+                            {oauthLogin ? (
                                 <img
                                     className="w-full h-full object-cover"
-                                    src={
-                                        process.env
-                                            .REACT_APP_NODE_SERVER_UPLOAD_URL +
-                                        retrievedImage
-                                    }
-                                    alt="user profile pic"
+                                    src={retrievedImageOauth}
+                                    alt="profileImageFromOauthProfile"
                                 />
+                            ) : (
+                                <>
+                                    {imgSrc ? (
+                                        <img
+                                            src={imgSrc}
+                                            className="object-cover"
+                                            alt="profile pic"
+                                        />
+                                    ) : (
+                                        <>
+                                            {retrievedImage !==
+                                            "noimage.jpg" ? (
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src={
+                                                        process.env
+                                                            .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                                        retrievedImage
+                                                    }
+                                                    alt="user profile pic"
+                                                />
+                                            ) : (
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src="/images/profileDefault.png"
+                                                    alt="defaultPic"
+                                                />
+                                            )}
+                                        </>
+                                    )}
+                                </>
                             )}
                             <img
                                 onClick={onClickPenIcon}
