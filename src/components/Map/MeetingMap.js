@@ -110,12 +110,12 @@ function MeetingMap({
                 const resuaurantName = marker.getTitle();
                 saveLocation(lat, lng);
                 setRestaurantName(resuaurantName);
-                currentOverlay = overlay; // 현재 열려 있는 오버레이 업데이트
-                document
-                    .querySelector(".wrap .close")
-                    .addEventListener("click", function () {
+                const closeButton = document.querySelector(".wrap .close");
+                if (closeButton) {
+                    closeButton.addEventListener("click", function () {
                         overlay.setMap(null); // 오버레이 닫기
                     });
+                }
             });
 
             overlay.setMap(null);
