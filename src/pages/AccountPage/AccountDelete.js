@@ -60,8 +60,6 @@ function AccountDelete() {
     const dispatch = useDispatch();
     function onSubmit() {
         setFirstModalOn(true);
-        // dispatch(deleteUser());
-        // reset();
     }
     function onDelete() {
         dispatch(deleteUser());
@@ -126,7 +124,7 @@ function AccountDelete() {
                                 ) : (
                                     <img
                                         className="w-full h-full object-cover"
-                                        src="/images/profileDefault.png"
+                                        src="/images/defaultImageSquare.png"
                                         alt="defaultPic"
                                     />
                                 )}
