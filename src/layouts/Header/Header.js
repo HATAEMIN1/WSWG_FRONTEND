@@ -12,6 +12,13 @@ function Header({ ...props }) {
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
+    const oauthLogin = useSelector((state) => {
+        return state.user.oauthLogin;
+    });
+    const retrievedImageOauth = useSelector(
+        (state) => state.user.userData.image?.originalname
+    );
+    console.log("retrievedImageOauth", retrievedImageOauth);
     console.log("isAuth", isAuth);
     console.log("retrievedImage", retrievedImage);
     console.log(
@@ -74,23 +81,37 @@ function Header({ ...props }) {
                         {isAuth ? (
                             <div className="flex w-[150px] gap-4 justify-center items-center">
                                 <Link to="/account">
-                                    {retrievedImage ? (
+                                    {oauthLogin ? (
                                         <div className="w-[50px] h-[50px]">
                                             <img
                                                 className="rounded-full w-full h-full object-cover"
-                                                src={
-                                                    process.env
-                                                        .REACT_APP_NODE_SERVER_UPLOAD_URL +
-                                                    retrievedImage
-                                                }
-                                                alt="profileImage"
+                                                src={retrievedImageOauth}
+                                                alt="profileImageFromOauthProfile"
                                             />
                                         </div>
                                     ) : (
-                                        <img
-                                            src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
-                                            alt="profileImage"
-                                        />
+                                        <>
+                                            {retrievedImage !==
+                                            "noimage.jpg" ? (
+                                                <div className="w-[50px] h-[50px]">
+                                                    <img
+                                                        className="rounded-full w-full h-full object-cover"
+                                                        src={
+                                                            process.env
+                                                                .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                                            retrievedImage
+                                                        }
+                                                        alt="profileImage"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src="/images/profileDefault.png"
+                                                    alt="defaultPic"
+                                                />
+                                            )}
+                                        </>
                                     )}
                                 </Link>
                                 <Link className="" onClick={handleLogout}>
@@ -103,8 +124,8 @@ function Header({ ...props }) {
                         ) : (
                             <Link to="/login">
                                 <img
-                                    src={`${process.env.PUBLIC_URL}/assets/profileDefult.png`}
-                                    alt="profileImage"
+                                    src="/images/profileDefault.png"
+                                    alt="defaultPic"
                                 />
                             </Link>
                         )}
@@ -115,7 +136,7 @@ function Header({ ...props }) {
     );
 }
 
-function HeaderMom(props) {
+function HeaderMom() {
     return (
         <header className="w-full h-[60px] md:h-[82px] bg-white shadow">
             <div className="container m-auto h-[100%] flex justify-center">

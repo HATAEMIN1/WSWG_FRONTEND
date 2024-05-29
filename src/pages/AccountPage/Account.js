@@ -14,6 +14,9 @@ function Account() {
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
+    const retrievedImageOauth = useSelector(
+        (state) => state.user.userData.image?.originalname
+    );
 
     useEffect(() => {
         if (userData?.id) {
@@ -73,15 +76,34 @@ function Account() {
                         <div className="flex flex-col gap-8 font-['Pretendard']">
                             <div className="w-[960px] h-[300px] px-[30px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
                                 <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px]">
-                                    <img
-                                        className="w-full h-full object-cover"
-                                        src={
-                                            process.env
-                                                .REACT_APP_NODE_SERVER_UPLOAD_URL +
-                                            retrievedImage
-                                        }
-                                        alt="user profile pic"
-                                    />
+                                    {oauthLogin ? (
+                                        <img
+                                            className="w-full h-full object-cover"
+                                            src={retrievedImageOauth}
+                                            alt="profileImageFromOauthProfile"
+                                        />
+                                    ) : (
+                                        <>
+                                            {retrievedImage !==
+                                            "noimage.jpg" ? (
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src={
+                                                        process.env
+                                                            .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                                        retrievedImage
+                                                    }
+                                                    alt="user profile pic"
+                                                />
+                                            ) : (
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src="/images/profileDefault.png"
+                                                    alt="defaultPic"
+                                                />
+                                            )}
+                                        </>
+                                    )}
                                 </div>
                                 <div className="grow shrink basis-0 flex-col justify-start items-start gap-[26px] inline-flex">
                                     <>
@@ -192,7 +214,7 @@ function Account() {
                     className="w-full h-[400px] flex justify-center items-center text-zinc-800"
                     style={{ fontFamily: "TTHakgyoansimMonggeulmonggeulR" }}
                 >
-                    Loading...
+                    Logged Out 로그아웃 되셨습니다
                 </div>
             )}
         </div>
