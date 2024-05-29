@@ -51,7 +51,7 @@ function RestaurantList(props) {
     const selectedCategory = category.find((item) => item.cateId === cateId);
     const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const limit = 6;
+    const limit = 8;
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(false);
     const [filters, setFilters] = useState({

@@ -15,6 +15,9 @@ function AccountDelete() {
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
+    const retrievedImageOauth = useSelector(
+        (state) => state.user.userData.image?.originalname
+    );
     const [firstModalOn, setFirstModalOn] = useState(false);
     const [secondModalOn, setSecondModalOn] = useState(false);
     const {
@@ -62,7 +65,6 @@ function AccountDelete() {
         dispatch(deleteUser());
         reset();
         setSecondModalOn(true);
-        
     }
     return (
         <div
@@ -70,11 +72,11 @@ function AccountDelete() {
         >
             {firstModalOn && (
                 <NotificationModal
-                text="정말 떠나는 걸까?"
-                onClickFunction={onDelete}
-                imgSrc="/images/iconSad.png"
-                imgAlt="sad icon"
-            />
+                    text="정말 떠나는 걸까?"
+                    onClickFunction={onDelete}
+                    imgSrc="/images/iconSad.png"
+                    imgAlt="sad icon"
+                />
             )}
             {secondModalOn && (
                 <>
@@ -101,19 +103,33 @@ function AccountDelete() {
 
                 <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
                     <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4">
-                    { retrievedImage!=="noimage.jpg" ? (
-                        <img
-                            className="w-full h-full object-cover"
-                            src={
-                                process.env.REACT_APP_NODE_SERVER_UPLOAD_URL +
-                                retrievedImage
-                            }
-                            alt="user profile pic"
-                        />):(<img
-                            className="w-full h-full object-cover"
-                            src="/images/profileDefault.png"
-                            alt="defaultPic"
-                        />)}
+                        {oauthLogin ? (
+                            <img
+                                className="w-full h-full object-cover"
+                                src={retrievedImageOauth}
+                                alt="profileImageFromOauthProfile"
+                            />
+                        ) : (
+                            <>
+                                {retrievedImage !== "noimage.jpg" ? (
+                                    <img
+                                        className="w-full h-full object-cover"
+                                        src={
+                                            process.env
+                                                .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                            retrievedImage
+                                        }
+                                        alt="user profile pic"
+                                    />
+                                ) : (
+                                    <img
+                                        className="w-full h-full object-cover"
+                                        src="/images/profileDefault.png"
+                                        alt="defaultPic"
+                                    />
+                                )}
+                            </>
+                        )}
                     </div>
                     <div
                         style={{ fontFamily: "Pretendard" }}

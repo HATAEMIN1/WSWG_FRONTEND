@@ -3,9 +3,7 @@ import axiosInstance from "../../utils/axios";
 import { Link, useParams } from "react-router-dom";
 import Title from "../../components/Layout/Title";
 import { SectionWrap } from "../../components/Layout/Section";
-import { Button, ButtonWrap } from "../../components/Form/Button";
-import { IconStarView, IconWish } from "../../components/Form/Icon";
-import jQuery from "jquery";
+import { Button } from "../../components/Form/Button";
 import StarRating from "../../components/Form/StarRating";
 import DefualtModal from "../../components/Modal/DefualtModal";
 import { useSelector } from "react-redux";
@@ -36,16 +34,10 @@ function ReviewList(props) {
                 setReviewAdd((prevData) => [...prevData, ...res.data.review]);
             } else {
                 setReviewAdd(res.data.review);
-                //res.data.review배열을 역순으로 만들어서 setReviewAdd함수를 통해 해당 배열을 업데이트
             }
 
-            //prevData : 이전에 이미 화면에 표시된 데이터를 담고 있는 배열
-            //...prevData : 배열을 펼쳐서 현재 배열에 추가
-            // reverse( ) : 배열의 순서를 뒤집는 역할
-            //             [1.2.3.4.5]의 배열을[5.4.3.2.1]로 뒤집는다
-
             setHasMore(res.data.hasMore);
-            setLoading(false); //리스트를계속더보기할수있게해줌
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -70,6 +62,7 @@ function ReviewList(props) {
             }
         }
     };
+
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
@@ -84,19 +77,6 @@ function ReviewList(props) {
         setIsModalOpen(false);
         setSelectedReviewId(null);
     };
-
-    // const handleDelete = async (rpId) => {
-    //     console.log(reviewAdd);
-    //     try {
-    //         await axiosInstance.delete(`/review-posts/${rpId}`);
-
-    //         fetchReviewAdd({ limit, skip });
-    //     } catch (error) {
-    //         console.log(error);
-    //     } finally {
-    //         closeModal();
-    //     }
-    // };
 
     const handleDeleteConfirm = async () => {
         if (!selectedReviewId) return;
@@ -154,21 +134,22 @@ function ReviewList(props) {
                                                     <div className="w-full flex flex-col justify-between py-[10px]">
                                                         <ul className="textWrap">
                                                             <li className="name">
-                                                                <Link
-                                                                    to={`/mate/restaurants/${rtId}/review-post/${review._id}`}
-                                                                >
-                                                                    {
-                                                                        review
-                                                                            .user
-                                                                            .name
-                                                                    }
-                                                                </Link>
+                                                                {review.user && review.user.name ? (
+                                                                    <Link
+                                                                        to={`/mate/restaurants/${rtId}/review-post/${review._id}`}
+                                                                    >
+                                                                        {
+                                                                            review.user.name
+                                                                        }
+                                                                    </Link>
+                                                                ) : (
+                                                                    "Unknown User"
+                                                                )}
                                                             </li>
                                                             <li className="content w-full ">
                                                                 {review.content}
                                                             </li>
                                                             <li className="flex mb-2">
-                                                                {/* 평점:{review.rating} */}
                                                                 <span className="flex-none">
                                                                     평점:{" "}
                                                                 </span>
@@ -203,36 +184,20 @@ function ReviewList(props) {
                                                         </ul>
                                                     </div>
                                                     <div>
-                                                        {/* <div
-                                                            className="iconTrash"
-                                                            style={{
-                                                                cursor: "pointer",
-                                                            }}
-                                                            onClick={() =>
-                                                                handleDelete(
-                                                                    review._id
-                                                                )
-                                                            }
-                                                            alt="삭제"
-                                                        ></div> */}
-                                                        <div>
-                                                            {review.user
-                                                                .name ===
-                                                                userName && ( // 리뷰를 작성한 사용자와 현재 로그인한 사용자가 일치하는 경우에만 삭제 버튼을 표시
-                                                                <div
-                                                                    className="iconTrash"
-                                                                    style={{
-                                                                        cursor: "pointer",
-                                                                    }}
-                                                                    onClick={() =>
-                                                                        openModal(
-                                                                            review._id
-                                                                        )
-                                                                    }
-                                                                    alt="삭제"
-                                                                ></div>
-                                                            )}
-                                                        </div>
+                                                        {review.user && review.user.name === userName && (
+                                                            <div
+                                                                className="iconTrash"
+                                                                style={{
+                                                                    cursor: "pointer",
+                                                                }}
+                                                                onClick={() =>
+                                                                    openModal(
+                                                                        review._id
+                                                                    )
+                                                                }
+                                                                alt="삭제"
+                                                            ></div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
