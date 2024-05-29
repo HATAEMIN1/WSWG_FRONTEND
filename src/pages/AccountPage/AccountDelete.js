@@ -124,7 +124,7 @@ function AccountDelete() {
                                 ) : (
                                     <img
                                         className="w-full h-full object-cover"
-                                        src="/images/profileDefault.png"
+                                        src="/images/defaultImageSquare.png"
                                         alt="defaultPic"
                                     />
                                 )}

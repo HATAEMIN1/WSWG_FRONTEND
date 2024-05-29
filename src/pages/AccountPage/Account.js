@@ -21,7 +21,9 @@ function Account() {
         if (userData?.id) {
             const fetchUserReviews = async () => {
                 try {
-                    const response = await axiosInstance.get(`/review-posts/user/${userData.id}`);
+                    const response = await axiosInstance.get(
+                        `/review-posts/user/${userData.id}`
+                    );
                     setUserReviews(response.data.reviews);
                 } catch (error) {
                     console.log("리뷰 불러오기 오류:", error);
@@ -89,7 +91,7 @@ function Account() {
                                             ) : (
                                                 <img
                                                     className="w-full h-full object-cover"
-                                                    src="/images/profileDefault.png"
+                                                    src="/images/defaultImageSquare.png"
                                                     alt="defaultPic"
                                                 />
                                             )}
@@ -148,30 +150,61 @@ function Account() {
                                     <div className="flex flex-col gap-4 mt-4">
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
-                                                <div key={review._id} className="bg-neutral-100 p-4 rounded-md border border-neutral-200">
-                                                    <Link to={`/mate/restaurants/${review.restaurant?._id}/review-post/${review._id}`} className="text-base font-semibold text-blue-500">
-                                                        {review.restaurant?.name ?? 'Unknown Restaurant'}
+                                                <div
+                                                    key={review._id}
+                                                    className="bg-neutral-100 p-4 rounded-md border border-neutral-200"
+                                                >
+                                                    <Link
+                                                        to={`/mate/restaurants/${review.restaurant?._id}/review-post/${review._id}`}
+                                                        className="text-base font-semibold text-blue-500"
+                                                    >
+                                                        {review.restaurant
+                                                            ?.name ??
+                                                            "Unknown Restaurant"}
                                                     </Link>
-                                                    <div className="text-sm text-zinc-600">{review.content}</div>
-                                                    <div className="text-sm text-zinc-400">작성일: {new Date(review.createdAt).toLocaleDateString()}</div>
+                                                    <div className="text-sm text-zinc-600">
+                                                        {review.content}
+                                                    </div>
+                                                    <div className="text-sm text-zinc-400">
+                                                        작성일:{" "}
+                                                        {new Date(
+                                                            review.createdAt
+                                                        ).toLocaleDateString()}
+                                                    </div>
                                                     <div className="flex items-center mt-2">
-                                                        <span className="mr-1">별점: </span>
-                                                        <StarRating rating={review.rating} />
+                                                        <span className="mr-1">
+                                                            별점:{" "}
+                                                        </span>
+                                                        <StarRating
+                                                            rating={
+                                                                review.rating
+                                                            }
+                                                        />
                                                     </div>
                                                     <div className="flex gap-2 mt-2">
-                                                        {review.images && review.images.map((image, index) => (
-                                                            <img
-                                                                key={index}
-                                                                src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
-                                                                alt={`Review Image ${index + 1}`}
-                                                                className="w-[100px] h-[100px] object-cover rounded"
-                                                            />
-                                                        ))}
+                                                        {review.images &&
+                                                            review.images.map(
+                                                                (
+                                                                    image,
+                                                                    index
+                                                                ) => (
+                                                                    <img
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
+                                                                        alt={`Review Image ${index + 1}`}
+                                                                        className="w-[100px] h-[100px] object-cover rounded"
+                                                                    />
+                                                                )
+                                                            )}
                                                     </div>
                                                 </div>
                                             ))
                                         ) : (
-                                            <div>작성한 리뷰가 없습니다!!!!!.</div>
+                                            <div>
+                                                작성한 리뷰가 없습니다!!!!!.
+                                            </div>
                                         )}
                                     </div>
                                 </div>
