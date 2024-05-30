@@ -73,7 +73,6 @@ function Home({ ...props }) {
                         (restaurant) =>
                             restaurant.category[0].foodType === foodType[i]
                     );
-                    // console.log(filteredGeoData);
                     return (
                         <div key={`foodType-${i}`} className="mb-[100px]">
                             <Title className={"titleBasic mx-[32px]"}>

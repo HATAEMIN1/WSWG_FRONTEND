@@ -121,7 +121,7 @@ function RestaurantView(props) {
                             to={`/mate/${cateId}`}
                             className="flex justify-center items-center"
                         >
-                            <i className="btnBack">more</i> 뒤로가기
+                            <i className="btnBack">more</i> 식당 리스트
                         </Link>
                     </button>
                 </Title>

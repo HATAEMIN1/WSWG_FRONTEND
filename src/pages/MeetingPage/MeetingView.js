@@ -85,12 +85,7 @@ function MeetingView(props) {
                     longitude: meetingData.longitude,
                     latitude: meetingData.latitude,
                 };
-                console.log("Request Params:", params); // 요청 전 로그
                 const res = await axiosInstance.get(`/restaurants`, { params });
-                console.log(
-                    "fetchRestaurant response:",
-                    res.data.restaurant[0]
-                ); // 응답 로그
                 setRestaurantData(res.data.restaurant[0]);
             }
         } catch (error) {
@@ -128,7 +123,6 @@ function MeetingView(props) {
             const res = await axiosInstance.get(
                 `/meet-posts/${mpId}/comments?page=1&limit=10`
             );
-            console.log("초기 댓글 로드 응답:", res.data);
 
             const sortedComments = res.data.comments.sort(
                 (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -137,8 +131,6 @@ function MeetingView(props) {
             setTotalComments(res.data.totalComments);
             setPage(2);
             setHasMore(sortedComments.length < res.data.totalComments);
-            console.log("초기 로드 - 댓글 개수:", sortedComments.length);
-            console.log("초기 로드 - 총 댓글 개수:", res.data.totalComments);
         } catch (error) {
             console.log(error);
         }
@@ -150,7 +142,6 @@ function MeetingView(props) {
             const res = await axiosInstance.get(
                 `/meet-posts/${mpId}/comments?page=${page}&limit=10`
             );
-            console.log("추가 댓글 로드 응답:", res.data);
 
             const newComments = res.data.comments.sort(
                 (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -163,14 +154,6 @@ function MeetingView(props) {
                 setPage((prevPage) => prevPage + 1);
                 setHasMore(
                     comments.length + newComments.length < totalComments
-                );
-                console.log(
-                    "추가 로드 - 댓글 개수:",
-                    comments.length + newComments.length
-                );
-                console.log(
-                    "추가 로드 - 총 댓글 개수:",
-                    res.data.totalComments
                 );
             } else {
                 setHasMore(false);
@@ -235,11 +218,6 @@ function MeetingView(props) {
         setIsModalOpen(false);
     };
 
-    useEffect(() => {
-        console.log("meetingData:", meetingData);
-        console.log("userName:", userName);
-    }, [meetingData, userName]);
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -253,7 +231,7 @@ function MeetingView(props) {
                             to={`/meet-posts`}
                             className="flex justify-center items-center"
                         >
-                            <i className="btnBack">more</i> 뒤로가기
+                            <i className="btnBack">more</i>우리 만날까 리스트
                         </Link>
                     </button>
                 </Title>

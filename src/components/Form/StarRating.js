@@ -27,7 +27,6 @@ const Star = styled.i`
 `;
 
 function StarRating(props) {
-    console.log("props to StarRating:", props);
     const rating = props.rating || 0;
     const fullStars = Math.floor(rating);
     // const fullStars = Math.floor(props.rating);
