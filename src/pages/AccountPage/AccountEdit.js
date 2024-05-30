@@ -145,8 +145,8 @@ function AccountEdit() {
                     onSubmit={onSubmit}
                     className="flex flex-col justify-center items-center"
                 >
-                    <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
-                        <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative flex justify-center itmes-center">
+                    <div className="flex flex-col items-center w-[250px] h-[250px] mb-4">
+                        <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative flex justify-center itmes-center overflow-hidden">
                             {oauthLogin ? (
                                 <img
                                     className="w-full h-full object-cover"
