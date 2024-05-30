@@ -87,14 +87,14 @@ function Account() {
     return (
         <div>
             {isAuth ? (
-                <div className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
+                <div className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex">
                     <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}> 나는 어디까지 가봤을까?</Title>
 
                     <div className="flex justify-center">
                         <div className="flex flex-col gap-8 font-['Pretendard']">
-                            <div className="w-[960px] h-[300px] px-[30px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
-                                <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px]">
+                            <div className="w-[960px] p-[15px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
+                                <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px] overflow-hidden">
                                     {oauthLogin ? (
                                         <img
                                             className="w-full h-full object-cover"
@@ -169,9 +169,11 @@ function Account() {
                                     </>
                                 </div>
                             </div>
-                            <div className="w-[960px] flex flex-col gap-8 text-zinc-800 text-xl font-semibold">
+                            <div className="w-[960px] flex flex-col gap-8">
                                 <div>
-                                    내가 찜한 가게
+                                    <Title className={"titleComment"}>
+                                        내가 찜한 가게
+                                    </Title>
                                     <div className="flex flex-col gap-4 mt-4">
                                         {userRestaurants &&
                                         userRestaurants.length > 0 &&
@@ -223,14 +225,16 @@ function Account() {
                                                 )
                                             )
                                         ) : (
-                                            <div className="text-sm">
+                                            <div className="w-full bg-slate-100  py-[20px] text-center text-sm">
                                                 찜한 가게가 없습니다!
                                             </div>
                                         )}
                                     </div>
                                 </div>
                                 <div>
-                                    내가 작성한 리뷰
+                                    <Title className={"titleComment"}>
+                                        내가 작성한 리뷰
+                                    </Title>
                                     <div className="flex flex-col gap-4 mt-4">
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
@@ -284,14 +288,16 @@ function Account() {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="text-sm">
+                                            <div className="w-full bg-slate-100  py-[20px] text-center text-sm">
                                                 작성한 리뷰가 없습니다!
                                             </div>
                                         )}
                                     </div>
                                 </div>
                                 <div>
+                                    <Title className={"titleComment"}>
                                     내가 등록한 우리 만날까
+                                    </Title>
                                     <div className="flex flex-col gap-4 mt-4">
                                         {userMeetups.length > 0 ? (
                                             userMeetups.map((meetup) => (
@@ -329,7 +335,7 @@ function Account() {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="text-sm">
+                                            <div className="w-full bg-slate-100 py-[20px] text-center text-sm">
                                                 등록한 우리 만날까 게시글이
                                                 없습니다!
                                             </div>
