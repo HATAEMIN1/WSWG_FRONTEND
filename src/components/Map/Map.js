@@ -16,14 +16,20 @@ function Map({
     cateId,
     ...props
 }) {
-    const positions = geoData.map((restaurant) => ({
-        title: restaurant.name,
-        latlng: new kakao.maps.LatLng(
-            restaurant.location.coordinates[1],
-            restaurant.location.coordinates[0]
-        ),
-        image: restaurant.image[0],
-    }));
+    const positions = geoData
+        .filter(
+            (restaurant) =>
+                Array.isArray(restaurant.location.coordinates) &&
+                restaurant.location.coordinates.length >= 2
+        )
+        .map((restaurant) => ({
+            title: restaurant.name,
+            latlng: new kakao.maps.LatLng(
+                restaurant.location.coordinates[1],
+                restaurant.location.coordinates[0]
+            ),
+            image: restaurant.image[0],
+        }));
 
     function mapSet(click) {
         const mapContainer = document.getElementById("map"),
@@ -84,7 +90,7 @@ function Map({
             });
 
             // 오버레이 컨텐츠를 문자열이 아닌 DOM 요소로 변환
-            var contentElement = document.createElement('div');
+            var contentElement = document.createElement("div");
             contentElement.innerHTML = content;
 
             var overlay = new kakao.maps.CustomOverlay({
@@ -101,9 +107,11 @@ function Map({
                 currentOverlay = overlay; // 현재 열려 있는 오버레이 업데이트
 
                 // 오버레이 내부의 닫기 버튼 클릭 이벤트 설정
-                contentElement.querySelector(".close").addEventListener("click", function () {
-                    overlay.setMap(null); // 오버레이 닫기
-                });
+                contentElement
+                    .querySelector(".close")
+                    .addEventListener("click", function () {
+                        overlay.setMap(null); // 오버레이 닫기
+                    });
             });
             overlay.setMap(null);
         }
@@ -133,12 +141,19 @@ function Map({
         }
 
         const panTo = () => {
+            console.log("inside panTo when clicked 현위치보기");
+            console.log("navigator.geolocation:", navigator.geolocation);
             if (navigator.geolocation) {
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var lat = position.coords.latitude, // 위도
                         lon = position.coords.longitude; // 경도
                     const moveLatLon = new window.kakao.maps.LatLng(lat, lon);
+                    console.log("lat inside panTo:", lat);
+
+                    // Display marker at the current location
+                    displayMarker(moveLatLon, "현재 위치");
+
                     // 지도 중심을 부드럽게 이동시킵니다
                     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
                     map.panTo(moveLatLon);
@@ -152,18 +167,31 @@ function Map({
         // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
         kakao.maps.event.addListener(map, "dragend", async function () {
             // 지도 중심좌표를 얻어옵니다
-            var latlng = map.getCenter();
+            let latlng = map.getCenter();
+            console.log("latlng of map center:", latlng);
             setGeoCenter([latlng.Ma, latlng.La]);
             const body = { lat: latlng.getLat(), lon: latlng.getLng(), cateId };
+            console.log(
+                "body before sending post request to restaurants/location:",
+                body
+            );
             const res = await axiosInstance.post("restaurants/location", body);
-            setGeoData(res.data.restaurant);
-            console.log(res.data.restaurant);
+            console.log("res", res);
+            // Filter the fetched data to ensure it has valid coordinates
+            const validRestaurants = res.data.restaurant.filter(
+                (restaurant) =>
+                    Array.isArray(restaurant.location.coordinates) &&
+                    restaurant.location.coordinates.length >= 2
+            );
+            setGeoData(validRestaurants);
+            // console.log(res.data.restaurant);
             currentOverlay = null; // 열려 있는 인포윈도우 변수 초기화
         });
 
         kakao.maps.event.addListener(map, "zoom_changed", function () {
             // 지도의 현재 레벨을 얻어옵니다
             var level = map.getLevel();
+            console.log();
             setGeoMouse(level);
         });
     }
