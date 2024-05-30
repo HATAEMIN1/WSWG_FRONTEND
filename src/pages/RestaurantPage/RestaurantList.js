@@ -49,7 +49,6 @@ function RestaurantList() {
     ];
     const { cateId } = useParams();
     const selectedCategory = category.find((item) => item.cateId === cateId);
-    console.log("selectedCategory:", selectedCategory);
     const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(false);
     const limit = 8;

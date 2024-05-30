@@ -37,8 +37,6 @@ function AccountDelete() {
             message: "최소 4자입니다.",
         },
         validate: async (newPassword) => {
-            console.log("userData:", userData);
-            console.log("userData.password:", userData.password);
             const body = {
                 newPassword,
                 oldPassword: userData.password,

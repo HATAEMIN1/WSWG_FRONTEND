@@ -1,11 +1,10 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
 
 function Account() {
-    const dispatch = useDispatch();
     const isAuth = useSelector((state) => state.user.isAuth);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
     const userData = useSelector((state) => state?.user?.userData);
@@ -33,13 +32,8 @@ function Account() {
             };
             const fetchUserRestaurants = async () => {
                 try {
-                    console.log(`/users/${userData.id}/likedResturants`);
                     const response = await axiosInstance.get(
                         `/users/${userData.id}/likedResturants`
-                    );
-                    console.log(
-                        "response.data in fetchUserRestaurants:",
-                        response.data
                     );
                     setUserRestaurants(response.data.restaurants);
                 } catch (error) {
@@ -48,13 +42,8 @@ function Account() {
             };
             const fetchUserMeetups = async () => {
                 try {
-                    console.log(`/users/${userData.id}/meetups`);
                     const response = await axiosInstance.get(
                         `/users/${userData.id}/meetups`
-                    );
-                    console.log(
-                        "response.data in fetchUserMeetups:",
-                        response.data
                     );
                     setUserMeetups(response.data.meetupPosts);
                 } catch (error) {
@@ -94,9 +83,6 @@ function Account() {
             </div>
         );
     };
-
-    console.log("userRestaurants in my account page:", userRestaurants);
-    console.log("userMeetups in account page", userMeetups);
 
     return (
         <div>
@@ -197,7 +183,7 @@ function Account() {
                                                         className="bg-neutral-100 p-4 rounded-md border border-neutral-200"
                                                     >
                                                         <Link
-                                                            to={`/restaurants/${restaurant?._id}`}
+                                                            to={`/mate/${restaurant.category[1].mateType[0]}/restaurants/${restaurant?._id}`}
                                                             className="text-base font-semibold text-blue-500"
                                                         >
                                                             {restaurant?.name ??
