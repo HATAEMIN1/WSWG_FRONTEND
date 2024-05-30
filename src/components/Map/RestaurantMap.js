@@ -11,7 +11,6 @@ function RestaurantMap(props) {
             const res = await axiosInstance.get(
                 `/restaurants/${cateId}/${rtId}`
             );
-            console.log(res.data.restaurant);
             setRestaurant(res.data.restaurant);
         } catch (e) {
             console.log(e.message);

@@ -141,18 +141,12 @@ function Map({
         }
 
         const panTo = () => {
-            console.log("inside panTo when clicked 현위치보기");
-            console.log("navigator.geolocation:", navigator.geolocation);
             if (navigator.geolocation) {
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var lat = position.coords.latitude, // 위도
                         lon = position.coords.longitude; // 경도
                     const moveLatLon = new window.kakao.maps.LatLng(lat, lon);
-                    console.log("lat inside panTo:", lat);
-
-                    // Display marker at the current location
-                    displayMarker(moveLatLon, "현재 위치");
 
                     // 지도 중심을 부드럽게 이동시킵니다
                     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
@@ -168,15 +162,9 @@ function Map({
         kakao.maps.event.addListener(map, "dragend", async function () {
             // 지도 중심좌표를 얻어옵니다
             let latlng = map.getCenter();
-            console.log("latlng of map center:", latlng);
             setGeoCenter([latlng.Ma, latlng.La]);
             const body = { lat: latlng.getLat(), lon: latlng.getLng(), cateId };
-            console.log(
-                "body before sending post request to restaurants/location:",
-                body
-            );
             const res = await axiosInstance.post("restaurants/location", body);
-            console.log("res", res);
             // Filter the fetched data to ensure it has valid coordinates
             const validRestaurants = res.data.restaurant.filter(
                 (restaurant) =>
@@ -184,14 +172,12 @@ function Map({
                     restaurant.location.coordinates.length >= 2
             );
             setGeoData(validRestaurants);
-            // console.log(res.data.restaurant);
             currentOverlay = null; // 열려 있는 인포윈도우 변수 초기화
         });
 
         kakao.maps.event.addListener(map, "zoom_changed", function () {
             // 지도의 현재 레벨을 얻어옵니다
             var level = map.getLevel();
-            console.log();
             setGeoMouse(level);
         });
     }

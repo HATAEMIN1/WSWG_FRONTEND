@@ -17,7 +17,6 @@ const KakaoLogin = () => {
 &response_type=code`;
     const code = searchParams.get("code");
     const dispatch = useDispatch();
-    // console.log("kakao oauth - code from query string", code);
 
     useEffect(() => {
         const fetchAccessToken = async () => {
@@ -43,7 +42,6 @@ const KakaoLogin = () => {
                             },
                         }
                     );
-                    console.log("response.data", response.data);
                     const id_token = response.data.id_token;
                     const userDataResponse = await axiosInstance.post(
                         "/users/kakao-login",
@@ -51,7 +49,6 @@ const KakaoLogin = () => {
                             id_token,
                         }
                     );
-                    console.log("userDataResponse", userDataResponse);
                     if (userDataResponse.status === 200) {
                         const accessToken = userDataResponse.data.accessToken;
                         const existingUser = userDataResponse.data.existingUser;
@@ -67,7 +64,6 @@ const KakaoLogin = () => {
                             accessToken,
                         };
                         dispatch(oauthLogin(body));
-                        console.log("after dispatch login user");
                         navigate("/");
                     }
                 }

@@ -39,17 +39,12 @@ const userSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                console.log(
-                    "action.payload when registerUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.error = "";
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
-                console.log("registerUser rejected:", action.payload);
             })
 
             .addCase(loginUser.pending, (state) => {
@@ -60,10 +55,6 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.oauthLogin = false;
                 state.error = "";
-                console.log(
-                    "action.payload when loginUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.isAuth = true;
                 localStorage.setItem("accessToken", action.payload.accessToken);
@@ -80,10 +71,6 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.oauthLogin = true;
                 state.error = "";
-                console.log(
-                    "action.payload when oauthLogin.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.isAuth = true;
                 localStorage.setItem("accessToken", action.payload.accessToken);
@@ -99,10 +86,6 @@ const userSlice = createSlice({
             .addCase(authUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = "";
-                console.log(
-                    "action.payload when authUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
 
                 state.isAuth = true;
@@ -137,7 +120,6 @@ const userSlice = createSlice({
             .addCase(updateUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = "";
-                console.log("action.payload in updateUser:", action.payload);
                 state.userData = action.payload.user;
                 if (action.payload.passwordChange) {
                     state.isAuth = false;

@@ -27,7 +27,6 @@ function ReviewView(props) {
                     `/review-posts/${rpId}/view`
                 );
                 setReview(reviewRes.data.review);
-                console.log(reviewRes.data);
             } catch (error) {
                 console.log("리뷰정보가져오기오류", error);
             }

@@ -32,7 +32,6 @@ const NaverLogin = () => {
                         }
                     );
                     // get accessToken and userData from existingUser from userDataResponse
-                    console.log("userDataResponse", userDataResponse);
                     if (userDataResponse.status === 200) {
                         const accessToken = userDataResponse.data.accessToken;
                         const existingUser = userDataResponse.data.existingUser;
