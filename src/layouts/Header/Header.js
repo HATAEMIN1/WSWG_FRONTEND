@@ -12,6 +12,13 @@ function Header({ ...props }) {
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
+    const oauthLogin = useSelector((state) => {
+        return state.user.oauthLogin;
+    });
+    const retrievedImageOauth = useSelector(
+        (state) => state.user.userData.image?.originalname
+    );
+    console.log("retrievedImageOauth", retrievedImageOauth);
     console.log("isAuth", isAuth);
     console.log("retrievedImage", retrievedImage);
     console.log(
@@ -74,24 +81,37 @@ function Header({ ...props }) {
                         {isAuth ? (
                             <div className="flex w-[150px] gap-4 justify-center items-center">
                                 <Link to="/account">
-                                    {retrievedImage!=="noimage.jpg" ? (
+                                    {oauthLogin ? (
                                         <div className="w-[50px] h-[50px]">
                                             <img
                                                 className="rounded-full w-full h-full object-cover"
-                                                src={
-                                                    process.env
-                                                        .REACT_APP_NODE_SERVER_UPLOAD_URL +
-                                                    retrievedImage
-                                                }
-                                                alt="profileImage"
+                                                src={retrievedImageOauth}
+                                                alt="profileImageFromOauthProfile"
                                             />
                                         </div>
                                     ) : (
-                                        <img
-                                        className="w-full h-full object-cover"
-                                        src="/images/profileDefault.png"
-                                        alt="defaultPic"
-                                    />
+                                        <>
+                                            {retrievedImage !==
+                                            "noimage.jpg" ? (
+                                                <div className="w-[50px] h-[50px]">
+                                                    <img
+                                                        className="rounded-full w-full h-full object-cover"
+                                                        src={
+                                                            process.env
+                                                                .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                                            retrievedImage
+                                                        }
+                                                        alt="profileImage"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src="/images/profileDefault.png"
+                                                    alt="defaultPic"
+                                                />
+                                            )}
+                                        </>
                                     )}
                                 </Link>
                                 <Link className="" onClick={handleLogout}>
