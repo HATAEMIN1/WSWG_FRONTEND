@@ -8,7 +8,7 @@ import { IconWish } from "../../components/Form/Icon";
 import SelectDiv from "../../components/Form/Select";
 import { useSelector } from "react-redux";
 
-function RestaurantList(props) {
+function RestaurantList() {
     const category = [
         {
             cateId: "lover",
@@ -49,6 +49,7 @@ function RestaurantList(props) {
     ];
     const { cateId } = useParams();
     const selectedCategory = category.find((item) => item.cateId === cateId);
+    console.log("selectedCategory:", selectedCategory);
     const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(false);
     const limit = 8;
@@ -145,7 +146,7 @@ function RestaurantList(props) {
     }
     return (
         <SectionWrap>
-            <Title className={"titleStt"}>{selectedCategory.name}</Title>
+            <Title className={"titleStt"}>{selectedCategory?.name}</Title>
             <div className="flex gap-2 mb-5">
                 <SelectDiv
                     checkedMetropolitan={filters.metropolitan}

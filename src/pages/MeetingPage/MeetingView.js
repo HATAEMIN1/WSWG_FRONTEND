@@ -253,7 +253,7 @@ function MeetingView(props) {
                             to={`/meet-posts`}
                             className="flex justify-center items-center"
                         >
-                            <i className="btnBack">more</i> 뒤로가기
+                            <i className="btnBack">more</i>우리 만날까 리스트
                         </Link>
                     </button>
                 </Title>
