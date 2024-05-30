@@ -206,12 +206,7 @@ function Account() {
                                                         <div className="text-sm text-zinc-600">
                                                             {restaurant.content}
                                                         </div>
-                                                        {/* <div className="text-sm text-zinc-400">
-                                                            등록일:{" "}
-                                                            {new Date(
-                                                                restaurant.createdAt
-                                                            ).toLocaleDateString()}
-                                                        </div> */}
+
                                                         <div className="flex items-center mt-2">
                                                             <span className="mr-1">
                                                                 별점:{" "}
@@ -319,31 +314,13 @@ function Account() {
                                                     className="bg-neutral-100 p-4 rounded-md border border-neutral-200"
                                                 >
                                                     <Link
-                                                        to={`/meetupposts/${meetup?._id}`}
+                                                        to={`/meet-posts/${meetup?._id}`}
                                                         className="text-base font-semibold text-blue-500"
                                                     >
                                                         {meetup?.title ??
                                                             "Unknown Meetup Post Name"}
                                                     </Link>
-                                                    {/* <div className="text-sm text-zinc-600">
-                                                        {meetup.content}
-                                                    </div>
-                                                    <div className="text-sm text-zinc-400">
-                                                        등록일:{" "}
-                                                        {new Date(
-                                                            meetup.createdAt
-                                                        ).toLocaleDateString()}
-                                                    </div> */}
-                                                    {/* <div className="flex items-center mt-2">
-                                                        <span className="mr-1">
-                                                            별점:{" "}
-                                                        </span>
-                                                        <StarRating
-                                                            rating={
-                                                                meetup.rating
-                                                            }
-                                                        />
-                                                    </div> */}
+
                                                     <div className="flex items-center mt-2">
                                                         조회수: {meetup.views}
                                                     </div>
