@@ -119,24 +119,26 @@ function ReviewAdd(props) {
     }
 
     async function handleSubmit(e) {
-        e.preventDefault();
-        const body = {
-            ...text,
-            restId: rtId, //해당게시물의 ID를 전달
-            userId: userData.id,
-            rating: rating,
-            hashTag: hashtag,
-        };
+  e.preventDefault();
+  const body = {
+    ...text,
+    restId: rtId, // 해당 게시물의 ID를 전달
+    userId: userData.id,
+    rating: rating,
+    hashTag: hashtag, // 해시태그 추가
+  };
 
-        try {
-            await axiosInstance.post("/review-posts", body);
-            setModalOpen(true); //리뷰등록 후 모달열기
-            // navigate(`/mate/${cateId}/restaurants/${rtId}`);
-        } catch (error) {
-            console.log(error);
-            setModalOpen(false);
-        }
-    }
+  try {
+    await axiosInstance.post("/review-posts", body);
+    setModalOpen(true); // 리뷰 등록 후 모달 열기
+    // navigate(`/mate/${cateId}/restaurants/${rtId}`);
+  } catch (error) {
+    console.log(error);
+    setModalOpen(false);
+  }
+}
+
+      
 
     function handleStarClick(index) {
         setRating(index + 1);

@@ -5,10 +5,7 @@ import { useState } from "react";
 
 function Header({ ...props }) {
     const [search, setSearch] = useState("");
-    // const [filename, setFilename] = useState("");
-    const isAuth = useSelector((state) => {
-        return state.user.isAuth;
-    });
+    const isAuth = useSelector((state) => state.user.isAuth);
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
@@ -18,31 +15,29 @@ function Header({ ...props }) {
     const retrievedImageOauth = useSelector(
         (state) => state.user.userData.image?.originalname
     );
-    console.log("retrievedImageOauth", retrievedImageOauth);
-    console.log("isAuth", isAuth);
-    console.log("retrievedImage", retrievedImage);
-    console.log(
-        "full img url:",
-        process.env.REACT_APP_NODE_SERVER_UPLOAD_URL + retrievedImage
-    );
-    // if (retrievedImage) {
-    //     setFilename(retrievedImage);
-    // }
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     function handleLogout() {
         dispatch(logoutUser());
     }
+    
     function handleSearch(e) {
         setSearch(e.target.value);
     }
+
     function handleSubmit(e) {
         e.preventDefault();
-        navigate(`/search?q=${search}`);
+        // 해시태그 검색을 위한 네비게이트 경로 설정
+        if (search.startsWith("#")) {
+            navigate(`/search?hashtag=${search.slice(1)}`);
+        } else {
+            navigate(`/search?q=${search}`);
+        }
         setSearch("");
     }
+    
+
     return (
         <>
             <header className="w-full h-[120px] md:h-[82px] bg-white shadow fixed top-0 z-[2] ">

@@ -65,13 +65,14 @@ function Search(props) {
             } else {
                 setResults(res.data.restaurant);
             }
-
+    
             setHasMore(res.data.hasMore);
             res.data.restaurant.forEach((item) => likes(item._id));
         } catch (error) {
             console.error(error);
         }
     };
+    
     const likes = async (rtId) => {
         const params = { userId };
         try {

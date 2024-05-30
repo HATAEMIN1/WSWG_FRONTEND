@@ -18,6 +18,7 @@ import RestaurantList from "./pages/RestaurantPage/RestaurantList";
 import RestaurantView from "./pages/RestaurantPage/RestaurantView";
 import ReviewView from "./pages/ReviewPage/ReviewView";
 import ReviewAdd from "./pages/ReviewPage/ReviewAdd";
+import ReviewList from "./pages/ReviewPage/ReviewList"; // 추가된 부분
 import GlobalNav from "./layouts/Navigation/GlobalNav";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, MapModal, MapModalSelect } from "./components/Modal/Modal";
@@ -126,14 +127,10 @@ function App() {
                         path="/mate/restaurants/:rtId/review-post/:rpId"
                         element={<ReviewView />}
                     />
-                    <Route
-                        path="/meet-posts"
-                        element={<MeetingList modalOpen={modalOpen} />}
-                    ></Route>
                     <Route path="/meet-posts" element={<MeetingList />} />
                     <Route path="/meet-posts/new" element={<MeetingAdd />} />
                     <Route path="/meet-posts/:mpId" element={<MeetingView />} />
-                    <Route path="/search" element={<Search />} />
+                    <Route path="/search" element={<ReviewList />} />
                     <Route path="/styleguide" element={<StyleGuide />} />
                 </Route>
                 {/* <Route element={<NotAuthRouter />}> */}

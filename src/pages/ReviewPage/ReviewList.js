@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import Title from "../../components/Layout/Title";
 import { SectionWrap } from "../../components/Layout/Section";
 import { Button } from "../../components/Form/Button";
@@ -10,12 +10,15 @@ import { useSelector } from "react-redux";
 
 function ReviewList(props) {
     const { cateId, rtId } = useParams();
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const hashtag = query.get("hashtag");
+    const q = query.get("q");
     const [reviewAdd, setReviewAdd] = useState([]);
     const [loading, setLoading] = useState(false);
     const limit = 5;
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(false);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedReviewId, setSelectedReviewId] = useState(null);
     const userName = useSelector((state) => state.user.userData.name);
@@ -26,26 +29,41 @@ function ReviewList(props) {
             limit,
         };
         try {
-            const res = await axiosInstance.get(`/review-posts/${rtId}`, {
-                params,
-            });
-            console.log(res.data);
-            if (loadMore) {
-                setReviewAdd((prevData) => [...prevData, ...res.data.review]);
+            let res;
+            if (hashtag) {
+                res = await axiosInstance.get(`/reviews/search?hashtag=${hashtag}`, { params });
+            } else if (q) {
+                res = await axiosInstance.get(`/reviews/search?q=${q}`, { params });
+            } else if (rtId) {
+                res = await axiosInstance.get(`/reviews/restaurant/${rtId}`, { params });
             } else {
-                setReviewAdd(res.data.review);
+                res = await axiosInstance.get(`/reviews`, { params });
+            }
+            console.log("Fetched reviews:", res.data);
+            const reviews = Array.isArray(res.data) ? res.data : res.data.reviews || [];
+            console.log("Processed reviews:", reviews);
+
+            if (loadMore) {
+                setReviewAdd((prevData) => [...prevData, ...reviews]);
+            } else {
+                setReviewAdd(reviews);
             }
 
-            setHasMore(res.data.hasMore);
+            setHasMore(reviews.length >= limit);
             setLoading(false);
         } catch (error) {
-            console.log(error);
+            console.log("Error fetching reviews:", error);
         }
     };
 
     useEffect(() => {
+        console.log("Fetching reviews with params:", { limit, skip, hashtag, q });
         fetchReviewAdd({ limit, skip });
-    }, []);
+    }, [rtId, hashtag, q]);
+
+    useEffect(() => {
+        console.log("ReviewAdd state updated:", reviewAdd);
+    }, [reviewAdd]);
 
     const handleScroll = () => {
         if (
@@ -115,6 +133,7 @@ function ReviewList(props) {
                             {reviewAdd && reviewAdd.length > 0 ? (
                                 <div className="w-full">
                                     {reviewAdd.map((review, index) => {
+                                        console.log("Rendering review:", review);
                                         return (
                                             <div
                                                 className="flex reviewListWrap gap-5"
@@ -134,17 +153,9 @@ function ReviewList(props) {
                                                     <div className="w-full flex flex-col justify-between py-[10px]">
                                                         <ul className="textWrap">
                                                             <li className="name">
-                                                                {review.user && review.user.name ? (
-                                                                    <Link
-                                                                        to={`/mate/restaurants/${rtId}/review-post/${review._id}`}
-                                                                    >
-                                                                        {
-                                                                            review.user.name
-                                                                        }
-                                                                    </Link>
-                                                                ) : (
-                                                                    "Unknown User"
-                                                                )}
+                                                                <Link to={`/mate/restaurants/${rtId}/review-post/${review._id}`}>
+                                                                    {review.user && review.user.name ? review.user.name : "Unknown User"}
+                                                                </Link>
                                                             </li>
                                                             <li className="content w-full ">
                                                                 {review.content}
@@ -161,23 +172,17 @@ function ReviewList(props) {
                                                             </li>
                                                             <li>
                                                                 <div className="hashBoxWrap">
-                                                                    {review.hashTag.map(
-                                                                        (
-                                                                            tag,
-                                                                            i
-                                                                        ) => (
+                                                                    {review.hashTag && review.hashTag.length > 0 ? (
+                                                                        review.hashTag.map((tag, i) => (
                                                                             <span
-                                                                                key={
-                                                                                    i
-                                                                                }
+                                                                                key={i}
                                                                                 className="hashBox"
                                                                             >
-                                                                                #
-                                                                                {
-                                                                                    tag
-                                                                                }
+                                                                                #{tag}
                                                                             </span>
-                                                                        )
+                                                                        ))
+                                                                    ) : (
+                                                                        <span className="hashBox">#NoTags</span>
                                                                     )}
                                                                 </div>
                                                             </li>
