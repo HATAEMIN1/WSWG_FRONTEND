@@ -62,10 +62,7 @@ function RestaurantMap(props) {
         restaurant.location.coordinates.length === 0
     ) {
         return (
-            <p className="flex w-full h-full text-center justify-center items-center">
-                좌표를 찾을 수 없어
-                <br />
-                지도가 없습니다
+            <p className="flex w-full h-full text-center justify-center items-center mapNoimg">
             </p>
         );
     }
