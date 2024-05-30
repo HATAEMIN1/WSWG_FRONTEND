@@ -10,6 +10,8 @@ function Account() {
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
     const userData = useSelector((state) => state?.user?.userData);
     const [userReviews, setUserReviews] = useState([]);
+    const [userRestaurants, setUserRestaurants] = useState([]);
+    const [userMeetups, setUserMeetups] = useState([]);
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
@@ -26,10 +28,45 @@ function Account() {
                     );
                     setUserReviews(response.data.reviews);
                 } catch (error) {
-                    console.log("리뷰 불러오기 오류:", error);
+                    console.log("내가 작성한 리뷰 불러오기 오류:", error);
+                }
+            };
+            const fetchUserRestaurants = async () => {
+                try {
+                    console.log(`/users/${userData.id}/likedResturants`);
+                    const response = await axiosInstance.get(
+                        `/users/${userData.id}/likedResturants`
+                    );
+                    console.log(
+                        "response.data in fetchUserRestaurants:",
+                        response.data
+                    );
+                    setUserRestaurants(response.data.restaurants);
+                } catch (error) {
+                    console.log("내가 찜한 가게 불러오기 오류:", error);
+                }
+            };
+            const fetchUserMeetups = async () => {
+                try {
+                    console.log(`/users/${userData.id}/meetups`);
+                    const response = await axiosInstance.get(
+                        `/users/${userData.id}/meetups`
+                    );
+                    console.log(
+                        "response.data in fetchUserMeetups:",
+                        response.data
+                    );
+                    setUserMeetups(response.data.meetupPosts);
+                } catch (error) {
+                    console.log(
+                        "내가 등록한 우리 만날까 불러오기 오류:",
+                        error
+                    );
                 }
             };
             fetchUserReviews();
+            fetchUserRestaurants();
+            fetchUserMeetups();
         }
     }, [userData?.id]);
 
@@ -39,7 +76,7 @@ function Account() {
             <div className="flex">
                 {[...Array(5)].map((star, index) => (
                     <svg
-                        key={index}
+                        key={`star-${index}`}
                         xmlns="http://www.w3.org/2000/svg"
                         fill={index < rating ? "currentColor" : "none"}
                         viewBox="0 0 24 24"
@@ -57,26 +94,6 @@ function Account() {
             </div>
         );
     };
-
-    // //리뷰
-    // const [userReviews, setUserReviews] = useStata([]);
-    // const userId = useSelector((state) => state.user.userData._id); // 현재 사용자의 ID 가져오기
-
-    // useEffect(() => {
-    //     // 페이지가 렌더링될 때 실행되는 효과
-    //     const fetchUserReviews = async () => {
-    //         try {
-    //             const response = await axiosInstance.get(
-    //                 `/review-posts/user/${userId}`
-    //             ); // 현재 사용자의 ID를 기반으로 리뷰를 가져오는 요청
-    //             setUserReviews(response.data.reviews); // 가져온 리뷰를 상태에 저장
-    //         } catch (error) {
-    //             console.error("Error fetching user reviews:", error);
-    //         }
-    //     };
-
-    //     fetchUserReviews(); // 리뷰를 가져오는 함수 호출
-    // }, [userId]); // userId가 변경될 때마다 실행
 
     return (
         <div>
@@ -164,7 +181,68 @@ function Account() {
                                 </div>
                             </div>
                             <div className="w-[960px] flex flex-col gap-8 text-zinc-800 text-xl font-semibold">
-                                <div>내가 찜한 가게</div>
+                                <div>
+                                    내가 찜한 가게
+                                    <div className="flex flex-col gap-4 mt-4">
+                                        {userRestaurants.length > 0 ? (
+                                            userRestaurants.map(
+                                                (restaurant) => (
+                                                    <div
+                                                        key={`restaurant-${restaurant._id}`}
+                                                        className="bg-neutral-100 p-4 rounded-md border border-neutral-200"
+                                                    >
+                                                        <Link
+                                                            to={`/restaurants/${restaurant?._id}`}
+                                                            className="text-base font-semibold text-blue-500"
+                                                        >
+                                                            {restaurant?.name ??
+                                                                "Unknown Restaurant"}
+                                                        </Link>
+                                                        <div className="text-sm text-zinc-600">
+                                                            {restaurant.content}
+                                                        </div>
+                                                        <div className="text-sm text-zinc-400">
+                                                            등록일:{" "}
+                                                            {new Date(
+                                                                restaurant.createdAt
+                                                            ).toLocaleDateString()}
+                                                        </div>
+                                                        <div className="flex items-center mt-2">
+                                                            <span className="mr-1">
+                                                                별점:{" "}
+                                                            </span>
+                                                            <StarRating
+                                                                rating={
+                                                                    restaurant.rating
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <div className="flex gap-2 mt-2">
+                                                            {restaurant.images &&
+                                                                restaurant.images.map(
+                                                                    (
+                                                                        image,
+                                                                        index
+                                                                    ) => (
+                                                                        <img
+                                                                            key={`restaurant image-${index}`}
+                                                                            src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
+                                                                            alt={`Restaurant Image ${index + 1}`}
+                                                                            className="w-[100px] h-[100px] object-cover rounded"
+                                                                        />
+                                                                    )
+                                                                )}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            )
+                                        ) : (
+                                            <div className="text-sm">
+                                                찜한 가게가 없습니다!
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
                                 <div>
                                     내가 작성한 리뷰
                                     <div className="flex flex-col gap-4 mt-4">
@@ -186,7 +264,7 @@ function Account() {
                                                         {review.content}
                                                     </div>
                                                     <div className="text-sm text-zinc-400">
-                                                        작성일:{" "}
+                                                        등록일:{" "}
                                                         {new Date(
                                                             review.createdAt
                                                         ).toLocaleDateString()}
@@ -209,9 +287,7 @@ function Account() {
                                                                     index
                                                                 ) => (
                                                                     <img
-                                                                        key={
-                                                                            index
-                                                                        }
+                                                                        key={`review post image-${index}`}
                                                                         src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
                                                                         alt={`Review Image ${index + 1}`}
                                                                         className="w-[100px] h-[100px] object-cover rounded"
@@ -222,13 +298,73 @@ function Account() {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div>
-                                                작성한 리뷰가 없습니다!!!!!.
+                                            <div className="text-sm">
+                                                작성한 리뷰가 없습니다!
                                             </div>
                                         )}
                                     </div>
                                 </div>
-                                <div>내가 등록한 우리 만날까</div>
+                                <div>
+                                    내가 등록한 우리 만날까
+                                    <div className="flex flex-col gap-4 mt-4">
+                                        {userMeetups.length > 0 ? (
+                                            userMeetups.map((meetup) => (
+                                                <div
+                                                    key={`meetup post-${meetup._id}`}
+                                                    className="bg-neutral-100 p-4 rounded-md border border-neutral-200"
+                                                >
+                                                    <Link
+                                                        to={`/meetupposts/${meetup?._id}`}
+                                                        className="text-base font-semibold text-blue-500"
+                                                    >
+                                                        {meetup?.name ??
+                                                            "Unknown Meetup Post Name"}
+                                                    </Link>
+                                                    <div className="text-sm text-zinc-600">
+                                                        {meetup.content}
+                                                    </div>
+                                                    <div className="text-sm text-zinc-400">
+                                                        등록일:{" "}
+                                                        {new Date(
+                                                            meetup.createdAt
+                                                        ).toLocaleDateString()}
+                                                    </div>
+                                                    <div className="flex items-center mt-2">
+                                                        <span className="mr-1">
+                                                            별점:{" "}
+                                                        </span>
+                                                        <StarRating
+                                                            rating={
+                                                                meetup.rating
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="flex gap-2 mt-2">
+                                                        {meetup.images &&
+                                                            meetup.images.map(
+                                                                (
+                                                                    image,
+                                                                    index
+                                                                ) => (
+                                                                    <img
+                                                                        key={`meetup post image-${index}`}
+                                                                        src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
+                                                                        alt={`Meetup Post Image ${index + 1}`}
+                                                                        className="w-[100px] h-[100px] object-cover rounded"
+                                                                    />
+                                                                )
+                                                            )}
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="text-sm">
+                                                등록한 우리 만날까 게시글이
+                                                없습니다!
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

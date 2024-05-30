@@ -34,7 +34,7 @@ function Home({ ...props }) {
         );
         return selectedMateType ? selectedMateType.cateId : "";
     });
-    const [geoMouse, setGeoMouse] = useState(3);
+    const [geoMouse, setGeoMouse] = useState(6);
     const fetchRestaurant = async (cateId, foodtype) => {
         try {
             const params = { foodtype };
@@ -73,7 +73,7 @@ function Home({ ...props }) {
                         (restaurant) =>
                             restaurant.category[0].foodType === foodType[i]
                     );
-                    console.log(filteredGeoData);
+                    // console.log(filteredGeoData);
                     return (
                         <div key={`foodType-${i}`} className="mb-[100px]">
                             <Title className={"titleBasic mx-[32px]"}>

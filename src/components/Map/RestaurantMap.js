@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axios";
 import { useParams } from "react-router-dom";
 const { kakao } = window;
@@ -23,7 +23,12 @@ function RestaurantMap(props) {
     }, []);
 
     useEffect(() => {
-        if (restaurant) {
+        if (
+            restaurant &&
+            restaurant.location &&
+            restaurant.location.coordinates &&
+            restaurant.location.coordinates.length > 0
+        ) {
             const mapContainer = document.getElementById("map");
             const mapOption = {
                 center: new kakao.maps.LatLng(
@@ -49,6 +54,21 @@ function RestaurantMap(props) {
             });
         }
     }, [restaurant]);
+
+    if (
+        !restaurant ||
+        !restaurant.location ||
+        !restaurant.location.coordinates ||
+        restaurant.location.coordinates.length === 0
+    ) {
+        return (
+            <p className="flex w-full h-full text-center justify-center items-center">
+                좌표를 찾을 수 없어
+                <br />
+                지도가 없습니다
+            </p>
+        );
+    }
 
     return (
         <>

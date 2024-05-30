@@ -18,13 +18,13 @@ function Header({ ...props }) {
     const retrievedImageOauth = useSelector(
         (state) => state.user.userData.image?.originalname
     );
-    console.log("retrievedImageOauth", retrievedImageOauth);
-    console.log("isAuth", isAuth);
-    console.log("retrievedImage", retrievedImage);
-    console.log(
-        "full img url:",
-        process.env.REACT_APP_NODE_SERVER_UPLOAD_URL + retrievedImage
-    );
+    // console.log("retrievedImageOauth", retrievedImageOauth);
+    // console.log("isAuth", isAuth);
+    // console.log("retrievedImage", retrievedImage);
+    // console.log(
+    //     "full img url:",
+    //     process.env.REACT_APP_NODE_SERVER_UPLOAD_URL + retrievedImage
+    // );
     // if (retrievedImage) {
     //     setFilename(retrievedImage);
     // }
