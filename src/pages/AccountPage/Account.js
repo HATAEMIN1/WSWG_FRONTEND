@@ -95,6 +95,9 @@ function Account() {
         );
     };
 
+    console.log("userRestaurants in my account page:", userRestaurants);
+    console.log("userMeetups in account page", userMeetups);
+
     return (
         <div>
             {isAuth ? (
@@ -184,7 +187,9 @@ function Account() {
                                 <div>
                                     내가 찜한 가게
                                     <div className="flex flex-col gap-4 mt-4">
-                                        {userRestaurants.length > 0 ? (
+                                        {userRestaurants &&
+                                        userRestaurants.length > 0 &&
+                                        userRestaurants[0] !== null ? (
                                             userRestaurants.map(
                                                 (restaurant) => (
                                                     <div
@@ -201,12 +206,12 @@ function Account() {
                                                         <div className="text-sm text-zinc-600">
                                                             {restaurant.content}
                                                         </div>
-                                                        <div className="text-sm text-zinc-400">
+                                                        {/* <div className="text-sm text-zinc-400">
                                                             등록일:{" "}
                                                             {new Date(
                                                                 restaurant.createdAt
                                                             ).toLocaleDateString()}
-                                                        </div>
+                                                        </div> */}
                                                         <div className="flex items-center mt-2">
                                                             <span className="mr-1">
                                                                 별점:{" "}
@@ -317,10 +322,10 @@ function Account() {
                                                         to={`/meetupposts/${meetup?._id}`}
                                                         className="text-base font-semibold text-blue-500"
                                                     >
-                                                        {meetup?.name ??
+                                                        {meetup?.title ??
                                                             "Unknown Meetup Post Name"}
                                                     </Link>
-                                                    <div className="text-sm text-zinc-600">
+                                                    {/* <div className="text-sm text-zinc-600">
                                                         {meetup.content}
                                                     </div>
                                                     <div className="text-sm text-zinc-400">
@@ -328,8 +333,8 @@ function Account() {
                                                         {new Date(
                                                             meetup.createdAt
                                                         ).toLocaleDateString()}
-                                                    </div>
-                                                    <div className="flex items-center mt-2">
+                                                    </div> */}
+                                                    {/* <div className="flex items-center mt-2">
                                                         <span className="mr-1">
                                                             별점:{" "}
                                                         </span>
@@ -338,6 +343,9 @@ function Account() {
                                                                 meetup.rating
                                                             }
                                                         />
+                                                    </div> */}
+                                                    <div className="flex items-center mt-2">
+                                                        조회수: {meetup.views}
                                                     </div>
                                                     <div className="flex gap-2 mt-2">
                                                         {meetup.images &&
