@@ -6,7 +6,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { oauthLogin } from "../../store/thunkFunctions";
-
+import kakaoIcon from "../../assets/images/iconKakao.png";
 const KakaoLogin = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -90,12 +90,7 @@ const KakaoLogin = () => {
     // 받기 위한 요청을 보낸다.
     // 2. 사용자의 인증과 동의를 보내면 authentication code 인가 코드를 비로소 받는다.
     return (
-        <button
-            onClick={LoginWithKakao}
-            className="w-[400px] px-2.5 mb-3 rounded-[12px] text-[40px] block"
-        >
-            <img src="./images/kakao_login_large_wide.png" alt="kakao login" />
-        </button>
+        <button onClick={LoginWithKakao} className="w-full flex justify-center items-center gap-[16px] rounded-md h-11 bg-[#FEE500] mb-5"><img src={kakaoIcon} className=" w-[18px]"/>카카오 로그인</button>
     );
 };
 
