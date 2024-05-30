@@ -103,8 +103,8 @@ function Search(props) {
     }
     return (
         <>
-            <SectionWrap>
-                <div className="">[{query}] 검색 결과</div>
+            <SectionWrap className={"min-h-[650px]"}>
+                <div className="py-10"><span className="font-bold">[{query}]</span> 검색 결과</div>
                 {results.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
                         {results.map((item, index) => {
@@ -179,7 +179,7 @@ function Search(props) {
                         </ButtonWrap>
                     </div>
                 ) : (
-                    <div>해당 단어의 검색결과가 없습니다.</div>
+                    <div className="w-full bg-slate-100  py-[200px] text-center">해당 단어의 검색결과가 없습니다.</div>
                 )}
             </SectionWrap>
         </>
