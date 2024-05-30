@@ -63,7 +63,7 @@ function ReviewView(props) {
                             to={`/mate/${cateId}/restaurants/${rtId}`}
                             className="flex justify-center items-center"
                         >
-                            <i className="btnBack">more</i> 식당보기
+                            <i className="btnBack">more</i> 식당 보기
                         </Link>
                     </button>
                 </Title>
