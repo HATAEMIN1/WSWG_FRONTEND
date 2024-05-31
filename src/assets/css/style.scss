@@ -711,6 +711,12 @@ i.iconSmall {
     margin-right: 5px; /* 오른쪽 간격 추가 */
     margin-bottom: 5px; /* 아래쪽 간격 추가 */
 }
+.mapNoimg {
+    width: 100%; 
+    height: 100%; 
+    background: url("../images/mapNoimage.png") no-repeat;
+    background-size: cover;
+}
 @media (max-width: 768px) {
     header {
         h1 {

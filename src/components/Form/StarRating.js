@@ -27,7 +27,9 @@ const Star = styled.i`
 `;
 
 function StarRating(props) {
-    const fullStars = Math.floor(props.rating);
+    const rating = props.rating || 0;
+    const fullStars = Math.floor(rating);
+    // const fullStars = Math.floor(props.rating);
     const remainder = (props.rating - fullStars) * 100;
     const ratingToPercent = {
         widths: [

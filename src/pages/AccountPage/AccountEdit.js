@@ -28,11 +28,6 @@ function AccountEdit() {
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
-    console.log("retrievedImage in AccountEdit", retrievedImage);
-    console.log(
-        'retrievedImage!=="noimage.jpg":',
-        retrievedImage !== "noimage.jpg"
-    );
 
     const {
         register,
@@ -80,15 +75,10 @@ function AccountEdit() {
     };
 
     function handleImageChange(file) {
-        console.log("handleImageChange");
         if (!file) {
-            console.log("no img file selected yet");
             return;
         }
-        // console.log(
-        //     "file is an instance of Blob in handleImgUpload:",
-        //     file instanceof Blob
-        // );
+
         setImgFile(file);
         const fileReader = new FileReader();
 
@@ -109,18 +99,9 @@ function AccountEdit() {
         event.preventDefault(); // prevent reload
         const formData = new FormData();
 
-        console.log(
-            "imgFile is an instance of Blob in onSubmit:",
-            imgFile instanceof Blob
-        );
-
-        console.log("imgFile:", imgFile);
         try {
             formData.append("image", imgFile);
             formData.append("password", newPw);
-            // for (let key of formData.entries()) {
-            //     console.log(`${key[0]}: ${key[1]}`);
-            // }
 
             dispatch(updateUser(formData));
             reset();
@@ -164,8 +145,8 @@ function AccountEdit() {
                     onSubmit={onSubmit}
                     className="flex flex-col justify-center items-center"
                 >
-                    <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
-                        <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative flex justify-center itmes-center">
+                    <div className="flex flex-col items-center w-[250px] h-[250px] mb-4">
+                        <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative flex justify-center itmes-center overflow-hidden">
                             {oauthLogin ? (
                                 <img
                                     className="w-full h-full object-cover"
@@ -196,7 +177,7 @@ function AccountEdit() {
                                             ) : (
                                                 <img
                                                     className="w-full h-full object-cover"
-                                                    src="/images/profileDefault.png"
+                                                    src="/images/defaultImageSquare.png"
                                                     alt="defaultPic"
                                                 />
                                             )}
@@ -317,9 +298,6 @@ function AccountEdit() {
                                                 {...register("passwordNew", {
                                                     ...userPasswordNew,
                                                     onChange: (e) => {
-                                                        console.log(
-                                                            e.target.value
-                                                        );
                                                         setNewPw(
                                                             e.target.value
                                                         );

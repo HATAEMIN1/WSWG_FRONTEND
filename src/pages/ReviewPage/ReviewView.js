@@ -27,7 +27,6 @@ function ReviewView(props) {
                     `/review-posts/${rpId}/view`
                 );
                 setReview(reviewRes.data.review);
-                console.log(reviewRes.data);
             } catch (error) {
                 console.log("리뷰정보가져오기오류", error);
             }
@@ -64,7 +63,7 @@ function ReviewView(props) {
                             to={`/mate/${cateId}/restaurants/${rtId}`}
                             className="flex justify-center items-center"
                         >
-                            <i className="btnBack">more</i> 뒤로가기
+                            <i className="btnBack">more</i> 식당 보기
                         </Link>
                     </button>
                 </Title>

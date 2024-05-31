@@ -67,7 +67,6 @@ function ReviewAdd(props) {
         }
 
         if (isEmptyValue(newHashTag)) return;
-        console.log(newHashTag);
 
         //헤시태그목록에 새로운 해시태그추가
         setHashTag((prevHashTags) => {
@@ -156,23 +155,12 @@ function ReviewAdd(props) {
         navigate(`/mate/${cateId}/restaurants/${rtId}`);
     };
 
-    //이미지----------------------------------------------------------------------------------->
     function handleImage(newImages) {
-        // console.log("image");
         setText((prevState) => ({
             ...prevState,
             images: newImages,
         }));
-        console.log(newImages);
     }
-
-    // const handleImage = (images) => {
-    //     setText((prevState) => ({
-    //         ...prevState,
-    //         images: images.map((image) => URL.createObjectURL(image)), // 업로드한 이미지 파일의 URL을 생성하여 저장
-    //     }));
-    // };
-    //----------------------------------------------------------------------------------------->
 
     function handleConfirm() {
         setModalOpen(false); //모달닫기
