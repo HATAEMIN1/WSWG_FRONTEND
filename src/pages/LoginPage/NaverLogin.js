@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { oauthLogin } from "../../store/thunkFunctions";
 import { styled } from "styled-components";
 import { useSelector } from "react-redux";
-
+import naverIcon from "../../assets/images/iconNaver.png";
 const NaverLogin = () => {
     const isAuth = useSelector((state) => state.user.isAuth);
     const [searchParams] = useSearchParams();
@@ -32,7 +32,6 @@ const NaverLogin = () => {
                         }
                     );
                     // get accessToken and userData from existingUser from userDataResponse
-                    console.log("userDataResponse", userDataResponse);
                     if (userDataResponse.status === 200) {
                         const accessToken = userDataResponse.data.accessToken;
                         const existingUser = userDataResponse.data.existingUser;
@@ -69,10 +68,9 @@ const NaverLogin = () => {
     return (
         <>
             {!isAuth && (
-                <CustomNaverLoginBtn onClick={LoginWithNaver}>
-                    <NaverIcon alt="naver icon" />
-                    <NaverLoginText>네이버로 로그인</NaverLoginText>
-                </CustomNaverLoginBtn>
+                <button onClick={LoginWithNaver} className="w-full flex justify-center gap-[16px] items-center rounded-md h-11 text-white bg-[#03c75a]">
+                    <img src={naverIcon}  className=" w-[18px]" />네이버 로그인
+                </button>
             )}
         </>
         // </button>
@@ -80,29 +78,3 @@ const NaverLogin = () => {
 };
 
 export default NaverLogin;
-
-const NaverIcon = styled.div`
-    width: 30px;
-    height: 30px;
-    margin-left: 14px;
-    background: url("/images/naverIcon.png") no-repeat center;
-    background-size: 30px;
-`;
-
-const NaverLoginText = styled.span`
-    margin-left: 90px;
-    color: white;
-    font: initial;
-    font-size: 17px;
-`;
-
-const CustomNaverLoginBtn = styled.button`
-    display: flex;
-    align-items: center;
-    width: 380px;
-    height: 57px;
-    background-color: #03c75a;
-    border-radius: 8px;
-    margin: 0 0.625rem;
-    margin-bottom: 1rem;
-`;

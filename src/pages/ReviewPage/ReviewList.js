@@ -5,8 +5,8 @@ import Title from "../../components/Layout/Title";
 import { SectionWrap } from "../../components/Layout/Section";
 import { Button } from "../../components/Form/Button";
 import StarRating from "../../components/Form/StarRating";
-import DefualtModal from "../../components/Modal/DefualtModal";
 import { useSelector } from "react-redux";
+import DefualtModal from "../../components/Modal/DefualtModal";
 
 function ReviewList(props) {
     const { cateId, rtId } = useParams();
@@ -115,6 +115,7 @@ function ReviewList(props) {
                             {reviewAdd && reviewAdd.length > 0 ? (
                                 <div className="w-full">
                                     {reviewAdd.map((review, index) => {
+                                        console.log(review.tags.name);
                                         return (
                                             <div
                                                 className="flex reviewListWrap gap-5"
@@ -165,7 +166,7 @@ function ReviewList(props) {
                                                             </li>
                                                             <li>
                                                                 <div className="hashBoxWrap">
-                                                                    {review.hashTag.map(
+                                                                    {review.tags.map(
                                                                         (
                                                                             tag,
                                                                             i
@@ -178,7 +179,7 @@ function ReviewList(props) {
                                                                             >
                                                                                 #
                                                                                 {
-                                                                                    tag
+                                                                                    tag.name
                                                                                 }
                                                                             </span>
                                                                         )

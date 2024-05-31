@@ -23,13 +23,15 @@ function RestaurantView(props) {
         { no: 5, name: "디저트" },
     ];
     const mateType = [
-        { no: 1, name: "연인과 가볼까" },
-        { no: 2, name: "친구와 가볼까" },
-        { no: 3, name: "가족과 가볼까" },
-        { no: 4, name: "단체모임 가볼까" },
-        { no: 5, name: "반려동물과 가볼까" },
-        { no: 6, name: "혼밥 해볼까" },
+        { no: 1, name: "연인과 가볼까", cateId: "lover" },
+        { no: 2, name: "친구와 가볼까", cateId: "friend" },
+        { no: 3, name: "가족과 가볼까", cateId: "family" },
+        { no: 4, name: "단체모임 가볼까", cateId: "group" },
+        { no: 5, name: "반려동물과 가볼까", cateId: "pet" },
+        { no: 6, name: "혼밥 해볼까", cateId: "self" },
     ];
+    const mateParams = useParams();
+    console.log(mateParams.cateId);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const userId = useSelector((state) => {
@@ -121,7 +123,7 @@ function RestaurantView(props) {
                             to={`/mate/${cateId}`}
                             className="flex justify-center items-center"
                         >
-                            <i className="btnBack">more</i> 뒤로가기
+                            <i className="btnBack">more</i> 식당 리스트
                         </Link>
                     </button>
                 </Title>
@@ -138,21 +140,19 @@ function RestaurantView(props) {
                                 className="mySwiper swiperView"
                             >
                                 {restaurantData.length > 0 &&
-                                    restaurantData[0].image
-                                        .slice(2)
-                                        .map((item, i) => {
-                                            return (
-                                                <SwiperSlide
-                                                    key={`restaurantSlide-${i}`}
-                                                >
-                                                    <div className="bgLayer"></div>
-                                                    <img
-                                                        src={`${item}`}
-                                                        alt={`restaurantSlideImg-${i}`}
-                                                    />
-                                                </SwiperSlide>
-                                            );
-                                        })}
+                                    restaurantData[0].image.map((item, i) => {
+                                        return (
+                                            <SwiperSlide
+                                                key={`restaurantSlide-${i}`}
+                                            >
+                                                <div className="bgLayer"></div>
+                                                <img
+                                                    src={`${item}`}
+                                                    alt={`restaurantSlideImg-${i}`}
+                                                />
+                                            </SwiperSlide>
+                                        );
+                                    })}
                             </Swiper>
                         </div>
                         <div className="flex flex-wrap">
@@ -238,24 +238,26 @@ function RestaurantView(props) {
                     <Title className={"titleComment"}>메뉴</Title>
 
                     {restaurantData.length > 0 &&
+                    restaurantData[0].menuAndPrice.length > 0 ? (
                         restaurantData[0].menuAndPrice
                             .slice(0, visibleItems)
-                            .map((item, i) => {
-                                return (
-                                    <ul
-                                        className="flex justify-between h-full items-center py-2"
-                                        key={`restaurantMenuPrice-${i}`}
-                                    >
-                                        <li className="pr-4">{item.menu}</li>
-                                        <li className="flex-auto h-full">
-                                            <span className="flex w-full border-dashed border-gray-300 border-b-[1px]"></span>
-                                        </li>
-                                        <li className="pl-4 font-bold">
-                                            {item.price}
-                                        </li>
-                                    </ul>
-                                );
-                            })}
+                            .map((item, i) => (
+                                <ul
+                                    className="flex justify-between h-full items-center py-2"
+                                    key={`restaurantMenuPrice-${i}`}
+                                >
+                                    <li className="pr-4">{item.menu}</li>
+                                    <li className="flex-auto h-full">
+                                        <span className="flex w-full border-dashed border-gray-300 border-b-[1px]"></span>
+                                    </li>
+                                    <li className="pl-4 font-bold">
+                                        {item.price}
+                                    </li>
+                                </ul>
+                            ))
+                    ) : (
+                        <p>등록된 메뉴가 없습니다</p>
+                    )}
                     <ButtonWrap>
                         {visibleItems < totalItems && (
                             <Button

@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import Title from "../../components/Layout/Title";
+import InputWrap from "../../components/Form/Input";
+import { Button } from "../../components/Form/Button";
 
 function Login() {
     const {
@@ -51,7 +53,7 @@ function Login() {
         },
     };
     return (
-        <div className="w-full h-full flex flex-col justify-center items-center">
+        <div className="w-[400px] m-auto h-full flex flex-col justify-center items-center">
             {modalOn && (
                 <>
                     {error && error.error ? (
@@ -71,23 +73,17 @@ function Login() {
                     )}
                 </>
             )}
-            <div className="w-[100%] h-[100px] flex-col justify-start items-center inline-flex font-normal text-zinc-800">
+            <div className="w-full h-[100px] flex-col justify-start items-center inline-flex font-normal text-zinc-800">
                 <Title memTitle={true}>어까</Title>
                 <Title memTitle={false}>로그인 해볼까?</Title>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="emailWrap w-[380px] flex justify-center gap-4 ml-2 items-center mt-5 mb-5">
-                        <div className="w-10 h-10 relative">
-                            <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                <img
-                                    src="./images/iconMail.png"
-                                    alt="email icon"
-                                />
-                            </div>
-                        </div>
-                        <div style={{ fontFamily: "Pretendard-Regular" }}>
+                <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                    <div className="emailWrap w-full gap-4 items-center mt-5 mb-5">
+                        <div className="w-full flex justify-between items-center gap-3">
+                            <i className="iconTypeInput iconEmail flex-none">email</i>
+                            <InputWrap>
                             <input
-                                className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                className=" bg-neutral-100 text-center text-zinc-400 text-base font-normal"
                                 type="text"
                                 id="emailInput"
                                 name="emailInput"
@@ -95,29 +91,20 @@ function Login() {
                                 placeholder="이메일을 입력하세요!"
                                 {...register("email", userEmail)}
                             />
-                            {errors.email && (
-                                <div className="text-red-500 text-xs mt-1">
-                                    {errors.email.message}
-                                </div>
-                            )}
+                            </InputWrap>
                         </div>
-                    </div>
-
-                    <div className="passwordWrap w-[380px] ml-2 flex justify-center gap-4 items-center mb-5">
-                        <div className="w-10 h-10 relative">
-                            <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                <img
-                                    src="./images/iconPwd.png"
-                                    alt="password key icon"
-                                />
+                        {errors.email && (
+                            <div className="text-red-500 text-xs mt-1 w-full text-center">
+                                {errors.email.message}
                             </div>
-                        </div>
-                        <div
-                            style={{ fontFamily: "Pretendard-Regular" }}
-                            className="relative"
-                        >
+                        )}
+                    </div>
+                    <div className="passwordWrap w-full mb-5">
+                        <div className="w-full relative flex justify-between gap-3">
+                            <i className="iconTypeInput iconRock flex-none">pass</i>
+                            <InputWrap>
                             <input
-                                className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                className="bg-neutral-100 text-center text-base font-normal"
                                 type={pwShow ? "text" : "password"}
                                 id="passwordInput"
                                 name="passwordInput"
@@ -126,11 +113,7 @@ function Login() {
                                 placeholder="비밀번호를 입력하세요!"
                                 {...register("password", userPassword)}
                             />
-                            {errors.password && (
-                                <div className="text-red-500 text-xs mt-1">
-                                    {errors.password.message}
-                                </div>
-                            )}
+                            </InputWrap>
                             <div className="absolute right-[10px] top-[7px]">
                                 {pwShow ? (
                                     <FontAwesomeIcon
@@ -148,28 +131,28 @@ function Login() {
                                     />
                                 )}
                             </div>
+                            
                         </div>
+                        {errors.password && (
+                            <div className="text-red-500 text-xs mt-1 w-full text-center">
+                                {errors.password.message}
+                            </div>
+                        )}
                     </div>
-                    <button
-                        style={{ fontFamily: "Pretendard-Regular" }}
-                        className="w-[380px] h-[50px] px-2.5 py-[5px] ml-3 mb-14 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
-                    >
+                    <Button basicButton={true}>
                         로그인
-                    </button>
+                    </Button>
                     <div
-                        style={{ fontFamily: "Pretendard-Regular" }}
-                        className="w-[400px] h-10 px-2.5 py-[5px] ml-1 mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
+                        className="w-full pt-20 mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
                     >
                         간편로그인
                     </div>
                     <KakaoLogin />
                     <NaverLogin />
                     <div
-                        style={{ fontFamily: "Pretendard-Regular" }}
-                        className="text-black text-[15px] font-normal ml-3 flex justify-center items-center"
-                    >
-                        <span className="mr-[6px]">이미 어까의 회원이시면</span>
-                        <a href="/register" className="underline mr-[6px]">
+                        className="text-black text-[15px] mt-5 font-normal flex justify-center items-center"
+                    >이미 어까의 회원이시면
+                        <a href="/register" className="underline mx-2">
                             회원가입
                         </a>
                         하세요

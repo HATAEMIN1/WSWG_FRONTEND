@@ -1,19 +1,20 @@
+
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom"
+
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
 import { IconWish } from "../../components/Form/Icon";
 
-
 function Account() {
-    const dispatch = useDispatch();
     const isAuth = useSelector((state) => state.user.isAuth);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
     const userData = useSelector((state) => state?.user?.userData);
     const [userReviews, setUserReviews] = useState([]);
     const [likedRestaurants, setLikedRestaurants] = useState([]);
     const [userMeetupPosts, setUserMeetupPosts] = useState([]);
+    const [userRestaurants, setUserRestaurants] = useState([]);
     const [userMeetups, setUserMeetups] = useState([]);
 
     const retrievedImage = useSelector(
@@ -38,7 +39,30 @@ function Account() {
                     );
                     setUserReviews(response.data.reviews);
                 } catch (error) {
-                    console.log("리뷰 불러오기 오류:", error);
+                    console.log("내가 작성한 리뷰 불러오기 오류:", error);
+                }
+            };
+            const fetchUserRestaurants = async () => {
+                try {
+                    const response = await axiosInstance.get(
+                        `/users/${userData.id}/likedResturants`
+                    );
+                    setUserRestaurants(response.data.restaurants);
+                } catch (error) {
+                    console.log("내가 찜한 가게 불러오기 오류:", error);
+                }
+            };
+            const fetchUserMeetups = async () => {
+                try {
+                    const response = await axiosInstance.get(
+                        `/users/${userData.id}/meetups`
+                    );
+                    setUserMeetups(response.data.meetupPosts);
+                } catch (error) {
+                    console.log(
+                        "내가 등록한 우리 만날까 불러오기 오류:",
+                        error
+                    );
                 }
             };
 
@@ -69,6 +93,9 @@ function Account() {
 
             fetchUserReviews();
             fetchlikedRestaurants();
+
+            fetchUserRestaurants();
+
             fetchUserMeetups();
         }
     }, [userData?.id]);
@@ -80,7 +107,7 @@ function Account() {
             <div className="flex">
                 {[...Array(5)].map((star, index) => (
                     <svg
-                        key={index}
+                        key={`star-${index}`}
                         xmlns="http://www.w3.org/2000/svg"
                         fill={index < rating ? "currentColor" : "none"}
                         viewBox="0 0 24 24"
@@ -102,14 +129,14 @@ function Account() {
     return (
         <div>
             {isAuth ? (
-                <div className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
+                <div className="mt-12 mb-6 w-[100%] h-full flex-col justify-start items-center inline-flex">
                     <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}> 나는 어디까지 가봤을까?</Title>
 
                     <div className="flex justify-center">
                         <div className="flex flex-col gap-8 font-['Pretendard']">
-                            <div className="w-[960px] h-[300px] px-[30px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
-                                <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px]">
+                            <div className="w-[960px] p-[15px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
+                                <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px] overflow-hidden">
                                     {oauthLogin ? (
                                         <img
                                             className="w-full h-full object-cover"
@@ -132,7 +159,7 @@ function Account() {
                                             ) : (
                                                 <img
                                                     className="w-full h-full object-cover"
-                                                    src="/images/profileDefault.png"
+                                                    src="/images/defaultImageSquare.png"
                                                     alt="defaultPic"
                                                 />
                                             )}
@@ -184,6 +211,7 @@ function Account() {
                                     </>
                                 </div>
                             </div>
+
                             <div className="w-[960px] flex flex-col text-zinc-800 text-xl font-semibold">
                                 <div className="mb-4">
                                 <Title className={"titleComment"}>내가 찜한 목록</Title>
@@ -387,6 +415,7 @@ function Account() {
                                                         조회수: {meetup.views}
                                                     </div>
                                                     <div className="flex gap-2 mt-2">
+
                                                         {meetup.images &&
                                                             meetup.images.map(
                                                                 (

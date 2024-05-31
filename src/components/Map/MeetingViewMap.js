@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 const { kakao } = window;
 function MeetingViewMap({ meetingData }) {
-    console.log(meetingData);
     useEffect(() => {
         const mapContainer = document.getElementById("map");
         const mapOption = {

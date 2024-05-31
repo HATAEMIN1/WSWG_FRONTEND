@@ -1,6 +1,5 @@
 import React from "react";
 import Title from "../Layout/Title";
-import { Button } from "../Form/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { setMateType, toggleFoodType } from "../../store/filterSlice";
 

@@ -104,7 +104,6 @@ function MeetingMap({
                 const resuaurantName = marker.getTitle();
                 saveLocation(lat, lng);
                 setRestaurantName(resuaurantName);
-
                 const closeButton = document.querySelector(".wrap .close");
                 if (closeButton) {
                     closeButton.addEventListener("click", function () {
