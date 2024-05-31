@@ -19,7 +19,8 @@ function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
     const [inputHashTag, setInputHashTag] = useState("");
     const [hashtag, setHashTag] = useState([]);
-    const [error, setError] = useState(""); // 에러 상태 정의
+    const [error, setError] = useState(""); // 리뷰 내용 에러 상태 정의
+    const [hashtagError, setHashtagError] = useState(""); // 해시태그 에러 상태 정의
     const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const [rating, setRating] = useState(0);
@@ -66,10 +67,10 @@ function ReviewAdd(props) {
             const hashtagLength = newHashTagArray.join("").length;
 
             if (hashtagLength > 15) {
-                setError("*등록 가능한 해시태그는 최대 15자입니다");
+                setHashtagError("*등록 가능한 해시태그는 최대 15자입니다");
                 return prevHashTags;
             } else {
-                setError("");
+                setHashtagError("");
                 return newHashTagArray;
             }
         });
@@ -252,6 +253,11 @@ function ReviewAdd(props) {
                                 </div>
                             ))}
                     </div>
+                    {hashtagError && (
+                        <p style={{ color: "red" }} className="mt-2">
+                            {hashtagError}
+                        </p>
+                    )}
                 </div>
                 <div className="mb-10">
                     <Title className={"titleComment"}>

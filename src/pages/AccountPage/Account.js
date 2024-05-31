@@ -37,6 +37,7 @@ function Account() {
                     const response = await axiosInstance.get(
                         `/review-posts/user/${userData.id}`
                     );
+                    console.log(response.data);
                     setUserReviews(response.data.reviews);
                 } catch (error) {
                     console.log("내가 작성한 리뷰 불러오기 오류:", error);
@@ -77,19 +78,7 @@ function Account() {
                 }
             };
 
-            const fetchUserMeetups = async () => {
-                try {
-                    const response = await axiosInstance.get(
-                        `/users/${userData.id}/meetups`
-                    );
-                    setUserMeetups(response.data.meetupPosts);
-                } catch (error) {
-                    console.log(
-                        "내가 등록한 우리 만날까 불러오기 오류:",
-                        error
-                    );
-                }
-            };
+           
 
             fetchUserReviews();
             fetchlikedRestaurants();
@@ -296,6 +285,7 @@ function Account() {
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
                                         
+                                        
                                                 <div
                                                     key={review._id}
                                                     className="flex reviewListWrap rounded-md gap-2 !border-none"
@@ -353,7 +343,7 @@ function Account() {
                                                             </div>
                                                         </div>
                                                         <div className="hashBoxWrap text-xs mt-3">
-                                                            {review.hashTag.map(
+                                                            {/* {review.tags.map(
                                                                 (tag, i) => (
                                                                     <span
                                                                         key={i}
@@ -362,7 +352,7 @@ function Account() {
                                                                         #{tag}
                                                                     </span>
                                                                 )
-                                                            )}
+                                                            )} */}
                                                         </div>
                                                     </div>
                                                     {/* <div className="flex gap-2 mt-2 border">
