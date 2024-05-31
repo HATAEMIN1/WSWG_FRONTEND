@@ -56,9 +56,17 @@ function MeetingAdd(props) {
     const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
 
     function handleChange(e) {
         const { name, value } = e.target;
+        if (name === "content" && value.length > 300) {
+            setAlertMessage("내용은 300자 이내로 작성해 주세요.");
+            return;
+        } else {
+            setAlertMessage("");
+        }
+
         setMeeting((prevState) => {
             return {
                 ...prevState,
@@ -69,6 +77,10 @@ function MeetingAdd(props) {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        if (meeting.content.length > 300) {
+            setAlertMessage("내용은 300자 이내로 작성해 주세요.");
+            return;
+        }
         const body = {
             ...meeting,
             userId: userData.id,
@@ -148,6 +160,9 @@ function MeetingAdd(props) {
                             value={meeting.content}
                         ></textarea>
                     </InputWrap>
+                    {alertMessage && (
+                        <p className="text-red-600">{alertMessage}</p>
+                    )}
                 </div>
                 <div>
                     <Title className={"titleComment"}>오픈 채팅 링크</Title>
