@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 import "./assets/css/style.scss";
 import Footer from "./layouts/Footer/Footer";
 import { Header, HeaderMom } from "./layouts/Header/Header";
@@ -56,6 +56,9 @@ function LayoutEtc() {
 function App() {
     const [modalNum, setModalNum] = useState(0);
     const [modalView, setModalView] = useState(false);
+    const [prePage, setPrePage] = useState("");
+    const location = useLocation();
+
     const modalData = [
         <MapModalSelect modalOpen={modalOpen} />,
         <MapModal />,
@@ -76,6 +79,10 @@ function App() {
             document.body.style.overflow = "auto";
         }
     });
+
+    useEffect(() => {
+        setPrePage(location.pathname);
+    }, [location]);
 
     const dispatch = useDispatch();
     const isAuth = useSelector((state) => state.user.isAuth);

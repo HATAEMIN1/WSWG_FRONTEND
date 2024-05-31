@@ -651,6 +651,13 @@ i.iconSmall {
             object-fit: cover;
         }
     }
+    .myimgWrap {
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        background: url("../images/imgReNone.png");
+        background-size: 100%;
+    }
     .textWrap {
         .name {
             font-size: 1em;

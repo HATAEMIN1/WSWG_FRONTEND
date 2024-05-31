@@ -134,12 +134,16 @@ function ReviewList(props) {
                                                     <div className="w-full flex flex-col justify-between py-[10px]">
                                                         <ul className="textWrap">
                                                             <li className="name">
-                                                                {review.user && review.user.name ? (
+                                                                {review.user &&
+                                                                review.user
+                                                                    .name ? (
                                                                     <Link
                                                                         to={`/mate/restaurants/${rtId}/review-post/${review._id}`}
                                                                     >
                                                                         {
-                                                                            review.user.name
+                                                                            review
+                                                                                .user
+                                                                                .name
                                                                         }
                                                                     </Link>
                                                                 ) : (
@@ -184,20 +188,22 @@ function ReviewList(props) {
                                                         </ul>
                                                     </div>
                                                     <div>
-                                                        {review.user && review.user.name === userName && (
-                                                            <div
-                                                                className="iconTrash"
-                                                                style={{
-                                                                    cursor: "pointer",
-                                                                }}
-                                                                onClick={() =>
-                                                                    openModal(
-                                                                        review._id
-                                                                    )
-                                                                }
-                                                                alt="삭제"
-                                                            ></div>
-                                                        )}
+                                                        {review.user &&
+                                                            review.user.name ===
+                                                                userName && (
+                                                                <div
+                                                                    className="iconTrash"
+                                                                    style={{
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                    onClick={() =>
+                                                                        openModal(
+                                                                            review._id
+                                                                        )
+                                                                    }
+                                                                    alt="삭제"
+                                                                ></div>
+                                                            )}
                                                     </div>
                                                 </div>
                                             </div>
