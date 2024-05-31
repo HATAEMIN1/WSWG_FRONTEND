@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axios";
+import { useSelector } from "react-redux";
 import { SectionWrap } from "../Layout/Section";
 import { Link } from "react-router-dom";
 import "../../assets/css/style_teamin.scss";
@@ -147,7 +148,6 @@ function Map({
                     var lat = position.coords.latitude, // 위도
                         lon = position.coords.longitude; // 경도
                     const moveLatLon = new window.kakao.maps.LatLng(lat, lon);
-
                     // 지도 중심을 부드럽게 이동시킵니다
                     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
                     map.panTo(moveLatLon);
@@ -157,7 +157,6 @@ function Map({
         if (click) {
             panTo();
         }
-
         // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
         kakao.maps.event.addListener(map, "dragend", async function () {
             // 지도 중심좌표를 얻어옵니다

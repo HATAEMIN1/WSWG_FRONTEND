@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Title from "../../components/Layout/Title";
 import { SectionWrap } from "../../components/Layout/Section";
-// import { IconStar, IconWish } from "../../components/Form/Icon";
-
 import axiosInstance from "../../utils/axios";
 import StarRating from "../../components/Form/StarRating";
 import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
-// import { faObjectUngroup } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 function ReviewView(props) {
@@ -19,7 +16,7 @@ function ReviewView(props) {
     });
     const navigate = useNavigate();
 
-    //리뷰정보가져오기
+    // 리뷰 정보 가져오기
     useEffect(() => {
         const fetchReview = async () => {
             try {
@@ -27,8 +24,9 @@ function ReviewView(props) {
                     `/review-posts/${rpId}/view`
                 );
                 setReview(reviewRes.data.review);
+                console.log(reviewRes.data);
             } catch (error) {
-                console.log("리뷰정보가져오기오류", error);
+                console.log("리뷰 정보 가져오기 오류", error);
             }
         };
         fetchReview();
@@ -52,18 +50,13 @@ function ReviewView(props) {
     return (
         <SectionWrap>
             <form>
-                {/* <Title className={"titleComment"}>
-                    <button className="flex items-center">
-                        <i className="btnBack">more</i> 뒤로가기
-                    </button>
-                </Title> */}
                 <Title className={"titleComment"}>
                     <button className="flex items-center">
                         <Link
                             to={`/mate/${cateId}/restaurants/${rtId}`}
                             className="flex justify-center items-center"
                         >
-                            <i className="btnBack">more</i> 식당 보기
+                            <i className="btnBack">more</i> 뒤로가기
                         </Link>
                     </button>
                 </Title>
@@ -133,11 +126,11 @@ function ReviewView(props) {
                     {review.content}
                 </div>
                 <div className="hashBoxWrap mb-9">
-                    {review.hashTag &&
-                        review.hashTag.length > 0 &&
-                        review.hashTag.map((tag, i) => (
+                    {review.tags &&
+                        review.tags.length > 0 &&
+                        review.tags.map((tag, i) => (
                             <span key={i} className="hashBox">
-                                #{tag}
+                                #{tag.name}
                             </span>
                         ))}
                 </div>
@@ -149,26 +142,14 @@ function ReviewView(props) {
                                 key={index}
                                 className="w-[175px] overflow-hidden border rounded-lg"
                             >
-                                {/* <div className="border rounded"> */}
                                 <img
                                     src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
                                     className="w-full h-full object-cover"
                                     alt={`Review Image ${index + 1}`}
                                 />
-                                {/* </div> */}
                             </div>
                         ))}
                 </div>
-
-                <div className="hashBoxWrap">
-                    {review.hashTag > 0 &&
-                        review.hashTag.map((tag, i) => (
-                            <span key={i} className="hashBox">
-                                #{tag}
-                            </span>
-                        ))}
-                </div>
-                {/* <div>{review.images}</div> */}
             </form>
         </SectionWrap>
     );
