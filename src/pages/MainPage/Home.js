@@ -7,7 +7,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import MyMap from "../../components/Map/MyMap";
 import { Link } from "react-router-dom";
 import Map from "../../components/Map/Map";
 import axiosInstance from "../../utils/axios";
@@ -35,8 +34,8 @@ function Home({ ...props }) {
         );
         return selectedMateType ? selectedMateType.cateId : "";
     });
-    const [geoMouse, setGeoMouse] = useState(3);
-    const fetchRestaurant = async (foodtype, cateId) => {
+    const [geoMouse, setGeoMouse] = useState(6);
+    const fetchRestaurant = async (cateId, foodtype) => {
         try {
             const params = { foodtype };
             const res = await axiosInstance.get(`/restaurants/${cateId}`, {
@@ -48,8 +47,9 @@ function Home({ ...props }) {
         }
     };
     useEffect(() => {
-        fetchRestaurant();
-    }, []);
+        fetchRestaurant(cateId);
+    }, [cateId]);
+
     return (
         <>
             <SectionFullWrap className={"relative z-1"}>
@@ -63,6 +63,7 @@ function Home({ ...props }) {
                         setGeoMouse={setGeoMouse}
                         fetchRestaurant={fetchRestaurant}
                         setGeoData={setGeoData}
+                        cateId={cateId}
                     ></Map>
                 </div>
             </SectionFullWrap>
@@ -96,14 +97,17 @@ function Home({ ...props }) {
                                                     alt="rstImgWrap"
                                                 />
                                             </div>
-                                            <div className="rstLayerWrap">
+                                            <Link
+                                                to={`/mate/${cateId}/restaurants/${item._id}`}
+                                                className="rstLayerWrap"
+                                            >
                                                 <div>{item.name}</div>
                                                 <div>
                                                     <StarRating
                                                         rating={item.rating}
                                                     ></StarRating>{" "}
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </SwiperSlide>
                                     );
                                 })}

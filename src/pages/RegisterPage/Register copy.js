@@ -39,10 +39,6 @@ function Register() {
         event.preventDefault();
         const formData = new FormData();
         const file = event.target.elements.image.files[0];
-        console.log(
-            "file is an instance of Blob in handleSubmit:",
-            file instanceof Blob
-        );
 
         try {
             // formData.append("filename", imgSrc); // appending the compressed file (as string) to a FormData object to upload it to server. // causes payload too larger error
@@ -106,25 +102,6 @@ function Register() {
     };
 
     async function handleImgUpload(file) {
-        console.log(
-            "file is an instance of Blob in handleImgUpload:",
-            file instanceof Blob
-        );
-        // const options = {
-        //     maxSizeMB: 1,
-        //     maxWidthOrHeight: 300,
-        //     useWebWorker: true,
-        // };
-        // console.log("handleImgUpload");
-
-        // setCompressedFile(await imageCompression(file, options));
-        // console.log("compressedFile:", compressedFile);
-        // console.log(
-        //     "compressedFile is a blob:",
-        //     compressedFile instanceof Blob
-        // );
-
-        // if (compressedFile !== "") {
         const fileReader = new FileReader();
 
         fileReader.onload = () => {
@@ -132,7 +109,6 @@ function Register() {
         };
 
         fileReader.readAsDataURL(file); // encode file as a base64 url string
-        // }
     }
 
     function handleChange(e) {

@@ -27,7 +27,6 @@ function ReviewView(props) {
                     `/review-posts/${rpId}/view`
                 );
                 setReview(reviewRes.data.review);
-                console.log(reviewRes.data);
             } catch (error) {
                 console.log("리뷰정보가져오기오류", error);
             }
@@ -50,15 +49,22 @@ function ReviewView(props) {
         fetchRestaurant();
     }, [cateId, rtId]);
 
-    const handleCancelClick = () => {
-        navigate(`/mate/${cateId}/restaurants/${rtId}`);
-    };
     return (
         <SectionWrap>
             <form>
-                <Title className={"titleComment"}>
+                {/* <Title className={"titleComment"}>
                     <button className="flex items-center">
                         <i className="btnBack">more</i> 뒤로가기
+                    </button>
+                </Title> */}
+                <Title className={"titleComment"}>
+                    <button className="flex items-center">
+                        <Link
+                            to={`/mate/${cateId}/restaurants/${rtId}`}
+                            className="flex justify-center items-center"
+                        >
+                            <i className="btnBack">more</i> 식당 보기
+                        </Link>
                     </button>
                 </Title>
                 <div className="w-full min-h-[120px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border items-center">
@@ -145,7 +151,7 @@ function ReviewView(props) {
                             >
                                 {/* <div className="border rounded"> */}
                                 <img
-                                    src={`${process.env.REACT_APP_NODE_SERVER_URL}/uploads/${image}`}
+                                    src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
                                     className="w-full h-full object-cover"
                                     alt={`Review Image ${index + 1}`}
                                 />

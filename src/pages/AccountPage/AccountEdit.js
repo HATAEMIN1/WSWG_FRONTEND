@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import InputWrap from "../../components/Form/Input";
 import { useForm } from "react-hook-form";
-import { updateUserPassword } from "../../store/thunkFunctions";
+import { updateUser } from "../../store/thunkFunctions";
 import axiosInstance from "../../utils/axios";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { Link } from "react-router-dom";
@@ -21,6 +21,13 @@ function AccountEdit() {
     const [imgSrc, setImgSrc] = useState("");
     const [newPw, setNewPw] = useState("");
     const [imgFile, setImgFile] = useState("");
+    const isAuth = useSelector((state) => state.user.isAuth);
+    const retrievedImageOauth = useSelector(
+        (state) => state.user.userData.image?.originalname
+    );
+    const retrievedImage = useSelector(
+        (state) => state.user.userData.image?.filename
+    );
 
     const {
         register,
@@ -50,10 +57,6 @@ function AccountEdit() {
             );
             const isMatch = response.data.isMatch;
             return isMatch || "비밀번호가 기존 비밀번호와 일치하지 않습니다!";
-            // return (
-            //     password === userData.password ||
-            //     "비밀번호가 기존 비밀번호와 일치하지 않습니다!"
-            // );
         },
     };
     const userPasswordNew = {
@@ -72,20 +75,15 @@ function AccountEdit() {
     };
 
     function handleImageChange(file) {
-        console.log("handleImageChange");
         if (!file) {
-            console.log("no img file selected yet");
             return;
         }
-        console.log(
-            "file is an instance of Blob in handleImgUpload:",
-            file instanceof Blob
-        );
+
         setImgFile(file);
         const fileReader = new FileReader();
 
         fileReader.onload = () => {
-            setImgSrc(fileReader.result); // this is the compressed actual image file saved as url string in base64
+            setImgSrc(fileReader.result); // image file saved as url string in base64
         };
 
         fileReader.readAsDataURL(file); // encode file as a base64 url string
@@ -94,34 +92,23 @@ function AccountEdit() {
     function handleClickPwdChange() {
         setChangePwd(true);
     }
+
     const dispatch = useDispatch();
+
     async function onSubmit(event) {
         event.preventDefault(); // prevent reload
         const formData = new FormData();
 
-        console.log(
-            "imgFile is an instance of Blob in onSubmit:",
-            imgFile instanceof Blob
-        );
-
-        console.log("imgFile:", imgFile);
         try {
             formData.append("image", imgFile);
             formData.append("password", newPw);
-            // for (let key of formData.entries()) {
-            //     console.log(`${key[0]}: ${key[1]}`);
-            // }
 
-            dispatch(updateUserPassword(formData));
-            setModalOn(true);
+            dispatch(updateUser(formData));
             reset();
+            setModalOn(true);
         } catch (error) {
             console.log(error);
         }
-        //{ passwordNew }
-        // dispatch(updateUserPassword({ passwordNew }));
-        // setModalOn(true);
-        // reset();
     }
     const imageInput = useRef();
     function onClickPenIcon() {
@@ -142,8 +129,9 @@ function AccountEdit() {
                         />
                     ) : (
                         <NotificationModal
-                            text="비밀번호 변경이 완료되었습니다!"
-                            path="/login"
+                            text="회원 수정이 완료되었습니다!"
+                            // path="/login"
+                            path={`${isAuth ? "/" : "/login"}`}
                             imgSrc="/images/iconSmile.png"
                             imgAlt="smile icon"
                         />
@@ -157,15 +145,44 @@ function AccountEdit() {
                     onSubmit={onSubmit}
                     className="flex flex-col justify-center items-center"
                 >
-                    <div className="flex flex-col items-center w-[250px] h-[250px] mb-4 =">
-                        <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative flex justify-center itmes-center">
-                            {imgSrc && (
+                    <div className="flex flex-col items-center w-[250px] h-[250px] mb-4">
+                        <div className="w-[150px] h-[150px] bg-gray-100 rounded-md mb-4 relative flex justify-center itmes-center overflow-hidden">
+                            {oauthLogin ? (
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src={retrievedImageOauth}
+                                    alt="profileImageFromOauthProfile"
+                                />
+                            ) : (
                                 <>
-                                    <img
-                                        src={imgSrc}
-                                        className="object-cover"
-                                        alt="profile pic"
-                                    />
+                                    {imgSrc ? (
+                                        <img
+                                            src={imgSrc}
+                                            className="object-cover"
+                                            alt="profile pic"
+                                        />
+                                    ) : (
+                                        <>
+                                            {retrievedImage !==
+                                            "noimage.jpg" ? (
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src={
+                                                        process.env
+                                                            .REACT_APP_NODE_SERVER_UPLOAD_URL +
+                                                        retrievedImage
+                                                    }
+                                                    alt="user profile pic"
+                                                />
+                                            ) : (
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src="/images/defaultImageSquare.png"
+                                                    alt="defaultPic"
+                                                />
+                                            )}
+                                        </>
+                                    )}
                                 </>
                             )}
                             <img
@@ -281,9 +298,6 @@ function AccountEdit() {
                                                 {...register("passwordNew", {
                                                     ...userPasswordNew,
                                                     onChange: (e) => {
-                                                        console.log(
-                                                            e.target.value
-                                                        );
                                                         setNewPw(
                                                             e.target.value
                                                         );

@@ -7,7 +7,7 @@ import {
     logoutUser,
     registerUser,
     oauthLogin,
-    updateUserPassword,
+    updateUser,
     deleteUser,
 } from "./thunkFunctions";
 
@@ -17,8 +17,8 @@ const initialState = {
         email: "",
         name: "",
         role: 0,
+        image: {},
         password: "",
-        image: "",
         createdAt: "",
     },
     isAuth: false,
@@ -39,17 +39,12 @@ const userSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                console.log(
-                    "action.payload when registerUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.error = "";
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
-                console.log("registerUser rejected:", action.payload);
             })
 
             .addCase(loginUser.pending, (state) => {
@@ -60,10 +55,6 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.oauthLogin = false;
                 state.error = "";
-                console.log(
-                    "action.payload when loginUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.isAuth = true;
                 localStorage.setItem("accessToken", action.payload.accessToken);
@@ -80,10 +71,6 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.oauthLogin = true;
                 state.error = "";
-                console.log(
-                    "action.payload when oauthLogin.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
                 state.isAuth = true;
                 localStorage.setItem("accessToken", action.payload.accessToken);
@@ -99,10 +86,6 @@ const userSlice = createSlice({
             .addCase(authUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = "";
-                console.log(
-                    "action.payload when authUser.fulfilled:",
-                    action.payload
-                );
                 state.userData = action.payload.user;
 
                 state.isAuth = true;
@@ -130,22 +113,22 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
-            .addCase(updateUserPassword.pending, (state) => {
+            .addCase(updateUser.pending, (state) => {
                 state.isLoading = true;
                 state.error = "";
             })
-            .addCase(updateUserPassword.fulfilled, (state, action) => {
+            .addCase(updateUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = "";
-                console.log(
-                    "action.payload in updateUserPassword:",
-                    action.payload
-                );
-                state.userData.password = action.payload.user.password;
-                state.isAuth = false;
-                localStorage.removeItem("accessToken");
+                state.userData = action.payload.user;
+                if (action.payload.passwordChange) {
+                    state.isAuth = false;
+                    localStorage.removeItem("accessToken");
+                } else {
+                    state.isAuth = true;
+                }
             })
-            .addCase(updateUserPassword.rejected, (state, action) => {
+            .addCase(updateUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
                 state.isAuth = true;
@@ -169,5 +152,4 @@ const userSlice = createSlice({
     },
 });
 
-export const { setAuth, setUserData } = userSlice.actions;
 export default userSlice.reducer;

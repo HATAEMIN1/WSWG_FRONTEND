@@ -7,12 +7,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { SectionWrap } from "../../components/Layout/Section";
 import { useSelector } from "react-redux";
 import { IconStar, IconWish } from "../../components/Form/Icon";
-import { Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
 import StarRating from "../../components/Form/StarRating";
-import Dropzone from "react-dropzone";
+import NotificationModal from "../../components/Modal/NotificationModal";
+import DefaultModal from "../../components/Modal/DefualtModal";
+
 import FileUpload from "../../components/Form/FileUpload";
+import iconLT from "../../assets/images/iconLT.svg";
+import iconRT from "../../assets/images/iconRT.svg";
+import iconRB from "../../assets/images/iconRB.svg";
+import iconLB from "../../assets/images/iconLB.svg";
 
 function ReviewAdd(props) {
     const { cateId, rtId } = useParams();
@@ -29,6 +32,10 @@ function ReviewAdd(props) {
         content: "",
         images: [],
     });
+    //모달창---------------------------------------------------------------------------------->
+    const [modalOpen, setModalOpen] = useState(false);
+
+    //---------------------------------------------------------------------------------------->
 
     // 해시태그-------------------------------------------------------------------------------->
 
@@ -60,7 +67,6 @@ function ReviewAdd(props) {
         }
 
         if (isEmptyValue(newHashTag)) return;
-        console.log(newHashTag);
 
         //헤시태그목록에 새로운 해시태그추가
         setHashTag((prevHashTags) => {
@@ -100,6 +106,11 @@ function ReviewAdd(props) {
 
     function handleChange(e) {
         const { name, value } = e.target;
+        if (name === "content" && value.length > 300) {
+            setError("내용은 최대 300자까지 입력 가능합니다.");
+            return;
+        }
+        setError("");
         setText((prevState) => ({
             ...prevState,
             [name]: value,
@@ -118,9 +129,11 @@ function ReviewAdd(props) {
 
         try {
             await axiosInstance.post("/review-posts", body);
-            navigate(`/mate/${cateId}/restaurants/${rtId}`);
+            setModalOpen(true); //리뷰등록 후 모달열기
+            // navigate(`/mate/${cateId}/restaurants/${rtId}`);
         } catch (error) {
             console.log(error);
+            setModalOpen(false);
         }
     }
 
@@ -142,26 +155,44 @@ function ReviewAdd(props) {
         navigate(`/mate/${cateId}/restaurants/${rtId}`);
     };
 
-    //이미지----------------------------------------------------------------------------------->
     function handleImage(newImages) {
-        // console.log("image");
         setText((prevState) => ({
             ...prevState,
             images: newImages,
         }));
-        console.log(newImages);
     }
 
-    // const handleImage = (images) => {
-    //     setText((prevState) => ({
-    //         ...prevState,
-    //         images: images.map((image) => URL.createObjectURL(image)), // 업로드한 이미지 파일의 URL을 생성하여 저장
-    //     }));
-    // };
-    //----------------------------------------------------------------------------------------->
+    function handleConfirm() {
+        setModalOpen(false); //모달닫기
+        navigate(`/mate/${cateId}/restaurants/${rtId}`);
+    }
+
+    function handleClose() {
+        setModalOpen(false); // 모달 닫기
+    }
 
     return (
         <SectionWrap>
+            {modalOpen && (
+                <>
+                    {error && error.error ? (
+                        <NotificationModal
+                            text={error.error}
+                            path="/review-posts"
+                            imgSrc="/images/iconSad.png"
+                            imgAlt="sad icon"
+                        />
+                    ) : (
+                        <NotificationModal
+                            text="회원가입이 완료되었습니다!"
+                            path="/review-posts"
+                            imgSrc="/images/iconSmile.png"
+                            imgAlt="smile icon"
+                        />
+                    )}
+                </>
+            )}
+
             <form onSubmit={handleSubmit}>
                 <div className="mb-10">
                     <Title memTitle={true}>어까</Title>
@@ -197,7 +228,16 @@ function ReviewAdd(props) {
                             onChange={handleChange}
                             name="content"
                             value={text.content}
+                            maxLength={300}
                         ></textarea>
+                        <div className="text-right text-sm text-gray-500">
+                            {text.content.length}/300
+                        </div>
+                        {error && (
+                            <p style={{ color: "red" }} className="mt-2">
+                                {error}
+                            </p>
+                        )}
                     </InputWrap>
                 </div>
 
@@ -217,7 +257,6 @@ function ReviewAdd(props) {
                             value={inputHashTag}
                         />
                     </InputWrap>
-                    {error && <p style={{ color: "red" }}>{error}</p>}
                     {/* 해시태그 목록 렌더링 */}
                     <div className="flex gap-2 pt-2">
                         {/* {inputHashTag} */}
@@ -262,36 +301,35 @@ function ReviewAdd(props) {
                 <div className="mb-10">
                     <div>
                         <Title className={"titleComment"}>이미지등록</Title>
-                        <div className="flex gap-2 justify-between items-center p-3 border">
-                            {/* <InputWrap className="inputContainer iconPhoto">
-                                <input
-                                    // type="text"
-                                    id="fileInput"
-                                    placeholder="사진등록"
-                                    // className="text-left"
-                                />
-                            </InputWrap> */}
-
+                        <div className="w-full relative bg-[#f5f5f5] h-[150px] ">
+                            <div className="absolute w-full left-0 top-0 flex justify-between">
+                                <span>
+                                    <img src={iconLT} />
+                                </span>
+                                <span>
+                                    <img src={iconRT} />
+                                </span>
+                            </div>
                             <FileUpload
                                 images={text.images}
                                 onImageChange={handleImage}
                             />
-                        </div>
 
-                        <div className="text-md text-slate-500 text-base my-1">
-                            *이미지는 00MB 이하 jpg, png 형식만 가능합니다
+                            <div className="absolute w-full left-0 bottom-0 flex justify-between">
+                                <span>
+                                    <img src={iconLB} />
+                                </span>
+                                <span>
+                                    <img src={iconRB} />
+                                </span>
+                            </div>
                         </div>
-
-                        {/* <div className="flex gap-2 mb-14">
-                            <Button className={"lineDelButton"}>
-                                daadfadsfa.jpg
-                                <i className="iconSmall iconDel">delet</i>
-                            </Button>
-                            <Button className={"lineDelButton"}>
-                                daadfadsfa2.jpg
-                                <i className="iconSmall iconDel">delet</i>
-                            </Button>
-                        </div> */}
+                        <div className="text-sm text-slate-500 text-base mt-1">
+                            *이미지는 최대 5개까지 업로드할 수 있습니다.
+                        </div>
+                        <div className="text-sm text-slate-500 text-base mt-1 mb-20">
+                            *이미지는 00MB 이하 jpg, png 형식만 가능합니다.
+                        </div>
                     </div>
                     <div className=" text-md flex justify-center mb-5 text-red-600">
                         *타인을 비방하거나 불건전한 내용을 등록 시 삭제 될 수
@@ -307,6 +345,13 @@ function ReviewAdd(props) {
                     </ButtonWrap>
                 </div>
             </form>
+
+            <DefaultModal show={modalOpen} onClose={handleClose}>
+                <div className="pb-3">리뷰 등록이 완료되었습니다</div>
+                <Button basicButton={true} onClick={handleConfirm}>
+                    확인
+                </Button>
+            </DefaultModal>
         </SectionWrap>
     );
 }
