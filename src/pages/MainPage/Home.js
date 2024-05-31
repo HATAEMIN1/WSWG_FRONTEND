@@ -14,128 +14,6 @@ import axiosInstance from "../../utils/axios";
 import { useSelector } from "react-redux";
 
 function Home({ ...props }) {
-    // const foodType = [
-    //     {
-    //         no: 1,
-    //         name: "#한식",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample2.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample3.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample4.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         no: 2,
-    //         name: "#양식",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         no: 3,
-    //         name: "#중식",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         no: 4,
-    //         name: "#일식",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         no: 5,
-    //         name: "#디저트",
-    //         rst: [
-    //             {
-    //                 rstName: "중국집1",
-    //                 rating: "",
-    //                 rstImage: "imageSample1.png",
-    //                 link: "",
-    //             },
-    //         ],
-    //     },
-    // ];
     const mateType = [
         { no: 1, cateId: "lover", name: "연인" },
         { no: 2, cateId: "friend", name: "친구" },
@@ -169,14 +47,9 @@ function Home({ ...props }) {
             console.log(e.message);
         }
     };
-
-    // useEffect(() => {
-    //     fetchRestaurant();
-    // }, [cateId, foodtype]);
     useEffect(() => {
         fetchRestaurant();
     }, []);
-
     return (
         <>
             <SectionFullWrap className={"relative z-1"}>
@@ -191,7 +64,6 @@ function Home({ ...props }) {
                         fetchRestaurant={fetchRestaurant}
                         setGeoData={setGeoData}
                     ></Map>
-                    {/*<img src={`${process.env.PUBLIC_URL}/images/mainMap.png`} className="h-[380px] w-full"/>/!*나중에 맵 화면 붙히고 삭제해주세요!*!/*/}
                 </div>
             </SectionFullWrap>
             <div className="w-[1024px] m-auto pt-20">
@@ -200,7 +72,6 @@ function Home({ ...props }) {
                         (restaurant) =>
                             restaurant.category[0].foodType === foodType[i]
                     );
-                    console.log(filteredGeoData);
                     return (
                         <div key={`foodType-${i}`} className="mb-[100px]">
                             <Title className={"titleBasic mx-[32px]"}>
@@ -240,23 +111,6 @@ function Home({ ...props }) {
                         </div>
                     );
                 })}
-                {/*{foodType.map((foodtype, i) => {*/}
-                {/*    const filteredGeoData = geoData.filter(*/}
-                {/*        (restaurant) =>*/}
-                {/*            restaurant.category[0].foodType === foodtype*/}
-                {/*    );*/}
-                {/*    console.log(filteredGeoData);*/}
-                {/*    return (*/}
-                {/*        <div key={i}>*/}
-                {/*            <h2>{foodtype}</h2>*/}
-                {/*            <ul>*/}
-                {/*                {filteredGeoData.map((restaurant, index) => (*/}
-                {/*                    <li key={index}>{restaurant.name}</li>*/}
-                {/*                ))}*/}
-                {/*            </ul>*/}
-                {/*        </div>*/}
-                {/*    );*/}
-                {/*})}*/}
             </div>
         </>
     );

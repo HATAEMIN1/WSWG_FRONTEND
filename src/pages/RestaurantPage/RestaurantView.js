@@ -23,13 +23,15 @@ function RestaurantView(props) {
         { no: 5, name: "디저트" },
     ];
     const mateType = [
-        { no: 1, name: "연인과 가볼까" },
-        { no: 2, name: "친구와 가볼까" },
-        { no: 3, name: "가족과 가볼까" },
-        { no: 4, name: "단체모임 가볼까" },
-        { no: 5, name: "반려동물과 가볼까" },
-        { no: 6, name: "혼밥 해볼까" },
+        { no: 1, name: "연인과 가볼까", cateId: "lover" },
+        { no: 2, name: "친구와 가볼까", cateId: "friend" },
+        { no: 3, name: "가족과 가볼까", cateId: "family" },
+        { no: 4, name: "단체모임 가볼까", cateId: "group" },
+        { no: 5, name: "반려동물과 가볼까", cateId: "pet" },
+        { no: 6, name: "혼밥 해볼까", cateId: "self" },
     ];
+    const mateParams = useParams();
+    console.log(mateParams.cateId);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const userId = useSelector((state) => {

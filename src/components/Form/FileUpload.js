@@ -38,7 +38,7 @@ function FileUpload({ images, onImageChange }) {
                 {images.map((image) => {
                     console.log(image);
                     return (
-                        <div key={image} className="w-[100px] relative ">
+                        <div key={image} className="w-[100px] relative">
                             <div
                                 onClick={() => {
                                     handleDelete(image);

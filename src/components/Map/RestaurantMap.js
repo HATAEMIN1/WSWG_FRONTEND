@@ -21,7 +21,6 @@ function RestaurantMap(props) {
     useEffect(() => {
         fetchRestaurant();
     }, []);
-
     useEffect(() => {
         if (restaurant) {
             const mapContainer = document.getElementById("map");
@@ -48,7 +47,6 @@ function RestaurantMap(props) {
             });
         }
     }, [restaurant]);
-
     return (
         <>
             <div id="map" style={{ width: "100%", height: "100%" }}></div>

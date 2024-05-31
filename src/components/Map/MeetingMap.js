@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import axiosInstance from "../../utils/axios";
-import { SectionWrap } from "../Layout/Section";
-import { Link } from "react-router-dom";
-
 const { kakao } = window;
-function Map({
+function MeetingMap({
     geoData,
     geoCenter,
     geoMouse,
@@ -48,6 +45,7 @@ function Map({
                 positions[i].title
             );
         }
+
         // 지도에 마커와 인포윈도우를 표시하는 함수입니다
         function displayMarker(locPosition, message, markerImage, title) {
             // 마커를 생성합니다
@@ -96,74 +94,42 @@ function Map({
             displayMarker(locPosition, message);
         }
 
-        const panTo = () => {
-            if (navigator.geolocation) {
-                // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var lat = position.coords.latitude, // 위도
-                        lon = position.coords.longitude; // 경도
-                    const moveLatLon = new window.kakao.maps.LatLng(lat, lon);
-                    // 지도 중심을 부드럽게 이동시킵니다
-                    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-                    map.panTo(moveLatLon);
-                });
-            }
-        };
-        if (click) {
-            panTo();
-        }
+        // const panTo = () => {
+        //     if (navigator.geolocation) {
+        //         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+        //         navigator.geolocation.getCurrentPosition(function (position) {
+        //             var lat = position.coords.latitude, // 위도
+        //                 lon = position.coords.longitude; // 경도
+        //             const moveLatLon = new window.kakao.maps.LatLng(lat, lon);
+        //             // 지도 중심을 부드럽게 이동시킵니다
+        //             // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+        //             map.panTo(moveLatLon);
+        //         });
+        //     }
+        // };
+        // if (click) {
+        //     panTo();
+        // }
         // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-        kakao.maps.event.addListener(map, "dragend", async function () {
-            // 지도 중심좌표를 얻어옵니다
-            var latlng = map.getCenter();
-            setGeoCenter([latlng.Ma, latlng.La]);
-            const body = { lat: latlng.getLat(), lon: latlng.getLng() };
-            const res = await axiosInstance.post("restaurants/location", body);
-            setGeoData(res.data.restaurant);
-            console.log(res.data.restaurant);
-        });
-        kakao.maps.event.addListener(map, "zoom_changed", function () {
-            // 지도의 현재 레벨을 얻어옵니다
-            var level = map.getLevel();
-            setGeoMouse(level);
-        });
+        // kakao.maps.event.addListener(map, "dragend", async function () {
+        //     // 지도 중심좌표를 얻어옵니다
+        //     var latlng = map.getCenter();
+        //     setGeoCenter([latlng.Ma, latlng.La]);
+        //     const body = { lat: latlng.getLat(), lon: latlng.getLng() };
+        //     const res = await axiosInstance.post("restaurants/location", body);
+        //     setGeoData(res.data.restaurant);
+        //     console.log(res.data.restaurant);
+        // });
+        // kakao.maps.event.addListener(map, "zoom_changed", function () {
+        //     // 지도의 현재 레벨을 얻어옵니다
+        //     var level = map.getLevel();
+        //     setGeoMouse(level);
+        // });
     }
     useEffect(() => {
         mapSet();
-    }, [geoData, geoCenter]);
-    return (
-        <>
-            <div id="map" style={{ width: "100%", height: "400px" }}></div>
-            <div className="w-full absolute bottom-0 py-3 mainMapLayer z-[1]">
-                <SectionWrap
-                    className={"flex justify-between mainMapButton"}
-                    basicSection={true}
-                >
-                    <div className="w-1/2 text-white text-[20px]">
-                        <Link
-                            className="flex justify-center align-middle"
-                            onClick={() => {
-                                props.modalOpen(0);
-                            }}
-                        >
-                            <i className="iconMark"></i>지역설정하기
-                        </Link>
-                    </div>
-                    <div className="w-1/2 text-white text-[20px]">
-                        <Link
-                            className="flex justify-center align-middle"
-                            onClick={() => {
-                                mapSet("click");
-                            }}
-                        >
-                            <i className="iconMap"></i>
-                            현위치보기
-                        </Link>
-                    </div>
-                </SectionWrap>
-            </div>
-        </>
-    );
+    }, []);
+    return <>test</>;
 }
 
-export default Map;
+export default MeetingMap;
