@@ -76,21 +76,6 @@ function Account() {
                     console.log("찜한 가게 불러오기 오류", error);
                 }
             };
-
-            const fetchUserMeetups = async () => {
-                try {
-                    const response = await axiosInstance.get(
-                        `/users/${userData.id}/meetups`
-                    );
-                    setUserMeetups(response.data.meetupPosts);
-                } catch (error) {
-                    console.log(
-                        "내가 등록한 우리 만날까 불러오기 오류:",
-                        error
-                    );
-                }
-            };
-
             fetchUserReviews();
             fetchlikedRestaurants();
 
