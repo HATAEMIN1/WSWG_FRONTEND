@@ -58,7 +58,7 @@ function App() {
     const [modalView, setModalView] = useState(false);
     const modalData = [
         <MapModalSelect modalOpen={modalOpen} />,
-        <MapModal />,
+        <MapModal onClick={modalClose}/>,
         <FilterModal />,
     ];
     function modalOpen(idx) {
@@ -113,7 +113,7 @@ function App() {
                     <Route path="/users/kakao-login" element={<KakaoLogin />} />
                     <Route path="/users/naver-login" element={<NaverLogin />} />
                     <Route path="/mate" element={<MateList />} />
-                    <Route path="/mate/:cateId" element={<RestaurantList />} />
+                    <Route path="/mate/:cateId" element={<RestaurantList onClick={modalClose}/>} />
                     <Route
                         path="/mate/:cateId/restaurants/:rtId"
                         element={<RestaurantView />}

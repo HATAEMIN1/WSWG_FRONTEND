@@ -717,6 +717,20 @@ i.iconSmall {
     background: url("../images/mapNoimage.png") no-repeat;
     background-size: cover;
 }
+.scrollWrap {
+    padding: 5px;
+}
+.scrollWrap::-webkit-scrollbar {
+    width: 8px;
+}
+.scrollWrap::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #e8e8e8;
+}
+.scrollWrap::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #ffffff;
+}
 @media (max-width: 768px) {
     header {
         h1 {

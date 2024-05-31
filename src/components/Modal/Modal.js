@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../Form/Button";
 import Title from "../Layout/Title";
+import { Link, useNavigate } from "react-router-dom";
 
 function Modal({ ...props }) {
     return (
@@ -19,7 +20,7 @@ function Modal({ ...props }) {
         </div>
     );
 }
-function MapModal(...props) {
+function MapModal({onClick, ...props }) {
     return (
         <div
             className="m-auto bg-white min-h-[100px] rounded-[1.25em] p-[30px]"
@@ -28,22 +29,24 @@ function MapModal(...props) {
             <div className="mb-3">
                 <div className="flex justify-between gap-5 mb-3">
                     <div className="w-full bg-[#545454] text-white rounded-full py-1 text-center text-[0.875em]">
-                        시구군
+                        광역시도
                     </div>
                     <div className="w-full bg-[#545454] text-white rounded-full py-1 text-center text-[0.875em]">
-                        읍면동
+                        시구군
                     </div>
                 </div>
                 <div className="flex justify-between gap-5">
-                    <ul className="flex-auto localButton">
+                    <ul className="flex-auto localButton max-h-[400px] overflow-y-auto scrollWrap">
                         <li>
                             <label>
                                 <input
                                     type="radio"
                                     name="radio1"
                                     id="#check_type1"
+                                    className="active"
+                                    checked
                                 />
-                                <span>강남구</span>
+                                <span>서울특별시</span>
                             </label>
                         </li>
                         <li>
@@ -53,7 +56,7 @@ function MapModal(...props) {
                                     name="radio1"
                                     id="#check_type1"
                                 />
-                                <span>서초구</span>
+                                <span>강원도</span>
                             </label>
                         </li>
                         <li>
@@ -63,12 +66,142 @@ function MapModal(...props) {
                                     name="radio1"
                                     id="#check_type1"
                                 />
-                                <span>영등포구</span>
+                                <span>경기도</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>경상남도</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>경상북도</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>광주광역시</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>대구광역시</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>대전광역시</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>부산광역시</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>세종특별자치시</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>울산광역시</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>전라남도</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>전라북도</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>제주</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>충청남도</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio1"
+                                    id="#check_type1"
+                                />
+                                <span>충청북도</span>
                             </label>
                         </li>
                     </ul>
                     <div className="w-[1px] bg-slate-400"></div>
-                    <ul className="flex-auto localButton">
+                    <ul className="flex-auto localButton max-h-[400px] overflow-y-auto scrollWrap">
                         <li>
                             <label>
                                 <input
@@ -86,13 +219,113 @@ function MapModal(...props) {
                                     name="radio2"
                                     id="#check_type1"
                                 />
-                                <span>서초구</span>
+                                <span>강동구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>강북구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>관악구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>광진구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>구로구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>금천구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>노원구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>도봉구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>동대문구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>동작구</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="radio2"
+                                    id="#check_type1"
+                                />
+                                <span>마포구</span>
                             </label>
                         </li>
                     </ul>
                 </div>
             </div>
-            <Button basicButton={true}>확인</Button>
+            <Button basicButton={true} ><Link to={'/mate/lover'} onClick={props.onClick}>확인</Link></Button>
         </div>
     );
 }
@@ -102,15 +335,9 @@ function MapModalSelect({ onClick, ...props }) {
             className="m-auto bg-primary min-h-[100px] rounded-[1.25em] p-[30px]"
             {...props}
         >
-            <div className="mb-3">나아중에 지도가 들어갈겁니다~~~!!!!!</div>
-            <Button
-                basicButton={true}
-                onClick={() => {
+            <div className="mb-3"><Link onClick={() => {
                     props.modalOpen(1);
-                }}
-            >
-                서울시
-            </Button>
+                }}><img src={`${process.env.PUBLIC_URL}/images/mapSelect.png`} /></Link></div>
         </div>
     );
 }
