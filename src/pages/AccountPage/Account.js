@@ -167,6 +167,15 @@ function Account() {
                                                         <span className="mr-1">별점: </span>
                                                         <StarRating rating={review.rating} />
                                                     </div>
+                                                    <div className="hashBoxWrap mt-2">
+                                                        {review.tags &&
+                                                            review.tags.length > 0 &&
+                                                            review.tags.map((tag, i) => (
+                                                                <span key={i} className="hashBox">
+                                                                    #{tag.name}
+                                                                </span>
+                                                            ))}
+                                                    </div>
                                                     <div className="flex gap-2 mt-2">
                                                         {review.images && review.images.map((image, index) => (
                                                             <img

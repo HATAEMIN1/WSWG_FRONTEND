@@ -25,7 +25,7 @@ import { authUser } from "./store/thunkFunctions";
 import KakaoLogin from "./pages/LoginPage/KakaoLogin";
 import NaverLogin from "./pages/LoginPage/NaverLogin";
 import DefualtModal from "./components/Modal/DefualtModal";
-import Search from "./pages/SearchPage/Search";
+import Search from "./pages/SearchPage/Search";  // Search 경로를 확인하세요
 import FilterModal from "./components/Modal/FilterModal";
 import NotAuthRouter from "./components/Router/NotAuthRouter";
 import AuthRouter from "./components/Router/AuthRouter";
