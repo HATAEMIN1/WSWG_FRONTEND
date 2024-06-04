@@ -43,7 +43,9 @@ function Search(props) {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("q");
     const tag = searchParams.get("tag");
-
+    console.log(location);
+    console.log(location.search);
+    console.log(searchParams);
     const fetchSearchResults = async ({
         search,
         limit,
