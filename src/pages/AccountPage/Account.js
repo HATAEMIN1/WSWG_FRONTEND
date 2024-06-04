@@ -1,7 +1,6 @@
-
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom";
 
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
@@ -50,19 +49,6 @@ function Account() {
                     setUserRestaurants(response.data.restaurants);
                 } catch (error) {
                     console.log("내가 찜한 가게 불러오기 오류:", error);
-                }
-            };
-            const fetchUserMeetups = async () => {
-                try {
-                    const response = await axiosInstance.get(
-                        `/users/${userData.id}/meetups`
-                    );
-                    setUserMeetups(response.data.meetupPosts);
-                } catch (error) {
-                    console.log(
-                        "내가 등록한 우리 만날까 불러오기 오류:",
-                        error
-                    );
                 }
             };
 
@@ -214,7 +200,9 @@ function Account() {
 
                             <div className="w-[960px] flex flex-col text-zinc-800 text-xl font-semibold">
                                 <div className="mb-4">
-                                <Title className={"titleComment"}>내가 찜한 목록</Title>
+                                    <Title className={"titleComment"}>
+                                        내가 찜한 목록
+                                    </Title>
                                     <div className="w-[960px] flex gap-12 my-3">
                                         {likedRestaurants.length > 0 ? (
                                             likedRestaurants.map(
@@ -287,20 +275,20 @@ function Account() {
                                             <div className="w-full bg-slate-100  py-[20px] text-center text-sm">
                                                 찜한 가게가 없습니다!
                                             </div>
-                                              )}
+                                        )}
                                     </div>
                                 </div>
                                 <div>
-                                <Title className={"titleComment"}>내가 작성한 리뷰</Title>
+                                    <Title className={"titleComment"}>
+                                        내가 작성한 리뷰
+                                    </Title>
                                     <div className="w-[960px] flex gap-12 mb-3">
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
-                                        
                                                 <div
                                                     key={review._id}
                                                     className="flex reviewListWrap rounded-md gap-2 !border-none"
                                                 >
-                            
                                                     <div className="flex  myimgWrap overflow-hidden items-center gap-2 rounded-md">
                                                         {review.images &&
                                                             review.images.map(
@@ -387,14 +375,14 @@ function Account() {
                                             ))
                                         ) : (
                                             <div className="w-full bg-slate-100  py-[20px] text-center text-sm">
-                                            작성한 리뷰가 없습니다!
-                                        </div>
+                                                작성한 리뷰가 없습니다!
+                                            </div>
                                         )}
                                     </div>
                                 </div>
                                 <div>
                                     <Title className={"titleComment"}>
-                                    내가 등록한 우리 만날까
+                                        내가 등록한 우리 만날까
                                     </Title>
                                     <div className="flex flex-col gap-4 mt-4">
                                         {userMeetups.length > 0 ? (
@@ -415,7 +403,6 @@ function Account() {
                                                         조회수: {meetup.views}
                                                     </div>
                                                     <div className="flex gap-2 mt-2">
-
                                                         {meetup.images &&
                                                             meetup.images.map(
                                                                 (
