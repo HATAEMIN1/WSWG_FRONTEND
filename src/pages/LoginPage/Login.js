@@ -10,6 +10,7 @@ import NotificationModal from "../../components/Modal/NotificationModal";
 import Title from "../../components/Layout/Title";
 import InputWrap from "../../components/Form/Input";
 import { Button } from "../../components/Form/Button";
+import { Link } from "react-router-dom";
 
 function Login() {
     const {
@@ -80,17 +81,19 @@ function Login() {
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                     <div className="emailWrap w-full gap-4 items-center mt-5 mb-5">
                         <div className="w-full flex justify-between items-center gap-3">
-                            <i className="iconTypeInput iconEmail flex-none">email</i>
+                            <i className="iconTypeInput iconEmail flex-none">
+                                email
+                            </i>
                             <InputWrap>
-                            <input
-                                className=" bg-neutral-100 text-center text-zinc-400 text-base font-normal"
-                                type="text"
-                                id="emailInput"
-                                name="emailInput"
-                                required
-                                placeholder="이메일을 입력하세요!"
-                                {...register("email", userEmail)}
-                            />
+                                <input
+                                    className=" bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                    type="text"
+                                    id="emailInput"
+                                    name="emailInput"
+                                    required
+                                    placeholder="이메일을 입력하세요!"
+                                    {...register("email", userEmail)}
+                                />
                             </InputWrap>
                         </div>
                         {errors.email && (
@@ -101,18 +104,20 @@ function Login() {
                     </div>
                     <div className="passwordWrap w-full mb-5">
                         <div className="w-full relative flex justify-between gap-3">
-                            <i className="iconTypeInput iconRock flex-none">pass</i>
+                            <i className="iconTypeInput iconRock flex-none">
+                                pass
+                            </i>
                             <InputWrap>
-                            <input
-                                className="bg-neutral-100 text-center text-base font-normal"
-                                type={pwShow ? "text" : "password"}
-                                id="passwordInput"
-                                name="passwordInput"
-                                required
-                                minLength="4"
-                                placeholder="비밀번호를 입력하세요!"
-                                {...register("password", userPassword)}
-                            />
+                                <input
+                                    className="bg-neutral-100 text-center text-base font-normal"
+                                    type={pwShow ? "text" : "password"}
+                                    id="passwordInput"
+                                    name="passwordInput"
+                                    required
+                                    minLength="4"
+                                    placeholder="비밀번호를 입력하세요!"
+                                    {...register("password", userPassword)}
+                                />
                             </InputWrap>
                             <div className="absolute right-[10px] top-[7px]">
                                 {pwShow ? (
@@ -131,7 +136,6 @@ function Login() {
                                     />
                                 )}
                             </div>
-                            
                         </div>
                         {errors.password && (
                             <div className="text-red-500 text-xs mt-1 w-full text-center">
@@ -139,22 +143,17 @@ function Login() {
                             </div>
                         )}
                     </div>
-                    <Button basicButton={true}>
-                        로그인
-                    </Button>
-                    <div
-                        className="w-full pt-20 mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5"
-                    >
+                    <Button basicButton={true}>로그인</Button>
+                    <div className="w-full pt-20 mb-5 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5">
                         간편로그인
                     </div>
                     <KakaoLogin />
                     <NaverLogin />
-                    <div
-                        className="text-black text-[15px] mt-5 font-normal flex justify-center items-center"
-                    >이미 어까의 회원이시면
-                        <a href="/register" className="underline mx-2">
+                    <div className="text-black text-[15px] mt-5 font-normal flex justify-center items-center">
+                        이미 어까의 회원이시면
+                        <Link to={"/register"} className="underline mx-2">
                             회원가입
-                        </a>
+                        </Link>
                         하세요
                     </div>
                 </form>
