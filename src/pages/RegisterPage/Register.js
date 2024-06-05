@@ -11,6 +11,8 @@ import { useState } from "react";
 import Title from "../../components/Layout/Title";
 import InputWrap from "../../components/Form/Input";
 import { Button } from "../../components/Form/Button";
+import { Link } from "react-router-dom";
+
 // import { Navigate } from "react-router-dom";
 
 function Register() {
@@ -246,9 +248,9 @@ function Register() {
                             className="text-[15px] text-center pt-5"
                         >
                             이미 어까의 회원이라면 바로
-                            <a href="/login" className="mx-[6px] underline">
+                            <Link to={"/login"} className="mx-[6px] underline">
                                 로그인!
-                            </a>
+                            </Link>
                         </div>
                     </form>
                 </div>

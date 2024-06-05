@@ -56,19 +56,6 @@ function Account() {
                     console.log("내가 찜한 가게 불러오기 오류:", error);
                 }
             };
-            const fetchUserMeetups = async () => {
-                try {
-                    const response = await axiosInstance.get(
-                        `/users/${userData.id}/meetups`
-                    );
-                    setUserMeetups(response.data.meetupPosts);
-                } catch (error) {
-                    console.log(
-                        "내가 등록한 우리 만날까 불러오기 오류:",
-                        error
-                    );
-                }
-            };
 
             const fetchlikedRestaurants = async () => {
                 try {
@@ -235,7 +222,6 @@ function Account() {
                                     </>
                                 </div>
                             </div>
-
                             <div className="container flex flex-col">
                                 <div className="mb-10">
                                 <Title className={"titleListStt"}>내가 찜한 목록</Title>
@@ -307,12 +293,11 @@ function Account() {
                                     <div>
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
-                                        
                                                 <div
                                                     key={review._id}
                                                     className="reviewListWrap flex gap-5"
                                                 >
-                            
+       
                                                     <div className="overflow-hidden flex-none imgWrap">
                                                         {review.images &&
                                                             review.images.map(
@@ -384,6 +369,7 @@ function Account() {
                                             <div className="w-full bg-slate-100  py-[20px] text-center">
                                             작성한 리뷰가 없습니다!
                                         </div>
+
                                         )}
                                     </div>
                                 </div>
@@ -412,14 +398,23 @@ function Account() {
                                                                 </i>{" "}
                                                                 {meetup.views}
                                                             </div>
-                                                            <div className="flex">
-                                                                <i className="iconBasic iconComment">
-                                                                    comment
-                                                                </i>
-                                                                {meetup.commentCount || 0}
-                                                            </div>
+                                                             <div className="flex gap-2 mt-2">
+                                                        {meetup.images &&
+                                                            meetup.images.map(
+                                                                (
+                                                                    image,
+                                                                    index
+                                                                ) => (
+                                                                    <img
+                                                                        key={`meetup post image-${index}`}
+                                                                        src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
+                                                                        alt={`Meetup Post Image ${index + 1}`}
+                                                                        className="w-[100px] h-[100px] object-cover rounded"
+                                                                    />
+                                                                )
+                                                            )}
+                                                             </div>
                                                         </div>
-                                                    </div>
                                                     {metaDataList[meetup.chatLink] && (
                                                         <SectionWrap basicSection={true}>
                                                             <div className="container flex border rounded-md">
