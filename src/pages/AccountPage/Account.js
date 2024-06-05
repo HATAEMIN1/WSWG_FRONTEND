@@ -1,22 +1,33 @@
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
+import { IconWish } from "../../components/Form/Icon";
 
 function Account() {
     const isAuth = useSelector((state) => state.user.isAuth);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
     const userData = useSelector((state) => state?.user?.userData);
     const [userReviews, setUserReviews] = useState([]);
+    const [likedRestaurants, setLikedRestaurants] = useState([]);
+    const [userMeetupPosts, setUserMeetupPosts] = useState([]);
     const [userRestaurants, setUserRestaurants] = useState([]);
     const [userMeetups, setUserMeetups] = useState([]);
+
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
     const retrievedImageOauth = useSelector(
         (state) => state.user.userData.image?.originalname
     );
+    const location = useLocation();
+    const [prePage, setPrePage] = useState("");
+
+    useEffect(() => {
+        setPrePage(location.pathname);
+    }, [location]);
 
     useEffect(() => {
         if (userData?.id) {
@@ -40,6 +51,18 @@ function Account() {
                     console.log("내가 찜한 가게 불러오기 오류:", error);
                 }
             };
+
+            const fetchlikedRestaurants = async () => {
+                try {
+                    const response = await axiosInstance.get(
+                        `/likes/user/${userData.id}`
+                    );
+                    setLikedRestaurants(response.data.likedRestaurants);
+                } catch (error) {
+                    console.log("찜한 가게 불러오기 오류", error);
+                }
+            };
+
             const fetchUserMeetups = async () => {
                 try {
                     const response = await axiosInstance.get(
@@ -53,11 +76,16 @@ function Account() {
                     );
                 }
             };
+
             fetchUserReviews();
+            fetchlikedRestaurants();
+
             fetchUserRestaurants();
+
             fetchUserMeetups();
         }
     }, [userData?.id]);
+    //foodType
 
     // 별점 표시 컴포넌트
     const StarRating = ({ rating }) => {
@@ -169,57 +197,76 @@ function Account() {
                                     </>
                                 </div>
                             </div>
-                            <div className="w-[960px] flex flex-col gap-8">
-                                <div>
+
+                            <div className="w-[960px] flex flex-col text-zinc-800 text-xl font-semibold">
+                                <div className="mb-4">
                                     <Title className={"titleComment"}>
-                                        내가 찜한 가게
+                                        내가 찜한 목록
                                     </Title>
-                                    <div className="flex flex-col gap-4 mt-4">
-                                        {userRestaurants &&
-                                        userRestaurants.length > 0 &&
-                                        userRestaurants[0] !== null ? (
-                                            userRestaurants.map(
+                                    <div className="w-[960px] flex gap-12 my-3">
+                                        {likedRestaurants.length > 0 ? (
+                                            likedRestaurants.map(
                                                 (restaurant) => (
                                                     <div
-                                                        key={`restaurant-${restaurant._id}`}
-                                                        className="bg-neutral-100 p-4 rounded-md border border-neutral-200"
+                                                        key={restaurant._id}
+                                                        className="flex rounded-md gap-2"
                                                     >
-                                                        <Link
-                                                            to={`/mate/${restaurant.category[1].mateType[0]}/restaurants/${restaurant?._id}`}
-                                                            className="text-base font-semibold text-blue-500"
-                                                        >
-                                                            {restaurant?.name ??
-                                                                "Unknown Restaurant"}
-                                                        </Link>
-                                                        <div className="text-sm text-zinc-600">
-                                                            {restaurant.content}
-                                                        </div>
-
-                                                        <div className="flex items-center mt-2">
-                                                            <span className="mr-1">
-                                                                별점:{" "}
-                                                            </span>
-                                                            <StarRating
-                                                                rating={
-                                                                    restaurant.rating
+                                                        <div className="w-[100px] h-[100px] overflow-hidden rounded-md">
+                                                            <img
+                                                                src={
+                                                                    restaurant
+                                                                        .image[0]
                                                                 }
+                                                                alt=""
+                                                                className="w-full h-full object-cover"
                                                             />
                                                         </div>
-                                                        <div className="flex gap-2 mt-2">
-                                                            {restaurant.images &&
-                                                                restaurant.images.map(
-                                                                    (
-                                                                        image,
-                                                                        index
-                                                                    ) => (
-                                                                        <img
-                                                                            key={`restaurant image-${index}`}
-                                                                            src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
-                                                                            alt={`Restaurant Image ${index + 1}`}
-                                                                            className="w-[100px] h-[100px] object-cover rounded"
-                                                                        />
-                                                                    )
-                                                                )}
+                                                        <div className="flex flex-col justify-between">
+                                                            <div className="">
+                                                                <Link
+                                                                    to={`/mate/cateId/restaurants/${restaurant._id}`}
+                                                                    className="text-base font-semibold"
+                                                                >
+                                                                    {
+                                                                        restaurant.name
+                                                                    }
+                                                                </Link>
+                                                            </div>
+                                                            <div className="text-xs text-zinc-500">
+                                                                {
+                                                                    restaurant
+                                                                        .category[0]
+                                                                        .foodType
+                                                                }
+                                                            </div>
+                                                            <div className="flex items-center">
+                                                                <span className="text-xs mr-1 text-zinc-500">
+                                                                    평점:{" "}
+                                                                </span>
+                                                                <div className="w-[70px]">
+                                                                    <StarRating
+                                                                        rating={
+                                                                            restaurant.rating
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="flex items-center text-xs gap-4">
+                                                                {/* <IconWish
+                                                                    liked={
+                                                                        restaurant.likes
+                                                                    }
+                                                                /> */}
+                                                                <div className="flex items-center">
+                                                                    <i className=" iconBasic iconView">
+                                                                        view
+                                                                    </i>{" "}
+                                                                    {
+                                                                        restaurant.views
+                                                                    }
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 )
@@ -235,41 +282,14 @@ function Account() {
                                     <Title className={"titleComment"}>
                                         내가 작성한 리뷰
                                     </Title>
-                                    <div className="flex flex-col gap-4 mt-4">
+                                    <div className="w-[960px] flex gap-12 mb-3">
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
                                                 <div
                                                     key={review._id}
-                                                    className="bg-neutral-100 p-4 rounded-md border border-neutral-200"
+                                                    className="flex reviewListWrap rounded-md gap-2 !border-none"
                                                 >
-                                                    <Link
-                                                        to={`/mate/restaurants/${review.restaurant?._id}/review-post/${review._id}`}
-                                                        className="text-base font-semibold text-blue-500"
-                                                    >
-                                                        {review.restaurant
-                                                            ?.name ??
-                                                            "Unknown Restaurant"}
-                                                    </Link>
-                                                    <div className="text-sm text-zinc-600">
-                                                        {review.content}
-                                                    </div>
-                                                    <div className="text-sm text-zinc-400">
-                                                        등록일:{" "}
-                                                        {new Date(
-                                                            review.createdAt
-                                                        ).toLocaleDateString()}
-                                                    </div>
-                                                    <div className="flex items-center mt-2">
-                                                        <span className="mr-1">
-                                                            별점:{" "}
-                                                        </span>
-                                                        <StarRating
-                                                            rating={
-                                                                review.rating
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <div className="flex gap-2 mt-2">
+                                                    <div className="flex  myimgWrap overflow-hidden items-center gap-2 rounded-md">
                                                         {review.images &&
                                                             review.images.map(
                                                                 (
@@ -277,14 +297,80 @@ function Account() {
                                                                     index
                                                                 ) => (
                                                                     <img
-                                                                        key={`review post image-${index}`}
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
+                                                                        alt={`Review Image ${index + 1}`}
+                                                                        className="w-[100px] h-[100px] object-cover"
+                                                                    />
+                                                                )
+                                                            )}
+                                                    </div>
+
+                                                    <div className="">
+                                                        <Link
+                                                            to={`/mate/restaurants/${review.restaurant?._id}/review-post/${review._id}`}
+                                                            className="text-base font-semibold"
+                                                        >
+                                                            {review.restaurant
+                                                                ?.name ??
+                                                                "Unknown Restaurant"}
+                                                        </Link>
+                                                        <div>
+                                                            <div className="text-xs text-zinc-500">
+                                                                {review.content}
+                                                            </div>
+                                                            {/* <div className="text-xs text-zinc-400">
+                                                                작성일:{" "}
+                                                                {new Date(
+                                                                    review.createdAt
+                                                                ).toLocaleDateString()}
+                                                            </div> */}
+                                                            <div className="flex items-center">
+                                                                <span className="text-xs mr-1 text-zinc-500">
+                                                                    별점:{" "}
+                                                                </span>
+                                                                <div className="w-[70px]">
+                                                                    <StarRating
+                                                                        rating={
+                                                                            review.rating
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="hashBoxWrap text-xs mt-3">
+                                                            {review.hashTag.map(
+                                                                (tag, i) => (
+                                                                    <span
+                                                                        key={i}
+                                                                        className="hashBox text-[10px]"
+                                                                    >
+                                                                        #{tag}
+                                                                    </span>
+                                                                )
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    {/* <div className="flex gap-2 mt-2 border">
+                                                        {review.images &&
+                                                            review.images.map(
+                                                                (
+                                                                    image,
+                                                                    index
+                                                                ) => (
+                                                                    <img
+                                                                        key={
+                                                                            index
+                                                                        }
                                                                         src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
                                                                         alt={`Review Image ${index + 1}`}
                                                                         className="w-[100px] h-[100px] object-cover rounded"
                                                                     />
                                                                 )
                                                             )}
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             ))
                                         ) : (
@@ -296,7 +382,7 @@ function Account() {
                                 </div>
                                 <div>
                                     <Title className={"titleComment"}>
-                                    내가 등록한 우리 만날까
+                                        내가 등록한 우리 만날까
                                     </Title>
                                     <div className="flex flex-col gap-4 mt-4">
                                         {userMeetups.length > 0 ? (
