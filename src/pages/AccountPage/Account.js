@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
 import { IconWish } from "../../components/Form/Icon";
@@ -67,11 +67,22 @@ function Account() {
                     console.log("찜한 가게 불러오기 오류", error);
                 }
             };
+            const fetchUserMeetups = async () => {
+                try {
+                    const response = await axiosInstance.get(
+                        `/users/${userData.id}/meetups`
+                    );
+                    setUserMeetups(response.data.meetupPosts);
+                } catch (error) {
+                    console.log(
+                        "내가 등록한 우리 만날까 불러오기 오류:",
+                        error
+                    );
+                }
+            };
             fetchUserReviews();
             fetchlikedRestaurants();
-
             fetchUserRestaurants();
-
             fetchUserMeetups();
         }
     }, [userData?.id]);
@@ -224,60 +235,80 @@ function Account() {
                             </div>
                             <div className="container flex flex-col">
                                 <div className="mb-10">
-                                <Title className={"titleListStt"}>내가 찜한 목록</Title>
-                                        <Swiper
-                                            slidesPerView={2}
-                                            spaceBetween={40}
-                                            pagination={true}
-                                            modules={[Pagination]}
-                                            className="mySwiper mySwiper"
-                                        >
+                                    <Title className={"titleListStt"}>
+                                        내가 찜한 목록
+                                    </Title>
+                                    <Swiper
+                                        slidesPerView={2}
+                                        spaceBetween={40}
+                                        pagination={true}
+                                        modules={[Pagination]}
+                                        className="mySwiper mySwiper"
+                                    >
                                         {likedRestaurants.length > 0 ? (
                                             likedRestaurants.map(
                                                 (restaurant) => (
                                                     <>
-                                                    <SwiperSlide key={restaurant._id} className="flex gap-4 restaurantListWrap">
-                                                        <div className="flex-none imgWrap">
-                                                            <img src={restaurant.image[0]} alt="" className="w-full h-full object-cover" />
-                                                        </div>
-                                                        <div className="flex flex-wrap items-center py-2">
-                                                            <div className="textWrap py-2">
-                                                                <h3 className="w-full">
-                                                                    <Link to={`/mate/cateId/restaurants/${restaurant._id}`}>
-                                                                        {restaurant.name}
-                                                                    </Link>
-                                                                </h3>
-                                                                <p className="w-full">
-                                                                        {
-                                                                            restaurant.category[0].foodType
-                                                                        }
-                                                                </p>
-                                                                <div className="flex">
-                                                                    <span className="flex-none">
-                                                                        평점:{" "}
-                                                                    </span>
-                                                                    <StarRating
-                                                                        rating={restaurant.rating}
-                                                                    ></StarRating>
-                                                                </div>
+                                                        <SwiperSlide
+                                                            key={restaurant._id}
+                                                            className="flex gap-4 restaurantListWrap"
+                                                        >
+                                                            <div className="flex-none imgWrap">
+                                                                <img
+                                                                    src={
+                                                                        restaurant
+                                                                            .image[0]
+                                                                    }
+                                                                    alt=""
+                                                                    className="w-full h-full object-cover"
+                                                                />
                                                             </div>
-                                                            <div className="flex gap-4">
-                                                                {/* <IconWish
+                                                            <div className="flex flex-wrap items-center py-2">
+                                                                <div className="textWrap py-2">
+                                                                    <h3 className="w-full">
+                                                                        <Link
+                                                                            to={`/mate/cateId/restaurants/${restaurant._id}`}
+                                                                        >
+                                                                            {
+                                                                                restaurant.name
+                                                                            }
+                                                                        </Link>
+                                                                    </h3>
+                                                                    <p className="w-full">
+                                                                        {
+                                                                            restaurant
+                                                                                .category[0]
+                                                                                .foodType
+                                                                        }
+                                                                    </p>
+                                                                    <div className="flex">
+                                                                        <span className="flex-none">
+                                                                            평점:{" "}
+                                                                        </span>
+                                                                        <StarRating
+                                                                            rating={
+                                                                                restaurant.rating
+                                                                            }
+                                                                        ></StarRating>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex gap-4">
+                                                                    {/* <IconWish
                                                                     liked={
                                                                         restaurant.likes
                                                                     }
                                                                 /> */}
-                                                                <div className="flex items-center">
-                                                                    <i className=" iconBasic iconView">
-                                                                        view
-                                                                    </i>{" "}
-                                                                    {
-                                                                        restaurant.views
-                                                                    }
+                                                                    <div className="flex items-center">
+                                                                        <i className=" iconBasic iconView">
+                                                                            view
+                                                                        </i>{" "}
+                                                                        {
+                                                                            restaurant.views
+                                                                        }
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </SwiperSlide>
+                                                        </SwiperSlide>
                                                     </>
                                                 )
                                             )
@@ -285,11 +316,13 @@ function Account() {
                                             <div className="w-full bg-slate-100  py-[20px] text-center">
                                                 찜한 가게가 없습니다!
                                             </div>
-                                              )}
+                                        )}
                                     </Swiper>
                                 </div>
                                 <div className=" mb-10">
-                                <Title className={"titleListStt"}>내가 작성한 리뷰</Title>
+                                    <Title className={"titleListStt"}>
+                                        내가 작성한 리뷰
+                                    </Title>
                                     <div>
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
@@ -297,7 +330,6 @@ function Account() {
                                                     key={review._id}
                                                     className="reviewListWrap flex gap-5"
                                                 >
-       
                                                     <div className="overflow-hidden flex-none imgWrap">
                                                         {review.images &&
                                                             review.images.map(
@@ -321,11 +353,12 @@ function Account() {
                                                             <Link
                                                                 to={`/mate/restaurants/${review.restaurant?._id}/review-post/${review._id}`}
                                                             >
-                                                            <li className="name">
-                                                            {review.restaurant
-                                                                ?.name ??
-                                                                "Unknown Restaurant"}
-                                                            </li>
+                                                                <li className="name">
+                                                                    {review
+                                                                        .restaurant
+                                                                        ?.name ??
+                                                                        "Unknown Restaurant"}
+                                                                </li>
                                                             </Link>
                                                             <li className="content">
                                                                 {review.content}
@@ -350,7 +383,7 @@ function Account() {
                                                             </li>
                                                         </ul>
                                                         <div className="flex gap-2">
-                                                        {/* {review.hashTag.map(
+                                                            {/* {review.hashTag.map(
                                                             (tag, i) => (
                                                                 <span
                                                                     key={i}
@@ -360,123 +393,124 @@ function Account() {
                                                                 </span>
                                                             )
                                                         )} */}
-                                                            <span className="hashBox">#해시테그</span>
+                                                            <span className="hashBox">
+                                                                #해시테그
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             ))
                                         ) : (
                                             <div className="w-full bg-slate-100  py-[20px] text-center">
-                                            작성한 리뷰가 없습니다!
-                                        </div>
-
+                                                작성한 리뷰가 없습니다!
+                                            </div>
                                         )}
                                     </div>
                                 </div>
                                 <div>
                                     <Title className={"titleListStt"}>
-                                    내가 등록한 우리 만날까
+                                        내가 등록한 우리 만날까
                                     </Title>
                                     <div className="flex flex-col gap-4">
                                         {userMeetups.length > 0 ? (
                                             userMeetups.map((meetup) => (
                                                 <div
-                                                    key={`meetup post-${meetup._id}`} className="mb-4"
+                                                    key={`meetup post-${meetup._id}`}
+                                                    className="mb-4"
                                                 >
-                                                    <div className="flex justify-between mb-3">
-                                                        <Link
-                                                            to={`/meet-posts/${meetup?._id}`}
-                                                            className="text-base font-semibold"
-                                                        >
-                                                            {meetup?.title ??
-                                                                "Unknown Meetup Post Name"}
-                                                        </Link>
-                                                        <div className="flex gap-3 items-center">
-                                                            <div className="flex">
-                                                                <i className="iconBasic iconView">
-                                                                    view
-                                                                </i>{" "}
-                                                                {meetup.views}
-                                                            </div>
-                                                             <div className="flex gap-2 mt-2">
-                                                        {meetup.images &&
-                                                            meetup.images.map(
-                                                                (
-                                                                    image,
-                                                                    index
-                                                                ) => (
-                                                                    <img
-                                                                        key={`meetup post image-${index}`}
-                                                                        src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
-                                                                        alt={`Meetup Post Image ${index + 1}`}
-                                                                        className="w-[100px] h-[100px] object-cover rounded"
-                                                                    />
-                                                                )
-                                                            )}
-                                                             </div>
-                                                        </div>
-                                                    {metaDataList[meetup.chatLink] && (
-                                                        <SectionWrap basicSection={true}>
-                                                            <div className="container flex border rounded-md">
-                                                                <div className="w-1/3">
-                                                                    <a
-                                                                        href={
-                                                                            metaDataList[
-                                                                                meetup.chatLink
-                                                                            ].url
-                                                                        }
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                    >
-                                                                        <img
-                                                                            src={
-                                                                                metaDataList[
-                                                                                    meetup
-                                                                                        .chatLink
-                                                                                ].image
-                                                                            }
-                                                                            alt="Meta"
-                                                                        />
-                                                                    </a>
-                                                                </div>
-                                                                <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">
-                                                                    <p className="font-semibold">
-                                                                        <a
-                                                                            href={
-                                                                                metaDataList[
-                                                                                    meetup
-                                                                                        .chatLink
-                                                                                ].url
-                                                                            }
-                                                                            target="_blank"
-                                                                            rel="noopener noreferrer"
-                                                                        >
-                                                                            {
-                                                                                metaDataList[
-                                                                                    meetup
-                                                                                        .chatLink
-                                                                                ].title
-                                                                            }
-                                                                        </a>
-                                                                    </p>
-                                                                    <p className="text-sm text-gray-500">
-                                                                        {
-                                                                            metaDataList[
-                                                                                meetup.chatLink
-                                                                            ].description
-                                                                        }
-                                                                    </p>
-                                                                    <p className="text-sm">
-                                                                        {
-                                                                            metaDataList[
-                                                                                meetup.chatLink
-                                                                            ].url
-                                                                        }
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </SectionWrap>
-                                                    )}
+                                                    {/*<div className="flex justify-between mb-3">*/}
+                                                    {/*    <Link*/}
+                                                    {/*        to={`/meet-posts/${meetup?._id}`}*/}
+                                                    {/*        className="text-base font-semibold"*/}
+                                                    {/*    >*/}
+                                                    {/*        {meetup?.title ??*/}
+                                                    {/*            "Unknown Meetup Post Name"}*/}
+                                                    {/*    </Link>*/}
+                                                    {/*    <div className="flex gap-3 items-center">*/}
+                                                    {/*        <div className="flex">*/}
+                                                    {/*            <i className="iconBasic iconView">*/}
+                                                    {/*                view*/}
+                                                    {/*            </i>{" "}*/}
+                                                    {/*            {meetup.views}*/}
+                                                    {/*        </div>*/}
+                                                    {/*    <div className="flex gap-2 mt-2">*/}
+                                                    {/*    {meetup.images &&*/}
+                                                    {/*        meetup.images.map(*/}
+                                                    {/*            (*/}
+                                                    {/*                image,*/}
+                                                    {/*                index*/}
+                                                    {/*            ) => (*/}
+                                                    {/*                <img*/}
+                                                    {/*                    key={`meetup post image-${index}`}*/}
+                                                    {/*                    src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}*/}
+                                                    {/*                    alt={`Meetup Post Image ${index + 1}`}*/}
+                                                    {/*                    className="w-[100px] h-[100px] object-cover rounded"*/}
+                                                    {/*                />*/}
+                                                    {/*            )*/}
+                                                    {/*        )}*/}
+                                                    {/*    </div>*/}
+                                                    {/*{metaDataList[meetup.chatLink] && (*/}
+                                                    {/*    <SectionWrap basicSection={true}>*/}
+                                                    {/*        <div className="container flex border rounded-md">*/}
+                                                    {/*            <div className="w-1/3">*/}
+                                                    {/*                <a*/}
+                                                    {/*                    href={*/}
+                                                    {/*                        metaDataList[*/}
+                                                    {/*                            meetup.chatLink*/}
+                                                    {/*                        ].url*/}
+                                                    {/*                    }*/}
+                                                    {/*                    target="_blank"*/}
+                                                    {/*                    rel="noopener noreferrer"*/}
+                                                    {/*                >*/}
+                                                    {/*                    <img*/}
+                                                    {/*                        src={*/}
+                                                    {/*                            metaDataList[*/}
+                                                    {/*                                meetup*/}
+                                                    {/*                                    .chatLink*/}
+                                                    {/*                            ].image*/}
+                                                    {/*                        }*/}
+                                                    {/*                        alt="Meta"*/}
+                                                    {/*                    />*/}
+                                                    {/*                </a>*/}
+                                                    {/*            </div>*/}
+                                                    {/*            <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">*/}
+                                                    {/*                <p className="font-semibold">*/}
+                                                    {/*                    <a*/}
+                                                    {/*                        href={*/}
+                                                    {/*                            metaDataList[*/}
+                                                    {/*                                meetup*/}
+                                                    {/*                                    .chatLink*/}
+                                                    {/*                            ].url*/}
+                                                    {/*                        }*/}
+                                                    {/*                        target="_blank"*/}
+                                                    {/*                        rel="noopener noreferrer"*/}
+                                                    {/*                    >*/}
+                                                    {/*                        {*/}
+                                                    {/*                            metaDataList[*/}
+                                                    {/*                                meetup*/}
+                                                    {/*                                    .chatLink*/}
+                                                    {/*                            ].title*/}
+                                                    {/*                        }*/}
+                                                    {/*                    </a>*/}
+                                                    {/*                </p>*/}
+                                                    {/*                <p className="text-sm text-gray-500">*/}
+                                                    {/*                    {*/}
+                                                    {/*                        metaDataList[*/}
+                                                    {/*                            meetup.chatLink*/}
+                                                    {/*                        ].description*/}
+                                                    {/*                    }*/}
+                                                    {/*                </p>*/}
+                                                    {/*                <p className="text-sm">*/}
+                                                    {/*                    {*/}
+                                                    {/*                        metaDataList[*/}
+                                                    {/*                            meetup.chatLink*/}
+                                                    {/*                        ].url*/}
+                                                    {/*                    }*/}
+                                                    {/*                </p>*/}
+                                                    {/*            </div>*/}
+                                                    {/*        </div>*/}
+                                                    {/*    </SectionWrap>*/}
+                                                    {/*)}*/}
                                                 </div>
                                             ))
                                         ) : (
