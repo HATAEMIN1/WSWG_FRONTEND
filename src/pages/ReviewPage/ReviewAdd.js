@@ -173,21 +173,21 @@ function ReviewAdd(props) {
                     <Title memTitle={false}>리뷰 등록해볼까?</Title>
                 </div>
                 <div className="w-full min-h-[120px] flex justify-between bg-[#F8F8F8] rounded-lg overflow-hidden border items-center">
-                    <div className="w-[100px] overflow-hidden border-r-[1px] p-2">
+                    <div className="w-[100px] h-[100px] p-2 rounded-md overflow-hidden">
                         {restaurantData.length > 0 && (
                             <img
                                 src={restaurantData[0].image[0]}
                                 alt=""
-                                className="block"
+                                className="block object-cover w-full h-full"
                             />
                         )}
                     </div>
                     <div className="flex-auto p-[20px]">
                         {restaurantData.length > 0 && (
-                            <div>
-                                <h2>{restaurantData[0].name}</h2>
-                                <p>{restaurantData[0].category[0].foodtype}</p>
-                            </div>
+                            <>
+                            <h2 className="text font-semibold">{restaurantData[0].name}</h2>
+                            <p>{restaurantData[0].category[0].foodtype}</p>
+                            </>
                         )}
                     </div>
                 </div>

@@ -296,7 +296,7 @@ i.iconTypeInput {
     background: url("../images/iconRname.png");
 }
 .iconRock {
-    background: url("../images/iconRlockcheck.png");
+    background: url("../images/iconRlock.png");
 }
 .iconRockCheck {
     background: url("../images/iconRlockcheck.png");
@@ -448,10 +448,6 @@ i.iconSmall {
         bottom: 0;
     }
 }
-.mainSwiper {
-    width: 1024px !important;
-    padding: 0 32px !important;
-}
 .swiper-button-prev::after,
 .swiper-button-next::after {
     display: none !important;
@@ -469,6 +465,20 @@ i.iconSmall {
     height: auto;
     right: 0 !important;
     background: url("../images/swiperNext.png") no-repeat !important;
+}
+.swiper-pagination-bullet-active {
+    background: $Primary !important;
+}
+.mySwiper {
+    width: 1024px !important;
+    padding: 0 0 3% 0 !important;
+}
+.mySwiper .swiper-pagination {
+    bottom:0 !important;
+}
+.mainSwiper {
+    width: 1024px !important;
+    padding: 0 32px !important;
 }
 .mainMapLayer {
     background: rgba(66, 238, 238, 0.8);
@@ -556,6 +566,7 @@ i.iconSmall {
         max-height: 160px;
         border-radius: 10px;
         overflow: hidden;
+        
         img {
             width: 100%;
             height: 100%;
@@ -564,10 +575,12 @@ i.iconSmall {
     }
     .textWrap {
         width: 100%;
-        font-size: 0.9375em;
+        font-size: 0.9375em !important;
+        color :#595959;
         h3 {
             font-size: 1.25em;
             font-weight: 600;
+            color: #333333;
             text-overflow: ellipsis;
             word-break: break-all;
             overflow: hidden;
@@ -695,6 +708,15 @@ i.iconSmall {
         background: #f5f5f5;
     }
 }
+.hashBox {
+    width: auto;
+    padding: 3px 10px;
+    font-size: 0.815em;
+    font-weight: 600;
+    border: solid 1px #ccc;
+    border-radius: 20px;
+    background: #f5f5f5;
+}
 .iconTrash {
     content: '';
     display: flex;
@@ -723,6 +745,20 @@ i.iconSmall {
     height: 100%; 
     background: url("../images/mapNoimage.png") no-repeat;
     background-size: cover;
+}
+.scrollWrap {
+    padding: 5px;
+}
+.scrollWrap::-webkit-scrollbar {
+    width: 8px;
+}
+.scrollWrap::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #e8e8e8;
+}
+.scrollWrap::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #ffffff;
 }
 @media (max-width: 768px) {
     header {
