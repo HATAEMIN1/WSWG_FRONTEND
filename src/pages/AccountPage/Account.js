@@ -42,6 +42,7 @@ function Account() {
                         `/review-posts/user/${userData.id}`
                     );
                     setUserReviews(response.data.reviews);
+                    console.log(response.data.reviews);
                 } catch (error) {
                     console.log("내가 작성한 리뷰 불러오기 오류:", error);
                 }
@@ -383,19 +384,19 @@ function Account() {
                                                             </li>
                                                         </ul>
                                                         <div className="flex gap-2">
-                                                            {/* {review.hashTag.map(
-                                                            (tag, i) => (
-                                                                <span
-                                                                    key={i}
-                                                                    className="hashBox text-[10px]"
-                                                                >
-                                                                    #{tag}
-                                                                </span>
-                                                            )
-                                                        )} */}
-                                                            <span className="hashBox">
-                                                                #해시테그
-                                                            </span>
+                                                            {review.tags.map(
+                                                                (tag, i) => (
+                                                                    <span
+                                                                        key={i}
+                                                                        className="hashBox text-[10px]"
+                                                                    >
+                                                                        #
+                                                                        {
+                                                                            tag.name
+                                                                        }
+                                                                    </span>
+                                                                )
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -418,99 +419,114 @@ function Account() {
                                                     key={`meetup post-${meetup._id}`}
                                                     className="mb-4"
                                                 >
-                                                    {/*<div className="flex justify-between mb-3">*/}
-                                                    {/*    <Link*/}
-                                                    {/*        to={`/meet-posts/${meetup?._id}`}*/}
-                                                    {/*        className="text-base font-semibold"*/}
-                                                    {/*    >*/}
-                                                    {/*        {meetup?.title ??*/}
-                                                    {/*            "Unknown Meetup Post Name"}*/}
-                                                    {/*    </Link>*/}
-                                                    {/*    <div className="flex gap-3 items-center">*/}
-                                                    {/*        <div className="flex">*/}
-                                                    {/*            <i className="iconBasic iconView">*/}
-                                                    {/*                view*/}
-                                                    {/*            </i>{" "}*/}
-                                                    {/*            {meetup.views}*/}
-                                                    {/*        </div>*/}
-                                                    {/*    <div className="flex gap-2 mt-2">*/}
-                                                    {/*    {meetup.images &&*/}
-                                                    {/*        meetup.images.map(*/}
-                                                    {/*            (*/}
-                                                    {/*                image,*/}
-                                                    {/*                index*/}
-                                                    {/*            ) => (*/}
-                                                    {/*                <img*/}
-                                                    {/*                    key={`meetup post image-${index}`}*/}
-                                                    {/*                    src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}*/}
-                                                    {/*                    alt={`Meetup Post Image ${index + 1}`}*/}
-                                                    {/*                    className="w-[100px] h-[100px] object-cover rounded"*/}
-                                                    {/*                />*/}
-                                                    {/*            )*/}
-                                                    {/*        )}*/}
-                                                    {/*    </div>*/}
-                                                    {/*{metaDataList[meetup.chatLink] && (*/}
-                                                    {/*    <SectionWrap basicSection={true}>*/}
-                                                    {/*        <div className="container flex border rounded-md">*/}
-                                                    {/*            <div className="w-1/3">*/}
-                                                    {/*                <a*/}
-                                                    {/*                    href={*/}
-                                                    {/*                        metaDataList[*/}
-                                                    {/*                            meetup.chatLink*/}
-                                                    {/*                        ].url*/}
-                                                    {/*                    }*/}
-                                                    {/*                    target="_blank"*/}
-                                                    {/*                    rel="noopener noreferrer"*/}
-                                                    {/*                >*/}
-                                                    {/*                    <img*/}
-                                                    {/*                        src={*/}
-                                                    {/*                            metaDataList[*/}
-                                                    {/*                                meetup*/}
-                                                    {/*                                    .chatLink*/}
-                                                    {/*                            ].image*/}
-                                                    {/*                        }*/}
-                                                    {/*                        alt="Meta"*/}
-                                                    {/*                    />*/}
-                                                    {/*                </a>*/}
-                                                    {/*            </div>*/}
-                                                    {/*            <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">*/}
-                                                    {/*                <p className="font-semibold">*/}
-                                                    {/*                    <a*/}
-                                                    {/*                        href={*/}
-                                                    {/*                            metaDataList[*/}
-                                                    {/*                                meetup*/}
-                                                    {/*                                    .chatLink*/}
-                                                    {/*                            ].url*/}
-                                                    {/*                        }*/}
-                                                    {/*                        target="_blank"*/}
-                                                    {/*                        rel="noopener noreferrer"*/}
-                                                    {/*                    >*/}
-                                                    {/*                        {*/}
-                                                    {/*                            metaDataList[*/}
-                                                    {/*                                meetup*/}
-                                                    {/*                                    .chatLink*/}
-                                                    {/*                            ].title*/}
-                                                    {/*                        }*/}
-                                                    {/*                    </a>*/}
-                                                    {/*                </p>*/}
-                                                    {/*                <p className="text-sm text-gray-500">*/}
-                                                    {/*                    {*/}
-                                                    {/*                        metaDataList[*/}
-                                                    {/*                            meetup.chatLink*/}
-                                                    {/*                        ].description*/}
-                                                    {/*                    }*/}
-                                                    {/*                </p>*/}
-                                                    {/*                <p className="text-sm">*/}
-                                                    {/*                    {*/}
-                                                    {/*                        metaDataList[*/}
-                                                    {/*                            meetup.chatLink*/}
-                                                    {/*                        ].url*/}
-                                                    {/*                    }*/}
-                                                    {/*                </p>*/}
-                                                    {/*            </div>*/}
-                                                    {/*        </div>*/}
-                                                    {/*    </SectionWrap>*/}
-                                                    {/*)}*/}
+                                                    <div className="flex justify-between mb-3">
+                                                        <Link
+                                                            to={`/meet-posts/${meetup?._id}`}
+                                                            className="text-base font-semibold"
+                                                        >
+                                                            {meetup?.title ??
+                                                                "Unknown Meetup Post Name"}
+                                                        </Link>
+                                                        <div className="flex gap-3 items-center">
+                                                            <div className="flex">
+                                                                <i className="iconBasic iconView">
+                                                                    view
+                                                                </i>{" "}
+                                                                {meetup.views}
+                                                            </div>
+                                                            <div className="flex gap-2 mt-2">
+                                                                {meetup.images &&
+                                                                    meetup.images.map(
+                                                                        (
+                                                                            image,
+                                                                            index
+                                                                        ) => (
+                                                                            <img
+                                                                                key={`meetup post image-${index}`}
+                                                                                src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
+                                                                                alt={`Meetup Post Image ${index + 1}`}
+                                                                                className="w-[100px] h-[100px] object-cover rounded"
+                                                                            />
+                                                                        )
+                                                                    )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {metaDataList[
+                                                        meetup.chatLink
+                                                    ] && (
+                                                        <SectionWrap
+                                                            basicSection={true}
+                                                        >
+                                                            <div className="container flex border rounded-md">
+                                                                <div className="w-1/3">
+                                                                    <a
+                                                                        href={
+                                                                            metaDataList[
+                                                                                meetup
+                                                                                    .chatLink
+                                                                            ]
+                                                                                .url
+                                                                        }
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                    >
+                                                                        <img
+                                                                            src={
+                                                                                metaDataList[
+                                                                                    meetup
+                                                                                        .chatLink
+                                                                                ]
+                                                                                    .image
+                                                                            }
+                                                                            alt="Meta"
+                                                                        />
+                                                                    </a>
+                                                                </div>
+                                                                <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">
+                                                                    <p className="font-semibold">
+                                                                        <a
+                                                                            href={
+                                                                                metaDataList[
+                                                                                    meetup
+                                                                                        .chatLink
+                                                                                ]
+                                                                                    .url
+                                                                            }
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                        >
+                                                                            {
+                                                                                metaDataList[
+                                                                                    meetup
+                                                                                        .chatLink
+                                                                                ]
+                                                                                    .title
+                                                                            }
+                                                                        </a>
+                                                                    </p>
+                                                                    <p className="text-sm text-gray-500">
+                                                                        {
+                                                                            metaDataList[
+                                                                                meetup
+                                                                                    .chatLink
+                                                                            ]
+                                                                                .description
+                                                                        }
+                                                                    </p>
+                                                                    <p className="text-sm">
+                                                                        {
+                                                                            metaDataList[
+                                                                                meetup
+                                                                                    .chatLink
+                                                                            ]
+                                                                                .url
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </SectionWrap>
+                                                    )}
                                                 </div>
                                             ))
                                         ) : (
