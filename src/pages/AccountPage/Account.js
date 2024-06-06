@@ -11,7 +11,16 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { SectionWrap } from "../../components/Layout/Section";
+import StarRating from "../../components/Form/StarRating";
 function Account() {
+    const mateType = [
+        { no: 1, name: "연인", cateId: "lover" },
+        { no: 2, name: "친구", cateId: "friend" },
+        { no: 3, name: "가족", cateId: "family" },
+        { no: 4, name: "단체", cateId: "group" },
+        { no: 5, name: "반려동물", cateId: "pet" },
+        { no: 6, name: "혼밥", cateId: "self" },
+    ];
     const isAuth = useSelector((state) => state.user.isAuth);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
     const userData = useSelector((state) => state?.user?.userData);
@@ -20,7 +29,7 @@ function Account() {
     const [userRestaurants, setUserRestaurants] = useState([]);
     const [userMeetups, setUserMeetups] = useState([]);
     const [metaDataList, setMetaDataList] = useState({});
-
+    const [cateId, setCateId] = useState([]);
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
@@ -29,7 +38,10 @@ function Account() {
     );
     const location = useLocation();
     const [prePage, setPrePage] = useState("");
-
+    const getCateId = (mateName) => {
+        const mate = mateType.find((m) => m.name === mateName);
+        return mate ? mate.cateId : null;
+    };
     useEffect(() => {
         setPrePage(location.pathname);
     }, [location]);
@@ -64,6 +76,12 @@ function Account() {
                         `/likes/user/${userData.id}`
                     );
                     setLikedRestaurants(response.data.likedRestaurants);
+                    const newCateIds = response.data.likedRestaurants.map(
+                        (restaurant) =>
+                            getCateId(restaurant.category[1].mateType[0])
+                    );
+
+                    setCateId((prevCateId) => [...prevCateId, ...newCateIds]);
                     console.log(response.data.likedRestaurants);
                 } catch (error) {
                     console.log("찜한 가게 불러오기 오류", error);
@@ -124,32 +142,6 @@ function Account() {
             fetchAllMetaData();
         }
     }, [userMeetups]);
-    // 별점 표시 컴포넌트
-    const StarRating = ({ rating }) => {
-        return (
-            <div className="flex">
-                {[...Array(5)].map((star, index) => (
-                    <svg
-                        key={`star-${index}`}
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill={index < rating ? "#FFE500" : "#EDEDED "}
-                        viewBox="0 0 24 24"
-                        stroke={index < rating ? "#FFE500" : "#BDBDBD"}
-                        className="w-5 h-5"
-                        color="#FFE500"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1"
-                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                        />
-                    </svg>
-                ))}
-            </div>
-        );
-    };
-
     return (
         <div>
             {isAuth ? (
@@ -249,70 +241,74 @@ function Account() {
                                     >
                                         {likedRestaurants.length > 0 ? (
                                             likedRestaurants.map(
-                                                (restaurant) => (
-                                                    <>
-                                                        <SwiperSlide
-                                                            key={restaurant._id}
-                                                            className="flex gap-4 restaurantListWrap"
-                                                        >
-                                                            <div className="flex-none imgWrap">
-                                                                <img
-                                                                    src={
-                                                                        restaurant
-                                                                            .image[0]
-                                                                    }
-                                                                    alt=""
-                                                                    className="w-full h-full object-cover"
-                                                                />
-                                                            </div>
-                                                            <div className="flex flex-wrap items-center py-2">
-                                                                <div className="textWrap py-2">
-                                                                    <h3 className="w-full">
-                                                                        <Link
-                                                                            to={`/mate/cateId/restaurants/${restaurant._id}`}
-                                                                        >
-                                                                            {
-                                                                                restaurant.name
-                                                                            }
-                                                                        </Link>
-                                                                    </h3>
-                                                                    <p className="w-full">
-                                                                        {
+                                                (restaurant, idx) => {
+                                                    return (
+                                                        <>
+                                                            <SwiperSlide
+                                                                key={
+                                                                    restaurant._id
+                                                                }
+                                                                className="flex gap-4 restaurantListWrap"
+                                                            >
+                                                                <div className="flex-none imgWrap">
+                                                                    <img
+                                                                        src={
                                                                             restaurant
-                                                                                .category[0]
-                                                                                .foodType
+                                                                                .image[0]
                                                                         }
-                                                                    </p>
-                                                                    <div className="flex">
-                                                                        <span className="flex-none">
-                                                                            평점:{" "}
-                                                                        </span>
-                                                                        <StarRating
-                                                                            rating={
-                                                                                restaurant.rating
-                                                                            }
-                                                                        ></StarRating>
-                                                                    </div>
+                                                                        alt=""
+                                                                        className="w-full h-full object-cover"
+                                                                    />
                                                                 </div>
-                                                                <div className="flex gap-4">
-                                                                    {/* <IconWish
+                                                                <div className="flex flex-wrap items-center py-2">
+                                                                    <div className="textWrap py-2">
+                                                                        <h3 className="w-full">
+                                                                            <Link
+                                                                                to={`/mate/${cateId[idx]}/restaurants/${restaurant._id}`}
+                                                                            >
+                                                                                {
+                                                                                    restaurant.name
+                                                                                }
+                                                                            </Link>
+                                                                        </h3>
+                                                                        <p className="w-full">
+                                                                            {
+                                                                                restaurant
+                                                                                    .category[0]
+                                                                                    .foodType
+                                                                            }
+                                                                        </p>
+                                                                        <div className="flex">
+                                                                            <span className="flex-none">
+                                                                                평점:{" "}
+                                                                            </span>
+                                                                            <StarRating
+                                                                                rating={
+                                                                                    restaurant.rating
+                                                                                }
+                                                                            ></StarRating>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex gap-4">
+                                                                        {/* <IconWish
                                                                     liked={
                                                                         restaurant.likes
                                                                     }
                                                                 /> */}
-                                                                    <div className="flex items-center">
-                                                                        <i className=" iconBasic iconView">
-                                                                            view
-                                                                        </i>{" "}
-                                                                        {
-                                                                            restaurant.views
-                                                                        }
+                                                                        <div className="flex items-center">
+                                                                            <i className=" iconBasic iconView">
+                                                                                view
+                                                                            </i>{" "}
+                                                                            {
+                                                                                restaurant.views
+                                                                            }
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </SwiperSlide>
-                                                    </>
-                                                )
+                                                            </SwiperSlide>
+                                                        </>
+                                                    );
+                                                }
                                             )
                                         ) : (
                                             <div className="w-full bg-slate-100  py-[20px] text-center">
@@ -373,7 +369,7 @@ function Account() {
                                                             </div> */}
                                                             <li className="flex items-center">
                                                                 <span className="flex-none">
-                                                                    평점:{" "}
+                                                                    평점:
                                                                 </span>
                                                                 <span>
                                                                     <StarRating
