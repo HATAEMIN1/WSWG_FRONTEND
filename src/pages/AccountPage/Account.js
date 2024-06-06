@@ -64,6 +64,7 @@ function Account() {
                         `/likes/user/${userData.id}`
                     );
                     setLikedRestaurants(response.data.likedRestaurants);
+                    console.log(response.data.likedRestaurants);
                 } catch (error) {
                     console.log("찜한 가게 불러오기 오류", error);
                 }
