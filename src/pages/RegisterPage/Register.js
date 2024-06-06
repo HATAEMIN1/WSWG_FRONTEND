@@ -9,7 +9,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import NotificationModal from "../../components/Modal/NotificationModal";
 import { useState } from "react";
 import Title from "../../components/Layout/Title";
+import InputWrap from "../../components/Form/Input";
+import { Button } from "../../components/Form/Button";
 import { Link } from "react-router-dom";
+
 // import { Navigate } from "react-router-dom";
 
 function Register() {
@@ -116,47 +119,36 @@ function Register() {
                     </>
                 )}
 
-                <div className="w-full h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
+                <div className="w-[400px] h-full flex-col justify-start items-center inline-flex font-normal text-zinc-800">
                     <Title memTitle={true}>어까</Title>
                     <Title memTitle={false}>가입 해볼까?</Title>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="emailWrap flex justify-center gap-4 ml-2 mt-5 mb-5">
-                            <div className="w-10 h-10 relative">
-                                <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                    <img
-                                        src="./images/iconMail.png"
-                                        alt="email icon"
-                                    />
-                                </div>
-                            </div>
-                            <div style={{ fontFamily: "Pretendard-Regular" }}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                        <div className="mb-5">
+                            <div className="flex gap-4 items-center">
+                                <i className="iconTypeInput iconEmail flex-none">email</i>
+                                <InputWrap>
                                 <input
-                                    className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                    className="w-full text-center"
                                     type="text"
                                     id="emailInput"
                                     required
                                     placeholder="이메일을 입력하세요!"
                                     {...register("email", userEmail)}
                                 />
-                                {errors.email && (
-                                    <div className="text-red-500 text-xs mt-1">
-                                        {errors.email.message}
-                                    </div>
-                                )}
+                                </InputWrap>
                             </div>
-                        </div>
-                        <div className="usernameWrap gap-4 flex ml-2 justify-between mb-5">
-                            <div className="w-10 h-10 relative">
-                                <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                    <img
-                                        src="./images/iconPerson.png"
-                                        alt="person icon"
-                                    />
+                            {errors.email && (
+                                <div className="text-red-500 text-xs mt-1">
+                                    {errors.email.message}
                                 </div>
-                            </div>
-                            <div style={{ fontFamily: "Pretendard-Regular" }}>
+                            )}
+                        </div>
+                        <div className="mb-5">
+                            <div className="flex gap-4 items-center">
+                                <i className="iconTypeInput iconRname flex-none">name</i>
+                                <InputWrap>
                                 <input
-                                    className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                    className="w-full text-center"
                                     type="text"
                                     id="usernameInput"
                                     required
@@ -164,75 +156,57 @@ function Register() {
                                     placeholder="닉네임을 입력하세요!"
                                     {...register("name", userName)}
                                 />
-
-                                {errors.name && (
-                                    <div className="text-red-500 text-xs mt-1">
-                                        {errors.name.message}
-                                    </div>
-                                )}
+                                </InputWrap>
                             </div>
-                        </div>
-                        <div className="passwordWrap ml-2 gap-4 flex justify-between mb-5">
-                            <div className="w-10 h-10 relative">
-                                <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                    <img
-                                        src="./images/iconPwd.png"
-                                        alt="password key icon"
-                                    />
+                            {errors.name && (
+                                <div className="text-red-500 text-xs mt-1">
+                                    {errors.name.message}
                                 </div>
-                            </div>
-                            <div
-                                style={{ fontFamily: "Pretendard-Regular" }}
-                                className="relative"
-                            >
-                                <input
-                                    className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                            )}
+                        </div>
+                        <div className="mb-5 relative">
+                            <div className="flex gap-4 items-center">
+                                <i className="iconTypeInput iconRock flex-none">pass</i>
+                                <InputWrap>
+                                    <input 
+                                    className="w-full text-center"
                                     id="passwordInput"
                                     type={pwShow ? "text" : "password"}
                                     required
                                     minLength="4"
                                     placeholder="비밀번호를 입력하세요!"
-                                    {...register("password", userPassword)}
-                                />
-                                {errors.password && (
-                                    <div className="text-red-500 text-xs mt-1">
-                                        {errors.password.message}
-                                    </div>
-                                )}
-                                <div className="absolute right-[10px] top-[7px]">
-                                    {pwShow ? (
-                                        <FontAwesomeIcon
-                                            onClick={() => {
-                                                setPwShow(false);
-                                            }}
-                                            icon={faEye}
-                                        />
-                                    ) : (
-                                        <FontAwesomeIcon
-                                            onClick={() => {
-                                                setPwShow(true);
-                                            }}
-                                            icon={faEyeSlash}
-                                        />
-                                    )}
+                                    {...register("password", userPassword)} />
+                                </InputWrap>
+                            </div>
+                            {errors.password && (
+                                <div className="text-red-500 text-xs text-center mt-1">
+                                    {errors.password.message}
                                 </div>
+                            )}
+                            <div className="absolute right-[10px] top-[7px] z-[3]">
+                                {pwShow ? (
+                                    <FontAwesomeIcon
+                                        onClick={() => {
+                                            setPwShow(false);
+                                        }}
+                                        icon={faEye}
+                                    />
+                                ) : (
+                                    <FontAwesomeIcon
+                                        onClick={() => {
+                                            setPwShow(true);
+                                        }}
+                                        icon={faEyeSlash}
+                                    />
+                                )}
                             </div>
                         </div>
-                        <div className="passwordConfirmWrap ml-2 flex justify-between gap-4 mb-5">
-                            <div className="w-10 h-10 relative">
-                                <div className="w-[35px] h-[35px] left-[7px] top-[2px] absolute">
-                                    <img
-                                        src="./images/iconPwdDoubleCheck.png"
-                                        alt="password double check icon"
-                                    />
-                                </div>
-                            </div>
-                            <div
-                                style={{ fontFamily: "Pretendard-Regular" }}
-                                className="relative"
-                            >
+                        <div className="mb-5 relative">
+                            <div className="flex gap-4 items-center">
+                                <i className="iconTypeInput iconRockCheck flex-none">passCheck</i>
+                                <InputWrap>
                                 <input
-                                    className="w-[330px] h-10 bg-neutral-100 text-center text-zinc-400 text-base font-normal"
+                                    className="w-full text-center"
                                     type={pwShowConfirm ? "text" : "password"}
                                     id="passwordConfirmInput"
                                     required
@@ -243,11 +217,8 @@ function Register() {
                                         userPasswordConfirm
                                     )}
                                 />
-                                {errors.passwordConfirm && (
-                                    <div className="text-red-500 text-xs mt-1">
-                                        {errors.passwordConfirm.message}
-                                    </div>
-                                )}
+                                </InputWrap>
+                                
                                 <div className="absolute right-[10px] top-[7px]">
                                     {pwShowConfirm ? (
                                         <FontAwesomeIcon
@@ -265,18 +236,16 @@ function Register() {
                                         />
                                     )}
                                 </div>
+                                {errors.passwordConfirm && (
+                                    <div className="text-red-500 text-xs mt-1">
+                                        {errors.passwordConfirm.message}
+                                    </div>
+                                )}
                             </div>
                         </div>
-
-                        <button
-                            style={{ fontFamily: "Pretendard-Regular" }}
-                            className="w-[380px] h-[50px] px-2.5 py-[5px] ml-3 mb-5 bg-teal-300 rounded-[5px] text-center text-teal-950 justify-center text-[15px] font-normal items-center gap-2.5 inline-flex"
-                        >
-                            회원가입
-                        </button>
+                        <Button basicButton={true}>회원가입</Button>
                         <div
-                            style={{ fontFamily: "Pretendard-Regular" }}
-                            className="text-black text-[15px] ml-3 font-normal flex justify-center items-center"
+                            className="text-[15px] text-center pt-5"
                         >
                             이미 어까의 회원이라면 바로
                             <Link to={"/login"} className="mx-[6px] underline">
