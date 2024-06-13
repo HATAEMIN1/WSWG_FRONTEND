@@ -33,9 +33,6 @@
   <li>
    <a href="">발표PPT</a>
   </li>
-   <li>
-   <a href="http://localhost:3000">어까사이트로이동</a>
-  </li>
 </div>
 
 
@@ -61,8 +58,6 @@
 
 
 <h1>주요기능</h1>
-
-<h4>기능명세서</h4>
 
 
 <h1>API</h1>
