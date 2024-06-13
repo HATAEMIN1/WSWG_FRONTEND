@@ -71,11 +71,8 @@
 </div>
 
 <h1>DB명세서</h1>
-<ul>
-  <li>
-    <a href="">프로젝트 DB명세서</a>
-  </li>
-</ul>
+<img width="536" alt="스크린샷 2024-06-13 164257" src="https://github.com/HATAEMIN1/WSWG_FRONTEND/assets/161683301/a6a946ab-cc56-4976-b01d-76fd731c58f3">
+
 
 <h1>디자인</h1>
 
