@@ -53,7 +53,6 @@ function Account() {
                     const response = await axiosInstance.get(
                         `/review-posts/user/${userData.id}`
                     );
-                    console.log(response.data);
                     setUserReviews(response.data.reviews);
                     console.log(response.data.reviews);
                 } catch (error) {
@@ -88,7 +87,6 @@ function Account() {
                     console.log("찜한 가게 불러오기 오류", error);
                 }
             };
-
             const fetchUserMeetups = async () => {
                 try {
                     const response = await axiosInstance.get(
@@ -102,7 +100,6 @@ function Account() {
                     );
                 }
             };
-
             fetchUserReviews();
             fetchlikedRestaurants();
             fetchUserRestaurants();
@@ -327,7 +324,6 @@ function Account() {
                                     <div>
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
-                                        
                                                 <div
                                                     key={review._id}
                                                     className="reviewListWrap flex gap-5"
@@ -381,11 +377,11 @@ function Account() {
                                                                             review.rating
                                                                         }
                                                                     />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="hashBoxWrap text-xs mt-3">
-                                                            {review.hashTag.map(
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                        <div className="flex gap-2">
+                                                            {review.tags.map(
                                                                 (tag, i) => (
                                                                     <span
                                                                         key={i}
@@ -397,7 +393,7 @@ function Account() {
                                                                         }
                                                                     </span>
                                                                 )
-                                                            )} */}
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
