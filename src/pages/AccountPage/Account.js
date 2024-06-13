@@ -1,22 +1,35 @@
-
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom"
-
+import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import Title from "../../components/Layout/Title";
 import { IconWish } from "../../components/Form/Icon";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { SectionWrap } from "../../components/Layout/Section";
+import StarRating from "../../components/Form/StarRating";
 function Account() {
+    const mateType = [
+        { no: 1, name: "연인", cateId: "lover" },
+        { no: 2, name: "친구", cateId: "friend" },
+        { no: 3, name: "가족", cateId: "family" },
+        { no: 4, name: "단체", cateId: "group" },
+        { no: 5, name: "반려동물", cateId: "pet" },
+        { no: 6, name: "혼밥", cateId: "self" },
+    ];
     const isAuth = useSelector((state) => state.user.isAuth);
     const oauthLogin = useSelector((state) => state.user.oauthLogin);
     const userData = useSelector((state) => state?.user?.userData);
     const [userReviews, setUserReviews] = useState([]);
     const [likedRestaurants, setLikedRestaurants] = useState([]);
-    const [userMeetupPosts, setUserMeetupPosts] = useState([]);
     const [userRestaurants, setUserRestaurants] = useState([]);
     const [userMeetups, setUserMeetups] = useState([]);
-
+    const [metaDataList, setMetaDataList] = useState({});
+    const [cateId, setCateId] = useState([]);
     const retrievedImage = useSelector(
         (state) => state.user.userData.image?.filename
     );
@@ -25,7 +38,10 @@ function Account() {
     );
     const location = useLocation();
     const [prePage, setPrePage] = useState("");
-
+    const getCateId = (mateName) => {
+        const mate = mateType.find((m) => m.name === mateName);
+        return mate ? mate.cateId : null;
+    };
     useEffect(() => {
         setPrePage(location.pathname);
     }, [location]);
@@ -39,6 +55,7 @@ function Account() {
                     );
                     console.log(response.data);
                     setUserReviews(response.data.reviews);
+                    console.log(response.data.reviews);
                 } catch (error) {
                     console.log("내가 작성한 리뷰 불러오기 오류:", error);
                 }
@@ -53,6 +70,25 @@ function Account() {
                     console.log("내가 찜한 가게 불러오기 오류:", error);
                 }
             };
+
+            const fetchlikedRestaurants = async () => {
+                try {
+                    const response = await axiosInstance.get(
+                        `/likes/user/${userData.id}`
+                    );
+                    setLikedRestaurants(response.data.likedRestaurants);
+                    const newCateIds = response.data.likedRestaurants.map(
+                        (restaurant) =>
+                            getCateId(restaurant.category[1].mateType[0])
+                    );
+
+                    setCateId((prevCateId) => [...prevCateId, ...newCateIds]);
+                    console.log(response.data.likedRestaurants);
+                } catch (error) {
+                    console.log("찜한 가게 불러오기 오류", error);
+                }
+            };
+
             const fetchUserMeetups = async () => {
                 try {
                     const response = await axiosInstance.get(
@@ -67,54 +103,48 @@ function Account() {
                 }
             };
 
-            const fetchlikedRestaurants = async () => {
-                try {
-                    const response = await axiosInstance.get(
-                        `/likes/user/${userData.id}`
-                    );
-                    setLikedRestaurants(response.data.likedRestaurants);
-                } catch (error) {
-                    console.log("찜한 가게 불러오기 오류", error);
-                }
-            };
-
-           
-
             fetchUserReviews();
             fetchlikedRestaurants();
-
             fetchUserRestaurants();
-
             fetchUserMeetups();
         }
     }, [userData?.id]);
     //foodType
 
-    // 별점 표시 컴포넌트
-    const StarRating = ({ rating }) => {
-        return (
-            <div className="flex">
-                {[...Array(5)].map((star, index) => (
-                    <svg
-                        key={`star-${index}`}
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill={index < rating ? "currentColor" : "none"}
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        className="w-5 h-5 text-yellow-500"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                        />
-                    </svg>
-                ))}
-            </div>
-        );
+    const fetchMetaData = async (url, mpId) => {
+        try {
+            const response = await axiosInstance.post("/meet-posts/meta", {
+                url,
+                mpId,
+            });
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     };
+    useEffect(() => {
+        const fetchAllMetaData = async () => {
+            const newMetaDataList = {};
+            await Promise.all(
+                userMeetups.map(async (meeting) => {
+                    const metaData = await fetchMetaData(
+                        meeting.chatLink,
+                        meeting._id,
+                        meeting.commentCount
+                    );
+                    if (metaData) {
+                        newMetaDataList[meeting.chatLink] = metaData;
+                    }
+                })
+            );
+            setMetaDataList(newMetaDataList);
+        };
 
+        if (userMeetups.length > 0) {
+            fetchAllMetaData();
+        }
+    }, [userMeetups]);
     return (
         <div>
             {isAuth ? (
@@ -123,7 +153,7 @@ function Account() {
                     <Title memTitle={false}> 나는 어디까지 가봤을까?</Title>
 
                     <div className="flex justify-center">
-                        <div className="flex flex-col gap-8 font-['Pretendard']">
+                        <div className="flex flex-col gap-8">
                             <div className="w-[960px] p-[15px] bg-neutral-100 rounded-[10px] border border-neutral-200 justify-start items-center gap-5 inline-flex">
                                 <div className="w-[150px] h-[150px] relative bg-zinc-300 rounded-[20px] overflow-hidden">
                                     {oauthLogin ? (
@@ -200,98 +230,109 @@ function Account() {
                                     </>
                                 </div>
                             </div>
-
-                            <div className="w-[960px] flex flex-col text-zinc-800 text-xl font-semibold">
-                                <div className="mb-4">
-                                <Title className={"titleComment"}>내가 찜한 목록</Title>
-                                    <div className="w-[960px] flex gap-12 my-3">
+                            <div className="container flex flex-col">
+                                <div className="mb-10">
+                                    <Title className={"titleListStt"}>
+                                        내가 찜한 목록
+                                    </Title>
+                                    <Swiper
+                                        slidesPerView={2}
+                                        spaceBetween={40}
+                                        pagination={true}
+                                        modules={[Pagination]}
+                                        className="mySwiper mySwiper"
+                                    >
                                         {likedRestaurants.length > 0 ? (
                                             likedRestaurants.map(
-                                                (restaurant) => (
-                                                    <div
-                                                        key={restaurant._id}
-                                                        className="flex rounded-md gap-2"
-                                                    >
-                                                        <div className="w-[100px] h-[100px] overflow-hidden rounded-md">
-                                                            <img
-                                                                src={
-                                                                    restaurant
-                                                                        .image[0]
+                                                (restaurant, idx) => {
+                                                    return (
+                                                        <>
+                                                            <SwiperSlide
+                                                                key={
+                                                                    restaurant._id
                                                                 }
-                                                                alt=""
-                                                                className="w-full h-full object-cover"
-                                                            />
-                                                        </div>
-                                                        <div className="flex flex-col justify-between">
-                                                            <div className="">
-                                                                <Link
-                                                                    to={`/mate/cateId/restaurants/${restaurant._id}`}
-                                                                    className="text-base font-semibold"
-                                                                >
-                                                                    {
-                                                                        restaurant.name
-                                                                    }
-                                                                </Link>
-                                                            </div>
-                                                            <div className="text-xs text-zinc-500">
-                                                                {
-                                                                    restaurant
-                                                                        .category[0]
-                                                                        .foodType
-                                                                }
-                                                            </div>
-                                                            <div className="flex items-center">
-                                                                <span className="text-xs mr-1 text-zinc-500">
-                                                                    평점:{" "}
-                                                                </span>
-                                                                <div className="w-[70px]">
-                                                                    <StarRating
-                                                                        rating={
-                                                                            restaurant.rating
+                                                                className="flex gap-4 restaurantListWrap"
+                                                            >
+                                                                <div className="flex-none imgWrap">
+                                                                    <img
+                                                                        src={
+                                                                            restaurant
+                                                                                .image[0]
                                                                         }
+                                                                        alt=""
+                                                                        className="w-full h-full object-cover"
                                                                     />
                                                                 </div>
-                                                            </div>
-
-                                                            <div className="flex items-center text-xs gap-4">
-                                                                {/* <IconWish
+                                                                <div className="flex flex-wrap items-center py-2">
+                                                                    <div className="textWrap py-2">
+                                                                        <h3 className="w-full">
+                                                                            <Link
+                                                                                to={`/mate/${cateId[idx]}/restaurants/${restaurant._id}`}
+                                                                            >
+                                                                                {
+                                                                                    restaurant.name
+                                                                                }
+                                                                            </Link>
+                                                                        </h3>
+                                                                        <p className="w-full">
+                                                                            {
+                                                                                restaurant
+                                                                                    .category[0]
+                                                                                    .foodType
+                                                                            }
+                                                                        </p>
+                                                                        <div className="flex">
+                                                                            <span className="flex-none">
+                                                                                평점:{" "}
+                                                                            </span>
+                                                                            <StarRating
+                                                                                rating={
+                                                                                    restaurant.rating
+                                                                                }
+                                                                            ></StarRating>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex gap-4">
+                                                                        {/* <IconWish
                                                                     liked={
                                                                         restaurant.likes
                                                                     }
                                                                 /> */}
-                                                                <div className="flex items-center">
-                                                                    <i className=" iconBasic iconView">
-                                                                        view
-                                                                    </i>{" "}
-                                                                    {
-                                                                        restaurant.views
-                                                                    }
+                                                                        <div className="flex items-center">
+                                                                            <i className=" iconBasic iconView">
+                                                                                view
+                                                                            </i>{" "}
+                                                                            {
+                                                                                restaurant.views
+                                                                            }
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )
+                                                            </SwiperSlide>
+                                                        </>
+                                                    );
+                                                }
                                             )
                                         ) : (
-                                            <div className="w-full bg-slate-100  py-[20px] text-center text-sm">
+                                            <div className="w-full bg-slate-100  py-[20px] text-center">
                                                 찜한 가게가 없습니다!
                                             </div>
-                                              )}
-                                    </div>
+                                        )}
+                                    </Swiper>
                                 </div>
-                                <div>
-                                <Title className={"titleComment"}>내가 작성한 리뷰</Title>
-                                    <div className="w-[960px] flex gap-12 mb-3">
+                                <div className=" mb-10">
+                                    <Title className={"titleListStt"}>
+                                        내가 작성한 리뷰
+                                    </Title>
+                                    <div>
                                         {userReviews.length > 0 ? (
                                             userReviews.map((review) => (
                                         
-                                        
                                                 <div
                                                     key={review._id}
-                                                    className="flex reviewListWrap rounded-md gap-2 !border-none"
+                                                    className="reviewListWrap flex gap-5"
                                                 >
-                            
-                                                    <div className="flex  myimgWrap overflow-hidden items-center gap-2 rounded-md">
+                                                    <div className="overflow-hidden flex-none imgWrap">
                                                         {review.images &&
                                                             review.images.map(
                                                                 (
@@ -304,36 +345,37 @@ function Account() {
                                                                         }
                                                                         src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
                                                                         alt={`Review Image ${index + 1}`}
-                                                                        className="w-[100px] h-[100px] object-cover"
+                                                                        className="w-full h-full object-cover"
                                                                     />
                                                                 )
                                                             )}
                                                     </div>
-
-                                                    <div className="">
-                                                        <Link
-                                                            to={`/mate/restaurants/${review.restaurant?._id}/review-post/${review._id}`}
-                                                            className="text-base font-semibold"
-                                                        >
-                                                            {review.restaurant
-                                                                ?.name ??
-                                                                "Unknown Restaurant"}
-                                                        </Link>
-                                                        <div>
-                                                            <div className="text-xs text-zinc-500">
+                                                    <div className="w-full flex flex-col justify-between py-[10px]">
+                                                        <ul className="textWrap">
+                                                            <Link
+                                                                to={`/mate/restaurants/${review.restaurant?._id}/review-post/${review._id}`}
+                                                            >
+                                                                <li className="name">
+                                                                    {review
+                                                                        .restaurant
+                                                                        ?.name ??
+                                                                        "Unknown Restaurant"}
+                                                                </li>
+                                                            </Link>
+                                                            <li className="content">
                                                                 {review.content}
-                                                            </div>
+                                                            </li>
                                                             {/* <div className="text-xs text-zinc-400">
                                                                 작성일:{" "}
                                                                 {new Date(
                                                                     review.createdAt
                                                                 ).toLocaleDateString()}
                                                             </div> */}
-                                                            <div className="flex items-center">
-                                                                <span className="text-xs mr-1 text-zinc-500">
-                                                                    별점:{" "}
+                                                            <li className="flex items-center">
+                                                                <span className="flex-none">
+                                                                    평점:
                                                                 </span>
-                                                                <div className="w-[70px]">
+                                                                <span>
                                                                     <StarRating
                                                                         rating={
                                                                             review.rating
@@ -343,88 +385,153 @@ function Account() {
                                                             </div>
                                                         </div>
                                                         <div className="hashBoxWrap text-xs mt-3">
-                                                            {/* {review.tags.map(
+                                                            {review.hashTag.map(
                                                                 (tag, i) => (
                                                                     <span
                                                                         key={i}
                                                                         className="hashBox text-[10px]"
                                                                     >
-                                                                        #{tag}
+                                                                        #
+                                                                        {
+                                                                            tag.name
+                                                                        }
                                                                     </span>
                                                                 )
                                                             )} */}
                                                         </div>
                                                     </div>
-                                                    {/* <div className="flex gap-2 mt-2 border">
-                                                        {review.images &&
-                                                            review.images.map(
-                                                                (
-                                                                    image,
-                                                                    index
-                                                                ) => (
-                                                                    <img
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                        src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
-                                                                        alt={`Review Image ${index + 1}`}
-                                                                        className="w-[100px] h-[100px] object-cover rounded"
-                                                                    />
-                                                                )
-                                                            )}
-                                                    </div> */}
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="w-full bg-slate-100  py-[20px] text-center text-sm">
-                                            작성한 리뷰가 없습니다!
-                                        </div>
+                                            <div className="w-full bg-slate-100  py-[20px] text-center">
+                                                작성한 리뷰가 없습니다!
+                                            </div>
                                         )}
                                     </div>
                                 </div>
                                 <div>
-                                    <Title className={"titleComment"}>
-                                    내가 등록한 우리 만날까
+                                    <Title className={"titleListStt"}>
+                                        내가 등록한 우리 만날까
                                     </Title>
-                                    <div className="flex flex-col gap-4 mt-4">
+                                    <div className="flex flex-col gap-4">
                                         {userMeetups.length > 0 ? (
                                             userMeetups.map((meetup) => (
                                                 <div
                                                     key={`meetup post-${meetup._id}`}
-                                                    className="bg-neutral-100 p-4 rounded-md border border-neutral-200"
+                                                    className="mb-4"
                                                 >
-                                                    <Link
-                                                        to={`/meet-posts/${meetup?._id}`}
-                                                        className="text-base font-semibold text-blue-500"
-                                                    >
-                                                        {meetup?.title ??
-                                                            "Unknown Meetup Post Name"}
-                                                    </Link>
-
-                                                    <div className="flex items-center mt-2">
-                                                        조회수: {meetup.views}
+                                                    <div className="flex justify-between mb-3">
+                                                        <Link
+                                                            to={`/meet-posts/${meetup?._id}`}
+                                                            className="text-base font-semibold"
+                                                        >
+                                                            {meetup?.title ??
+                                                                "Unknown Meetup Post Name"}
+                                                        </Link>
+                                                        <div className="flex gap-3 items-center">
+                                                            <div className="flex">
+                                                                <i className="iconBasic iconView">
+                                                                    view
+                                                                </i>{" "}
+                                                                {meetup.views}
+                                                            </div>
+                                                            <div className="flex gap-2 mt-2">
+                                                                {meetup.images &&
+                                                                    meetup.images.map(
+                                                                        (
+                                                                            image,
+                                                                            index
+                                                                        ) => (
+                                                                            <img
+                                                                                key={`meetup post image-${index}`}
+                                                                                src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
+                                                                                alt={`Meetup Post Image ${index + 1}`}
+                                                                                className="w-[100px] h-[100px] object-cover rounded"
+                                                                            />
+                                                                        )
+                                                                    )}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="flex gap-2 mt-2">
-
-                                                        {meetup.images &&
-                                                            meetup.images.map(
-                                                                (
-                                                                    image,
-                                                                    index
-                                                                ) => (
-                                                                    <img
-                                                                        key={`meetup post image-${index}`}
-                                                                        src={`${process.env.REACT_APP_NODE_SERVER_UPLOAD_URL}${image}`}
-                                                                        alt={`Meetup Post Image ${index + 1}`}
-                                                                        className="w-[100px] h-[100px] object-cover rounded"
-                                                                    />
-                                                                )
-                                                            )}
-                                                    </div>
+                                                    {metaDataList[
+                                                        meetup.chatLink
+                                                    ] && (
+                                                        <SectionWrap
+                                                            basicSection={true}
+                                                        >
+                                                            <div className="container flex border rounded-md">
+                                                                <div className="w-1/3">
+                                                                    <a
+                                                                        href={
+                                                                            metaDataList[
+                                                                                meetup
+                                                                                    .chatLink
+                                                                            ]
+                                                                                .url
+                                                                        }
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                    >
+                                                                        <img
+                                                                            src={
+                                                                                metaDataList[
+                                                                                    meetup
+                                                                                        .chatLink
+                                                                                ]
+                                                                                    .image
+                                                                            }
+                                                                            alt="Meta"
+                                                                        />
+                                                                    </a>
+                                                                </div>
+                                                                <div className="w-full flex-wrap grid justify-between flex-auto p-[10px]">
+                                                                    <p className="font-semibold">
+                                                                        <a
+                                                                            href={
+                                                                                metaDataList[
+                                                                                    meetup
+                                                                                        .chatLink
+                                                                                ]
+                                                                                    .url
+                                                                            }
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                        >
+                                                                            {
+                                                                                metaDataList[
+                                                                                    meetup
+                                                                                        .chatLink
+                                                                                ]
+                                                                                    .title
+                                                                            }
+                                                                        </a>
+                                                                    </p>
+                                                                    <p className="text-sm text-gray-500">
+                                                                        {
+                                                                            metaDataList[
+                                                                                meetup
+                                                                                    .chatLink
+                                                                            ]
+                                                                                .description
+                                                                        }
+                                                                    </p>
+                                                                    <p className="text-sm">
+                                                                        {
+                                                                            metaDataList[
+                                                                                meetup
+                                                                                    .chatLink
+                                                                            ]
+                                                                                .url
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </SectionWrap>
+                                                    )}
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="w-full bg-slate-100 py-[20px] text-center text-sm">
+                                            <div className="w-full bg-slate-100 py-[20px] text-center">
                                                 등록한 우리 만날까 게시글이
                                                 없습니다!
                                             </div>
