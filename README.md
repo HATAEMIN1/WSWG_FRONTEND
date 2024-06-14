@@ -29,46 +29,25 @@
 
 <h1>링크</h1>
 
-<div style=flex>
-  <li>
-   <a href="">발표PPT</a>
-  </li>
-</div>
+* [발표PPT]()
 
 
   
 <h1>일정(2024.04.24~05.28)</h1>
 
-<div style=flex>
-  <ul>
-    <li>
-      1차 스프린트 (04월 29일 ~ 05월 03일)
-    </li>
-    <li>
-      2차 스프린트 (05월 06일 ~ 05월 10일)
-    </li>
-    <li>
-      3차 스프린트 (05월 13일 ~ 05월 17일)
-    </li>
-    <li>
-      4차 스프린트 (05월 20일 ~ 05월 28일)
-    </li>
-  </ul>
-</div>
 
+* 1차 스프린트 (04월 29일 ~ 05월 03일)
+* 2차 스프린트 (05월 06일 ~ 05월 10일)
+* 3차 스프린트 (05월 13일 ~ 05월 17일)
+* 4차 스프린트 (05월 20일 ~ 05월 28일)
 
 <h1>주요기능</h1>
 
 
 <h1>API</h1>
-<div>
-  <li>
-    <a href="https://www.notion.so/926ce832ae7f4e738741eb5e8cffafda">프로젝트API명세서</a>
-  </li>
-  <li>
-    <a href="https://apis.map.kakao.com/">카카오 지도</a>
-  </li>
-</div>
+
+* [프로젝트API명세서](https://www.notion.so/926ce832ae7f4e738741eb5e8cffafda)
+* [카카오 지도](https://apis.map.kakao.com)
 
 <h1>DB명세서</h1>
 <img width="536" alt="스크린샷 2024-06-13 164257" src="https://github.com/HATAEMIN1/WSWG_FRONTEND/assets/161683301/a6a946ab-cc56-4976-b01d-76fd731c58f3">
@@ -76,23 +55,15 @@
 
 <h1>디자인</h1>
 
-
-<ul>
-  <li>
-    <a href="">Figma</a>
-  </li>
-</ul>
-
+* [Figma]()
 
 <h1>WSWG_어까,어디까지 가볼까?</h1>
 
-<ul>
-  <li>
-    <a href="https://github.com/HATAEMIN1/WSWG_BACKEND">백엔드페이지</a>
-  </li>
-</ul>
 
-</div>
+ * [백엔드페이지](https://github.com/HATAEMIN1/WSWG_BACKEND)
+
+
+
 
 
 
