@@ -55,7 +55,7 @@
 
 <h1>디자인</h1>
 
-* [Figma]()
+* [Figma](https://www.figma.com/design/YVycvdwRFOlFAqa26RpIc5/PROJECT02?node-id=4-8857&t=yN8edryNWV5eIWzZ-0)
 
 <h1>WSWG_어까,어디까지 가볼까?</h1>
 
