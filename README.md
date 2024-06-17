@@ -24,7 +24,7 @@
 
 
 <h1>팀원 소개</h1>
-
+<img src="https://github.com/HATAEMIN1/WSWG_FRONTEND/assets/161683301/75e70290-210e-4fcf-8153-a53d83de859e" />
 
 
 <h1>링크</h1>
